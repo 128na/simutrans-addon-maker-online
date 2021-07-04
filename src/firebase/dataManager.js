@@ -16,7 +16,6 @@ export default {
         .set(Object.assign(projectData, { createdAt, updatedAt }));
     },
     async update(userId, project) {
-      console.log({ project });
       const updatedAt = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT);
       return await users.doc(userId)
         .collection('projects')

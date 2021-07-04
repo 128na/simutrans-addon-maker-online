@@ -52,7 +52,6 @@ export default {
   },
   created() {
     const prj = this.projects.find((p) => p.id === this.$route.params.id);
-    console.log({ prj });
     this.project = JSON.parse(JSON.stringify(prj));
     this.original = JSON.parse(JSON.stringify(prj));
   },

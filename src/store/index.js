@@ -23,15 +23,12 @@ export default createStore({
   },
   mutations: {
     [SET_USER](state, user) {
-      console.log({ user });
       state.user = user;
     },
     [SET_PROJECTS](state, projects) {
-      console.log({ projects });
       state.projects = projects;
     },
     [SET_UNSUBSCRIBES](state, unsubscribes) {
-      console.log({ unsubscribes });
       state.unsubscribes = unsubscribes;
     }
   },
