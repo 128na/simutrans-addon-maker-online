@@ -6,11 +6,13 @@ const provider = new firebase.auth.GoogleAuthProvider();
 
 const SET_USER = 'SET_USER';
 const SET_PROJECTS = 'SET_PROJECTS';
+const SET_UNSUBSCRIBES = 'SET_UNSUBSCRIBES';
 export default createStore({
   state: {
     // https://firebase.google.com/docs/reference/js/firebase.User
     user: undefined,
     projects: [],
+    unsubscribes: [],
   },
   getters: {
     isInitialized: state => state.user !== undefined,
@@ -27,6 +29,10 @@ export default createStore({
     [SET_PROJECTS](state, projects) {
       console.log({ projects });
       state.projects = projects;
+    },
+    [SET_UNSUBSCRIBES](state, unsubscribes) {
+      console.log({ unsubscribes });
+      state.unsubscribes = unsubscribes;
     }
   },
   actions: {
@@ -45,6 +51,7 @@ export default createStore({
     async logout(context) {
       try {
         await firebase.auth().signOut();
+        context.dispatch('unsubscribeAll');
         context.commit(SET_USER, null);
         context.commit(SET_PROJECTS, []);
       } catch (e) {
@@ -55,38 +62,48 @@ export default createStore({
     // firebaseの認証状態変化に応じてステートを更新する
     watchAuthState(context, { onLoggedIn, onLoggedOut }) {
       try {
-        firebase.auth().onAuthStateChanged((user) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
           if (user) {
             context.commit(SET_USER, user);
-            context.dispatch('fetchProjects');
+            context.dispatch('watchProjectState');
             onLoggedIn && onLoggedIn();
           } else {
             context.commit(SET_USER, null);
             onLoggedOut && onLoggedOut();
           }
         });
+        context.dispatch('addUnsubscribe', unsubscribe);
       } catch (e) {
         console.log(e);
         alert('無念！認証ステートチェックに失敗しました');
       }
     },
 
-    async fetchProjects(context) {
-      const projects = await dataManager.project.fetchAll(context.getters.userId);
-      context.commit(SET_PROJECTS, projects);
-    },
     async createProject(context, projectData) {
       await dataManager.project.create(context.getters.userId, projectData);
-      context.dispatch('fetchProjects');
     },
     async updateProject(context, project) {
       await dataManager.project.update(context.getters.userId, project);
-      context.dispatch('fetchProjects');
     },
     async deleteProject(context, project) {
       await dataManager.project.delete(context.getters.userId, project);
-      context.dispatch('fetchProjects');
     },
+    watchProjectState(context) {
+      const unsubscribe = dataManager.project.listen(context.getters.userId, (projects) => {
+        context.commit(SET_PROJECTS, projects);
+      });
+      context.dispatch('addUnsubscribe', unsubscribe);
+    },
+
+    // リスナ追加
+    addUnsubscribe(context, unsubscribe) {
+      context.commit(SET_UNSUBSCRIBES, [...context.state.unsubscribes, unsubscribe]);
+    },
+    // リスナ全消し
+    unsubscribeAll(context) {
+      context.state.unsubscribes.map(unsubscribe => unsubscribe());
+      context.commit(SET_UNSUBSCRIBES, []);
+    }
 
   },
   modules: {

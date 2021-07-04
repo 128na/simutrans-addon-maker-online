@@ -9,6 +9,18 @@ export const asyncFileReader = function (files) {
     });
   }));
 };
+// ファイルオブジェクトからバイナリデータを読み取る
+export const asyncTextReader = function (files) {
+  return Promise.all(files.map((file) => {
+    return new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res({ file, result: r.result });
+      r.onerror = () => rej({ file, error: r.error });
+      r.readAsText(file);
+    });
+  }));
+};
+
 
 export const dataURL2File = function (dataURL, name, suffix = '.png') {
   const byteString = atob(dataURL.split(",")[1]);

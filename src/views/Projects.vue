@@ -31,13 +31,13 @@ export default {
     ...mapActions(["createProject", "deleteProject"]),
     randomTitle() {
       const arr = [
-        "新しい",
-        "どちらかというと新しい",
-        "やや新しい",
-        "それなりに新しい",
-        "伝承によると新しいとされる",
+        "新しいプロジェクト",
+        "どちらかというと新しいプロジェクト",
+        "やや新しいプロジェクト",
+        "それなりに新しいプロジェクト",
+        "新しいプロジェクト。古事記にもそう書かれている",
       ];
-      return `${arr[Math.floor(Math.random() * arr.length)]}プロジェクト`;
+      return arr[Math.floor(Math.random() * arr.length)];
     },
     handleCreate() {
       this.createProject({

@@ -6,15 +6,6 @@ const users = db.collection('users');
 
 export default {
   project: {
-    async fetchAll(userId) {
-      const col = await users.doc(userId)
-        .collection('projects')
-        .orderBy('updatedAt', 'desc')
-        .get();
-      return col.docs.map(doc => {
-        return { id: doc.id, data: doc.data() };
-      });
-    },
     async create(userId, projectData) {
       const createdAt = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT);
       const updatedAt = createdAt;
@@ -37,6 +28,16 @@ export default {
         .collection('projects')
         .doc(project.id)
         .delete();
+    },
+    listen(userId, handler) {
+      return users.doc(userId)
+        .collection('projects')
+        .orderBy('updatedAt', 'desc')
+        .onSnapshot(col => {
+          handler(col.docs.map(doc => {
+            return { id: doc.id, data: doc.data() };
+          }));
+        });
     }
   }
 }

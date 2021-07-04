@@ -14,7 +14,7 @@
   </div>
   <div>
     <label>Datデータ</label>
-    <textarea rows="10" v-model="project.data.dat" />
+    <droppable-textarea v-model:value="project.data.dat" />
   </div>
   <div>
     <label>画像の追加</label>
@@ -30,7 +30,8 @@
   </div>
   <hr />
   <div>
-    <button @click="handleUpdate">保存</button>
+    <button @click="handleReset()" :disabled="!hasChanged">取消</button>
+    <button @click="handleUpdate" :disabled="!hasChanged">保存</button>
     <button @click="handlePak">Pak化</button>
   </div>
 </template>
@@ -39,16 +40,21 @@
 import { mapActions, mapGetters } from "vuex";
 import { dataURL2Blob, dataURL2File, download, postPak } from "../libs";
 import FilrReader from "../components/FilrReader.vue";
+import DroppableTextarea from "../components/DroppableTextarea.vue";
 export default {
-  components: { FilrReader },
+  components: { FilrReader, DroppableTextarea },
   name: "Projects",
   data() {
     return {
       project: null,
+      original: null,
     };
   },
   created() {
-    this.project = this.projects.find((p) => p.id === this.$route.params.id);
+    const prj = this.projects.find((p) => p.id === this.$route.params.id);
+    console.log({ prj });
+    this.project = JSON.parse(JSON.stringify(prj));
+    this.original = JSON.parse(JSON.stringify(prj));
   },
   computed: {
     ...mapGetters(["projects"]),
@@ -59,23 +65,28 @@ export default {
       }
       return images;
     },
+    hasChanged() {
+      return JSON.stringify(this.project) !== JSON.stringify(this.original);
+    },
   },
   methods: {
     ...mapActions(["updateProject"]),
+    handleReset() {
+      this.project = JSON.parse(JSON.stringify(this.original));
+    },
     handleUpdate() {
       this.updateProject(this.project);
+      this.original = JSON.parse(JSON.stringify(this.project));
     },
     handleAddImages(images) {
       this.project.data.images = Object.assign(
         this.project.data.images,
         images
       );
-      this.handleUpdate();
     },
     handleDeleteImage(name) {
       if (confirm("削除してもよろしいでしょうか？")) {
         delete this.project.data.images[name];
-        this.handleUpdate();
       }
     },
     async handlePak() {
