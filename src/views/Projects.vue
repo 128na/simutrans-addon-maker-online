@@ -9,12 +9,26 @@
         <router-link :to="routeProject(p)">
           <span>{{ p.data.title }}</span>
         </router-link>
-        <button @click="handleDelete(p)">削除</button>
+        <button @click="deleteProject(p)">ゴミ箱へ</button>
       </div>
       <div>
         <span>作成：{{ p.data.createdAt }}</span>
         、
         <span>更新：{{ p.data.updatedAt }}</span>
+      </div>
+    </li>
+  </ul>
+  <hr />
+  <h2>ゴミ箱</h2>
+  <ul>
+    <li v-for="p in trashedProjects">
+      <div>
+        <span>{{ p.data.title }}</span>
+        <button @click="restoreProject(p)">復元</button>
+        <button @click="handleForceDelete(p)">削除</button>
+      </div>
+      <div>
+        <span>削除：{{ p.data.createdAt }}</span>
       </div>
     </li>
   </ul>
@@ -25,10 +39,15 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   name: "Projects",
   computed: {
-    ...mapGetters(["projects"]),
+    ...mapGetters(["projects", "trashedProjects"]),
   },
   methods: {
-    ...mapActions(["createProject", "deleteProject"]),
+    ...mapActions([
+      "createProject",
+      "deleteProject",
+      "restoreProject",
+      "forceDeleteProject",
+    ]),
     randomTitle() {
       const arr = [
         "新しいプロジェクト",
@@ -49,8 +68,8 @@ export default {
         size: 64,
       });
     },
-    handleDelete(p) {
-      confirm("削除しますか？") && this.deleteProject(p);
+    handleForceDelete(p) {
+      confirm("削除しますか？") && this.forceDeleteProject(p);
     },
     routeProject(p) {
       return { name: "Project", params: { id: p.id } };

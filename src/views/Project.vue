@@ -92,14 +92,17 @@ export default {
       const images = this.images.map((image) =>
         dataURL2File(image.src, image.name, ".png")
       );
-      const url = await postPak({
-        filename: this.project.data.filename,
-        size: this.project.data.size,
-        dat: this.project.data.dat,
-        images,
-      });
-
-      download(url);
+      try {
+        const url = await postPak({
+          filename: this.project.data.filename,
+          size: this.project.data.size,
+          dat: this.project.data.dat,
+          images,
+        });
+        download(url);
+      } catch (e) {
+        alert(e.message);
+      }
     },
   },
 };

@@ -19,7 +19,8 @@ export default createStore({
     isLoggedIn: state => !!state.user,
     userName: state => state.user.displayName,
     userId: state => state.user.uid,
-    projects: state => state.projects,
+    projects: state => state.projects.filter(p => !p.data.deletedAt),
+    trashedProjects: state => state.projects.filter(p => p.data.deletedAt),
   },
   mutations: {
     [SET_USER](state, user) {
@@ -33,6 +34,17 @@ export default createStore({
     }
   },
   actions: {
+    // リスナ追加
+    addUnsubscribe(context, unsubscribe) {
+      context.commit(SET_UNSUBSCRIBES, [...context.state.unsubscribes, unsubscribe]);
+    },
+    // リスナ全消し
+    unsubscribeAll(context) {
+      context.state.unsubscribes.map(unsubscribe => unsubscribe());
+      context.commit(SET_UNSUBSCRIBES, []);
+    },
+
+    // 認証
     async login(context) {
       try {
         // 認証永続化
@@ -76,6 +88,7 @@ export default createStore({
       }
     },
 
+    // プロジェクト
     async createProject(context, projectData) {
       await dataManager.project.create(context.getters.userId, projectData);
     },
@@ -85,6 +98,12 @@ export default createStore({
     async deleteProject(context, project) {
       await dataManager.project.delete(context.getters.userId, project);
     },
+    async restoreProject(context, project) {
+      await dataManager.project.restore(context.getters.userId, project);
+    },
+    async forceDeleteProject(context, project) {
+      await dataManager.project.forceDelete(context.getters.userId, project);
+    },
     watchProjectState(context) {
       const unsubscribe = dataManager.project.listen(context.getters.userId, (projects) => {
         context.commit(SET_PROJECTS, projects);
@@ -92,15 +111,6 @@ export default createStore({
       context.dispatch('addUnsubscribe', unsubscribe);
     },
 
-    // リスナ追加
-    addUnsubscribe(context, unsubscribe) {
-      context.commit(SET_UNSUBSCRIBES, [...context.state.unsubscribes, unsubscribe]);
-    },
-    // リスナ全消し
-    unsubscribeAll(context) {
-      context.state.unsubscribes.map(unsubscribe => unsubscribe());
-      context.commit(SET_UNSUBSCRIBES, []);
-    }
 
   },
   modules: {
