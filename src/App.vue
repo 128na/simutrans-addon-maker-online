@@ -1,8 +1,7 @@
 <template>
   <div v-if="isInitialized">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Home</router-link>
       <span v-if="isLoggedIn">
         | {{ userName }} |
         <a href="#" @click="handleLogout">Logout</a>

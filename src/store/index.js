@@ -72,7 +72,7 @@ export default createStore({
     },
 
     async fetchProjects(context) {
-      const projects = await dataManager.project.fetchAll(userId);
+      const projects = await dataManager.project.fetchAll(context.getters.userId);
       context.commit(SET_PROJECTS, projects);
     },
     async createProject(context, projectData) {

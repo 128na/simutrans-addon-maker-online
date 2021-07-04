@@ -16,7 +16,7 @@ export default {
       });
     },
     async create(userId, projectData) {
-      const createdAt = DateTime.now().toISO();
+      const createdAt = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT);
       const updatedAt = createdAt;
 
       return await users.doc(userId)
@@ -25,7 +25,8 @@ export default {
         .set(Object.assign(projectData, { createdAt, updatedAt }));
     },
     async update(userId, project) {
-      const updatedAt = DateTime.now().toISO();
+      console.log({ project });
+      const updatedAt = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT);
       return await users.doc(userId)
         .collection('projects')
         .doc(project.id)
