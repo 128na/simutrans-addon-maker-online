@@ -45,7 +45,7 @@ export default createStore({
     },
 
     // 認証
-    async login(context) {
+    async signin(context) {
       try {
         // 認証永続化
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
@@ -57,7 +57,7 @@ export default createStore({
         alert('ログインに失敗しました');
       }
     },
-    async logout(context) {
+    async signout(context) {
       try {
         await firebase.auth().signOut();
         context.dispatch('unsubscribeAll');
