@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Projects from '../views/Projects.vue'
 import Project from '../views/Project.vue'
-import Login from '../views/Login.vue'
+import Signin from '../views/Signin.vue'
 
 const routes = [
   {
@@ -17,9 +17,9 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: Login
+    path: '/signin',
+    name: 'Signin',
+    component: Signin
   },
   // {
   //   path: '/about',
@@ -33,14 +33,15 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  linkActiveClass: 'active',
 })
 
 import store from '../store';
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!store.getters.isLoggedIn) {
-      next({ name: 'Login' })
+      next({ name: 'Signin' })
     } else {
       next()
     }

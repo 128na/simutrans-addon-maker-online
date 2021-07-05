@@ -22,7 +22,7 @@ export const asyncTextReader = function (files) {
 };
 
 
-export const dataURL2File = function (dataURL, name, suffix = '.png') {
+export const dataURL2File = function (dataURL, name) {
   const byteString = atob(dataURL.split(",")[1]);
   const mimeType = dataURL.match(/(:)([a-z\/]+)(;)/)[2];
 
@@ -30,9 +30,7 @@ export const dataURL2File = function (dataURL, name, suffix = '.png') {
     content[i] = byteString.charCodeAt(i);
   }
 
-  return new File([content], `${name}${suffix}`, {
-    type: mimeType,
-  })
+  return new File([content], name, { type: mimeType });
 };
 
 // pak化実行

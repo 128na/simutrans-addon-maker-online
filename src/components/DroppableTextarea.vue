@@ -1,24 +1,43 @@
 <template>
-  <textarea
-    :value="value"
-    :rows="rows"
-    @input="handleUpdate"
+  <div
     @dragover.prevent="handleDragover"
     @dragleave.prevent="handleDragleave"
     @drop.prevent="handleDrop"
-  />
-  <div v-show="dropping && append">ドロップ内容を追加</div>
-  <div v-show="dropping && !append">ドロップ内容を上書き</div>
-  <div v-show="!dropping">ドロップ内容を上書き、Ctrl+ドロップで追加</div>
+  >
+    <textarea
+      :id="formId"
+      :class="formClass"
+      :value="value"
+      :rows="rows"
+      @input="handleUpdate"
+    />
+    <common-box class="text-secondary">
+      <small v-show="dropping && append">ファイル内容を追加。</small>
+      <small v-show="dropping && !append">ファイル内容で上書き。</small>
+      <small v-show="!dropping">
+        .datファイルをドロップで内容を上書き、Ctrl+ドロップで追加。
+      </small>
+    </common-box>
+  </div>
 </template>
 <script>
 import { asyncTextReader } from "../libs";
+import CommonBox from "./CommonBox.vue";
 
 export default {
+  components: { CommonBox },
   props: {
     value: {
       type: String,
       default: "",
+    },
+    formId: {
+      type: String,
+      default: "",
+    },
+    formClass: {
+      type: String,
+      default: "form-control",
     },
     rows: {
       type: Number,
@@ -41,7 +60,9 @@ export default {
       this.dropping = false;
     },
     async handleDrop(e) {
-      const files = await asyncTextReader([...e.dataTransfer.files]);
+      const files = await asyncTextReader(
+        [...e.dataTransfer.files].filter((f) => f.name.endsWith(".dat"))
+      );
       const value = files.reduce(
         (current, f) => `${current}\n# import from ${f.file.name}\n${f.result}`,
         this.append ? this.value : ""
