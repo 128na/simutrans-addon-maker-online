@@ -36,6 +36,12 @@ export default {
 body {
   font-family: "Noto Sans JP", sans-serif;
 }
+ul {
+  padding-left: 0rem;
+}
+li {
+  list-style: none;
+}
 .scale-slide-enter-active,
 .scale-slide-leave-active {
   position: absolute;
