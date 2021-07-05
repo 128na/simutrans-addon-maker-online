@@ -1,53 +1,105 @@
 <template v-if="project">
-  <h1>{{ project.data.title }}</h1>
-  <div>
-    <label>プロジェクト名</label>
-    <input type="text" v-model="project.data.title" />
-  </div>
-  <div>
-    <label>アドオン名</label>
-    <input type="text" v-model="project.data.filename" />
-  </div>
-  <div>
-    <label>Pakサイズ</label>
-    <input type="number" v-model="project.data.size" />
-  </div>
-  <div>
-    <label>Datデータ</label>
-    <droppable-textarea v-model:value="project.data.dat" />
-  </div>
-  <div>
-    <label>画像の追加</label>
-    <filr-reader @fileRead="handleAddImages" />
-
-    <div v-for="image in images">
-      <img :src="image.src" />
-      <div>
-        <span>{{ image.name }}</span>
-        <button @click="handleDeleteImage(image.name)">削除</button>
-      </div>
+  <common-title>{{ project.data.title }}</common-title>
+  <common-box>
+    <label for="title" class="form-label">プロジェクト名</label>
+    <input
+      type="text"
+      id="title"
+      class="form-control"
+      v-model="project.data.title"
+    />
+  </common-box>
+  <common-box>
+    <label for="filename" class="form-label">アドオン名</label>
+    <input
+      type="text"
+      id="filename"
+      class="form-control"
+      v-model="project.data.filename"
+    />
+  </common-box>
+  <common-box>
+    <label for="size" class="form-label">Pakサイズ</label>
+    <input
+      type="number"
+      id="size"
+      class="form-control"
+      min="16"
+      max="65535"
+      v-model="project.data.size"
+    />
+  </common-box>
+  <common-box>
+    <label for="dat" class="form-label">Datデータ</label>
+    <droppable-textarea
+      formId="dat"
+      rows="12"
+      v-model:value="project.data.dat"
+    />
+  </common-box>
+  <common-box>
+    <label for="images" class="form-label">画像データ</label>
+    <filr-reader formId="images" @fileRead="handleAddImages" />
+  </common-box>
+  <common-box v-for="image in images">
+    <img :src="image.src" />
+    <div>
+      <span class="me-2">{{ image.name }}</span>
+      <a
+        href="#"
+        class="text-danger"
+        @click.prevent="handleDeleteImage(image.name)"
+        >削除</a
+      >
     </div>
-  </div>
-  <hr />
-  <div>
-    <button @click="handleReset()" :disabled="!hasChanged">取消</button>
-    <button @click="handleUpdate" :disabled="!hasChanged">保存</button>
-    <button @click="handlePak">Pak化</button>
-  </div>
+  </common-box>
+  <div class="p-4" />
+  <nav class="navbar fixed-bottom navbar-dark bg-dark">
+    <div class="container-fluid">
+      <button
+        class="btn btn-secondary me-2"
+        @click="handleReset()"
+        :disabled="!hasChanged"
+      >
+        変更を取消
+      </button>
+      <button
+        class="btn btn-primary me-2"
+        @click="handleUpdate"
+        :disabled="!hasChanged"
+      >
+        変更を保存
+      </button>
+      <button
+        class="btn btn-primary me-2"
+        :disabled="fetching"
+        @click="handlePak"
+      >
+        Pak化
+      </button>
+
+      <small class="ms-auto text-white"
+        >{{ project.data.updatedAt }} 更新</small
+      >
+    </div>
+  </nav>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { dataURL2Blob, dataURL2File, download, postPak } from "../libs";
+import { dataURL2File, download, postPak } from "../libs";
 import FilrReader from "../components/FilrReader.vue";
 import DroppableTextarea from "../components/DroppableTextarea.vue";
+import CommonTitle from "../components/CommonTitle.vue";
+import CommonBox from "../components/CommonBox.vue";
 export default {
-  components: { FilrReader, DroppableTextarea },
+  components: { FilrReader, DroppableTextarea, CommonTitle, CommonBox },
   name: "Projects",
   data() {
     return {
       project: null,
       original: null,
+      fetching: false,
     };
   },
   created() {
@@ -89,6 +141,7 @@ export default {
       }
     },
     async handlePak() {
+      this.fetching = true;
       const images = this.images.map((image) =>
         dataURL2File(image.src, image.name, ".png")
       );
@@ -102,6 +155,8 @@ export default {
         download(url);
       } catch (e) {
         alert(e.message);
+      } finally {
+        this.fetching = false;
       }
     },
   },

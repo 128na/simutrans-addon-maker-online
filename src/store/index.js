@@ -71,7 +71,7 @@ export default createStore({
     // firebaseの認証状態変化に応じてステートを更新する
     watchAuthState(context, { onLoggedIn, onLoggedOut }) {
       try {
-        const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+        firebase.auth().onAuthStateChanged((user) => {
           if (user) {
             context.commit(SET_USER, user);
             context.dispatch('watchProjectState');
@@ -81,7 +81,6 @@ export default createStore({
             onLoggedOut && onLoggedOut();
           }
         });
-        context.dispatch('addUnsubscribe', unsubscribe);
       } catch (e) {
         console.log(e);
         alert('無念！認証ステートチェックに失敗しました');

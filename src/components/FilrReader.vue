@@ -1,14 +1,21 @@
 <template>
-  <input
-    type="file"
-    :accept="accept"
-    :multiple="multiple"
-    @change.prevent="handle"
+  <div
     @dragover.prevent="handleDragover"
     @dragleave.prevent="handleDragleave"
     @drop.prevent="handleDrop"
-  />
-  <div v-show="dropping">ドロップでファイルを追加</div>
+  >
+    <input
+      type="file"
+      :id="formId"
+      :class="formClass"
+      :accept="accept"
+      :multiple="multiple"
+      @change.prevent="handle"
+    />
+    <common-box class="text-secondary">
+      <small> ドロップでファイルを追加。同名ファイルは上書きされます。 </small>
+    </common-box>
+  </div>
 </template>
 <script>
 import { asyncFileReader } from "../libs";
@@ -22,6 +29,14 @@ export default {
     multiple: {
       type: Boolean,
       default: true,
+    },
+    formId: {
+      type: String,
+      default: "",
+    },
+    formClass: {
+      type: String,
+      default: "form-control",
     },
   },
   data() {
@@ -49,7 +64,7 @@ export default {
       const images = {};
       result
         .filter((f) => f.result)
-        .map((f) => (images[f.file.name.replace(".png", "")] = f.result));
+        .map((f) => (images[f.file.name] = f.result));
       this.$emit("fileRead", images);
     },
   },
