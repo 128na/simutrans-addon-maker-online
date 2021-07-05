@@ -2,7 +2,11 @@
   <div v-if="isInitialized">
     <global-header />
     <div class="container-fluid my-3">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <transition name="scale-slide">
+          <component :is="Component" class="bg-white" />
+        </transition>
+      </router-view>
     </div>
   </div>
   <common-loading v-else />
@@ -31,5 +35,28 @@ export default {
 <style>
 body {
   font-family: "Noto Sans JP", sans-serif;
+}
+.scale-slide-enter-active,
+.scale-slide-leave-active {
+  position: absolute;
+  transition: all 0.5s ease-in-out;
+  width: 100%;
+  height: 100%;
+}
+
+.scale-slide-enter-from {
+  left: -100%;
+}
+
+.scale-slide-enter-to {
+  left: 0%;
+}
+
+.scale-slide-leave-from {
+  transform: scale(1);
+}
+
+.scale-slide-leave-to {
+  transform: scale(0.8);
 }
 </style>

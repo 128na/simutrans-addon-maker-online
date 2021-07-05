@@ -1,15 +1,17 @@
 <template>
-  <common-title>About</common-title>
-  <common-box>
-    Simutrans用のアドオンをdat作成からpak化までできるWebアプリです。
-  </common-box>
+  <div>
+    <common-title>About</common-title>
+    <common-box>
+      Simutrans用のアドオンをdat作成からpak化までできるWebアプリです。
+    </common-box>
 
-  <common-title>Signin</common-title>
-  <common-box>
-    <a href="#" title="Google Signin" @click.prevent="signin">
-      <img src="/img/btn_google_signin_dark_normal_web.png" />
-    </a>
-  </common-box>
+    <common-title>Signin</common-title>
+    <common-box>
+      <a href="#" title="Google Signin" @click.prevent="signin">
+        <img src="/img/btn_google_signin_dark_normal_web.png" />
+      </a>
+    </common-box>
+  </div>
 </template>
 
 <script>

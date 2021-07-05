@@ -1,77 +1,83 @@
 <template>
-  <common-title class="mb-3">プロジェクト管理</common-title>
-  <common-box>
-    <button class="btn btn-primary" @click="handleCreate">新規作成</button>
-  </common-box>
-  <common-box>
-    <!-- tab list -->
-    <ul class="nav nav-tabs">
-      <li class="nav-item" role="presentation">
-        <button
-          class="nav-link active"
-          data-bs-toggle="tab"
-          data-bs-target="#projects"
-        >
-          一覧
-        </button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#trashed">
-          ゴミ箱
-        </button>
-      </li>
-    </ul>
+  <div>
+    <common-title class="mb-3">プロジェクト管理</common-title>
+    <common-box>
+      <button class="btn btn-primary" @click="handleCreate">新規作成</button>
+    </common-box>
+    <common-box>
+      <!-- tab list -->
+      <ul class="nav nav-tabs">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            data-bs-toggle="tab"
+            data-bs-target="#projects"
+          >
+            一覧
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            data-bs-toggle="tab"
+            data-bs-target="#trashed"
+          >
+            ゴミ箱
+          </button>
+        </li>
+      </ul>
 
-    <!-- tab content -->
-    <div class="tab-content">
-      <div class="tab-pane fade show active p-3" id="projects">
-        <ul>
-          <li v-for="p in projects">
-            <div>
-              <router-link :to="routeProject(p)">
+      <!-- tab content -->
+      <div class="tab-content">
+        <div class="tab-pane fade show active p-3" id="projects">
+          <ul>
+            <li v-for="p in projects">
+              <div>
+                <router-link :to="routeProject(p)">
+                  <span>{{ p.data.title }}</span>
+                </router-link>
+                <a
+                  href="#"
+                  class="text-secondary mx-1"
+                  @click.prevent="deleteProject(p)"
+                  >ゴミ箱</a
+                >
+              </div>
+              <small>
+                <span>{{ p.data.createdAt }} 作成</span>
+                ,
+                <span>{{ p.data.updatedAt }} 更新</span>
+              </small>
+            </li>
+          </ul>
+        </div>
+        <div class="tab-pane fade p-3" id="trashed">
+          <ul>
+            <li v-for="p in trashedProjects">
+              <div>
                 <span>{{ p.data.title }}</span>
-              </router-link>
-              <a
-                href="#"
-                class="text-secondary mx-1"
-                @click.prevent="deleteProject(p)"
-                >ゴミ箱</a
-              >
-            </div>
-            <small>
-              <span>{{ p.data.createdAt }} 作成</span>
-              ,
-              <span>{{ p.data.updatedAt }} 更新</span>
-            </small>
-          </li>
-        </ul>
+                <a
+                  href="#"
+                  class="text-secondary mx-1"
+                  @click.prevent="restoreProject(p)"
+                  >復元</a
+                >
+                <a
+                  href="#"
+                  class="text-danger mx-1"
+                  @click.prevent="handleForceDelete(p)"
+                  >削除</a
+                >
+              </div>
+              <small>
+                <span>{{ p.data.createdAt }} 削除</span>
+              </small>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="tab-pane fade p-3" id="trashed">
-        <ul>
-          <li v-for="p in trashedProjects">
-            <div>
-              <span>{{ p.data.title }}</span>
-              <a
-                href="#"
-                class="text-secondary mx-1"
-                @click.prevent="restoreProject(p)"
-                >復元</a
-              >
-              <a
-                href="#"
-                class="text-danger mx-1"
-                @click.prevent="handleForceDelete(p)"
-                >削除</a
-              >
-            </div>
-            <small>
-              <span>{{ p.data.createdAt }} 削除</span>
-            </small>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </common-box>
+    </common-box>
+  </div>
 </template>
 
 <script>

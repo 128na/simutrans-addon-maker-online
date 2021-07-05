@@ -1,88 +1,91 @@
-<template v-if="project">
-  <common-title>{{ project.data.title }}</common-title>
-  <common-box>
-    <label for="title" class="form-label">プロジェクト名</label>
-    <input
-      type="text"
-      id="title"
-      class="form-control"
-      v-model="project.data.title"
-    />
-  </common-box>
-  <common-box>
-    <label for="filename" class="form-label">アドオン名</label>
-    <input
-      type="text"
-      id="filename"
-      class="form-control"
-      v-model="project.data.filename"
-    />
-  </common-box>
-  <common-box>
-    <label for="size" class="form-label">Pakサイズ</label>
-    <input
-      type="number"
-      id="size"
-      class="form-control"
-      min="16"
-      max="65535"
-      v-model="project.data.size"
-    />
-  </common-box>
-  <common-box>
-    <label for="dat" class="form-label">Datデータ</label>
-    <droppable-textarea
-      formId="dat"
-      rows="12"
-      v-model:value="project.data.dat"
-    />
-  </common-box>
-  <common-box>
-    <label for="images" class="form-label">画像データ</label>
-    <filr-reader formId="images" @fileRead="handleAddImages" />
-  </common-box>
-  <common-box v-for="image in images">
-    <img :src="image.src" />
-    <div>
-      <span class="me-2">{{ image.name }}</span>
-      <a
-        href="#"
-        class="text-danger"
-        @click.prevent="handleDeleteImage(image.name)"
-        >削除</a
-      >
-    </div>
-  </common-box>
-  <div class="p-4" />
-  <nav class="navbar fixed-bottom navbar-dark bg-dark">
-    <div class="container-fluid">
-      <button
-        class="btn btn-secondary me-2"
-        @click="handleReset()"
-        :disabled="!hasChanged"
-      >
-        変更を取消
-      </button>
-      <button
-        class="btn btn-primary me-2"
-        @click="handleUpdate"
-        :disabled="!hasChanged"
-      >
-        変更を保存
-      </button>
-      <button
-        class="btn btn-primary me-2"
-        :disabled="fetching"
-        @click="handlePak"
-      >
-        Pak化
-      </button>
+<template>
+  <div v-if="project">
+    <common-title>{{ project.data.title }}</common-title>
+    <common-box>
+      <label for="title" class="form-label">プロジェクト名</label>
+      <input
+        type="text"
+        id="title"
+        class="form-control"
+        v-model="project.data.title"
+      />
+    </common-box>
+    <common-box>
+      <label for="filename" class="form-label">アドオン名</label>
+      <input
+        type="text"
+        id="filename"
+        class="form-control"
+        v-model="project.data.filename"
+      />
+    </common-box>
+    <common-box>
+      <label for="size" class="form-label">Pakサイズ</label>
+      <input
+        type="number"
+        id="size"
+        class="form-control"
+        min="16"
+        max="65535"
+        v-model="project.data.size"
+      />
+    </common-box>
+    <common-box>
+      <label for="dat" class="form-label">Datデータ</label>
+      <droppable-textarea
+        formId="dat"
+        rows="12"
+        v-model:value="project.data.dat"
+      />
+    </common-box>
+    <common-box>
+      <label for="images" class="form-label">画像データ</label>
+      <filr-reader formId="images" @fileRead="handleAddImages" />
+    </common-box>
+    <common-box v-for="image in images" class="overflow-auto">
+      <img :src="image.src" />
+      <div>
+        <span class="me-2">{{ image.name }}</span>
+        <a
+          href="#"
+          class="text-danger"
+          @click.prevent="handleDeleteImage(image.name)"
+          >削除</a
+        >
+      </div>
+    </common-box>
+    <div class="p-4" />
+    <nav class="navbar fixed-bottom navbar-dark bg-dark">
+      <div class="container-fluid">
+        <button
+          class="btn btn-secondary me-2"
+          @click="handleReset()"
+          :disabled="!hasChanged"
+        >
+          取消
+        </button>
+        <button
+          class="btn btn-primary me-2"
+          @click="handleUpdate"
+          :disabled="!hasChanged"
+        >
+          保存
+        </button>
+        <button
+          class="btn btn-primary me-2"
+          :disabled="fetching"
+          @click="handlePak"
+        >
+          Pak化
+        </button>
 
-      <small class="ms-auto text-white"
-        >{{ project.data.updatedAt }} 更新</small
-      >
-    </div>
-  </nav>
+        <small class="ms-auto text-white"
+          >{{ project.data.updatedAt }} 更新</small
+        >
+      </div>
+    </nav>
+  </div>
+  <common-loading v-else />
 </template>
 
 <script>
@@ -92,8 +95,15 @@ import FilrReader from "../components/FilrReader.vue";
 import DroppableTextarea from "../components/DroppableTextarea.vue";
 import CommonTitle from "../components/CommonTitle.vue";
 import CommonBox from "../components/CommonBox.vue";
+import CommonLoading from "../components/CommonLoading.vue";
 export default {
-  components: { FilrReader, DroppableTextarea, CommonTitle, CommonBox },
+  components: {
+    FilrReader,
+    DroppableTextarea,
+    CommonTitle,
+    CommonBox,
+    CommonLoading,
+  },
   name: "Projects",
   data() {
     return {
