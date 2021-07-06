@@ -47,6 +47,12 @@
         <span class="me-2">{{ image.name }}</span>
         <a
           href="#"
+          class="text-secondary me-2"
+          @click.prevent="handleDownloadImage(image)"
+          >DL</a
+        >
+        <a
+          href="#"
           class="text-danger"
           @click.prevent="handleDeleteImage(image.name)"
           >削除</a
@@ -89,7 +95,8 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { dataURL2File, download, postPak } from "../libs";
+import { dataURL2File, download } from "../services/File";
+import { postPak } from "../services/Api";
 import FilrReader from "../components/FilrReader.vue";
 import CommonTitle from "../components/CommonTitle.vue";
 import CommonBox from "../components/CommonBox.vue";
@@ -148,6 +155,9 @@ export default {
       if (confirm("削除してもよろしいでしょうか？")) {
         delete this.project.data.images[name];
       }
+    },
+    handleDownloadImage(image) {
+      download(image.src, image.name);
     },
     async handlePak() {
       this.fetching = true;

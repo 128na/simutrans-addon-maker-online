@@ -34,8 +34,7 @@
 <script>
 import CommonBox from "../../components/CommonBox.vue";
 import DroppableBox from "../../components/DroppableBox.vue";
-import { asyncTextReader } from "../../libs";
-import { dat2Objs } from "../../services/DatParser";
+import { asyncTextReader } from "../../services/File";
 import LineEditor from "./LineEditor.vue";
 
 export default {
