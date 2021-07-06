@@ -12,12 +12,15 @@
     </common-box>
     <common-box>
       <label for="filename" class="form-label">アドオン名</label>
-      <input
-        type="text"
-        id="filename"
-        class="form-control"
-        v-model="project.data.filename"
-      />
+      <div class="input-group">
+        <input
+          type="text"
+          id="filename"
+          class="form-control"
+          v-model="project.data.filename"
+        />
+        <span class="input-group-text">.pak</span>
+      </div>
     </common-box>
     <common-box>
       <label for="size" class="form-label">Pakサイズ</label>
@@ -32,7 +35,7 @@
     </common-box>
     <common-box>
       <label for="dat" class="form-label">Datデータ</label>
-      <dat-editor v-model:value="project.data.dat" />
+      <dat-editor v-model:value="project.data.dat" :project="project" />
     </common-box>
     <common-box>
       <label for="images" class="form-label">画像データ</label>

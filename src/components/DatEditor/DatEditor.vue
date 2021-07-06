@@ -1,24 +1,33 @@
 <template>
   <droppable-box @fileDropped="handleFileDropped">
     <template v-slot:default="props">
-      <textarea
-        id="dat"
-        class="form-control"
-        rows="12"
-        :value="value"
-        @input="$emit('update:value', $event.target.value)"
-      />
-      <common-box class="text-secondary">
-        <small v-show="props.dropping && !props.ctrl"
-          >ファイル内容を追加。</small
-        >
-        <small v-show="props.dropping && props.ctrl"
-          >ファイル内容で上書き。</small
-        >
-        <small v-show="!props.dropping">
-          .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き。
-        </small>
-      </common-box>
+      <div class="row">
+        <div class="col">
+          <textarea
+            id="dat"
+            class="form-control"
+            rows="12"
+            :value="value"
+            @input="$emit('update:value', $event.target.value)"
+            @keyup="handleLine"
+            @mouseup="handleLine"
+          />
+          <common-box class="text-secondary">
+            <small v-show="props.dropping && !props.ctrl"
+              >ファイル内容を追加。</small
+            >
+            <small v-show="props.dropping && props.ctrl"
+              >ファイル内容で上書き。</small
+            >
+            <small v-show="!props.dropping">
+              .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き。
+            </small>
+          </common-box>
+        </div>
+        <div class="col">
+          <line-editor :value="line" :project="project" />
+        </div>
+      </div>
     </template>
   </droppable-box>
 </template>
@@ -26,13 +35,26 @@
 import CommonBox from "../../components/CommonBox.vue";
 import DroppableBox from "../../components/DroppableBox.vue";
 import { asyncTextReader } from "../../libs";
+import { dat2Objs } from "../../services/DatParser";
+import LineEditor from "./LineEditor.vue";
 
 export default {
   components: {
     DroppableBox,
     CommonBox,
+    LineEditor,
   },
-  props: ["value"],
+  props: ["value", "project"],
+  data() {
+    return {
+      lineNo: 1,
+    };
+  },
+  computed: {
+    line() {
+      return this.value.split("\n")[this.lineNo - 1];
+    },
+  },
   methods: {
     async handleFileDropped({ files, ctrl }) {
       const result = await asyncTextReader(
@@ -43,6 +65,11 @@ export default {
         ctrl ? "" : this.value
       );
       this.$emit("update:value", value);
+    },
+    handleLine(e) {
+      this.lineNo = this.value
+        .substr(0, e.target.selectionStart)
+        .split("\n").length;
     },
   },
 };

@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Projects from '../views/Projects.vue'
-import Project from '../views/Project.vue'
 import Signin from '../views/Signin.vue'
 
 const routes = [
@@ -13,7 +12,10 @@ const routes = [
   {
     path: '/project/:id',
     name: 'Project',
-    component: Project,
+    //   // route level code-splitting
+    //   // this generates a separate chunk (about.[hash].js) for this route
+    //   // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "project" */ '../views/Project.vue'),
     meta: { requiresAuth: true }
   },
   {
@@ -21,14 +23,6 @@ const routes = [
     name: 'Signin',
     component: Signin
   },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // },
 ]
 
 const router = createRouter({
