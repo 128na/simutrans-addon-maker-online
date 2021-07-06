@@ -20,7 +20,7 @@ export default {
   components: { GlobalHeader, CommonLoading },
   created() {
     this.watchAuthState({
-      onLoggedIn: () => this.$router.push({ name: "Home" }),
+      onLoggedIn: () => this.$router.push({ name: "Projects" }),
       onLoggedOut: () => this.$router.push({ name: "Signin" }),
     });
   },

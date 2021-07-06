@@ -6,7 +6,7 @@ import Signin from '../views/Signin.vue'
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'Projects',
     component: Projects,
     meta: { requiresAuth: true }
   },

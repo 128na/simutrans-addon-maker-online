@@ -32,15 +32,11 @@
     </common-box>
     <common-box>
       <label for="dat" class="form-label">Datデータ</label>
-      <droppable-textarea
-        formId="dat"
-        rows="12"
-        v-model:value="project.data.dat"
-      />
+      <dat-editor v-model:value="project.data.dat" />
     </common-box>
     <common-box>
       <label for="images" class="form-label">画像データ</label>
-      <filr-reader formId="images" @fileRead="handleAddImages" />
+      <filr-reader @fileRead="handleAddImages" />
     </common-box>
     <common-box v-for="image in images" class="overflow-auto">
       <img :src="image.src" />
@@ -92,17 +88,17 @@
 import { mapActions, mapGetters } from "vuex";
 import { dataURL2File, download, postPak } from "../libs";
 import FilrReader from "../components/FilrReader.vue";
-import DroppableTextarea from "../components/DroppableTextarea.vue";
 import CommonTitle from "../components/CommonTitle.vue";
 import CommonBox from "../components/CommonBox.vue";
 import CommonLoading from "../components/CommonLoading.vue";
+import DatEditor from "../components/DatEditor/DatEditor.vue";
 export default {
   components: {
     FilrReader,
-    DroppableTextarea,
     CommonTitle,
     CommonBox,
     CommonLoading,
+    DatEditor,
   },
   name: "Projects",
   data() {
