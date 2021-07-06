@@ -2,7 +2,7 @@
   <droppable-box @fileDropped="handleFileDropped">
     <template v-slot:default="props">
       <div class="row">
-        <div class="col">
+        <div class="col-sm">
           <textarea
             id="dat"
             class="form-control"
@@ -24,7 +24,7 @@
             </small>
           </common-box>
         </div>
-        <div class="col">
+        <div class="col-sm">
           <line-editor :value="line" :project="project" />
         </div>
       </div>
@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     line() {
-      return this.value.split("\n")[this.lineNo - 1];
+      return this.value.split("\n")[this.lineNo - 1].trim();
     },
   },
   methods: {
