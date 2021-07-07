@@ -25,7 +25,7 @@
 <script>
 import { parseLine } from "../../services/DatParser";
 import ImagePreview from "./ImagePreview.vue";
-import Fields from "../../services/FieldImport";
+import Fields from "./Fields/ImportAll";
 import camelCase from "camelcase";
 
 const imageNames = ["image", "icon", "cursor"];
