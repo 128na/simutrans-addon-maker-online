@@ -1,17 +1,25 @@
 <template>
   <div class="card">
     <div class="card-header">
-      {{ value || "(空白)" }}
+      {{ value || "(空行)" }}
     </div>
-    <div v-if="hasImage" class="card-body">
-      <image-preview
-        :line="parsed[3]"
-        :images="project.data.images"
-        :size="project.data.size"
-        :isStatic="isStatic"
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" v-if="hasImage">
+        <image-preview
+          :line="parsed[3]"
+          :images="project.data.images"
+          :size="project.data.size"
+          :isStatic="isStatic"
+        />
+      </li>
+
+      <component
+        :is="componentName"
+        :value="value"
+        :project="project"
+        @lineUpdate="$emit('lineUpdate', $event)"
       />
-    </div>
-    <component :is="componentName" />
+    </ul>
   </div>
 </template>
 <script>
@@ -48,7 +56,7 @@ export default {
         return "FieldSeparator";
       }
       const key = this.parsed
-        ? this.parsed[1].toLowerCase().replace("_", "-")
+        ? this.parsed[1].split("[")[0].toLowerCase().replace("_", "-")
         : "default";
       const name = camelCase(`field-${key}`, { pascalCase: true });
 

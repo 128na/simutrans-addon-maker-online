@@ -1,31 +1,37 @@
 <template>
   <droppable-box @fileDropped="handleFileDropped">
     <template v-slot:default="props">
-      <div class="row">
-        <div class="col-sm">
-          <textarea
-            id="dat"
-            class="form-control"
-            rows="12"
-            :value="value"
-            @input="$emit('update:value', $event.target.value)"
-            @keyup="handleLine"
-            @mouseup="handleLine"
-          />
-          <common-box class="text-secondary">
-            <small v-show="props.dropping && !props.ctrl"
-              >ファイル内容を追加。</small
-            >
-            <small v-show="props.dropping && props.ctrl"
-              >ファイル内容で上書き。</small
-            >
-            <small v-show="!props.dropping">
-              .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き。
-            </small>
-          </common-box>
-        </div>
-        <div class="col-sm">
-          <line-editor :value="line" :project="project" />
+      <div class="pt-1 sp-wide">
+        <div class="row">
+          <div class="col">
+            <textarea
+              id="dat"
+              class="form-control"
+              rows="12"
+              :value="value"
+              @input="$emit('update:value', $event.target.value)"
+              @keyup="handleLine"
+              @mouseup="handleLine"
+            />
+            <common-box class="text-secondary">
+              <small v-show="props.dropping && !props.ctrl"
+                >ファイル内容を追加。</small
+              >
+              <small v-show="props.dropping && props.ctrl"
+                >ファイル内容で上書き。</small
+              >
+              <small v-show="!props.dropping">
+                .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き。
+              </small>
+            </common-box>
+          </div>
+          <div class="col">
+            <line-editor
+              :value="line"
+              :project="project"
+              @lineUpdate="handleLineUpdate"
+            />
+          </div>
         </div>
       </div>
     </template>
@@ -50,8 +56,13 @@ export default {
     };
   },
   computed: {
+    convertedValue() {
+      return this.value
+        .replaceAll("\r\n", "\n") // win CRLF -> LF
+        .replaceAll("\r", "\n"); // mac CR -> LF
+    },
     line() {
-      return this.value.split("\n")[this.lineNo - 1].trim();
+      return this.convertedValue.split("\n")[this.lineNo - 1];
     },
   },
   methods: {
@@ -66,10 +77,26 @@ export default {
       this.$emit("update:value", value);
     },
     handleLine(e) {
-      this.lineNo = this.value
+      this.lineNo = this.convertedValue
         .substr(0, e.target.selectionStart)
         .split("\n").length;
+    },
+    handleLineUpdate(line) {
+      const lines = this.convertedValue.split("\n");
+      lines.splice(this.lineNo - 1, 1, line);
+      this.$emit("update:value", lines.join("\n"));
     },
   },
 };
 </script>
+<style>
+@media (max-width: 767.98px) {
+  .sp-wide {
+    overflow-x: auto;
+    margin-right: -0.75rem;
+  }
+  .sp-wide .row {
+    width: 150vw;
+  }
+}
+</style>

@@ -10,13 +10,13 @@ export default {
   computed: {
     item: {
       get() {
-        return this.value.split("=")[1] || "";
+        return this.value.split("=> ")[1] || "";
       },
       set(v) {
-        const data = this.value.split("=");
+        const data = this.value.split("=> ");
         data.splice(1, 1, v);
 
-        this.$emit("lineUpdate", data.join("="));
+        this.$emit("lineUpdate", data.join("=> "));
       },
     },
   },

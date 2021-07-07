@@ -2,6 +2,9 @@
   <li class="list-group-item">
     <input class="form-control" v-model="item" />
   </li>
+  <li class="list-group-item">
+    <small>作者名</small>
+  </li>
 </template>
 <script>
 export default {

@@ -1,11 +1,10 @@
 <template>
-  <div class="card-body">
-    <small class="card-text text-secondary">
-      コメント行。<br />
-      この行を読めるのは人類のみ。
-    </small>
-  </div>
+  <li class="list-group-item">
+    <small> コメント行。お気持ち表明にどうぞ。 </small>
+  </li>
 </template>
 <script>
-export default {};
+export default {
+  props: ["value", "project"],
+};
 </script>

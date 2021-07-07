@@ -1,8 +1,10 @@
 <template>
-  <div class="card-body">
-    <small class="card-text text-secondary"> 2人で「空白」 </small>
-  </div>
+  <li class="list-group-item">
+    <small> ないです。 </small>
+  </li>
 </template>
 <script>
-export default {};
+export default {
+  props: ["value", "project"],
+};
 </script>

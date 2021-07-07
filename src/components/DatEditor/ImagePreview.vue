@@ -1,5 +1,5 @@
 <template>
-  <div :style="style" />
+  <div :style="style" class="preview" />
 </template>
 <script>
 export default {
@@ -9,8 +9,8 @@ export default {
       const name = `${this.line.split(".")[0]}.png`;
       const y = parseInt(this.line.split(".")[1]);
       const x = parseInt(this.line.split(".")[2].split(",")[0]);
-      const oy = parseInt(this.line.split(",")[1] || 0);
-      const ox = parseInt(this.line.split(",")[2] || 0);
+      const ox = parseInt(this.line.split(",")[1] || 0);
+      const oy = parseInt(this.line.split(",")[2] || 0);
 
       const left = -this.size * x + ox;
       const top = -this.size * y + oy;
@@ -26,3 +26,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.preview {
+  background-repeat: no-repeat;
+}
+</style>
