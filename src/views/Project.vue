@@ -12,12 +12,15 @@
     </common-box>
     <common-box>
       <label for="filename" class="form-label">アドオン名</label>
-      <input
-        type="text"
-        id="filename"
-        class="form-control"
-        v-model="project.data.filename"
-      />
+      <div class="input-group">
+        <input
+          type="text"
+          id="filename"
+          class="form-control"
+          v-model="project.data.filename"
+        />
+        <span class="input-group-text">.pak</span>
+      </div>
     </common-box>
     <common-box>
       <label for="size" class="form-label">Pakサイズ</label>
@@ -32,27 +35,11 @@
     </common-box>
     <common-box>
       <label for="dat" class="form-label">Datデータ</label>
-      <droppable-textarea
-        formId="dat"
-        rows="12"
-        v-model:value="project.data.dat"
-      />
+      <dat-editor v-model:value="project.data.dat" :project="project" />
     </common-box>
     <common-box>
       <label for="images" class="form-label">画像データ</label>
-      <filr-reader formId="images" @fileRead="handleAddImages" />
-    </common-box>
-    <common-box v-for="image in images" class="overflow-auto">
-      <img :src="image.src" />
-      <div>
-        <span class="me-2">{{ image.name }}</span>
-        <a
-          href="#"
-          class="text-danger"
-          @click.prevent="handleDeleteImage(image.name)"
-          >削除</a
-        >
-      </div>
+      <image-editor v-model:value="project.data.images" :project="project" />
     </common-box>
     <div class="p-4" />
     <nav class="navbar fixed-bottom navbar-dark bg-dark">
@@ -90,19 +77,20 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { dataURL2File, download, postPak } from "../libs";
-import FilrReader from "../components/FilrReader.vue";
-import DroppableTextarea from "../components/DroppableTextarea.vue";
+import { dataURL2File, download } from "../services/File";
+import { postPak } from "../services/Api";
+import ImageEditor from "../components/ImageEditor/ImageEditor.vue";
 import CommonTitle from "../components/CommonTitle.vue";
 import CommonBox from "../components/CommonBox.vue";
 import CommonLoading from "../components/CommonLoading.vue";
+import DatEditor from "../components/DatEditor/DatEditor.vue";
 export default {
   components: {
-    FilrReader,
-    DroppableTextarea,
+    ImageEditor,
     CommonTitle,
     CommonBox,
     CommonLoading,
+    DatEditor,
   },
   name: "Projects",
   data() {
@@ -119,13 +107,6 @@ export default {
   },
   computed: {
     ...mapGetters(["projects"]),
-    images() {
-      const images = [];
-      for (const [name, src] of Object.entries(this.project.data.images)) {
-        images.push({ name, src });
-      }
-      return images;
-    },
     hasChanged() {
       return JSON.stringify(this.project) !== JSON.stringify(this.original);
     },
@@ -138,17 +119,6 @@ export default {
     handleUpdate() {
       this.updateProject(this.project);
       this.original = JSON.parse(JSON.stringify(this.project));
-    },
-    handleAddImages(images) {
-      this.project.data.images = Object.assign(
-        this.project.data.images,
-        images
-      );
-    },
-    handleDeleteImage(name) {
-      if (confirm("削除してもよろしいでしょうか？")) {
-        delete this.project.data.images[name];
-      }
     },
     async handlePak() {
       this.fetching = true;

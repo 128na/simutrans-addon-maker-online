@@ -20,7 +20,7 @@ export default {
   components: { GlobalHeader, CommonLoading },
   created() {
     this.watchAuthState({
-      onLoggedIn: () => this.$router.push({ name: "Home" }),
+      onLoggedIn: () => this.$router.push({ name: "Projects" }),
       onLoggedOut: () => this.$router.push({ name: "Signin" }),
     });
   },
@@ -35,6 +35,12 @@ export default {
 <style>
 body {
   font-family: "Noto Sans JP", sans-serif;
+}
+ul {
+  padding-left: 0rem;
+}
+li {
+  list-style: none;
 }
 .scale-slide-enter-active,
 .scale-slide-leave-active {

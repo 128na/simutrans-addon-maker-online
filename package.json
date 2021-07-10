@@ -1,12 +1,14 @@
 {
   "name": "simutrans-addon-maker",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "preview": "vue-cli-service build && firebase hosting:channel:deploy preview"
   },
   "dependencies": {
+    "camelcase": "^6.2.0",
     "core-js": "^3.6.5",
     "firebase": "^8.6.8",
     "luxon": "^1.27.0",

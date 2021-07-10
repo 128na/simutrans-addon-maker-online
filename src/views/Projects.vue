@@ -7,7 +7,7 @@
     <common-box>
       <!-- tab list -->
       <ul class="nav nav-tabs">
-        <li class="nav-item" role="presentation">
+        <li class="nav-item">
           <button
             class="nav-link active"
             data-bs-toggle="tab"
