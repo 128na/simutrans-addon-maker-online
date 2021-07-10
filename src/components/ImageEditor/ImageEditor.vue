@@ -1,6 +1,4 @@
 <template>
-  <file-reader @fileRead="handleAddImages" />
-
   <!-- tab list -->
   <ul class="nav nav-tabs">
     <li class="nav-item" v-for="image in images">
@@ -44,6 +42,7 @@
       >
     </div>
   </div>
+  <file-reader @fileRead="handleAddImages" />
 </template>
 <script>
 import { download } from "../../services/File";
