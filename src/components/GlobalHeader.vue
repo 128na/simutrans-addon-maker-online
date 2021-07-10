@@ -19,7 +19,7 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0" v-if="isLoggedIn">
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'Projects' }">
-              Projects
+              プロジェクト管理
             </router-link>
           </li>
           <li class="nav-item dropdown ms-auto">

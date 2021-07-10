@@ -14,9 +14,9 @@
   </droppable-box>
 </template>
 <script>
-import { asyncFileReader } from "../services/File";
-import CommonBox from "../components/CommonBox.vue";
-import DroppableBox from "./DroppableBox.vue";
+import { asyncFileReader } from "../../services/File";
+import CommonBox from "../../components/CommonBox.vue";
+import DroppableBox from "./../DroppableBox.vue";
 export default {
   components: { DroppableBox, CommonBox },
   name: "FileReader",
