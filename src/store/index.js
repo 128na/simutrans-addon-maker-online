@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 
 import firebase from "firebase";
-import dataManager from "../firebase/dataManager";
+import persister from "../firebase/persister";
 const provider = new firebase.auth.GoogleAuthProvider();
 
 const SET_USER = 'SET_USER';
@@ -92,22 +92,23 @@ export default createStore({
 
     // プロジェクト
     async createProject(context, projectData) {
-      await dataManager.project.create(context.getters.userId, projectData);
+      await persister.project.create(context.getters.userId, projectData);
     },
     async updateProject(context, project) {
-      await dataManager.project.update(context.getters.userId, project);
+      await persister.project.update(context.getters.userId, project);
     },
     async deleteProject(context, project) {
-      await dataManager.project.delete(context.getters.userId, project);
+      await persister.project.delete(context.getters.userId, project);
     },
     async restoreProject(context, project) {
-      await dataManager.project.restore(context.getters.userId, project);
+      await persister.project.restore(context.getters.userId, project);
     },
     async forceDeleteProject(context, project) {
-      await dataManager.project.forceDelete(context.getters.userId, project);
+      await persister.project.forceDelete(context.getters.userId, project);
     },
     watchProjectState(context) {
-      const unsubscribe = dataManager.project.listen(context.getters.userId, (projects) => {
+      const unsubscribe = persister.project.listen(context.getters.userId, (projects) => {
+        console.log({ projects });
         context.commit(SET_PROJECTS, projects);
       });
       context.dispatch('addUnsubscribe', unsubscribe);

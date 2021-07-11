@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="projectLoaded">
     <title-main class="mb-3">プロジェクト管理</title-main>
     <layout-box>
       <button class="btn btn-primary" @click="handleCreate">新規作成</button>
@@ -99,7 +99,12 @@ export default {
   components: { TitleMain, LayoutBox, TitleSub, Exporter, Importer },
   name: "Projects",
   computed: {
-    ...mapGetters(["projects", "trashedProjects", "existsProject"]),
+    ...mapGetters([
+      "projectLoaded",
+      "projects",
+      "trashedProjects",
+      "existsProject",
+    ]),
   },
   methods: {
     ...mapActions([
