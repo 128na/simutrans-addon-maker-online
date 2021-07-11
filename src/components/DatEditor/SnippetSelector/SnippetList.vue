@@ -70,20 +70,20 @@
                 <button
                   class="accordion-button collapsed"
                   data-bs-toggle="collapse"
-                  :data-bs-target="`#snippet-mySnippet-${snippet.name}`"
-                  @click="handleSnippet(snippet)"
+                  :data-bs-target="`#snippet-mySnippet-${snippet.data.name}`"
+                  @click="handleSnippet(snippet.data)"
                 >
-                  ┗ {{ snippet.name }}
+                  ┗ {{ snippet.data.name }}
                 </button>
               </h2>
               <div
-                :id="`snippet-mySnippet-${snippet.name}`"
+                :id="`snippet-mySnippet-${snippet.data.name}`"
                 :data-bs-parent="`#snippet-mySnippet`"
                 class="accordion-collapse collapse"
               >
                 <pre
                   class="accordion-body bg-light mb-0"
-                ><code>{{ snippet.dat }}</code></pre>
+                ><code>{{ snippet.data.dat }}</code></pre>
               </div>
             </template>
             <div v-else class="accordion-body">テンプレートがありません</div>
@@ -94,16 +94,20 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import { SNIPPETS } from "../../../constants";
+import LayoutLoading from "../../LayoutLoading.vue";
 export default {
+  components: { LayoutLoading },
   props: ["selected"],
   emits: ["select"],
   computed: {
+    ...mapGetters(["snippetLoaded", "snippets"]),
     snippetLists() {
       return SNIPPETS;
     },
     mySnippets() {
-      return [];
+      return this.snippetLoaded ? this.snippets : [];
     },
   },
   methods: {

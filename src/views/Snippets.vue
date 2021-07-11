@@ -1,6 +1,6 @@
 <template>
-  <div v-if="projectLoaded">
-    <title-main class="mb-3">プロジェクト管理</title-main>
+  <div v-if="snippetLoaded">
+    <title-main class="mb-3">テンプレート管理</title-main>
     <layout-box>
       <button class="btn btn-primary" @click="handleCreate">新規作成</button>
     </layout-box>
@@ -11,7 +11,7 @@
           <button
             class="nav-link active"
             data-bs-toggle="tab"
-            data-bs-target="#projects"
+            data-bs-target="#snippets"
           >
             一覧
           </button>
@@ -29,17 +29,17 @@
 
       <!-- tab content -->
       <div class="tab-content">
-        <div class="tab-pane fade show active p-3" id="projects">
+        <div class="tab-pane fade show active p-3" id="snippets">
           <ul>
-            <li v-for="p in projects" class="mb-2">
+            <li v-for="p in snippets" class="mb-2">
               <div>
-                <router-link :to="routeProject(p)">
-                  <span>{{ p.data.title }}</span>
+                <router-link :to="routeSnippet(p)">
+                  <span>{{ p.data.name }}</span>
                 </router-link>
                 <a
                   href="#"
                   class="text-secondary mx-1"
-                  @click.prevent="deleteProject(p)"
+                  @click.prevent="deleteSnippet(p)"
                   >ゴミ箱</a
                 >
               </div>
@@ -51,13 +51,13 @@
         </div>
         <div class="tab-pane fade p-3" id="trashed">
           <ul>
-            <li v-for="p in trashedProjects">
+            <li v-for="p in trashedSnippets">
               <div>
-                <span>{{ p.data.title }}</span>
+                <span>{{ p.data.name }}</span>
                 <a
                   href="#"
                   class="text-secondary mx-1"
-                  @click.prevent="restoreProject(p)"
+                  @click.prevent="restoreSnippet(p)"
                   >復元</a
                 >
                 <a
@@ -77,12 +77,12 @@
     </layout-box>
     <title-sub class="mb-3">エクスポート</title-sub>
     <layout-box>
-      <p>プロジェクトデータをjson形式で出力します。</p>
-      <exporter :data="projects" exportName="projects" />
+      <p>テンプレートデータをjson形式で出力します。</p>
+      <exporter :data="snippets" exportName="snippets" />
     </layout-box>
     <title-sub class="mb-3">インポート</title-sub>
     <layout-box>
-      <p>json形式のプロジェクトデータを取り込みます。</p>
+      <p>json形式のテンプレートデータを取り込みます。</p>
       <importer @import="handleImport" />
     </layout-box>
   </div>
@@ -97,64 +97,60 @@ import Exporter from "../components/IExporter/Exporter.vue";
 import Importer from "../components/IExporter/Importer.vue";
 export default {
   components: { TitleMain, LayoutBox, TitleSub, Exporter, Importer },
-  name: "Projects",
+  name: "Snippets",
   computed: {
     ...mapGetters([
-      "projectLoaded",
-      "projects",
-      "trashedProjects",
-      "existsProject",
+      "snippetLoaded",
+      "snippets",
+      "trashedSnippets",
+      "existsSnippet",
     ]),
   },
   methods: {
     ...mapActions([
-      "createProject",
-      "updateProject",
-      "deleteProject",
-      "restoreProject",
-      "forceDeleteProject",
+      "createSnippet",
+      "updateSnippet",
+      "deleteSnippet",
+      "restoreSnippet",
+      "forceDeleteSnippet",
     ]),
     randomTitle() {
       const arr = [
-        "新しいプロジェクト",
-        "どちらかというと新しいプロジェクト",
-        "やや新しいプロジェクト",
-        "それなりに新しいプロジェクト",
-        "新しいプロジェクト。古事記にもそう書かれている",
+        "新しいテンプレート",
+        "どちらかというと新しいテンプレート",
+        "やや新しいテンプレート",
+        "それなりに新しいテンプレート",
+        "新しいテンプレート。古事記にもそう書かれている",
       ];
       return arr[Math.floor(Math.random() * arr.length)];
     },
     async handleCreate() {
       try {
-        await this.createProject({
-          title: this.randomTitle(),
-          filename: "example",
-          isPublic: false,
+        await this.createSnippet({
+          name: this.randomTitle(),
           dat: "",
-          images: {},
-          size: 64,
         });
       } catch (e) {
-        alert("プロジェクト作成に失敗しました");
+        alert("テンプレート作成に失敗しました");
       }
     },
     async handleForceDelete(p) {
       try {
-        confirm("削除しますか？") && (await this.forceDeleteProject(p));
+        confirm("削除しますか？") && (await this.forceDeleteSnippet(p));
       } catch (e) {
-        alert("プロジェクト削除に失敗しました");
+        alert("テンプレート削除に失敗しました");
       }
     },
-    routeProject(p) {
-      return { name: "Project", params: { id: p.id } };
+    routeSnippet(p) {
+      return { name: "Snippet", params: { id: p.id } };
     },
     handleImport({ json, overwrite }) {
       json.map(async (p) => {
         try {
-          if (overwrite && this.existsProject(p.id)) {
-            await this.updateProject(p);
+          if (overwrite && this.existsSnippet(p.id)) {
+            await this.updateSnippet(p);
           } else {
-            await this.createProject(p.data);
+            await this.createSnippet(p.data);
           }
         } catch (e) {
           alert("インポートに失敗しました");

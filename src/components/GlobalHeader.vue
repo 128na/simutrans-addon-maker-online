@@ -19,13 +19,18 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <router-link class="nav-link" :to="{ name: 'About' }">
-              使い方
+              Usage
             </router-link>
           </li>
           <template v-if="isLoggedIn">
             <li class="nav-item">
               <router-link class="nav-link" :to="{ name: 'Projects' }">
-                プロジェクト管理
+                Projects
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :to="{ name: 'Snippets' }">
+                Templates
               </router-link>
             </li>
             <li class="nav-item dropdown ms-auto">

@@ -66,9 +66,10 @@
           Pak化
         </button>
 
-        <small class="ms-auto text-white"
-          >{{ project.data.updatedAt }} 更新</small
-        >
+        <small class="ms-auto text-white text-secondary text-end">
+          saved at<br />
+          {{ project.data.updatedAt }}
+        </small>
       </div>
     </nav>
   </div>

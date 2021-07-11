@@ -18,9 +18,21 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
   {
-    path: '/project/:id',
+    path: '/projects/:id',
     name: 'Project',
     component: () => import(/* webpackChunkName: "project" */ '../views/Project.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/snippets',
+    name: 'Snippets',
+    component: () => import(/* webpackChunkName: "snippet" */ '../views/Snippets.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/snippets/:id',
+    name: 'Snippet',
+    component: () => import(/* webpackChunkName: "snippet" */ '../views/Snippet.vue'),
     meta: { requiresAuth: true }
   },
   {
