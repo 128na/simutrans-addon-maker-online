@@ -11,7 +11,7 @@ export default createStore({
   state: {
     // https://firebase.google.com/docs/reference/js/firebase.User
     user: undefined,
-    projects: [],
+    projects: undefined,
     unsubscribes: [],
   },
   getters: {
@@ -20,6 +20,7 @@ export default createStore({
     userName: state => state.user.displayName,
     userId: state => state.user.uid,
     projects: state => state.projects.filter(p => !p.data.deletedAt),
+    projectLoaded: state => state.projects !== undefined,
     getProject: (state) => (id) => state.projects.find(p => p.id === id),
     existsProject: (state) => (id) => !!state.projects.find(p => p.id === id),
     trashedProjects: state => state.projects.filter(p => p.data.deletedAt),

@@ -16,28 +16,35 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="global-menu">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0" v-if="isLoggedIn">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'Projects' }">
-              プロジェクト管理
+            <router-link class="nav-link" :to="{ name: 'About' }">
+              使い方
             </router-link>
           </li>
-          <li class="nav-item dropdown ms-auto">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              data-bs-toggle="dropdown"
-            >
-              {{ userName }}
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item" href="#" @click="signout">
-                  Sign out
-                </a>
-              </li>
-            </ul>
-          </li>
+          <template v-if="isLoggedIn">
+            <li class="nav-item">
+              <router-link class="nav-link" :to="{ name: 'Projects' }">
+                プロジェクト管理
+              </router-link>
+            </li>
+            <li class="nav-item dropdown ms-auto">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                data-bs-toggle="dropdown"
+              >
+                {{ userName }}
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="#" @click="signout">
+                    Sign out
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </template>
         </ul>
       </div>
     </div>

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <common-title class="mb-3">プロジェクト管理</common-title>
-    <common-box>
+    <title-main class="mb-3">プロジェクト管理</title-main>
+    <layout-box>
       <button class="btn btn-primary" @click="handleCreate">新規作成</button>
-    </common-box>
-    <common-box>
+    </layout-box>
+    <layout-box>
       <!-- tab list -->
       <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -74,29 +74,29 @@
           </ul>
         </div>
       </div>
-    </common-box>
-    <common-sub-title class="mb-3">エクスポート</common-sub-title>
-    <common-box>
+    </layout-box>
+    <title-sub class="mb-3">エクスポート</title-sub>
+    <layout-box>
       <p>プロジェクトデータをjson形式で出力します。</p>
       <exporter :data="projects" exportName="project" />
-    </common-box>
-    <common-sub-title class="mb-3">インポート</common-sub-title>
-    <common-box>
+    </layout-box>
+    <title-sub class="mb-3">インポート</title-sub>
+    <layout-box>
       <p>json形式のプロジェクトデータを取り込みます。</p>
       <importer @import="handleImport" />
-    </common-box>
+    </layout-box>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import CommonBox from "../components/CommonBox.vue";
-import CommonSubTitle from "../components/CommonSubTitle.vue";
-import CommonTitle from "../components/CommonTitle.vue";
+import LayoutBox from "../components/LayoutBox.vue";
+import TitleSub from "../components/TitleSub.vue";
+import TitleMain from "../components/TitleMain.vue";
 import Exporter from "../components/IExporter/Exporter.vue";
 import Importer from "../components/IExporter/Importer.vue";
 export default {
-  components: { CommonTitle, CommonBox, CommonSubTitle, Exporter, Importer },
+  components: { TitleMain, LayoutBox, TitleSub, Exporter, Importer },
   name: "Projects",
   computed: {
     ...mapGetters(["projects", "trashedProjects", "existsProject"]),

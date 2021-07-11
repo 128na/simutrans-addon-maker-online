@@ -9,18 +9,22 @@
       </router-view>
     </div>
   </div>
-  <common-loading v-else class="mt-5" />
+  <layout-loading v-else class="mt-5" />
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
 import GlobalHeader from "./components/GlobalHeader.vue";
-import CommonLoading from "./components/CommonLoading.vue";
+import LayoutLoading from "./components/LayoutLoading.vue";
 
 export default {
-  components: { GlobalHeader, CommonLoading },
+  components: { GlobalHeader, LayoutLoading },
   created() {
     this.watchAuthState({
-      onLoggedIn: () => this.$router.push({ name: "Projects" }),
+      onLoggedIn: () => {
+        if (this.$route.name === "Signin") {
+          this.$router.push({ name: "Projects" });
+        }
+      },
       onLoggedOut: () => this.$router.push({ name: "Signin" }),
     });
   },

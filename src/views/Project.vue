@@ -1,7 +1,7 @@
 <template>
   <div v-if="project">
-    <common-title>{{ project.data.title }}</common-title>
-    <common-box>
+    <title-main>{{ project.data.title }}</title-main>
+    <layout-box>
       <label for="title" class="form-label">プロジェクト名</label>
       <input
         type="text"
@@ -9,8 +9,8 @@
         class="form-control"
         v-model="project.data.title"
       />
-    </common-box>
-    <common-box>
+    </layout-box>
+    <layout-box>
       <label for="filename" class="form-label">アドオン名</label>
       <div class="input-group">
         <input
@@ -21,8 +21,8 @@
         />
         <span class="input-group-text">.pak</span>
       </div>
-    </common-box>
-    <common-box>
+    </layout-box>
+    <layout-box>
       <label for="size" class="form-label">Pakサイズ</label>
       <input
         type="number"
@@ -32,15 +32,15 @@
         max="65535"
         v-model="project.data.size"
       />
-    </common-box>
-    <common-box>
+    </layout-box>
+    <layout-box>
       <label for="dat" class="form-label">Datデータ</label>
       <dat-editor v-model:value="project.data.dat" :project="project" />
-    </common-box>
-    <common-box>
+    </layout-box>
+    <layout-box>
       <label for="images" class="form-label">画像データ</label>
       <image-editor v-model:value="project.data.images" :project="project" />
-    </common-box>
+    </layout-box>
     <div class="p-4" />
     <nav class="navbar fixed-bottom navbar-dark bg-dark">
       <div class="container-fluid">
@@ -72,7 +72,7 @@
       </div>
     </nav>
   </div>
-  <common-loading v-else />
+  <layout-loading v-else />
 </template>
 
 <script>
@@ -80,16 +80,16 @@ import { mapActions, mapGetters } from "vuex";
 import { dataURL2File, download } from "../services/File";
 import { postPak } from "../services/Api";
 import ImageEditor from "../components/ImageEditor/ImageEditor.vue";
-import CommonTitle from "../components/CommonTitle.vue";
-import CommonBox from "../components/CommonBox.vue";
-import CommonLoading from "../components/CommonLoading.vue";
+import TitleMain from "../components/TitleMain.vue";
+import LayoutBox from "../components/LayoutBox.vue";
+import LayoutLoading from "../components/LayoutLoading.vue";
 import DatEditor from "../components/DatEditor/DatEditor.vue";
 export default {
   components: {
     ImageEditor,
-    CommonTitle,
-    CommonBox,
-    CommonLoading,
+    TitleMain,
+    LayoutBox,
+    LayoutLoading,
     DatEditor,
   },
   name: "Projects",
@@ -100,22 +100,33 @@ export default {
       fetching: false,
     };
   },
+  watch: {
+    projectLoaded() {
+      this.init();
+    },
+  },
   created() {
-    const prj = this.getProject(this.$route.params.id);
-    if (!prj) {
-      return this.$route.push({ name: "Projects" });
-    }
-    this.project = JSON.parse(JSON.stringify(prj));
-    this.original = JSON.parse(JSON.stringify(prj));
+    this.init();
   },
   computed: {
-    ...mapGetters(["getProject"]),
+    ...mapGetters(["projectLoaded", "getProject"]),
     hasChanged() {
       return JSON.stringify(this.project) !== JSON.stringify(this.original);
     },
   },
   methods: {
     ...mapActions(["updateProject"]),
+    init() {
+      if (!this.projectLoaded) {
+        return;
+      }
+      const prj = this.getProject(this.$route.params.id);
+      if (!prj) {
+        return;
+      }
+      this.project = JSON.parse(JSON.stringify(prj));
+      this.original = JSON.parse(JSON.stringify(prj));
+    },
     handleReset() {
       this.project = JSON.parse(JSON.stringify(this.original));
     },

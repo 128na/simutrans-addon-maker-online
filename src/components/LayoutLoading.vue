@@ -6,7 +6,5 @@
   </div>
 </template>
 <script>
-export default {
-  name: "CommonLoading",
-};
+export default {};
 </script>

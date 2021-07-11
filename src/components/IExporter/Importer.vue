@@ -1,8 +1,8 @@
 <template>
-  <common-box>
+  <layout-box>
     <input type="file" class="form-control" accept=".json" @change="handle" />
-  </common-box>
-  <common-box>
+  </layout-box>
+  <layout-box>
     <div class="form-check">
       <input
         type="checkbox"
@@ -14,13 +14,13 @@
         インポート時に同一IDのデータを上書きする
       </label>
     </div>
-  </common-box>
+  </layout-box>
 </template>
 <script>
 import { asyncTextReader } from "../../services/File";
-import CommonBox from "../CommonBox.vue";
+import LayoutBox from "../LayoutBox.vue";
 export default {
-  components: { CommonBox },
+  components: { LayoutBox },
   emits: ["import"],
   data() {
     return {
