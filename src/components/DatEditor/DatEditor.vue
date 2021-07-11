@@ -1,9 +1,9 @@
 <template>
-  <droppable-box @fileDropped="handleFileDropped">
-    <template v-slot:default="props">
-      <div class="pt-1 sp-wide">
-        <div class="row">
-          <div class="col">
+  <div class="pt-1 sp-wide">
+    <div class="row">
+      <div class="col">
+        <droppable-box @fileDropped="handleFileDropped">
+          <template v-slot:default="props">
             <textarea
               id="dat"
               class="form-control"
@@ -13,7 +13,7 @@
               @keyup="handleLine"
               @mouseup="handleLine"
             />
-            <common-box class="text-secondary">
+            <div class="text-secondary">
               <small v-show="props.dropping && !props.ctrl"
                 >ファイル内容を追加。</small
               >
@@ -23,31 +23,36 @@
               <small v-show="!props.dropping">
                 .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き。
               </small>
-            </common-box>
-          </div>
-          <div class="col">
-            <line-editor
-              :value="line"
-              :project="project"
-              @lineUpdate="handleLineUpdate"
-            />
-          </div>
+            </div>
+          </template>
+        </droppable-box>
+        <div>
+          <snippet-selector @snippetSelected="handleSnippetSelected" />
         </div>
       </div>
-    </template>
-  </droppable-box>
+      <div class="col">
+        <line-editor
+          v-if="line"
+          :value="line"
+          :project="project"
+          @lineUpdate="handleLineUpdate"
+        />
+        <div v-else>選択行のdat設定と説明が表示されます。</div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-import CommonBox from "../../components/CommonBox.vue";
 import DroppableBox from "../../components/DroppableBox.vue";
 import { asyncTextReader } from "../../services/File";
 import LineEditor from "./LineEditor.vue";
+import SnippetSelector from "./SnippetSelector/SnippetSelector.vue";
 
 export default {
   components: {
     DroppableBox,
-    CommonBox,
     LineEditor,
+    SnippetSelector,
   },
   props: ["value", "project"],
   data() {
@@ -85,6 +90,10 @@ export default {
       const lines = this.convertedValue.split("\n");
       lines.splice(this.lineNo - 1, 1, line);
       this.$emit("update:value", lines.join("\n"));
+    },
+    handleSnippetSelected(value) {
+      value = `${this.value}\n${value}`;
+      this.$emit("update:value", value);
     },
   },
 };

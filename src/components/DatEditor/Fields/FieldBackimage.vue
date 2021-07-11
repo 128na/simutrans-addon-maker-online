@@ -3,10 +3,7 @@
     <input class="form-control" v-model="item" />
   </li>
   <li class="list-group-item">
-    <small>
-      作者名。<br />
-      元にしたアドオンがある場合、原作者名を連ねて書くことが多い。
-    </small>
+    <small>車両よりも奥に表示される画像<br /> </small>
   </li>
 </template>
 <script>

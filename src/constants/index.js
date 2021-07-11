@@ -22,3 +22,9 @@ export const OBJS = [
   { value: 'way', text: '軌道', desc: '道路や線路、運河など。', link: 'https://simutrans-germany.com/wiki/wiki/en_WayDef?page_ref_id=472' },
   { value: 'way_obj', text: '軌道オブジェクト', desc: '軌道上の架線など。', link: 'https://simutrans-germany.com/wiki/wiki/en_WayobjectsDef?page_ref_id=473' },
 ];
+
+import buildings from './snippets/buildings';
+export const SNIPPETS = [
+  { name: '建物', snippets: buildings },
+  { name: '車両', snippets: [] }
+];

@@ -9,7 +9,7 @@
       </router-view>
     </div>
   </div>
-  <common-loading v-else />
+  <common-loading v-else class="mt-5" />
 </template>
 <script>
 import { mapGetters, mapActions } from "vuex";
@@ -45,7 +45,7 @@ li {
 .scale-slide-enter-active,
 .scale-slide-leave-active {
   position: absolute;
-  transition: all 0.5s ease-in-out;
+  transition: all 0.35s ease-in-out;
   width: 100%;
   height: 100%;
 }
