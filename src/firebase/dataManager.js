@@ -48,7 +48,7 @@ export default {
     listen(userId, handler) {
       return users.doc(userId)
         .collection('projects')
-        .orderBy('updatedAt', 'asc')
+        .orderBy('updatedAt', 'desc')
         .onSnapshot(col => {
           handler(col.docs.map(doc => {
             return { id: doc.id, data: doc.data() };

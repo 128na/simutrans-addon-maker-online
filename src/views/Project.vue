@@ -101,12 +101,15 @@ export default {
     };
   },
   created() {
-    const prj = this.projects.find((p) => p.id === this.$route.params.id);
+    const prj = this.getProject(this.$route.params.id);
+    if (!prj) {
+      return this.$route.push({ name: "Projects" });
+    }
     this.project = JSON.parse(JSON.stringify(prj));
     this.original = JSON.parse(JSON.stringify(prj));
   },
   computed: {
-    ...mapGetters(["projects"]),
+    ...mapGetters(["getProject"]),
     hasChanged() {
       return JSON.stringify(this.project) !== JSON.stringify(this.original);
     },
@@ -116,9 +119,13 @@ export default {
     handleReset() {
       this.project = JSON.parse(JSON.stringify(this.original));
     },
-    handleUpdate() {
-      this.updateProject(this.project);
-      this.original = JSON.parse(JSON.stringify(this.project));
+    async handleUpdate() {
+      try {
+        this.updateProject(this.project);
+        this.original = JSON.parse(JSON.stringify(this.project));
+      } catch (e) {
+        alert("プロジェクトの更新に失敗しました");
+      }
     },
     async handlePak() {
       this.fetching = true;

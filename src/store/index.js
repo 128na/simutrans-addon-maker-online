@@ -20,6 +20,8 @@ export default createStore({
     userName: state => state.user.displayName,
     userId: state => state.user.uid,
     projects: state => state.projects.filter(p => !p.data.deletedAt),
+    getProject: (state) => (id) => state.projects.find(p => p.id === id),
+    existsProject: (state) => (id) => !!state.projects.find(p => p.id === id),
     trashedProjects: state => state.projects.filter(p => p.data.deletedAt),
   },
   mutations: {

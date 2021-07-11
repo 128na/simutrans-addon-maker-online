@@ -31,7 +31,7 @@
       <div class="tab-content">
         <div class="tab-pane fade show active p-3" id="projects">
           <ul>
-            <li v-for="p in projects">
+            <li v-for="p in projects" class="mb-2">
               <div>
                 <router-link :to="routeProject(p)">
                   <span>{{ p.data.title }}</span>
@@ -44,9 +44,7 @@
                 >
               </div>
               <small>
-                <span>{{ p.data.createdAt }} 作成</span>
-                ,
-                <span>{{ p.data.updatedAt }} 更新</span>
+                <span>最終更新 {{ p.data.updatedAt }}</span>
               </small>
             </li>
           </ul>
@@ -70,12 +68,22 @@
                 >
               </div>
               <small>
-                <span>{{ p.data.createdAt }} 削除</span>
+                <span>削除日 {{ p.data.createdAt }}</span>
               </small>
             </li>
           </ul>
         </div>
       </div>
+    </common-box>
+    <common-sub-title class="mb-3">エクスポート</common-sub-title>
+    <common-box>
+      <p>プロジェクトデータをjson形式で出力します。</p>
+      <exporter :data="projects" exportName="project" />
+    </common-box>
+    <common-sub-title class="mb-3">インポート</common-sub-title>
+    <common-box>
+      <p>json形式のプロジェクトデータを取り込みます。</p>
+      <importer @import="handleImport" />
     </common-box>
   </div>
 </template>
@@ -83,16 +91,20 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import CommonBox from "../components/CommonBox.vue";
+import CommonSubTitle from "../components/CommonSubTitle.vue";
 import CommonTitle from "../components/CommonTitle.vue";
+import Exporter from "../components/IExporter/Exporter.vue";
+import Importer from "../components/IExporter/Importer.vue";
 export default {
-  components: { CommonTitle, CommonBox },
+  components: { CommonTitle, CommonBox, CommonSubTitle, Exporter, Importer },
   name: "Projects",
   computed: {
-    ...mapGetters(["projects", "trashedProjects"]),
+    ...mapGetters(["projects", "trashedProjects", "existsProject"]),
   },
   methods: {
     ...mapActions([
       "createProject",
+      "updateProject",
       "deleteProject",
       "restoreProject",
       "forceDeleteProject",
@@ -107,21 +119,42 @@ export default {
       ];
       return arr[Math.floor(Math.random() * arr.length)];
     },
-    handleCreate() {
-      this.createProject({
-        title: this.randomTitle(),
-        filename: "example",
-        isPublic: false,
-        dat: "",
-        images: {},
-        size: 64,
-      });
+    async handleCreate() {
+      try {
+        await this.createProject({
+          title: this.randomTitle(),
+          filename: "example",
+          isPublic: false,
+          dat: "",
+          images: {},
+          size: 64,
+        });
+      } catch (e) {
+        alert("プロジェクト作成に失敗しました");
+      }
     },
-    handleForceDelete(p) {
-      confirm("削除しますか？") && this.forceDeleteProject(p);
+    async handleForceDelete(p) {
+      try {
+        confirm("削除しますか？") && (await this.forceDeleteProject(p));
+      } catch (e) {
+        alert("プロジェクト削除に失敗しました");
+      }
     },
     routeProject(p) {
       return { name: "Project", params: { id: p.id } };
+    },
+    handleImport({ json, overwrite }) {
+      json.map(async (p) => {
+        try {
+          if (overwrite && this.existsProject(p.id)) {
+            await this.updateProject(p);
+          } else {
+            await this.createProject(p.data);
+          }
+        } catch (e) {
+          alert("インポートに失敗しました");
+        }
+      });
     },
   },
 };
