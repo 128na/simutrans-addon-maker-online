@@ -9,6 +9,7 @@ import FieldObj from './FieldObj';
 import FieldCopyright from './FieldCopyright';
 import FieldName from './FieldName';
 import FieldIcon from './FieldIcon';
+import FieldBackimage from './FieldBackimage';
 
 // import FieldConstraint from './FieldConstraint';
 // import FieldCost from './FieldCost';
@@ -43,6 +44,7 @@ export default {
   FieldCopyright,
   FieldName,
   FieldIcon,
+  FieldBackimage,
   // FieldConstraint,
   // FieldCost,
   // FieldCursor,

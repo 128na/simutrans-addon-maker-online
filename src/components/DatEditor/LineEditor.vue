@@ -60,6 +60,8 @@ export default {
         : "default";
       const name = camelCase(`field-${key}`, { pascalCase: true });
 
+      console.log("expected component", name);
+
       return this.$options.components[name] ? name : "FieldDefault";
     },
   },

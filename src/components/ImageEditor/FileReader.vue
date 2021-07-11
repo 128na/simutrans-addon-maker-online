@@ -8,17 +8,16 @@
       :multiple="multiple"
       @change.prevent="handleFile"
     />
-    <common-box class="text-secondary">
+    <div class="text-secondary">
       <small> ドロップでファイルを追加。同名ファイルは上書きされます。 </small>
-    </common-box>
+    </div>
   </droppable-box>
 </template>
 <script>
 import { asyncFileReader } from "../../services/File";
-import CommonBox from "../../components/CommonBox.vue";
 import DroppableBox from "./../DroppableBox.vue";
 export default {
-  components: { DroppableBox, CommonBox },
+  components: { DroppableBox },
   name: "FileReader",
   props: {
     accept: {

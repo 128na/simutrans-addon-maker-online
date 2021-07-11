@@ -18,7 +18,7 @@
   </li>
 </template>
 <script>
-import { OBJS } from "../../../services/SimuConst";
+import { OBJS } from "../../../constants/index";
 export default {
   props: ["value", "project"],
   emits: ["lineUpdate"],
