@@ -24,7 +24,74 @@ export const OBJS = [
 ];
 
 import buildings from './snippets/buildings';
+import citycars from './snippets/citycars';
+import factories from './snippets/factories';
+import fields from './snippets/fields';
+import goods from './snippets/goods';
+import smokes from './snippets/smokes';
+import vehicles from './snippets/vehicles';
+
+// import tunnels from './snippets/tunnels';
+// import bridges from './snippets/bridges';
+// import ways from './snippets/ways';
+// import wayobjects from './snippets/wayobjects';
+// import signals from './snippets/signals';
+import trees from './snippets/trees';
+import groundobjs from './snippets/groundobjs';
+// import crossings from './snippets/crossings';
+// import pedestrians from './snippets/pedestrians';
+// import cursors from './snippets/cursors';
+// import grounds from './snippets/grounds';
+// import menus from './snippets/menus';
+// import miscs from './snippets/miscs';
+// import symbols from './snippets/symbols';
+// import windowskins from './snippets/windowskins';
+
 export const SNIPPETS = [
-  { name: '建物', snippets: buildings },
-  { name: '車両', snippets: [] }
+  {
+    name: '建物', snippets: [
+      ...buildings,
+    ]
+  },
+  {
+    name: '車両', snippets: [
+      ...vehicles,
+    ]
+  },
+  {
+    name: '軌道・架線', snippets: [
+      // ...ways,
+      // ...wayobjects,
+      // ...tunnels,
+      // ...bridges,
+      // ...crossings,
+      // ...signals,
+    ]
+  },
+  {
+    name: '産業・発電所', snippets: [
+      ...factories,
+      ...fields,
+      ...smokes,
+      ...goods,
+    ]
+  },
+  {
+    name: '地形', snippets: [
+      // ...grounds,
+      ...trees,
+      ...groundobjs,
+    ]
+  },
+  {
+    name: 'その他', snippets: [
+      ...citycars,
+      // ...pedestrians,
+      // ...menus,
+      // ...miscs,
+      // ...symbols,
+      // ...cursors,
+      // ...windowskins,
+    ]
+  }
 ];
