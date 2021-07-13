@@ -2,18 +2,18 @@
   <div class="accordion" id="snippet-list">
     <div class="accordion-item border-0">
       <!-- 規定テンプレート一覧 -->
-      <template v-for="snippetList in snippetLists">
+      <template v-for="(snippetList, i) in snippetLists">
         <h2 class="accordion-header">
           <button
             class="accordion-button collapsed"
             data-bs-toggle="collapse"
-            :data-bs-target="`#snippet-${snippetList.name}`"
+            :data-bs-target="`#snippet-${i}`"
           >
             {{ snippetList.name }}
           </button>
         </h2>
         <div
-          :id="`snippet-${snippetList.name}`"
+          :id="`snippet-${i}`"
           data-bs-parent="#snippet-list"
           class="accordion-collapse collapse"
         >
@@ -21,21 +21,21 @@
             <div class="accordion-item border-0">
               <template
                 v-if="snippetList.snippets.length"
-                v-for="snippet in snippetList.snippets"
+                v-for="(snippet, j) in snippetList.snippets"
               >
                 <h2 class="accordion-header">
                   <button
                     class="accordion-button collapsed"
                     data-bs-toggle="collapse"
-                    :data-bs-target="`#snippet-${snippetList.name}-${snippet.name}`"
+                    :data-bs-target="`#snippet-${i}-${j}`"
                     @click="handleSnippet(snippet)"
                   >
                     ┗ {{ snippet.name }}
                   </button>
                 </h2>
                 <div
-                  :id="`snippet-${snippetList.name}-${snippet.name}`"
-                  :data-bs-parent="`#snippet-${snippetList.name}`"
+                  :id="`snippet-${i}-${j}`"
+                  :data-bs-parent="`#snippet-${i}`"
                   class="accordion-collapse collapse"
                 >
                   <pre
@@ -65,25 +65,28 @@
       >
         <div class="accordion">
           <div class="accordion-item border-0">
-            <template v-if="mySnippets.length" v-for="snippet in mySnippets">
+            <template
+              v-if="mySnippets.length"
+              v-for="(snippet, i) in mySnippets"
+            >
               <h2 class="accordion-header">
                 <button
                   class="accordion-button collapsed"
                   data-bs-toggle="collapse"
-                  :data-bs-target="`#snippet-mySnippet-${snippet.name}`"
-                  @click="handleSnippet(snippet)"
+                  :data-bs-target="`#snippet-mySnippet-${i}`"
+                  @click="handleSnippet(snippet.data)"
                 >
-                  ┗ {{ snippet.name }}
+                  ┗ {{ snippet.data.name }}
                 </button>
               </h2>
               <div
-                :id="`snippet-mySnippet-${snippet.name}`"
+                :id="`snippet-mySnippet-${i}`"
                 :data-bs-parent="`#snippet-mySnippet`"
                 class="accordion-collapse collapse"
               >
                 <pre
                   class="accordion-body bg-light mb-0"
-                ><code>{{ snippet.dat }}</code></pre>
+                ><code>{{ snippet.data.dat }}</code></pre>
               </div>
             </template>
             <div v-else class="accordion-body">テンプレートがありません</div>
@@ -94,16 +97,20 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 import { SNIPPETS } from "../../../constants";
+import LayoutLoading from "../../LayoutLoading.vue";
 export default {
+  components: { LayoutLoading },
   props: ["selected"],
   emits: ["select"],
   computed: {
+    ...mapGetters(["snippetLoaded", "snippets"]),
     snippetLists() {
       return SNIPPETS;
     },
     mySnippets() {
-      return [];
+      return this.snippetLoaded ? this.snippets : [];
     },
   },
   methods: {

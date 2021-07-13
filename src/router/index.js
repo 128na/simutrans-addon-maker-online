@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Projects from '../views/Projects.vue'
-import Signin from '../views/Signin.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import Projects from '../views/Projects.vue';
+import Signin from '../views/Signin.vue';
 
 const routes = [
   {
@@ -10,12 +10,29 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/project/:id',
-    name: 'Project',
+    path: '/about',
+    name: 'About',
     //   // route level code-splitting
     //   // this generates a separate chunk (about.[hash].js) for this route
     //   // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/projects/:id',
+    name: 'Project',
     component: () => import(/* webpackChunkName: "project" */ '../views/Project.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/snippets',
+    name: 'Snippets',
+    component: () => import(/* webpackChunkName: "snippet" */ '../views/Snippets.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/snippets/:id',
+    name: 'Snippet',
+    component: () => import(/* webpackChunkName: "snippet" */ '../views/Snippet.vue'),
     meta: { requiresAuth: true }
   },
   {
@@ -23,25 +40,25 @@ const routes = [
     name: 'Signin',
     component: Signin
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   linkActiveClass: 'active',
-})
+});
 
 import store from '../store';
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!store.getters.isLoggedIn) {
-      next({ name: 'Signin' })
+    if (store.getters.isInitialized && !store.getters.isLoggedIn) {
+      next({ name: 'Signin' });
     } else {
-      next()
+      next();
     }
   } else {
-    next()
+    next();
   }
 });
 
-export default router
+export default router;

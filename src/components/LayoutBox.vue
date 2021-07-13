@@ -1,10 +1,8 @@
 <template>
-  <div class="mb-3">
+  <div class="mb-4">
     <slot />
   </div>
 </template>
 <script>
-export default {
-  name: "CommonBox",
-};
+export default {};
 </script>

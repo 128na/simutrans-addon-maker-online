@@ -1,7 +1,7 @@
 <template>
   <div v-if="project">
-    <common-title>{{ project.data.title }}</common-title>
-    <common-box>
+    <title-main>{{ project.data.title }}</title-main>
+    <layout-box>
       <label for="title" class="form-label">プロジェクト名</label>
       <input
         type="text"
@@ -9,8 +9,8 @@
         class="form-control"
         v-model="project.data.title"
       />
-    </common-box>
-    <common-box>
+    </layout-box>
+    <layout-box>
       <label for="filename" class="form-label">アドオン名</label>
       <div class="input-group">
         <input
@@ -21,8 +21,8 @@
         />
         <span class="input-group-text">.pak</span>
       </div>
-    </common-box>
-    <common-box>
+    </layout-box>
+    <layout-box>
       <label for="size" class="form-label">Pakサイズ</label>
       <input
         type="number"
@@ -32,47 +32,44 @@
         max="65535"
         v-model="project.data.size"
       />
-    </common-box>
-    <common-box>
+    </layout-box>
+    <layout-box>
       <label for="dat" class="form-label">Datデータ</label>
       <dat-editor v-model:value="project.data.dat" :project="project" />
-    </common-box>
-    <common-box>
+    </layout-box>
+    <layout-box>
       <label for="images" class="form-label">画像データ</label>
       <image-editor v-model:value="project.data.images" :project="project" />
-    </common-box>
-    <div class="p-4" />
-    <nav class="navbar fixed-bottom navbar-dark bg-dark">
-      <div class="container-fluid">
-        <button
-          class="btn btn-secondary me-2"
-          @click="handleReset()"
-          :disabled="!hasChanged"
-        >
-          取消
-        </button>
-        <button
-          class="btn btn-primary me-2"
-          @click="handleUpdate"
-          :disabled="!hasChanged"
-        >
-          保存
-        </button>
-        <button
-          class="btn btn-primary me-2"
-          :disabled="fetching"
-          @click="handlePak"
-        >
-          Pak化
-        </button>
+    </layout-box>
+    <global-footer>
+      <button
+        class="btn btn-secondary me-2"
+        @click="handleReset()"
+        :disabled="!hasChanged"
+      >
+        取消
+      </button>
+      <button
+        class="btn btn-primary me-2"
+        @click="handleUpdate"
+        :disabled="!hasChanged"
+      >
+        保存
+      </button>
+      <button
+        class="btn btn-primary me-2"
+        :disabled="fetching"
+        @click="handlePak"
+      >
+        Pak化
+      </button>
 
-        <small class="ms-auto text-white"
-          >{{ project.data.updatedAt }} 更新</small
-        >
-      </div>
-    </nav>
+      <last-modified>
+        {{ project.data.updatedAt }}
+      </last-modified>
+    </global-footer>
   </div>
-  <common-loading v-else />
+  <layout-loading v-else />
 </template>
 
 <script>
@@ -80,17 +77,21 @@ import { mapActions, mapGetters } from "vuex";
 import { dataURL2File, download } from "../services/File";
 import { postPak } from "../services/Api";
 import ImageEditor from "../components/ImageEditor/ImageEditor.vue";
-import CommonTitle from "../components/CommonTitle.vue";
-import CommonBox from "../components/CommonBox.vue";
-import CommonLoading from "../components/CommonLoading.vue";
+import TitleMain from "../components/TitleMain.vue";
+import LayoutBox from "../components/LayoutBox.vue";
+import LayoutLoading from "../components/LayoutLoading.vue";
 import DatEditor from "../components/DatEditor/DatEditor.vue";
+import LastModified from "../components/LastModified.vue";
+import GlobalFooter from "../components/GlobalFooter.vue";
 export default {
   components: {
     ImageEditor,
-    CommonTitle,
-    CommonBox,
-    CommonLoading,
+    TitleMain,
+    LayoutBox,
+    LayoutLoading,
     DatEditor,
+    LastModified,
+    GlobalFooter,
   },
   name: "Projects",
   data() {
@@ -100,25 +101,43 @@ export default {
       fetching: false,
     };
   },
+  watch: {
+    projectLoaded() {
+      this.init();
+    },
+  },
   created() {
-    const prj = this.projects.find((p) => p.id === this.$route.params.id);
-    this.project = JSON.parse(JSON.stringify(prj));
-    this.original = JSON.parse(JSON.stringify(prj));
+    this.init();
   },
   computed: {
-    ...mapGetters(["projects"]),
+    ...mapGetters(["projectLoaded", "getProject"]),
     hasChanged() {
       return JSON.stringify(this.project) !== JSON.stringify(this.original);
     },
   },
   methods: {
     ...mapActions(["updateProject"]),
+    init() {
+      if (!this.projectLoaded) {
+        return;
+      }
+      const prj = this.getProject(this.$route.params.id);
+      if (!prj) {
+        return;
+      }
+      this.project = JSON.parse(JSON.stringify(prj));
+      this.original = JSON.parse(JSON.stringify(prj));
+    },
     handleReset() {
       this.project = JSON.parse(JSON.stringify(this.original));
     },
-    handleUpdate() {
-      this.updateProject(this.project);
-      this.original = JSON.parse(JSON.stringify(this.project));
+    async handleUpdate() {
+      try {
+        this.updateProject(this.project);
+        this.original = JSON.parse(JSON.stringify(this.project));
+      } catch (e) {
+        alert("プロジェクトの更新に失敗しました");
+      }
     },
     async handlePak() {
       this.fetching = true;

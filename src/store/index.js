@@ -1,37 +1,54 @@
 import { createStore } from 'vuex'
 
 import firebase from "firebase";
-import dataManager from "../firebase/dataManager";
+import persister from "../firebase/persister";
 const provider = new firebase.auth.GoogleAuthProvider();
 
 const SET_USER = 'SET_USER';
 const SET_PROJECTS = 'SET_PROJECTS';
+const SET_SNIPPETS = 'SET_SNIPPETS';
 const SET_UNSUBSCRIBES = 'SET_UNSUBSCRIBES';
+
 export default createStore({
   state: {
     // https://firebase.google.com/docs/reference/js/firebase.User
     user: undefined,
-    projects: [],
     unsubscribes: [],
+    projects: undefined,
+    snippets: undefined,
   },
   getters: {
     isInitialized: state => state.user !== undefined,
     isLoggedIn: state => !!state.user,
     userName: state => state.user.displayName,
     userId: state => state.user.uid,
-    projects: state => state.projects.filter(p => !p.data.deletedAt),
-    trashedProjects: state => state.projects.filter(p => p.data.deletedAt),
+
+    projects: state => state.projects.filter(i => !i.data.deletedAt),
+    projectLoaded: state => state.projects !== undefined,
+    getProject: (state) => (id) => state.projects.find(i => i.id === id),
+    existsProject: (state) => (id) => !!state.projects.find(i => i.id === id),
+    trashedProjects: state => state.projects.filter(i => i.data.deletedAt),
+
+    snippets: state => state.snippets.filter(i => !i.data.deletedAt),
+    snippetLoaded: state => state.snippets !== undefined,
+    getSnippet: (state) => (id) => state.snippets.find(i => i.id === id),
+    existsSnippet: (state) => (id) => !!state.snippets.find(i => i.id === id),
+    trashedSnippets: state => state.snippets.filter(i => i.data.deletedAt),
+
   },
   mutations: {
     [SET_USER](state, user) {
       state.user = user;
     },
+    [SET_UNSUBSCRIBES](state, unsubscribes) {
+      state.unsubscribes = unsubscribes;
+    },
     [SET_PROJECTS](state, projects) {
       state.projects = projects;
     },
-    [SET_UNSUBSCRIBES](state, unsubscribes) {
-      state.unsubscribes = unsubscribes;
-    }
+    [SET_SNIPPETS](state, snippets) {
+      state.snippets = snippets;
+    },
   },
   actions: {
     // リスナ追加
@@ -75,6 +92,7 @@ export default createStore({
           if (user) {
             context.commit(SET_USER, user);
             context.dispatch('watchProjectState');
+            context.dispatch('watchSnippetState');
             onLoggedIn && onLoggedIn();
           } else {
             context.commit(SET_USER, null);
@@ -89,23 +107,49 @@ export default createStore({
 
     // プロジェクト
     async createProject(context, projectData) {
-      await dataManager.project.create(context.getters.userId, projectData);
+      await persister.project.create(context.getters.userId, projectData);
     },
     async updateProject(context, project) {
-      await dataManager.project.update(context.getters.userId, project);
+      await persister.project.update(context.getters.userId, project);
     },
     async deleteProject(context, project) {
-      await dataManager.project.delete(context.getters.userId, project);
+      await persister.project.delete(context.getters.userId, project);
     },
     async restoreProject(context, project) {
-      await dataManager.project.restore(context.getters.userId, project);
+      await persister.project.restore(context.getters.userId, project);
     },
     async forceDeleteProject(context, project) {
-      await dataManager.project.forceDelete(context.getters.userId, project);
+      await persister.project.forceDelete(context.getters.userId, project);
     },
     watchProjectState(context) {
-      const unsubscribe = dataManager.project.listen(context.getters.userId, (projects) => {
+      const unsubscribe = persister.project.listen(context.getters.userId, (projects) => {
+        console.log({ projects });
         context.commit(SET_PROJECTS, projects);
+      });
+      context.dispatch('addUnsubscribe', unsubscribe);
+    },
+
+
+    // プロジェクト
+    async createSnippet(context, snippetData) {
+      await persister.snippet.create(context.getters.userId, snippetData);
+    },
+    async updateSnippet(context, snippet) {
+      await persister.snippet.update(context.getters.userId, snippet);
+    },
+    async deleteSnippet(context, snippet) {
+      await persister.snippet.delete(context.getters.userId, snippet);
+    },
+    async restoreSnippet(context, snippet) {
+      await persister.snippet.restore(context.getters.userId, snippet);
+    },
+    async forceDeleteSnippet(context, snippet) {
+      await persister.snippet.forceDelete(context.getters.userId, snippet);
+    },
+    watchSnippetState(context) {
+      const unsubscribe = persister.snippet.listen(context.getters.userId, (snippets) => {
+        console.log({ snippets });
+        context.commit(SET_SNIPPETS, snippets);
       });
       context.dispatch('addUnsubscribe', unsubscribe);
     },

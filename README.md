@@ -1,19 +1,4 @@
-# addon-builder
+# Simutrans Addon Maker Online
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+https://addon-maker.128-bit.net
+Web上でアドオンの作成・管理ができるアプリケーションです。

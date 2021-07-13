@@ -54,7 +54,7 @@ export default {
   computed: {
     buttonMessage() {
       return this.selected
-        ? `テンプレート「${this.selected.name}」を挿入`
+        ? `${this.selected.name}テンプレートを挿入`
         : "テンプレートを選択してください";
     },
   },
