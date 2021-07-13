@@ -1,7 +1,7 @@
 export default [
   {
     name: 'フィールド（畑）',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_FactoryDef#Specifying_a_field_object
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_FactoryDef#Specifying_a_field_object
 obj=field
 name=
 copyright=

@@ -1,7 +1,7 @@
 export default [
   {
     name: '自然オブジェクト（静止物）',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_GroundobjDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_GroundobjDef
 obj=tree
 name=
 copyright=
@@ -17,7 +17,7 @@ image[0][0]=image.0.0
   },
   {
     name: '自然オブジェクト（移動物）',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_GroundobjDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_GroundobjDef
 obj=tree
 name=
 copyright=

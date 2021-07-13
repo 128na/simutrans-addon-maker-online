@@ -1,7 +1,7 @@
 export default [
   {
     name: '産業',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_FactoryDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_FactoryDef
 obj=factory
 name=
 copyright=
@@ -60,7 +60,7 @@ frontimage[0][0][0][0][0]=image.0.1
 `
   }, {
     name: '発電所',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_FactoryDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_FactoryDef
 obj=factory
 # 名前末尾がkraftwerkで発電所になる
 name=example_kraftwerk

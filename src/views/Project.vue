@@ -41,37 +41,33 @@
       <label for="images" class="form-label">画像データ</label>
       <image-editor v-model:value="project.data.images" :project="project" />
     </layout-box>
-    <div class="p-4" />
-    <nav class="navbar fixed-bottom navbar-dark bg-dark">
-      <div class="container-fluid">
-        <button
-          class="btn btn-secondary me-2"
-          @click="handleReset()"
-          :disabled="!hasChanged"
-        >
-          取消
-        </button>
-        <button
-          class="btn btn-primary me-2"
-          @click="handleUpdate"
-          :disabled="!hasChanged"
-        >
-          保存
-        </button>
-        <button
-          class="btn btn-primary me-2"
-          :disabled="fetching"
-          @click="handlePak"
-        >
-          Pak化
-        </button>
+    <global-footer>
+      <button
+        class="btn btn-secondary me-2"
+        @click="handleReset()"
+        :disabled="!hasChanged"
+      >
+        取消
+      </button>
+      <button
+        class="btn btn-primary me-2"
+        @click="handleUpdate"
+        :disabled="!hasChanged"
+      >
+        保存
+      </button>
+      <button
+        class="btn btn-primary me-2"
+        :disabled="fetching"
+        @click="handlePak"
+      >
+        Pak化
+      </button>
 
-        <small class="ms-auto text-white text-secondary text-end">
-          saved at<br />
-          {{ project.data.updatedAt }}
-        </small>
-      </div>
-    </nav>
+      <last-modified>
+        {{ project.data.updatedAt }}
+      </last-modified>
+    </global-footer>
   </div>
   <layout-loading v-else />
 </template>
@@ -85,6 +81,8 @@ import TitleMain from "../components/TitleMain.vue";
 import LayoutBox from "../components/LayoutBox.vue";
 import LayoutLoading from "../components/LayoutLoading.vue";
 import DatEditor from "../components/DatEditor/DatEditor.vue";
+import LastModified from "../components/LastModified.vue";
+import GlobalFooter from "../components/GlobalFooter.vue";
 export default {
   components: {
     ImageEditor,
@@ -92,6 +90,8 @@ export default {
     LayoutBox,
     LayoutLoading,
     DatEditor,
+    LastModified,
+    GlobalFooter,
   },
   name: "Projects",
   data() {

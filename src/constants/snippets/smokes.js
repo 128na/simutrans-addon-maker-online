@@ -1,7 +1,7 @@
 export default [
   {
     name: '煙',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_SmokeDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
 obj=smoke
 name=
 copyright=

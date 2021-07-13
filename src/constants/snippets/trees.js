@@ -1,7 +1,7 @@
 export default [
   {
     name: '木',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_TreeDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_TreeDef
 obj=tree
 name=
 copyright=

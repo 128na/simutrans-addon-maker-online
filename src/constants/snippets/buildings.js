@@ -1,7 +1,7 @@
 export default [
   {
     name: '駅舎、プラットフォーム、停留所など',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_BuildingsDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
 copyright=
@@ -24,7 +24,7 @@ climates=water,desert,tropic,mediterran,temperate,tundra,rocky,arctic
 animation_time=300
 allow_underground=2
 # 画像
-cursor=image.0.0
+cursor=> image.0.0
 icon=> image.0.0
 backimage[0][0][0][0][0]=image.0.0
 frontimage[0][0][0][0][0]=image.0.0
@@ -32,7 +32,7 @@ frontimage[0][0][0][0][0]=image.0.0
   },
   {
     name: '市内建築物',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_BuildingsDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
 copyright=
@@ -56,7 +56,7 @@ backimage[0][0][0][0][0]=image.0.0
   },
   {
     name: '記念碑、特殊建築物',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_BuildingsDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
 copyright=
@@ -85,7 +85,7 @@ backimage[0][0][0][0][0]=image.0.0
   },
   {
     name: '役所',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_BuildingsDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
 copyright=
@@ -106,7 +106,7 @@ backimage[0][0][0][0][0]=image.0.0
   },
   {
     name: '本社',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_BuildingsDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
 copyright=

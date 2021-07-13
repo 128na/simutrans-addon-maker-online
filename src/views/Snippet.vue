@@ -16,30 +16,24 @@
         <textarea class="form-control" rows="12" v-model="snippet.data.dat" />
       </div>
     </layout-box>
-    <div class="p-4" />
-    <nav class="navbar fixed-bottom navbar-dark bg-dark">
-      <div class="container-fluid">
-        <button
-          class="btn btn-secondary me-2"
-          @click="handleReset()"
-          :disabled="!hasChanged"
-        >
-          取消
-        </button>
-        <button
-          class="btn btn-primary me-2"
-          @click="handleUpdate"
-          :disabled="!hasChanged"
-        >
-          保存
-        </button>
+    <global-footer>
+      <button
+        class="btn btn-secondary me-2"
+        @click="handleReset()"
+        :disabled="!hasChanged"
+      >
+        取消
+      </button>
+      <button
+        class="btn btn-primary me-2"
+        @click="handleUpdate"
+        :disabled="!hasChanged"
+      >
+        保存
+      </button>
 
-        <small class="ms-auto text-white text-secondary text-end">
-          saved at<br />
-          {{ snippet.data.updatedAt }}
-        </small>
-      </div>
-    </nav>
+      <last-modified>{{ snippet.data.updatedAt }}</last-modified>
+    </global-footer>
   </div>
   <layout-loading v-else />
 </template>
@@ -49,11 +43,15 @@ import { mapActions, mapGetters } from "vuex";
 import TitleMain from "../components/TitleMain.vue";
 import LayoutBox from "../components/LayoutBox.vue";
 import LayoutLoading from "../components/LayoutLoading.vue";
+import LastModified from "../components/LastModified.vue";
+import GlobalFooter from "../components/GlobalFooter.vue";
 export default {
   components: {
     TitleMain,
     LayoutBox,
     LayoutLoading,
+    LastModified,
+    GlobalFooter,
   },
   data() {
     return {

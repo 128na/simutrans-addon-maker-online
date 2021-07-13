@@ -1,7 +1,7 @@
 export default [
   {
     name: 'トラック・バス',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_VehicleDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_VehicleDef
 obj=vehicle
 name=
 copyright=
@@ -50,7 +50,7 @@ freightimage[0][ne]=image.0.0
   },
   {
     name: '電車',
-    dat: `# https://simutrans-germany.com/wiki/wiki/en_VehicleDef
+    dat: `# https://simutrans-germany.com/wiki/wiki/de_VehicleDef
 obj=vehicle
 name=
 copyright=
