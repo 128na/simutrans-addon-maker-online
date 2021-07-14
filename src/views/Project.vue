@@ -141,17 +141,21 @@ export default {
     },
     async handlePak() {
       this.fetching = true;
-      const images = this.images.map((image) =>
-        dataURL2File(image.src, image.name, ".png")
-      );
+      const imageUrls = Object.entries(this.project.data.images).map((img) => {
+        return {
+          filename: img[0],
+          url: img[1],
+        };
+      });
+
       try {
         const url = await postPak({
           filename: this.project.data.filename,
           size: this.project.data.size,
           dat: this.project.data.dat,
-          images,
+          imageUrls,
         });
-        download(url);
+        download(url, `${this.project.data.filename}.pak`);
       } catch (e) {
         alert(e.message);
       } finally {

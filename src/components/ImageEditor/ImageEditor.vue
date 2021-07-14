@@ -1,12 +1,12 @@
 <template>
   <!-- tab list -->
   <ul class="nav nav-tabs">
-    <li class="nav-item" v-for="image in images">
+    <li class="nav-item" v-for="(image, index) in images">
       <button
         class="nav-link"
         :class="{ active: selected === image.name }"
         data-bs-toggle="tab"
-        :data-bs-target="`#image-${image.name}`"
+        :data-bs-target="`#image-${index}`"
         @click.prevent="handleTab(image.name)"
       >
         {{ image.name }}
@@ -22,8 +22,8 @@
         active: selected === image.name,
         show: selected === image.name,
       }"
-      :id="`image-${image.name}`"
-      v-for="image in images"
+      :id="`image-${index}`"
+      v-for="(image, index) in images"
     >
       <div class="overflow-auto">
         <img :src="image.src" />
@@ -42,7 +42,7 @@
       >
     </div>
   </div>
-  <file-reader @fileRead="handleAddImages" />
+  <file-reader :projectId="project.id" @fileRead="handleAddImages" />
 </template>
 <script>
 import { download } from "../../services/File";

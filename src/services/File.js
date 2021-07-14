@@ -34,10 +34,15 @@ export const dataURL2File = function (dataURL, name) {
 };
 
 // ファイルダウンロード
-export const download = function (uri, name = '') {
+export const download = async function (url, name = '') {
+  const res = await fetch(url);
+  const blob = await res.blob();
+
+  const files = await asyncFileReader([blob]);
+
   const link = document.createElement("a");
   link.download = name;
-  link.href = uri;
+  link.href = files[0].result;
   link.target = "_blank";
   document.body.appendChild(link);
   link.click();
