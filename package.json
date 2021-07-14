@@ -8,6 +8,11 @@
     "preview": "vue-cli-service build && firebase hosting:channel:deploy preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/free-regular-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/vue-fontawesome": "^3.0.0-4",
     "camelcase": "~6",
     "core-js": "~3",
     "file-saver": "^2.0.5",

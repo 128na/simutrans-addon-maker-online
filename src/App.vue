@@ -39,6 +39,7 @@ export default {
 <style>
 body {
   font-family: "Noto Sans JP", sans-serif;
+  font-weight: 300;
 }
 ul {
   padding-left: 0rem;
@@ -46,6 +47,10 @@ ul {
 li {
   list-style: none;
 }
+.navbar-brand {
+  font-weight: 700;
+}
+
 .scale-slide-enter-active,
 .scale-slide-leave-active {
   position: absolute;

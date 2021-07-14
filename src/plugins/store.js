@@ -1,8 +1,8 @@
 import { createStore } from 'vuex'
 
 import firebase from "firebase";
+import app from "../firebase";
 import persister from "../firebase/persister";
-const provider = new firebase.auth.GoogleAuthProvider();
 
 const SET_USER = 'SET_USER';
 const SET_PROJECTS = 'SET_PROJECTS';
@@ -20,7 +20,7 @@ export default createStore({
   getters: {
     isInitialized: state => state.user !== undefined,
     isLoggedIn: state => !!state.user,
-    userName: state => state.user.displayName,
+    userName: state => state.user.displayName || 'Guest',
     userId: state => state.user.uid,
 
     projects: state => state.projects.filter(i => !i.data.deletedAt),
@@ -62,16 +62,37 @@ export default createStore({
     },
 
     // 認証
-    async signin(context) {
+    async signin(context, provider = null) {
       try {
         // 認証永続化
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        const result = await firebase.auth().signInWithPopup(provider);
+        const result = provider
+          ? await firebase.auth().signInWithPopup(new app.authProviders[provider])
+          : await firebase.auth().signInAnonymously();
+
         const user = result.user;
         context.commit(SET_USER, user);
       } catch (e) {
         console.log(e);
         alert('ログインに失敗しました');
+      }
+    },
+    async link(context, provider) {
+      try {
+        await firebase.auth().currentUser.linkWithPopup(new app.authProviders[provider]);
+        alert('連携しました');
+      } catch (e) {
+        console.log(e);
+        alert('連携に失敗しました');
+      }
+    },
+    async unlink(context, provider) {
+      try {
+        await firebase.auth().currentUser.unlink(app.authProviders[provider].PROVIDER_ID);
+        alert('連携解除しました');
+      } catch (e) {
+        console.log(e);
+        alert('連携解除に失敗しました');
       }
     },
     async signout(context) {
@@ -85,6 +106,7 @@ export default createStore({
         alert('ログアウトに失敗しました');
       }
     },
+
     // firebaseの認証状態変化に応じてステートを更新する
     watchAuthState(context, { onLoggedIn, onLoggedOut }) {
       try {

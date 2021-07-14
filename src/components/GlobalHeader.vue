@@ -34,20 +34,9 @@
               </router-link>
             </li>
             <li class="nav-item dropdown ms-auto">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                data-bs-toggle="dropdown"
-              >
+              <router-link class="nav-link" :to="{ name: 'User' }">
                 {{ userName }}
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="#" @click="signout">
-                    Sign out
-                  </a>
-                </li>
-              </ul>
+              </router-link>
             </li>
           </template>
         </ul>
@@ -56,7 +45,7 @@
   </nav>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "GlobalHeader",
   computed: {
@@ -70,9 +59,6 @@ export default {
     version() {
       return process.env.VUE_APP_VERSION;
     },
-  },
-  methods: {
-    ...mapActions(["signout"]),
   },
 };
 </script>

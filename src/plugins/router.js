@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Projects from '../views/Projects.vue';
 import Signin from '../views/Signin.vue';
+import User from '../views/User.vue';
 
 const routes = [
   {
@@ -16,6 +17,16 @@ const routes = [
     //   // this generates a separate chunk (about.[hash].js) for this route
     //   // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/signin',
+    name: 'Signin',
+    component: Signin
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: User
   },
   {
     path: '/projects/:id',
@@ -35,11 +46,6 @@ const routes = [
     component: () => import(/* webpackChunkName: "snippet" */ '../views/Snippet.vue'),
     meta: { requiresAuth: true }
   },
-  {
-    path: '/signin',
-    name: 'Signin',
-    component: Signin
-  },
 ];
 
 const router = createRouter({
@@ -48,7 +54,7 @@ const router = createRouter({
   linkActiveClass: 'active',
 });
 
-import store from '../store';
+import store from './store';
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isInitialized && !store.getters.isLoggedIn) {
