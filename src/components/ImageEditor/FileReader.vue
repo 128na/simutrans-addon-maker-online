@@ -16,6 +16,8 @@
 <script>
 import { asyncFileReader } from "../../services/File";
 import DroppableBox from "./../DroppableBox.vue";
+import filePersister from "./../../firebase/filePersister";
+import { mapGetters } from "vuex";
 export default {
   components: { DroppableBox },
   name: "FileReader",
@@ -27,6 +29,9 @@ export default {
     multiple: {
       type: Boolean,
       default: true,
+    },
+    projectId: {
+      type: String,
     },
   },
   data() {
@@ -42,15 +47,24 @@ export default {
       this.processFiles(files.filter((f) => f.name.endsWith(".png")));
     },
     async processFiles(files) {
-      const result = await asyncFileReader(
-        files.filter((f) => f.name.endsWith(".png"))
-      );
       const images = {};
-      result
-        .filter((f) => f.result)
-        .map((f) => (images[f.file.name] = f.result));
+
+      for (const file of files) {
+        if (file.name.endsWith(".png")) {
+          const url = await filePersister.project.upload(
+            this.userId,
+            this.projectId,
+            file
+          );
+          console.log({ url });
+          images[file.name] = url;
+        }
+      }
       this.$emit("fileRead", images);
     },
+  },
+  computed: {
+    ...mapGetters(["userId"]),
   },
 };
 </script>

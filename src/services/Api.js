@@ -1,20 +1,12 @@
 // pak化実行
-export const postPak = async function ({ filename, size, dat, images }) {
-  const formData = new FormData();
-  formData.append("filename", filename);
-  formData.append("size", size);
-  formData.append("dat", dat);
-
-  images.map((image, index) => {
-    formData.append(`images[${index}]`, image);
-  });
-
+export const postPak = async function (data) {
   const url = process.env.VUE_APP_MAKEOBJ_API_URL
   const res = await fetch(url, {
     method: "POST",
-    body: formData,
+    body: JSON.stringify(data),
     headers: {
       Accept: "application/json",
+      'Content-Type': 'application/json'
     },
   });
 
