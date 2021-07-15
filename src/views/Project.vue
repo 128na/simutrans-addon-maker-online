@@ -56,13 +56,13 @@
       >
         保存
       </button>
-      <button
+      <button-loading
+        :loading="fetching"
         class="btn btn-primary me-2"
-        :disabled="fetching"
         @click="handlePak"
       >
         Pak化
-      </button>
+      </button-loading>
 
       <last-modified>
         {{ project.data.updatedAt }}
@@ -83,6 +83,7 @@ import LayoutLoading from "../components/LayoutLoading.vue";
 import DatEditor from "../components/DatEditor/DatEditor.vue";
 import LastModified from "../components/LastModified.vue";
 import GlobalFooter from "../components/GlobalFooter.vue";
+import ButtonLoading from "../components/Buttons/ButtonLoading.vue";
 export default {
   components: {
     ImageEditor,
@@ -92,6 +93,7 @@ export default {
     DatEditor,
     LastModified,
     GlobalFooter,
+    ButtonLoading,
   },
   name: "Projects",
   data() {
@@ -141,19 +143,12 @@ export default {
     },
     async handlePak() {
       this.fetching = true;
-      const imageUrls = Object.entries(this.project.data.images).map((img) => {
-        return {
-          filename: img[0],
-          url: img[1],
-        };
-      });
-
       try {
         const url = await postPak({
           filename: this.project.data.filename,
           size: this.project.data.size,
           dat: this.project.data.dat,
-          imageUrls,
+          imageUrls: this.project.data.imageUrls,
         });
         download(url, `${this.project.data.filename}.pak`);
       } catch (e) {
