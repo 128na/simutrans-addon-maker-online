@@ -9,7 +9,7 @@
             data-bs-toggle="collapse"
             :data-bs-target="`#snippet-${i}`"
           >
-            {{ snippetList.name }}
+            {{ snippetList.title }}
           </button>
         </h2>
         <div
@@ -30,7 +30,7 @@
                     :data-bs-target="`#snippet-${i}-${j}`"
                     @click="handleSnippet(snippet)"
                   >
-                    ┗ {{ snippet.name }}
+                    ┗ {{ snippet.title }}
                   </button>
                 </h2>
                 <div
@@ -76,7 +76,7 @@
                   :data-bs-target="`#snippet-mySnippet-${i}`"
                   @click="handleSnippet(snippet.data)"
                 >
-                  ┗ {{ snippet.data.name }}
+                  ┗ {{ snippet.data.title }}
                 </button>
               </h2>
               <div

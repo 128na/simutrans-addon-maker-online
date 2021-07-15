@@ -1,6 +1,6 @@
 export default [
   {
-    name: '地形陰影',
+    title: '地形陰影',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=LightTexture
@@ -22,7 +22,7 @@ image[14][0]=image.0.14
 `
   },
   {
-    name: '海岸線フェード',
+    title: '海岸線フェード',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=ShoreTrans
@@ -33,7 +33,7 @@ image[3][0]=image.0.3
 `
   },
   {
-    name: '傾斜フェード',
+    title: '傾斜フェード',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=SlopeTrans
@@ -44,7 +44,7 @@ image[3][0]=image.0.3
 `
   },
   {
-    name: '気候テクスチャ',
+    title: '気候テクスチャ',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=ClimateTexture
@@ -59,7 +59,7 @@ image[7][0]=image.0.7
 `
   },
   {
-    name: '水面テクスチャ',
+    title: '水面テクスチャ',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=Water
@@ -72,7 +72,7 @@ image[5][0]=image.0.5
 `
   },
   {
-    name: 'マップ外テクスチャ',
+    title: 'マップ外テクスチャ',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=Outside
@@ -80,7 +80,7 @@ image[0][0]=image.0.0
 `
   },
   {
-    name: '地形グリッド',
+    title: '地形グリッド',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=Borders
@@ -95,7 +95,7 @@ image[7][0]=image.0.7
 `
   },
   {
-    name: '選択タイル縁取り',
+    title: '選択タイル縁取り',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=Marker
@@ -118,7 +118,7 @@ image[15][0]=image.0.15
 `
   },
   {
-    name: '段差フェンス',
+    title: '段差フェンス',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=Fence
@@ -131,7 +131,7 @@ image[5][0]=image.0.5
 `
   },
   {
-    name: 'スロープ壁面（市内）',
+    title: 'スロープ壁面（市内）',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=Basement
@@ -160,7 +160,7 @@ image[21][0]=image.0.21
 `
   },
   {
-    name: 'スロープ壁面（市外）',
+    title: 'スロープ壁面（市外）',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=Slopes

@@ -47,20 +47,21 @@ export default {
       this.processFiles(files.filter((f) => f.name.endsWith(".png")));
     },
     async processFiles(files) {
-      const images = {};
+      const value = await Promise.all(
+        files.map(async (f) => {
+          return {
+            filename: f.name,
+            url: await filePersister.project.upload(
+              this.userId,
+              this.projectId,
+              f
+            ),
+          };
+        })
+      );
+      console.log({ value });
 
-      for (const file of files) {
-        if (file.name.endsWith(".png")) {
-          const url = await filePersister.project.upload(
-            this.userId,
-            this.projectId,
-            file
-          );
-          console.log({ url });
-          images[file.name] = url;
-        }
-      }
-      this.$emit("fileRead", images);
+      this.$emit("fileRead", value);
     },
   },
   computed: {

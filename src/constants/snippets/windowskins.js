@@ -1,6 +1,6 @@
 export default [
   {
-    name: 'ウィンドウスキン',
+    title: 'ウィンドウスキン',
     dat: `# https://simutrans-germany.com/wiki/wiki/en_WindowSkinDef
 obj=menu
 name=WindowSkin

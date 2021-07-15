@@ -34,7 +34,7 @@
             <li v-for="p in snippets" class="mb-2">
               <div>
                 <router-link :to="routeSnippet(p)">
-                  <span>{{ p.data.name }}</span>
+                  <span>{{ p.data.title }}</span>
                 </router-link>
                 <a
                   href="#"
@@ -53,7 +53,7 @@
           <ul>
             <li v-for="p in trashedSnippets">
               <div>
-                <span>{{ p.data.name }}</span>
+                <span>{{ p.data.title }}</span>
                 <a
                   href="#"
                   class="text-secondary mx-1"
@@ -127,7 +127,7 @@ export default {
     async handleCreate() {
       try {
         await this.createSnippet({
-          name: this.randomTitle(),
+          title: this.randomTitle(),
           dat: "",
         });
       } catch (e) {

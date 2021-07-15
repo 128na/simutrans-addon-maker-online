@@ -1,6 +1,6 @@
 export default [
   {
-    name: 'カーソル',
+    title: 'カーソル',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_CursorDef
 # 調査
 obj=cursor

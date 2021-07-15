@@ -1,6 +1,6 @@
 export default [
   {
-    name: '踏切',
+    title: '踏切',
     dat: `#https://simutrans-germany.com/wiki/wiki/de_CrossingDef
 obj=crossing
 name=

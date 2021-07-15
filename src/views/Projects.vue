@@ -129,10 +129,9 @@ export default {
         await this.createProject({
           title: this.randomTitle(),
           filename: "example",
-          isPublic: false,
           dat: "",
-          images: {},
           size: 64,
+          imageUrls: [],
         });
       } catch (e) {
         alert("プロジェクト作成に失敗しました");

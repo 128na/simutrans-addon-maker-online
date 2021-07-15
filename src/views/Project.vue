@@ -39,7 +39,7 @@
     </layout-box>
     <layout-box>
       <label for="images" class="form-label">画像データ</label>
-      <image-editor v-model:value="project.data.images" :project="project" />
+      <image-editor v-model:value="project.data.imageUrls" :project="project" />
     </layout-box>
     <global-footer>
       <button

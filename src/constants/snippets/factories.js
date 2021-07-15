@@ -1,6 +1,6 @@
 export default [
   {
-    name: '産業',
+    title: '産業',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_FactoryDef
 obj=factory
 name=
@@ -59,7 +59,7 @@ backimage[0][0][0][0][0]=image.0.1
 frontimage[0][0][0][0][0]=image.0.1
 `
   }, {
-    name: '発電所',
+    title: '発電所',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_FactoryDef
 obj=factory
 # 名前末尾がkraftwerkで発電所になる

@@ -1,6 +1,6 @@
 export default [
   {
-    name: '駅舎、プラットフォーム、停留所など',
+    title: '駅舎、プラットフォーム、停留所など',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
@@ -31,7 +31,7 @@ frontimage[0][0][0][0][0]=image.0.0
 `
   },
   {
-    name: '市内建築物',
+    title: '市内建築物',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
@@ -55,7 +55,7 @@ backimage[0][0][0][0][0]=image.0.0
 `
   },
   {
-    name: '記念碑、特殊建築物',
+    title: '記念碑、特殊建築物',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
@@ -84,7 +84,7 @@ backimage[0][0][0][0][0]=image.0.0
     `
   },
   {
-    name: '役所',
+    title: '役所',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
@@ -105,7 +105,7 @@ backimage[0][0][0][0][0]=image.0.0
     `
   },
   {
-    name: '本社',
+    title: '本社',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=

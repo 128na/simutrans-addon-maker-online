@@ -1,6 +1,6 @@
 export default [
   {
-    name: '自家用車',
+    title: '自家用車',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
 obj=citycar
 name=

@@ -1,6 +1,6 @@
 export default [
   {
-    name: 'トンネル',
+    title: 'トンネル',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_TunnelDef
 obj=tunnel
 name=
@@ -29,7 +29,7 @@ frontimage[w][0]=image.0.0
     `
   },
   {
-    name: 'トンネル（複線対応）',
+    title: 'トンネル（複線対応）',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_TunnelDef
 obj=tunnel
 name=

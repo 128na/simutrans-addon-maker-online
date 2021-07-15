@@ -4,10 +4,10 @@
       {{ value || "(空行)" }}
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item" v-if="hasImage">
+      <li class="list-group-item" v-if="imageUrl">
         <image-preview
           :line="parsed[3]"
-          :images="project.data.images"
+          :imageUrl="imageUrl"
           :size="project.data.size"
           :isStatic="isStatic"
         />
@@ -28,7 +28,19 @@ import ImagePreview from "./ImagePreview.vue";
 import Fields from "./Fields/ImportAll";
 import camelCase from "camelcase";
 
-const imageNames = ["image", "icon", "cursor"];
+const hasImage = [
+  "image",
+  "icon",
+  "cursor",
+  "backstart",
+  "frontstart",
+  "backramp",
+  "frontramp",
+  "backpillar",
+  "frontpillar",
+  "diagonal",
+];
+
 export default {
   props: ["value", "project"],
   components: { ImagePreview, ...Fields },
@@ -36,11 +48,20 @@ export default {
     parsed() {
       return parseLine(this.value);
     },
-    hasImage() {
-      return (
-        this.parsed &&
-        imageNames.some((name) => this.parsed[1].toLowerCase().includes(name))
-      );
+    imageUrl() {
+      if (
+        hasImage.some((name) => this.parsed[1].toLowerCase().includes(name))
+      ) {
+        const filename = `${this.parsed[3].split(".")[0]}.png`;
+        console.log({ filename });
+        const image = this.project.data.imageUrls.find(
+          (i) => i.filename === filename
+        );
+        console.log({ image });
+        if (image) {
+          return image.url;
+        }
+      }
     },
     isStatic() {
       return this.parsed && this.parsed[2] === "=> ";

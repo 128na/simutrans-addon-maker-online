@@ -1,13 +1,13 @@
 <template>
   <div v-if="snippet">
-    <title-main>{{ snippet.data.name }}</title-main>
+    <title-main>{{ snippet.data.title }}</title-main>
     <layout-box>
-      <label for="name" class="form-label">テンプレート名</label>
+      <label for="title" class="form-label">テンプレート名</label>
       <input
         type="text"
-        id="name"
+        id="title"
         class="form-control"
-        v-model="snippet.data.name"
+        v-model="snippet.data.title"
       />
     </layout-box>
     <layout-box>
