@@ -40,9 +40,9 @@ export default {
   },
   methods: {
     handleInsert() {
-      const modal = bootstrap.Modal.getInstance(this.$refs["modal"]);
-      if (modal) {
-        modal.hide();
+      const instance = bootstrap.Modal.getInstance(this.$refs["modal"]);
+      if (instance) {
+        instance.hide();
       }
 
       this.$emit("snippetSelected", this.selected.dat);

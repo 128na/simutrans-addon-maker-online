@@ -5,7 +5,7 @@
       {{ desc }}
     </layout-box>
     <title-main>Signin</title-main>
-    <layout-box class="login-buttons">
+    <layout-box class="d-grid gap-3">
       <button-google @click.prevent="signin('google')" />
       <button-twitter @click.prevent="signin('twitter')" />
       <button-anonymous @click.prevent="signin()" />
@@ -44,12 +44,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.login-buttons button {
-  text-align: left;
-  display: block;
-  margin-bottom: 1rem;
-  width: 15rem;
-  max-width: 100%;
-}
-</style>

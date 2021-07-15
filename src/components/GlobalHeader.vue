@@ -1,7 +1,11 @@
 <template>
   <nav class="navbar navbar-dark navbar-expand-md bg-dark">
     <div class="container-fluid">
-      <router-link class="navbar-brand" :to="{ name: 'Projects' }">
+      <router-link
+        class="navbar-brand"
+        :to="{ name: 'Projects' }"
+        @click="handleClick"
+      >
         <span class="d-none d-sm-inline">
           {{ title }}
           <small class="ms-2">v {{ version }}</small>
@@ -15,26 +19,42 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="global-menu">
+      <div class="collapse navbar-collapse" id="global-menu" ref="global-menu">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link class="nav-link" :to="{ name: 'About' }">
+            <router-link
+              class="nav-link"
+              :to="{ name: 'About' }"
+              @click="handleClick"
+            >
               Usage
             </router-link>
           </li>
           <template v-if="isLoggedIn">
             <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'Projects' }">
+              <router-link
+                class="nav-link"
+                :to="{ name: 'Projects' }"
+                @click="handleClick"
+              >
                 Projects
               </router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :to="{ name: 'Snippets' }">
+              <router-link
+                class="nav-link"
+                :to="{ name: 'Snippets' }"
+                @click="handleClick"
+              >
                 Templates
               </router-link>
             </li>
-            <li class="nav-item dropdown ms-auto">
-              <router-link class="nav-link" :to="{ name: 'User' }">
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
+                :to="{ name: 'User' }"
+                @click="handleClick"
+              >
                 {{ userName }}
               </router-link>
             </li>
@@ -58,6 +78,16 @@ export default {
     },
     version() {
       return process.env.VUE_APP_VERSION;
+    },
+  },
+  methods: {
+    handleClick() {
+      const instance = bootstrap.Collapse.getInstance(
+        this.$refs["global-menu"]
+      );
+      if (instance) {
+        instance.hide();
+      }
     },
   },
 };
