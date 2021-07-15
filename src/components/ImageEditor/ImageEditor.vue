@@ -26,7 +26,13 @@
       v-for="(image, index) in value"
     >
       <div class="overflow-auto">
-        <img :src="image.url" />
+        <div class="position-relative d-inline-block">
+          <img :src="image.url" />
+          <svg-grid
+            :id="`preview-${index}`"
+            :size.number="this.project.data.size"
+          />
+        </div>
       </div>
       <a
         href="#"
@@ -43,10 +49,11 @@
 </template>
 <script>
 import { download } from "../../services/File";
+import SvgGrid from "../Svg/SvgGrid.vue";
 import FileReader from "./FileReader.vue";
 export default {
   props: ["value", "project"],
-  components: { FileReader },
+  components: { FileReader, SvgGrid },
   data() {
     return {
       selected: 0,
@@ -57,7 +64,6 @@ export default {
       this.selected = index;
     },
     handleAddImages(images) {
-      console.log({ images });
       const tmp = {};
       [...this.value, ...images].map((i) => (tmp[i.filename] = i.url));
 

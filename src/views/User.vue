@@ -46,9 +46,6 @@ import { DateTime } from "luxon";
 import { mapState, mapGetters, mapActions } from "vuex";
 export default {
   components: { TitleMain, LayoutBox, TitleSub },
-  mounted() {
-    console.log(this.user);
-  },
   methods: {
     ...mapActions(["signout", "link", "unlink", "deleteUser"]),
     handleUnlink(provider) {

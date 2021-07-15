@@ -59,8 +59,6 @@ export default {
           };
         })
       );
-      console.log({ value });
-
       this.$emit("fileRead", value);
     },
   },

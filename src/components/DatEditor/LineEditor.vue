@@ -53,11 +53,9 @@ export default {
         hasImage.some((name) => this.parsed[1].toLowerCase().includes(name))
       ) {
         const filename = `${this.parsed[3].split(".")[0]}.png`;
-        console.log({ filename });
         const image = this.project.data.imageUrls.find(
           (i) => i.filename === filename
         );
-        console.log({ image });
         if (image) {
           return image.url;
         }

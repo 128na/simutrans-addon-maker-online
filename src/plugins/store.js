@@ -73,7 +73,7 @@ export default createStore({
         const user = result.user;
         context.commit(SET_USER, user);
       } catch (e) {
-        console.log(e);
+        console.error(e);
         alert('ログインに失敗しました');
       }
     },
@@ -82,7 +82,7 @@ export default createStore({
         await firebase.auth().currentUser.linkWithPopup(new app.authProviders[provider]);
         alert('連携しました');
       } catch (e) {
-        console.log(e);
+        console.error(e);
         alert('連携に失敗しました');
       }
     },
@@ -91,7 +91,7 @@ export default createStore({
         await firebase.auth().currentUser.unlink(app.authProviders[provider].PROVIDER_ID);
         alert('連携解除しました');
       } catch (e) {
-        console.log(e);
+        console.error(e);
         alert('連携解除に失敗しました');
       }
     },
@@ -102,7 +102,7 @@ export default createStore({
         context.commit(SET_USER, null);
         context.commit(SET_PROJECTS, []);
       } catch (e) {
-        console.log(e);
+        console.error(e);
         alert('ログアウトに失敗しました');
       }
     },
@@ -122,7 +122,7 @@ export default createStore({
           }
         });
       } catch (e) {
-        console.log(e);
+        console.error(e);
         alert('無念！認証ステートチェックに失敗しました');
       }
     },
