@@ -6,9 +6,9 @@
         <dt>ユーザー名</dt>
         <dd>{{ userName }}</dd>
         <dt>登録</dt>
-        <dd>{{ creationTime }}</dd>
+        <dd><text-date-time :value="user.metadata.creationTime" /></dd>
         <dt>最終サインイン</dt>
-        <dd>{{ lastSignInTime }}</dd>
+        <dd><text-date-time :value="user.metadata.lastSignInTime" /></dd>
       </dl>
       <button class="btn btn-primary" @click="signout">サインアウト</button>
     </layout-box>
@@ -36,16 +36,20 @@
         既にこのアプリに連携しているアカウント同士、匿名アカウントとは連携できません
       </small>
     </layout-box>
+    <title-sub>ユーザーデータ削除</title-sub>
+    <layout-box>
+      <div>作成したデータを削除します。</div>
+    </layout-box>
   </div>
 </template>
 <script>
-import TitleMain from "../components/TitleMain.vue";
+import TitleMain from "../components/Text/TitleMain.vue";
 import LayoutBox from "../components/LayoutBox.vue";
-import TitleSub from "../components/TitleSub.vue";
-import { DateTime } from "luxon";
+import TitleSub from "../components/Text/TitleSub.vue";
 import { mapState, mapGetters, mapActions } from "vuex";
+import TextDateTime from "../components/Text/TextDateTime.vue";
 export default {
-  components: { TitleMain, LayoutBox, TitleSub },
+  components: { TitleMain, LayoutBox, TitleSub, TextDateTime },
   methods: {
     ...mapActions(["signout", "link", "unlink", "deleteUser"]),
     handleUnlink(provider) {
@@ -62,19 +66,6 @@ export default {
   computed: {
     ...mapState(["user"]),
     ...mapGetters(["isLoggedIn", "userName", "userId"]),
-    creationTime() {
-      return DateTime.fromHTTP(this.user.metadata.creationTime).toLocaleString(
-        DateTime.DATETIME_FULL
-      );
-    },
-    lastSignInTime() {
-      return DateTime.fromHTTP(
-        this.user.metadata.lastSignInTime
-      ).toLocaleString(DateTime.DATETIME_FULL);
-    },
-    isAnonymous() {
-      this.user.isAnonymous;
-    },
   },
 };
 </script>

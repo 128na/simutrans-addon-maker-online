@@ -65,7 +65,7 @@
       </button-loading>
 
       <last-modified>
-        {{ project.data.updatedAt }}
+        <text-date-time :value="project.data.updatedAt" />
       </last-modified>
     </global-footer>
   </div>
@@ -77,13 +77,14 @@ import { mapActions, mapGetters } from "vuex";
 import { dataURL2File, download } from "../services/File";
 import { postPak } from "../services/Api";
 import ImageEditor from "../components/ImageEditor/ImageEditor.vue";
-import TitleMain from "../components/TitleMain.vue";
+import TitleMain from "../components/Text/TitleMain.vue";
 import LayoutBox from "../components/LayoutBox.vue";
 import LayoutLoading from "../components/LayoutLoading.vue";
 import DatEditor from "../components/DatEditor/DatEditor.vue";
-import LastModified from "../components/LastModified.vue";
+import LastModified from "../components/Text/LastModified.vue";
 import GlobalFooter from "../components/GlobalFooter.vue";
 import ButtonLoading from "../components/Buttons/ButtonLoading.vue";
+import TextDateTime from "../components/Text/TextDateTime.vue";
 export default {
   components: {
     ImageEditor,
@@ -94,8 +95,9 @@ export default {
     LastModified,
     GlobalFooter,
     ButtonLoading,
+    TextDateTime,
   },
-  name: "Projects",
+  name: "Project",
   data() {
     return {
       project: null,

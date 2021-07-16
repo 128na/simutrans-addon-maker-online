@@ -1,6 +1,6 @@
 <template>
   <!-- tab list -->
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs" v-show="value.length">
     <li class="nav-item" v-for="(image, index) in value">
       <button
         class="nav-link"
@@ -15,7 +15,7 @@
   </ul>
 
   <!-- tab content -->
-  <div class="tab-content">
+  <div class="tab-content" v-show="value.length">
     <div
       class="tab-pane fade p-3"
       :class="{

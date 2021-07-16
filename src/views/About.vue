@@ -36,9 +36,9 @@
   </div>
 </template>
 <script>
-import TitleMain from "../components/TitleMain.vue";
+import TitleMain from "../components/Text/TitleMain.vue";
 import LayoutBox from "../components/LayoutBox.vue";
-import TitleSub from "../components/TitleSub.vue";
+import TitleSub from "../components/Text/TitleSub.vue";
 export default {
   components: { TitleMain, LayoutBox, TitleSub },
   computed: {

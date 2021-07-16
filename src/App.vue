@@ -25,7 +25,11 @@ export default {
           this.$router.push({ name: "Projects" });
         }
       },
-      onLoggedOut: () => this.$router.push({ name: "Signin" }),
+      onLoggedOut: () => {
+        if (this.$route.meta.requiresAuth) {
+          this.$router.push({ name: "Signin" });
+        }
+      },
     });
   },
   computed: {

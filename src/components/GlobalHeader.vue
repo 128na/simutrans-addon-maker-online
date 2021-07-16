@@ -27,7 +27,7 @@
               :to="{ name: 'About' }"
               @click="handleClick"
             >
-              Usage
+              使い方
             </router-link>
           </li>
           <template v-if="isLoggedIn">
@@ -37,7 +37,7 @@
                 :to="{ name: 'Projects' }"
                 @click="handleClick"
               >
-                Projects
+                プロジェクト
               </router-link>
             </li>
             <li class="nav-item">
@@ -46,7 +46,7 @@
                 :to="{ name: 'Snippets' }"
                 @click="handleClick"
               >
-                Templates
+                テンプレート
               </router-link>
             </li>
             <li class="nav-item">
@@ -56,6 +56,17 @@
                 @click="handleClick"
               >
                 {{ userName }}
+              </router-link>
+            </li>
+          </template>
+          <template v-else>
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
+                :to="{ name: 'Signin' }"
+                @click="handleClick"
+              >
+                Signin
               </router-link>
             </li>
           </template>

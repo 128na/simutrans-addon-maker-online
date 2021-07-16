@@ -32,7 +32,9 @@
         保存
       </button>
 
-      <last-modified>{{ snippet.data.updatedAt }}</last-modified>
+      <last-modified>
+        <text-date-time :value="snippet.data.updatedAt" />
+      </last-modified>
     </global-footer>
   </div>
   <layout-loading v-else />
@@ -40,11 +42,12 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import TitleMain from "../components/TitleMain.vue";
+import TitleMain from "../components/Text/TitleMain.vue";
 import LayoutBox from "../components/LayoutBox.vue";
 import LayoutLoading from "../components/LayoutLoading.vue";
-import LastModified from "../components/LastModified.vue";
+import LastModified from "../components/Text/LastModified.vue";
 import GlobalFooter from "../components/GlobalFooter.vue";
+import TextDateTime from "../components/Text/TextDateTime.vue";
 export default {
   components: {
     TitleMain,
@@ -52,6 +55,7 @@ export default {
     LayoutLoading,
     LastModified,
     GlobalFooter,
+    TextDateTime,
   },
   data() {
     return {
