@@ -6,11 +6,11 @@
         :to="{ name: 'Projects' }"
         @click="handleClick"
       >
-        <span class="d-none d-sm-inline">
+        <span class="d-md-inline d-none">
           {{ title }}
           <small class="ms-2">v {{ version }}</small>
         </span>
-        <span class="d-sm-none">Addon Maker</span>
+        <span class="d-md-none">Simutrans Addon Maker</span>
       </router-link>
       <button
         class="navbar-toggler"

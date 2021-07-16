@@ -1,13 +1,10 @@
 <template>
   <div>
-    <title-main>About</title-main>
-    <layout-box>
-      {{ desc }}
-    </layout-box>
     <title-main>Signin</title-main>
     <layout-box class="d-grid gap-3">
       <button-google @click.prevent="signin('google')" />
       <button-twitter @click.prevent="signin('twitter')" />
+      <button @click.prevent="handlePortal">Portal Login</button>
       <button-anonymous @click.prevent="signin()" />
       <small>
         ※
@@ -24,7 +21,8 @@ import ButtonGoogle from "../components/Buttons/ButtonGoogle.vue";
 import ButtonTwitter from "../components/Buttons/ButtonTwitter.vue";
 import ButtonAnonymous from "../components/Buttons/ButtonAnonymous.vue";
 import LayoutBox from "../components/LayoutBox.vue";
-import TitleMain from "../components/TitleMain.vue";
+import TitleMain from "../components/Text/TitleMain.vue";
+import portal from "../plugins/portal";
 export default {
   name: "Signin",
   components: {
@@ -41,6 +39,9 @@ export default {
   },
   methods: {
     ...mapActions(["signin"]),
+    handlePortal() {
+      portal.signin();
+    },
   },
 };
 </script>

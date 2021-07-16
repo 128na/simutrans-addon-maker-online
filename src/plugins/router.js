@@ -20,6 +20,11 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/callback',
+    name: 'Callback',
+    component: () => import(/* webpackChunkName: "user" */ '../views/Callback.vue'),
+  },
+  {
     path: '/',
     name: 'Projects',
     component: () => import(/* webpackChunkName: "project" */ '../views/Projects.vue'),
