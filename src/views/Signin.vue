@@ -42,7 +42,7 @@ export default {
   methods: {
     ...mapActions(["signin"]),
     handlePortal() {
-      portal.signin();
+      portal.signInWithPopup();
     },
   },
 };

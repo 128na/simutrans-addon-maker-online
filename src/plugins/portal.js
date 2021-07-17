@@ -21,21 +21,21 @@ function createCodeChallenge(codeVerifier) {
 }
 
 export default {
-  signin() {
+  signInWithPopup() {
     const state = randomString(40);
     const codeVerifier = randomString(128);
     const codeChallenge = createCodeChallenge(codeVerifier);
     console.log({ codeChallenge });
 
     const param = new URLSearchParams();
-    param.append('client_id', process.env.VUE_APP_OAUTH_PORTAL_CLIENT_ID);
-    param.append('redirect_uri', process.env.VUE_APP_OAUTH_REDIRECT_URL);
+    param.append('client_id', process.env.VUE_APP_PORTAL_OAUTH_CLIENT_ID);
+    param.append('redirect_uri', process.env.VUE_APP_PORTAL_OAUTH_REDIRECT_URL);
     param.append('response_type', 'code');
-    param.append('scope', '*');
+    param.append('scope', 'user-read user-write');
     param.append('state', state);
     param.append('code_challenge', codeChallenge);
     param.append('code_challenge_method', 'S256');
-    const url = `${process.env.VUE_APP_OAUTH_PORTAL_URL}/authorize?${param.toString()}`;
+    const url = `${process.env.VUE_APP_PORTAL_URL}/oauth/authorize?${param.toString()}`;
 
     const win = window.open(url, "portal", [
       "width=400",
@@ -60,14 +60,14 @@ export default {
 
       try {
         const current = win.location.origin + win.location.pathname;
-        if (current === process.env.VUE_APP_OAUTH_REDIRECT_URL) {
+        if (current === process.env.VUE_APP_PORTAL_OAUTH_REDIRECT_URL) {
           const param = new URLSearchParams(win.location.search);
           const code = param.get("code");
           const state = param.get("state");
 
           clearInterval(timer);
           win.close();
-          if (exptectedState !== state) {
+          if (exptectedState !== state || !code) {
             return alert('認証に失敗しました');
           }
           this.getToken(code, codeVerifier);
@@ -79,11 +79,11 @@ export default {
   },
 
   async getToken(code, codeVerifier) {
-    const url = `${process.env.VUE_APP_OAUTH_PORTAL_URL}/token`;
+    const url = `${process.env.VUE_APP_PORTAL_URL}/oauth/token`;
     const json = JSON.stringify({
       grant_type: 'authorization_code',
-      client_id: process.env.VUE_APP_OAUTH_PORTAL_CLIENT_ID,
-      redirect_uri: process.env.VUE_APP_OAUTH_REDIRECT_URL,
+      client_id: process.env.VUE_APP_PORTAL_OAUTH_CLIENT_ID,
+      redirect_uri: process.env.VUE_APP_PORTAL_OAUTH_REDIRECT_URL,
       code_verifier: codeVerifier,
       code,
     });
@@ -103,10 +103,18 @@ export default {
 
     console.log({ token });
 
+    this.fetchUser(token);
   },
 
   async fetchUser(token) {
-    
+    const url = `${process.env.VUE_APP_PORTAL_URL}/api/oauth/user`;
+    const headers = {
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${token.access_token}`
+    };
+    const res = await fetch(url, { headers });
+    const data = await res.json();
+    console.log({ res, data })
   },
 
   async customLogin(token) {
