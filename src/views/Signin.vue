@@ -22,8 +22,9 @@ import ButtonTwitter from "../components/Buttons/ButtonTwitter.vue";
 import ButtonAnonymous from "../components/Buttons/ButtonAnonymous.vue";
 import LayoutBox from "../components/LayoutBox.vue";
 import TitleMain from "../components/Text/TitleMain.vue";
-import portal from "../plugins/portal";
+import { signInWithPopup } from "../services/ApiPortal";
 import ButtonPortal from "../components/Buttons/ButtonPortal.vue";
+import firebase from "firebase";
 export default {
   name: "Signin",
   components: {
@@ -41,8 +42,15 @@ export default {
   },
   methods: {
     ...mapActions(["signin"]),
-    handlePortal() {
-      portal.signInWithPopup();
+    async handlePortal() {
+      try {
+        const customToken = await signInWithPopup();
+        console.log({ customToken });
+        await firebase.auth().signInWithCustomToken(customToken);
+      } catch (error) {
+        console.error({ error });
+        alert("連携に失敗しました");
+      }
     },
   },
 };

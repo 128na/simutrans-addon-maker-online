@@ -15,6 +15,15 @@
     <title-sub>サインイン連携</title-sub>
     <layout-box>
       <div>サインインに使用できるアカウントの連携・解除ができます</div>
+      <dt>Portal</dt>
+      <dd>
+        <a href="#" class="text-primary me-3" @click="handlePortalLink()">
+          連携
+        </a>
+        <a href="#" class="text-secondary" @click="handlePortalUnlink()">
+          連携解除
+        </a>
+      </dd>
       <dt>Google</dt>
       <dd>
         <a href="#" class="text-primary me-3" @click="link('google')"> 連携 </a>
@@ -48,10 +57,27 @@ import LayoutBox from "../components/LayoutBox.vue";
 import TitleSub from "../components/Text/TitleSub.vue";
 import { mapState, mapGetters, mapActions } from "vuex";
 import TextDateTime from "../components/Text/TextDateTime.vue";
+import { linkWithPopup, unlinkWithPopup } from "../services/ApiPortal";
 export default {
   components: { TitleMain, LayoutBox, TitleSub, TextDateTime },
   methods: {
     ...mapActions(["signout", "link", "unlink", "deleteUser"]),
+    async handlePortalLink() {
+      try {
+        await linkWithPopup(this.user.uid);
+        alert("連携に成功しました");
+      } catch (e) {
+        alert(e.message);
+      }
+    },
+    async handlePortalUnlink() {
+      try {
+        await unlinkWithPopup();
+        alert("連携解除に成功しました");
+      } catch (e) {
+        alert(e.message);
+      }
+    },
     handleUnlink(provider) {
       if (confirm("連携解除してもよろしいですか？")) {
         this.unlink(provider);

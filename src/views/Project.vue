@@ -75,7 +75,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { dataURL2File, download } from "../services/File";
-import { postPak } from "../services/Api";
+import { postPak } from "../services/ApiMakeobj";
 import ImageEditor from "../components/ImageEditor/ImageEditor.vue";
 import TitleMain from "../components/Text/TitleMain.vue";
 import LayoutBox from "../components/LayoutBox.vue";
