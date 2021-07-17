@@ -66,7 +66,7 @@
                 :to="{ name: 'Signin' }"
                 @click="handleClick"
               >
-                Signin
+                サインイン
               </router-link>
             </li>
           </template>

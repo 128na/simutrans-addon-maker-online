@@ -1,10 +1,10 @@
 <template>
   <div>
-    <title-main>Signin</title-main>
+    <title-main>サインイン</title-main>
     <layout-box class="d-grid gap-3">
+      <button-portal @click.prevent="handlePortal" />
       <button-google @click.prevent="signin('google')" />
       <button-twitter @click.prevent="signin('twitter')" />
-      <button @click.prevent="handlePortal">Portal Login</button>
       <button-anonymous @click.prevent="signin()" />
       <small>
         ※
@@ -23,6 +23,7 @@ import ButtonAnonymous from "../components/Buttons/ButtonAnonymous.vue";
 import LayoutBox from "../components/LayoutBox.vue";
 import TitleMain from "../components/Text/TitleMain.vue";
 import portal from "../plugins/portal";
+import ButtonPortal from "../components/Buttons/ButtonPortal.vue";
 export default {
   name: "Signin",
   components: {
@@ -31,6 +32,7 @@ export default {
     ButtonGoogle,
     ButtonTwitter,
     ButtonAnonymous,
+    ButtonPortal,
   },
   computed: {
     desc() {
