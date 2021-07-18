@@ -1,6 +1,46 @@
 import sha256 from 'crypto-js/sha256';
 import Base64 from 'crypto-js/enc-base64';
 
+export const signInWithPopup = async () => {
+  try {
+    const token = localStorage.getItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
+    if (token) {
+      return await login(token);
+    }
+  } catch (e) { }
+
+  const token = await getAccessToken();
+  localStorage.setItem(process.env.VUE_APP_PORTAL_CREDENTIAL, token);
+  return await login(token);
+}
+
+export const linkWithPopup = async (uid) => {
+  try {
+    const token = localStorage.getItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
+    if (token) {
+      return await link(token, uid);
+    }
+  } catch (e) { }
+
+  const token = await getAccessToken();
+  localStorage.setItem(process.env.VUE_APP_PORTAL_CREDENTIAL, token);
+  return await link(token, uid);
+}
+
+export const unlinkWithPopup = async () => {
+  try {
+    const token = localStorage.getItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
+    if (token) {
+      await unlink(token);
+      return localStorage.removeItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
+    }
+  } catch (e) { }
+  const token = await getAccessToken();
+
+  localStorage.removeItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
+  return await unlink(token);
+}
+
 function randomString(length = 128) {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -19,50 +59,11 @@ function createCodeChallenge(codeVerifier) {
     .replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 }
 
-export const signInWithPopup = async () => {
-  try {
-    const token = localStorage.getItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
-    if (token) {
-      return await login(token);
-    }
-  } catch (e) { }
 
+async function getAccessToken() {
   const codeVerifier = randomString(128);
   const code = await getOauthCode(codeVerifier);
-  const token = await getOauthToken(code, codeVerifier);
-  localStorage.setItem(process.env.VUE_APP_PORTAL_CREDENTIAL, token);
-  return await login(token);
-}
-
-export const linkWithPopup = async (uid) => {
-  try {
-    const token = localStorage.getItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
-    if (token) {
-      return await link(token, uid);
-    }
-  } catch (e) { }
-
-  const codeVerifier = randomString(128);
-  const code = await getOauthCode(codeVerifier);
-  const token = await getOauthToken(code, codeVerifier);
-  localStorage.setItem(process.env.VUE_APP_PORTAL_CREDENTIAL, token);
-  return await postLink(token, uid);
-}
-
-export const unlinkWithPopup = async () => {
-  try {
-    const token = localStorage.getItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
-    if (token) {
-      await postUnlink(token);
-      // localStorage.removeItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
-    }
-  } catch (e) { }
-
-  const codeVerifier = randomString(128);
-  const code = await getOauthCode(codeVerifier);
-  const token = await getOauthToken(code, codeVerifier);
-  localStorage.setItem(process.env.VUE_APP_PORTAL_CREDENTIAL, token);
-  return await postUnlink(token);
+  return await getOauthToken(code, codeVerifier);
 }
 
 function getOauthCode(codeVerifier) {
@@ -152,7 +153,7 @@ async function login(token) {
   return body.custom_token;
 }
 
-async function postLink(token, uid) {
+async function link(token, uid) {
   const url = `${process.env.VUE_APP_PORTAL_URL}/api/oauth/firebase/${process.env.VUE_APP_PORTAL_PROJECT_ID}/link`;
   const headers = {
     'Accept': 'application/json',
@@ -167,7 +168,7 @@ async function postLink(token, uid) {
     throw new Error('ユーザの連携に失敗しました');
   }
 }
-async function postUnlink(token) {
+async function unlink(token) {
   const url = `${process.env.VUE_APP_PORTAL_URL}/api/oauth/firebase/${process.env.VUE_APP_PORTAL_PROJECT_ID}/unlink`;
   const headers = {
     'Accept': 'application/json',

@@ -33,7 +33,6 @@ function handleError(res) {
 }
 async function handleValidationError(res) {
   const body = await res.json();
-  console.log({ res })
   const msg = ['入力内容を確認してください。'];
   for (const [name, errors] of Object.entries(body.errors)) {
     msg.push(errors.join("\n"));

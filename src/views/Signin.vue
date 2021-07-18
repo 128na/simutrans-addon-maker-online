@@ -45,7 +45,6 @@ export default {
     async handlePortal() {
       try {
         const customToken = await signInWithPopup();
-        console.log({ customToken });
         await firebase.auth().signInWithCustomToken(customToken);
       } catch (error) {
         console.error({ error });
