@@ -1,6 +1,6 @@
 export default [
   {
-    name: '煙',
+    title: '煙',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
 obj=smoke
 name=

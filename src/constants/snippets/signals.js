@@ -1,6 +1,6 @@
 export default [
   {
-    name: '鉄道信号',
+    title: '鉄道信号',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SignaleDef
 obj=roadsign
 name=
@@ -43,7 +43,7 @@ image[15]=image.0.0
 `
   },
   {
-    name: '鉄道信号（プレ、プライオリティ）',
+    title: '鉄道信号（プレ、プライオリティ）',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SignaleDef
 obj=roadsign
 name=
@@ -92,7 +92,7 @@ image[23]=image.0.0
 `
   },
   {
-    name: '道路標識',
+    title: '道路標識',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SignaleDef
 obj=roadsign
 name=
@@ -119,7 +119,7 @@ image[3]=image.0.0
 `
   },
   {
-    name: '道路信号',
+    title: '道路信号',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SignaleDef
 obj=roadsign
 name=

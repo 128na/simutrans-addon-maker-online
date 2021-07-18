@@ -4,18 +4,31 @@ import Signin from '../views/Signin.vue';
 
 const routes = [
   {
-    path: '/',
-    name: 'Projects',
-    component: Projects,
-    meta: { requiresAuth: true }
+    path: '/signin',
+    name: 'Signin',
+    component: Signin
   },
   {
     path: '/about',
     name: 'About',
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: () => import(/* webpackChunkName: "user" */ '../views/User.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/callback',
+    name: 'Callback',
+    component: () => import(/* webpackChunkName: "user" */ '../views/Callback.vue'),
+  },
+  {
+    path: '/',
+    name: 'Projects',
+    component: () => import(/* webpackChunkName: "project" */ '../views/Projects.vue'),
+    meta: { requiresAuth: true }
   },
   {
     path: '/projects/:id',
@@ -35,11 +48,6 @@ const routes = [
     component: () => import(/* webpackChunkName: "snippet" */ '../views/Snippet.vue'),
     meta: { requiresAuth: true }
   },
-  {
-    path: '/signin',
-    name: 'Signin',
-    component: Signin
-  },
 ];
 
 const router = createRouter({
@@ -48,7 +56,7 @@ const router = createRouter({
   linkActiveClass: 'active',
 });
 
-import store from '../store';
+import store from './store';
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isInitialized && !store.getters.isLoggedIn) {

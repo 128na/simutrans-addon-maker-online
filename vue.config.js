@@ -5,5 +5,10 @@ module.exports = {
     devServer: {
       headers: { "Access-Control-Allow-Origin": "*" }
     }
+  },
+  pwa: {
+    workboxOptions: {
+      skipWaiting: true,
+    }
   }
 };

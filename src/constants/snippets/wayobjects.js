@@ -1,6 +1,6 @@
 export default [
   {
-    name: '架線',
+    title: '架線',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
 obj=way-object
 name=

@@ -1,6 +1,6 @@
 export default [
   {
-    name: ' 道路',
+    title: ' 道路',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_WayDef
 obj=way
 name=
@@ -53,7 +53,7 @@ imageup2[6]=image.0.0
     `
   },
   {
-    name: ' 軌道（ポイント切替対応）',
+    title: ' 軌道（ポイント切替対応）',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_WayDef
 obj=way
 name=

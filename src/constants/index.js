@@ -48,32 +48,32 @@ import windowskins from './snippets/windowskins';
 
 export const SNIPPETS = [
   {
-    name: '建物 (building)', snippets: [
+    title: '建物 (building)', snippets: [
       ...buildings,
     ]
   },
   {
-    name: '車両 (vehicle, citycar)', snippets: [
+    title: '車両 (vehicle, citycar)', snippets: [
       ...vehicles,
       ...citycars,
     ]
   },
   {
-    name: '軌道 (way, tunnel, bridge)', snippets: [
+    title: '軌道 (way, tunnel, bridge)', snippets: [
       ...ways,
       ...tunnels,
       ...bridges,
     ]
   },
   {
-    name: '軌道関連 (way-object, crossing, signal)', snippets: [
+    title: '軌道関連 (way-object, crossing, signal)', snippets: [
       ...wayobjects,
       ...crossings,
       ...signals,
     ]
   },
   {
-    name: '産業 (factory, field, smoke, good)', snippets: [
+    title: '産業 (factory, field, smoke, good)', snippets: [
       ...factories,
       ...fields,
       ...smokes,
@@ -81,20 +81,20 @@ export const SNIPPETS = [
     ]
   },
   {
-    name: '地形 (tree, groundObj, ground)', snippets: [
+    title: '地形 (tree, groundObj, ground)', snippets: [
       ...trees,
       ...groundobjs,
       ...grounds,
     ]
   },
   {
-    name: 'その他 (pedestrian, misc)', snippets: [
+    title: 'その他 (pedestrian, misc)', snippets: [
       ...pedestrians,
       ...miscs,
     ]
   },
   {
-    name: 'その他 (menu, symbol, cursor, windowSkin)', snippets: [
+    title: 'その他 (menu, symbol, cursor, windowSkin)', snippets: [
       ...menus,
       ...symbols,
       ...cursors,

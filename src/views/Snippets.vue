@@ -34,7 +34,7 @@
             <li v-for="p in snippets" class="mb-2">
               <div>
                 <router-link :to="routeSnippet(p)">
-                  <span>{{ p.data.name }}</span>
+                  <span>{{ p.data.title }}</span>
                 </router-link>
                 <a
                   href="#"
@@ -44,7 +44,9 @@
                 >
               </div>
               <small>
-                <span>最終更新 {{ p.data.updatedAt }}</span>
+                <span
+                  >最終更新<text-date-time :value="p.data.updatedAt"
+                /></span>
               </small>
             </li>
           </ul>
@@ -53,7 +55,7 @@
           <ul>
             <li v-for="p in trashedSnippets">
               <div>
-                <span>{{ p.data.name }}</span>
+                <span>{{ p.data.title }}</span>
                 <a
                   href="#"
                   class="text-secondary mx-1"
@@ -68,7 +70,10 @@
                 >
               </div>
               <small>
-                <span>削除日 {{ p.data.createdAt }}</span>
+                <span>
+                  削除日
+                  <text-date-time :value="p.data.deletedAt" />
+                </span>
               </small>
             </li>
           </ul>
@@ -91,12 +96,20 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import LayoutBox from "../components/LayoutBox.vue";
-import TitleSub from "../components/TitleSub.vue";
-import TitleMain from "../components/TitleMain.vue";
+import TitleSub from "../components/Text/TitleSub.vue";
+import TitleMain from "../components/Text/TitleMain.vue";
 import Exporter from "../components/IExporter/Exporter.vue";
 import Importer from "../components/IExporter/Importer.vue";
+import TextDateTime from "../components/Text/TextDateTime.vue";
 export default {
-  components: { TitleMain, LayoutBox, TitleSub, Exporter, Importer },
+  components: {
+    TitleMain,
+    LayoutBox,
+    TitleSub,
+    Exporter,
+    Importer,
+    TextDateTime,
+  },
   name: "Snippets",
   computed: {
     ...mapGetters([
@@ -127,7 +140,7 @@ export default {
     async handleCreate() {
       try {
         await this.createSnippet({
-          name: this.randomTitle(),
+          title: this.randomTitle(),
           dat: "",
         });
       } catch (e) {

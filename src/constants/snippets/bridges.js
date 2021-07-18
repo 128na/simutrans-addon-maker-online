@@ -1,6 +1,6 @@
 export default [
   {
-    name: ' 橋',
+    title: '橋',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BridgeDef
 obj=bridge
 name=

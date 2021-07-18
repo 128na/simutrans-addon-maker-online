@@ -1,6 +1,6 @@
 export default [
   {
-    name: '歩行者',
+    title: '歩行者',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_PedestrianDef
 obj=pedestrian
 name=

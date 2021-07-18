@@ -25,7 +25,11 @@ export default {
           this.$router.push({ name: "Projects" });
         }
       },
-      onLoggedOut: () => this.$router.push({ name: "Signin" }),
+      onLoggedOut: () => {
+        if (this.$route.meta.requiresAuth) {
+          this.$router.push({ name: "Signin" });
+        }
+      },
     });
   },
   computed: {
@@ -39,6 +43,7 @@ export default {
 <style>
 body {
   font-family: "Noto Sans JP", sans-serif;
+  font-weight: 300;
 }
 ul {
   padding-left: 0rem;
@@ -46,6 +51,10 @@ ul {
 li {
   list-style: none;
 }
+.navbar-brand {
+  font-weight: 700;
+}
+
 .scale-slide-enter-active,
 .scale-slide-leave-active {
   position: absolute;

@@ -1,6 +1,6 @@
 export default [
   {
-    name: '木',
+    title: '木',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_TreeDef
 obj=tree
 name=

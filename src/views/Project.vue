@@ -39,7 +39,7 @@
     </layout-box>
     <layout-box>
       <label for="images" class="form-label">画像データ</label>
-      <image-editor v-model:value="project.data.images" :project="project" />
+      <image-editor v-model:value="project.data.imageUrls" :project="project" />
     </layout-box>
     <global-footer>
       <button
@@ -56,16 +56,16 @@
       >
         保存
       </button>
-      <button
+      <button-loading
+        :loading="fetching"
         class="btn btn-primary me-2"
-        :disabled="fetching"
         @click="handlePak"
       >
         Pak化
-      </button>
+      </button-loading>
 
       <last-modified>
-        {{ project.data.updatedAt }}
+        <text-date-time :value="project.data.updatedAt" />
       </last-modified>
     </global-footer>
   </div>
@@ -75,14 +75,16 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import { dataURL2File, download } from "../services/File";
-import { postPak } from "../services/Api";
+import { postPak } from "../services/ApiMakeobj";
 import ImageEditor from "../components/ImageEditor/ImageEditor.vue";
-import TitleMain from "../components/TitleMain.vue";
+import TitleMain from "../components/Text/TitleMain.vue";
 import LayoutBox from "../components/LayoutBox.vue";
 import LayoutLoading from "../components/LayoutLoading.vue";
 import DatEditor from "../components/DatEditor/DatEditor.vue";
-import LastModified from "../components/LastModified.vue";
+import LastModified from "../components/Text/LastModified.vue";
 import GlobalFooter from "../components/GlobalFooter.vue";
+import ButtonLoading from "../components/Buttons/ButtonLoading.vue";
+import TextDateTime from "../components/Text/TextDateTime.vue";
 export default {
   components: {
     ImageEditor,
@@ -92,8 +94,10 @@ export default {
     DatEditor,
     LastModified,
     GlobalFooter,
+    ButtonLoading,
+    TextDateTime,
   },
-  name: "Projects",
+  name: "Project",
   data() {
     return {
       project: null,
@@ -141,19 +145,12 @@ export default {
     },
     async handlePak() {
       this.fetching = true;
-      const imageUrls = Object.entries(this.project.data.images).map((img) => {
-        return {
-          filename: img[0],
-          url: img[1],
-        };
-      });
-
       try {
         const url = await postPak({
           filename: this.project.data.filename,
           size: this.project.data.size,
           dat: this.project.data.dat,
-          imageUrls,
+          imageUrls: this.project.data.imageUrls,
         });
         download(url, `${this.project.data.filename}.pak`);
       } catch (e) {

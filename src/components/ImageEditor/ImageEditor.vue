@@ -1,32 +1,38 @@
 <template>
   <!-- tab list -->
-  <ul class="nav nav-tabs">
-    <li class="nav-item" v-for="(image, index) in images">
+  <ul class="nav nav-tabs" v-show="value.length">
+    <li class="nav-item" v-for="(image, index) in value">
       <button
         class="nav-link"
-        :class="{ active: selected === image.name }"
+        :class="{ active: selected === index }"
         data-bs-toggle="tab"
         :data-bs-target="`#image-${index}`"
-        @click.prevent="handleTab(image.name)"
+        @click.prevent="handleTab(index)"
       >
-        {{ image.name }}
+        {{ image.filename }}
       </button>
     </li>
   </ul>
 
   <!-- tab content -->
-  <div class="tab-content">
+  <div class="tab-content" v-show="value.length">
     <div
       class="tab-pane fade p-3"
       :class="{
-        active: selected === image.name,
-        show: selected === image.name,
+        active: selected === index,
+        show: selected === index,
       }"
       :id="`image-${index}`"
-      v-for="(image, index) in images"
+      v-for="(image, index) in value"
     >
       <div class="overflow-auto">
-        <img :src="image.src" />
+        <div class="position-relative d-inline-block">
+          <img :src="image.url" />
+          <svg-grid
+            :id="`preview-${index}`"
+            :size.number="this.project.data.size"
+          />
+        </div>
       </div>
       <a
         href="#"
@@ -34,10 +40,7 @@
         @click.prevent="handleDownloadImage(image)"
         >ダウンロード</a
       >
-      <a
-        href="#"
-        class="text-danger"
-        @click.prevent="handleDeleteImage(image.name)"
+      <a href="#" class="text-danger" @click.prevent="handleDeleteImage(index)"
         >削除</a
       >
     </div>
@@ -46,46 +49,42 @@
 </template>
 <script>
 import { download } from "../../services/File";
+import SvgGrid from "../Svg/SvgGrid.vue";
 import FileReader from "./FileReader.vue";
 export default {
   props: ["value", "project"],
-  components: { FileReader },
+  components: { FileReader, SvgGrid },
   data() {
     return {
       selected: 0,
     };
   },
-  created() {
-    this.selected = this.images.length ? this.images[0].name : "";
-  },
-  computed: {
-    images() {
-      const images = [];
-      for (const [name, src] of Object.entries(this.value)) {
-        images.push({ name, src });
-      }
-      return images;
-    },
-  },
   methods: {
-    handleTab(name) {
-      this.selected = name;
+    handleTab(index) {
+      this.selected = index;
     },
     handleAddImages(images) {
-      const value = Object.assign(this.value, images);
+      const tmp = {};
+      [...this.value, ...images].map((i) => (tmp[i.filename] = i.url));
+
+      const value = Object.entries(tmp).map(([filename, url]) => {
+        return { filename, url };
+      });
       this.$emit("update:value", value);
     },
-    handleDeleteImage(name) {
+    handleDeleteImage(index) {
       if (confirm("削除してもよろしいでしょうか？")) {
-        const value = Object.assign({}, this.value);
-        delete value[name];
-        this.$emit("update:value", value);
+        this.value.splice(index, 1);
+        this.$emit("update:value", this.value);
 
-        this.selected = this.images.length ? this.images[0].name : "";
+        this.selected =
+          this.selected > this.value.length - 1
+            ? this.value.length - 1
+            : this.selected;
       }
     },
     handleDownloadImage(image) {
-      download(image.src, image.name);
+      download(image.url, image.filename);
     },
   },
 };

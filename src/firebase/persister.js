@@ -10,7 +10,7 @@ class Persister {
   }
 
   async create(userId, data) {
-    const createdAt = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT);
+    const createdAt = DateTime.now().toHTTP();
     const updatedAt = createdAt;
     const deletedAt = null;
 
@@ -21,7 +21,7 @@ class Persister {
       .set(Object.assign(data, { createdAt, updatedAt, deletedAt }));
   }
   async update(userId, item) {
-    const updatedAt = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT);
+    const updatedAt = DateTime.now().toHTTP();
     return await this.userCollection
       .doc(userId)
       .collection(this.collectionName)
@@ -30,7 +30,7 @@ class Persister {
   }
   // 論理削除
   async delete(userId, item) {
-    const deletedAt = DateTime.now().toLocaleString(DateTime.DATETIME_SHORT);
+    const deletedAt = DateTime.now().toHTTP();
     return await this.userCollection
       .doc(userId)
       .collection(this.collectionName)

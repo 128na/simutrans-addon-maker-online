@@ -44,7 +44,9 @@
                 >
               </div>
               <small>
-                <span>最終更新 {{ p.data.updatedAt }}</span>
+                <span
+                  >最終更新<text-date-time :value="p.data.updatedAt"
+                /></span>
               </small>
             </li>
           </ul>
@@ -68,7 +70,10 @@
                 >
               </div>
               <small>
-                <span>削除日 {{ p.data.createdAt }}</span>
+                <span>
+                  削除日
+                  <text-date-time :value="p.data.deletedAt" />
+                </span>
               </small>
             </li>
           </ul>
@@ -91,12 +96,20 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import LayoutBox from "../components/LayoutBox.vue";
-import TitleSub from "../components/TitleSub.vue";
-import TitleMain from "../components/TitleMain.vue";
+import TitleSub from "../components/Text/TitleSub.vue";
+import TitleMain from "../components/Text/TitleMain.vue";
 import Exporter from "../components/IExporter/Exporter.vue";
 import Importer from "../components/IExporter/Importer.vue";
+import TextDateTime from "../components/Text/TextDateTime.vue";
 export default {
-  components: { TitleMain, LayoutBox, TitleSub, Exporter, Importer },
+  components: {
+    TitleMain,
+    LayoutBox,
+    TitleSub,
+    Exporter,
+    Importer,
+    TextDateTime,
+  },
   name: "Projects",
   computed: {
     ...mapGetters([
@@ -129,10 +142,9 @@ export default {
         await this.createProject({
           title: this.randomTitle(),
           filename: "example",
-          isPublic: false,
           dat: "",
-          images: {},
           size: 64,
+          imageUrls: [],
         });
       } catch (e) {
         alert("プロジェクト作成に失敗しました");

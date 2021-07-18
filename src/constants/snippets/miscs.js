@@ -1,6 +1,6 @@
 export default [
   {
-    name: '建設中画像',
+    title: '建設中画像',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_MiscDef
 obj=misc
 name=Construction
@@ -14,7 +14,7 @@ image[6]=image.0.0
 `
   },
   {
-    name: '市内地面タイル',
+    title: '市内地面タイル',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_MiscDef
 obj=misc
 name=Sidewalk
@@ -36,7 +36,7 @@ image[14][0]=image.0.14
 `
   },
   {
-    name: 'トンネル内地面タイル',
+    title: 'トンネル内地面タイル',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_MiscDef
 obj=misc
 name=TunnelTexture
@@ -56,7 +56,7 @@ image[12][0]=image.0.12
 `
   },
   {
-    name: '変電所（送電）',
+    title: '変電所（送電）',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_MiscDef
 obj=misc
 name=PowerSource
@@ -71,7 +71,7 @@ image[5][0]=> image.0.5
 `
   },
   {
-    name: '変電所（受電）',
+    title: '変電所（受電）',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_MiscDef
 obj=misc
 name=PowerDest

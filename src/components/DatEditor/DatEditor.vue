@@ -7,7 +7,7 @@
             <textarea
               id="dat"
               class="form-control"
-              rows="12"
+              rows="10"
               :value="value"
               @input="$emit('update:value', $event.target.value)"
               @keyup="handleLine"

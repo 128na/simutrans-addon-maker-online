@@ -1,6 +1,6 @@
 export default [
   {
-    name: 'アイコン',
+    title: 'アイコン',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SymbolDef
 obj=symbol
 name=Seasons

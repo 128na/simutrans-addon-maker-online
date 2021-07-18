@@ -15,4 +15,9 @@ const app = firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore(app);
 const storage = firebase.storage(app);
 
-export default { db, storage };
+const authProviders = {
+  google: firebase.auth.GoogleAuthProvider,
+  twitter: firebase.auth.TwitterAuthProvider,
+}
+
+export default { db, storage, authProviders };
