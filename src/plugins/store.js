@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 import firebase from "firebase";
 import app from "../firebase";
 import persister from "../firebase/persister";
+import { signInWithPopup, linkWithPopup, unlinkWithPopup } from "../services/ApiPortal";
 
 const SET_USER = 'SET_USER';
 const SET_PROJECTS = 'SET_PROJECTS';
@@ -66,9 +67,12 @@ export default createStore({
       try {
         // 認証永続化
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        const result = provider
-          ? await firebase.auth().signInWithPopup(new app.authProviders[provider])
-          : await firebase.auth().signInAnonymously();
+        const result = provider === 'portal'
+          ? await signInWithPopup()
+          : (provider
+            ? await firebase.auth().signInWithPopup(new app.authProviders[provider])
+            : await firebase.auth().signInAnonymously()
+          );
 
         const user = result.user;
         context.commit(SET_USER, user);
@@ -79,7 +83,9 @@ export default createStore({
     },
     async link(context, provider) {
       try {
-        await firebase.auth().currentUser.linkWithPopup(new app.authProviders[provider]);
+        provider === 'portal'
+          ? await linkWithPopup(context.state.user.uid)
+          : await firebase.auth().currentUser.linkWithPopup(new app.authProviders[provider]);
         alert('連携しました');
       } catch (e) {
         console.error(e);
@@ -88,7 +94,9 @@ export default createStore({
     },
     async unlink(context, provider) {
       try {
-        await firebase.auth().currentUser.unlink(app.authProviders[provider].PROVIDER_ID);
+        provider === 'portal'
+          ? await unlinkWithPopup()
+          : await firebase.auth().currentUser.unlink(app.authProviders[provider].PROVIDER_ID);
         alert('連携解除しました');
       } catch (e) {
         console.error(e);

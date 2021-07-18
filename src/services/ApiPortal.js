@@ -1,17 +1,18 @@
 import sha256 from 'crypto-js/sha256';
 import Base64 from 'crypto-js/enc-base64';
+import firebase from "firebase";
 
 export const signInWithPopup = async () => {
   try {
     const token = localStorage.getItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
     if (token) {
-      return await login(token);
+      return await firebase.auth().signInWithCustomToken(await login(token));
     }
   } catch (e) { }
 
   const token = await getAccessToken();
   localStorage.setItem(process.env.VUE_APP_PORTAL_CREDENTIAL, token);
-  return await login(token);
+  return await firebase.auth().signInWithCustomToken(await login(token));
 }
 
 export const linkWithPopup = async (uid) => {
