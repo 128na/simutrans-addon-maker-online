@@ -1,5 +1,5 @@
 // ファイルオブジェクトからバイナリデータを読み取る
-export const asyncFileReader = function (files) {
+export const asyncFileReader = function (files: Blob[]) {
   return Promise.all(files.map((file) => {
     return new Promise((res, rej) => {
       const r = new FileReader();
@@ -10,7 +10,7 @@ export const asyncFileReader = function (files) {
   }));
 };
 // ファイルオブジェクトからバイナリデータを読み取る
-export const asyncTextReader = function (files) {
+export const asyncTextReader = function (files: Blob[]) {
   return Promise.all(files.map((file) => {
     return new Promise((res, rej) => {
       const r = new FileReader();
@@ -22,11 +22,13 @@ export const asyncTextReader = function (files) {
 };
 
 
-export const dataURL2File = function (dataURL, name) {
-  const byteString = atob(dataURL.split(",")[1]);
-  const mimeType = dataURL.match(/(:)([a-z\/]+)(;)/)[2];
+export const dataURL2File = function (dataURL: string, name: string) {
+  const byteString: string = atob(dataURL.split(",")[1]);
+  const mimeType: string = (dataURL.match(/(:)([a-z\/]+)(;)/) || [])[2] || '';
 
-  for (var i = 0, l = byteString.length, content = new Uint8Array(l); l > i; i++) {
+  const l = byteString.length;
+  const content = new Uint8Array(l);
+  for (let i = 0; l > i; i++) {
     content[i] = byteString.charCodeAt(i);
   }
 
@@ -34,11 +36,11 @@ export const dataURL2File = function (dataURL, name) {
 };
 
 // ファイルダウンロード
-export const download = async function (url, name = '') {
+export const download = async function (url: string, name = '') {
   const res = await fetch(url);
-  const blob = await res.blob();
+  const blob: Blob = await res.blob();
 
-  const files = await asyncFileReader([blob]);
+  const files: any[] = await asyncFileReader([blob]);
 
   const link = document.createElement("a");
   link.download = name;

@@ -1,14 +1,18 @@
 import app from ".";
+import firebase from "firebase";
 
 const storage = app.storage;
 
 class FilePersister {
-  constructor(storage, name) {
+  ref: firebase.storage.Reference;
+  collectionName: string;
+
+  constructor(storage: firebase.storage.Storage, name: any) {
     this.ref = storage.ref().child('user');
     this.collectionName = name;
   }
 
-  async upload(userId, collectionId, file) {
+  async upload(userId: string, collectionId: string, file: File) {
     const fileRef = this.ref
       .child(userId)
       .child(this.collectionName)
@@ -21,7 +25,7 @@ class FilePersister {
 }
 
 class ProjectFilePersister extends FilePersister {
-  constructor(storage) {
+  constructor(storage: firebase.storage.Storage) {
     super(storage, 'projects');
   }
 }

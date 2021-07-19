@@ -1,5 +1,5 @@
 // pak化実行
-export const postPak = async function (data) {
+export const postPak = async function (data: Object) {
   const url = process.env.VUE_APP_MAKEOBJ_API_URL
   const res = await fetch(url, {
     method: "POST",
@@ -17,7 +17,7 @@ export const postPak = async function (data) {
   return body.pakfile;
 };
 
-function handleError(res) {
+function handleError(res: Response) {
   switch (res.status) {
     case 400:
       return handlePakError(res);
@@ -31,8 +31,20 @@ function handleError(res) {
       throw new Error('エラーが発生しました');
   }
 }
-async function handleValidationError(res) {
-  const body = await res.json();
+
+interface LaraveValidatonErrorBody {
+  message: string,
+  errors: { [index: string]: string[] }
+}
+
+interface PakErrorBody {
+  code: number,
+  output: string,
+  error: string,
+}
+
+async function handleValidationError(res: Response) {
+  const body: LaraveValidatonErrorBody = await res.json();
   const msg = ['入力内容を確認してください。'];
   for (const [name, errors] of Object.entries(body.errors)) {
     msg.push(errors.join("\n"));
@@ -41,8 +53,8 @@ async function handleValidationError(res) {
   throw new Error(msg.join("\n"));
 }
 
-async function handlePakError(res) {
-  const body = await res.json();
+async function handlePakError(res: Response) {
+  const body: PakErrorBody = await res.json();
   throw new Error(
     `エラーが発生しました\nコード：${body.code}\n出力：${body.output}\nエラー：${body.error}`
   );

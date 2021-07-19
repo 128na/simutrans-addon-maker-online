@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Projects from '../views/Projects.vue';
 import Signin from '../views/Signin.vue';
 
 const routes = [
@@ -56,6 +55,7 @@ const router = createRouter({
   linkActiveClass: 'active',
 });
 
+//@ts-ignore
 import store from './store';
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {

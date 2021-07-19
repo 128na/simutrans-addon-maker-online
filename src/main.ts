@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import './plugins/registerServiceWorker'
 import router from './plugins/router'
+//@ts-ignore
 import store from './plugins/store'
 import fontawesome from "./plugins/fontawesome";
 

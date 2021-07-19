@@ -21,20 +21,20 @@ export default createStore({
   getters: {
     isInitialized: state => state.user !== undefined,
     isLoggedIn: state => !!state.user,
-    userName: state => state.user.displayName || 'Guest',
-    userId: state => state.user.uid,
+    userName: state => state.user?.displayName || 'Guest',
+    userId: state => state.user?.uid,
 
-    projects: state => state.projects.filter(i => !i.data.deletedAt),
+    projects: state => state.projects?.filter(i => !i.data.deletedAt),
     projectLoaded: state => state.projects !== undefined,
-    getProject: (state) => (id) => state.projects.find(i => i.id === id),
-    existsProject: (state) => (id) => !!state.projects.find(i => i.id === id),
-    trashedProjects: state => state.projects.filter(i => i.data.deletedAt),
+    getProject: (state) => (id) => state.projects?.find(i => i.id === id),
+    existsProject: (state) => (id) => !!state.projects?.find(i => i.id === id),
+    trashedProjects: state => state.projects?.filter(i => i.data.deletedAt),
 
-    snippets: state => state.snippets.filter(i => !i.data.deletedAt),
+    snippets: state => state.snippets?.filter(i => !i.data.deletedAt),
     snippetLoaded: state => state.snippets !== undefined,
-    getSnippet: (state) => (id) => state.snippets.find(i => i.id === id),
-    existsSnippet: (state) => (id) => !!state.snippets.find(i => i.id === id),
-    trashedSnippets: state => state.snippets.filter(i => i.data.deletedAt),
+    getSnippet: (state) => (id) => state.snippets?.find(i => i.id === id),
+    existsSnippet: (state) => (id) => !!state.snippets?.find(i => i.id === id),
+    trashedSnippets: state => state.snippets?.filter(i => i.data.deletedAt),
 
   },
   mutations: {
