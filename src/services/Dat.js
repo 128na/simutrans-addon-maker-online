@@ -11,8 +11,11 @@ class Dat {
       .map((o) => new Obj(o, [current + 1, current += o.split("\n").length]));
   }
 
+  getObj(num) {
+    return this.objs.find(obj => obj.inRange(num))
+  }
   getLine(num) {
-    // return this.objs.find(obj)
+    return this.getObj(num)?.getLine(num);
   }
 }
 
@@ -25,6 +28,13 @@ class Obj {
     this.obj = obj;
     this.lines = this.obj.split("\n")
       .map(l => new Line(l));
+  }
+
+  inRange(num) {
+    return this.range[0] <= num && num <= this.range[1];
+  }
+  getLine(num) {
+    return this.lines[num - this.range[0]];
   }
 }
 
