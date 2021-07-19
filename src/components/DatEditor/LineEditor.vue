@@ -28,19 +28,6 @@ import ImagePreview from "./ImagePreview.vue";
 import Fields from "./Fields/ImportAll";
 import camelCase from "camelcase";
 
-const hasImage = [
-  "image",
-  "icon",
-  "cursor",
-  "backstart",
-  "frontstart",
-  "backramp",
-  "frontramp",
-  "backpillar",
-  "frontpillar",
-  "diagonal",
-];
-
 export default {
   props: ["value", "project"],
   components: { ImagePreview, ...Fields },

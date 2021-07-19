@@ -47,6 +47,7 @@ import DroppableBox from "../../components/DroppableBox.vue";
 import { asyncTextReader } from "../../services/File";
 import LineEditor from "./LineEditor.vue";
 import SnippetSelector from "./SnippetSelector/SnippetSelector.vue";
+import { SimutransDat } from "../../services/Dat";
 
 export default {
   components: {
@@ -59,6 +60,10 @@ export default {
     return {
       lineNo: 1,
     };
+  },
+  mounted() {
+    const dat = new SimutransDat.Dat(this.convertedValue);
+    console.log(dat);
   },
   computed: {
     convertedValue() {
