@@ -5,6 +5,6 @@
 </template>
 <script>
 export default {
-  props: ["value", "project"],
+  props: ["value", "obj", "project"],
 };
 </script>

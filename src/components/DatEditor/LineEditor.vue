@@ -1,21 +1,21 @@
 <template>
   <div class="card">
     <div class="card-header">
-      {{ value || "(空行)" }}
+      {{ "value" || "(空行)" }}
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item" v-if="imageUrl">
         <image-preview
-          :line="parsed[3]"
+          :line="line"
           :imageUrl="imageUrl"
           :size="project.data.size"
-          :isStatic="isStatic"
         />
       </li>
 
       <component
         :is="componentName"
         :value="value"
+        :obj="obj"
         :project="project"
         @lineUpdate="$emit('lineUpdate', $event)"
       />
@@ -29,40 +29,30 @@ import Fields from "./Fields/ImportAll";
 import camelCase from "camelcase";
 
 export default {
-  props: ["value", "project"],
+  props: ["value", "obj", "project"],
   components: { ImagePreview, ...Fields },
   computed: {
-    parsed() {
-      return parseLine(this.value);
-    },
     imageUrl() {
-      if (
-        hasImage.some((name) => this.parsed[1].toLowerCase().includes(name))
-      ) {
-        const filename = `${this.parsed[3].split(".")[0]}.png`;
-        const image = this.project.data.imageUrls.find(
-          (i) => i.filename === filename
-        );
-        if (image) {
-          return image.url;
-        }
+      const filename = `${this.value.lineValue}.png`;
+      const image = this.project.data.imageUrls.find(
+        (i) => i.filename === filename
+      );
+      if (image) {
+        return image.url;
       }
-    },
-    isStatic() {
-      return this.parsed && this.parsed[2] === "=> ";
     },
     componentName() {
       if (!this.value) {
         return "FieldEmpty";
       }
-      if (this.value.startsWith("#")) {
+      if (this.value.isComment) {
         return "FieldComment";
       }
-      if (this.value.startsWith("-")) {
+      if (this.value.isSplit) {
         return "FieldSeparator";
       }
-      const key = this.parsed
-        ? this.parsed[1].split("[")[0].toLowerCase().replace("_", "-")
+      const key = this.value.lineKey
+        ? this.value.lineKey.replace("_", "-")
         : "default";
       const name = camelCase(`field-${key}`, { pascalCase: true });
 

@@ -1,22 +1,26 @@
 <template>
   <li class="list-group-item">
-    <input class="form-control" v-model="item" />
+    <div :class="{ 'input-group': value.key.raw }">
+      <span class="input-group-text" v-show="value.key.raw">
+        <span>{{ value.key.raw }}</span>
+        <span>{{ value.operator }}</span>
+      </span>
+      <input class="form-control" v-model="item" />
+    </div>
   </li>
 </template>
 <script>
 export default {
-  props: ["value", "project"],
+  props: ["value", "obj", "project"],
   emits: ["lineUpdate"],
   computed: {
     item: {
       get() {
-        return this.value.split("=")[1] || "";
+        return this.value.value.raw;
       },
       set(v) {
-        const data = this.value.split("=");
-        data.splice(1, 1, v);
-
-        this.$emit("lineUpdate", data.join("="));
+        const line = `${this.value.key.raw}${this.value.operator}${v}`;
+        this.$emit("lineUpdate", line);
       },
     },
   },

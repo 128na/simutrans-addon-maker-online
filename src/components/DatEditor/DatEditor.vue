@@ -30,15 +30,16 @@
           <snippet-selector @snippetSelected="handleSnippetSelected" />
         </div>
       </div>
-      <!-- <div class="col">
+      <div class="col">
         <line-editor
           v-if="line"
           :value="line"
+          :obj="obj"
           :project="project"
           @lineUpdate="handleLineUpdate"
         />
         <div v-else>選択行のdat設定と説明が表示されます。</div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>

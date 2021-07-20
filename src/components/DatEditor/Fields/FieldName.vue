@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-  props: ["value", "project"],
+  props: ["value", "obj", "project"],
   emits: ["lineUpdate"],
   computed: {
     item: {
