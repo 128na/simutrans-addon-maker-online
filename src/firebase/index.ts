@@ -15,7 +15,7 @@ const app: firebase.app.App = firebase.initializeApp(firebaseConfig);
 const db: firebase.firestore.Firestore = firebase.firestore(app);
 const storage: firebase.storage.Storage = firebase.storage(app);
 
-const authProviders = {
+const authProviders: { [index: string]: any } = {
   google: firebase.auth.GoogleAuthProvider,
   twitter: firebase.auth.TwitterAuthProvider,
 }

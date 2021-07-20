@@ -1,3 +1,5 @@
+import { LaraveValidatonErrorBody, PakErrorBody } from "@/plugins/interface";
+
 // pak化実行
 export const postPak = async function (data: Object) {
   const url = process.env.VUE_APP_MAKEOBJ_API_URL
@@ -30,17 +32,6 @@ function handleError(res: Response) {
     default:
       throw new Error('エラーが発生しました');
   }
-}
-
-interface LaraveValidatonErrorBody {
-  message: string,
-  errors: { [index: string]: string[] }
-}
-
-interface PakErrorBody {
-  code: number,
-  output: string,
-  error: string,
 }
 
 async function handleValidationError(res: Response) {

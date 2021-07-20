@@ -85,7 +85,7 @@ class Value {
   }
 }
 
-const IMAGEABLE_KEYS:string[] = [
+const IMAGEABLE_KEYS: string[] = [
   "icon",
   "cursor",
   // vehicle
@@ -125,8 +125,7 @@ const IMAGEABLE_KEYS:string[] = [
   "front_closedimage",
 ];
 
-
-export class SimutransDat {
+export class Simutrans {
   static Dat = Dat;
   static Obj = Obj;
   static Line = Line;
