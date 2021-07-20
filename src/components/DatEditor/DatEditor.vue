@@ -14,12 +14,12 @@
               @mouseup="handleLine"
             />
             <div class="text-secondary">
-              <small v-show="props.dropping && !props.ctrl"
-                >ファイル内容を追加。</small
-              >
-              <small v-show="props.dropping && props.ctrl"
-                >ファイル内容で上書き。</small
-              >
+              <small v-show="props.dropping && !props.ctrl">
+                ファイル内容を追加。
+              </small>
+              <small v-show="props.dropping && props.ctrl">
+                ファイル内容で上書き。
+              </small>
               <small v-show="!props.dropping">
                 .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き。
               </small>
@@ -30,7 +30,7 @@
           <snippet-selector @snippetSelected="handleSnippetSelected" />
         </div>
       </div>
-      <div class="col">
+      <!-- <div class="col">
         <line-editor
           v-if="line"
           :value="line"
@@ -38,7 +38,7 @@
           @lineUpdate="handleLineUpdate"
         />
         <div v-else>選択行のdat設定と説明が表示されます。</div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -47,6 +47,7 @@ import DroppableBox from "../../components/DroppableBox.vue";
 import { asyncTextReader } from "../../services/File";
 import LineEditor from "./LineEditor.vue";
 import SnippetSelector from "./SnippetSelector/SnippetSelector.vue";
+import { Simutrans } from "../../services/Simutrans";
 
 export default {
   components: {
@@ -60,14 +61,24 @@ export default {
       lineNo: 1,
     };
   },
+  mounted() {
+    const dat = new Simutrans.Dat(this.convertedValue);
+    console.log(dat);
+  },
   computed: {
     convertedValue() {
       return this.value
         .replaceAll("\r\n", "\n") // win CRLF -> LF
         .replaceAll("\r", "\n"); // mac CR -> LF
     },
+    dat() {
+      return new Simutrans.Dat(this.convertedValue);
+    },
+    obj() {
+      return this.dat.getObj(this.lineNo);
+    },
     line() {
-      return this.convertedValue.split("\n")[this.lineNo - 1];
+      return this.dat.getLine(this.lineNo);
     },
   },
   methods: {

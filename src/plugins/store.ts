@@ -1,16 +1,19 @@
+// https://next.vuex.vuejs.org/ja/guide/typescript-support.html
+
 import { createStore } from 'vuex'
 
 import firebase from "firebase";
 import app from "../firebase";
 import persister from "../firebase/persister";
 import { signInWithPopup, linkWithPopup, unlinkWithPopup } from "../services/ApiPortal";
+import { State, Project, Snippet } from './interface';
 
 const SET_USER = 'SET_USER';
 const SET_PROJECTS = 'SET_PROJECTS';
 const SET_SNIPPETS = 'SET_SNIPPETS';
 const SET_UNSUBSCRIBES = 'SET_UNSUBSCRIBES';
 
-export default createStore({
+export default createStore<State>({
   state: {
     // https://firebase.google.com/docs/reference/js/firebase.User
     user: undefined,
@@ -21,20 +24,20 @@ export default createStore({
   getters: {
     isInitialized: state => state.user !== undefined,
     isLoggedIn: state => !!state.user,
-    userName: state => state.user.displayName || 'Guest',
-    userId: state => state.user.uid,
+    userName: state => state.user?.displayName || 'Guest',
+    userId: state => state.user?.uid,
 
-    projects: state => state.projects.filter(i => !i.data.deletedAt),
+    projects: state => state.projects?.filter(i => !i.data.deletedAt),
     projectLoaded: state => state.projects !== undefined,
-    getProject: (state) => (id) => state.projects.find(i => i.id === id),
-    existsProject: (state) => (id) => !!state.projects.find(i => i.id === id),
-    trashedProjects: state => state.projects.filter(i => i.data.deletedAt),
+    getProject: (state) => (id: string) => state.projects?.find(i => i.id === id),
+    existsProject: (state) => (id: string) => !!state.projects?.find(i => i.id === id),
+    trashedProjects: state => state.projects?.filter(i => i.data.deletedAt),
 
-    snippets: state => state.snippets.filter(i => !i.data.deletedAt),
+    snippets: state => state.snippets?.filter(i => !i.data.deletedAt),
     snippetLoaded: state => state.snippets !== undefined,
-    getSnippet: (state) => (id) => state.snippets.find(i => i.id === id),
-    existsSnippet: (state) => (id) => !!state.snippets.find(i => i.id === id),
-    trashedSnippets: state => state.snippets.filter(i => i.data.deletedAt),
+    getSnippet: (state) => (id: string) => state.snippets?.find(i => i.id === id),
+    existsSnippet: (state) => (id: string) => !!state.snippets?.find(i => i.id === id),
+    trashedSnippets: state => state.snippets?.filter(i => i.data.deletedAt),
 
   },
   mutations: {
@@ -81,22 +84,26 @@ export default createStore({
         alert('ログインに失敗しました');
       }
     },
-    async link(context, provider) {
+    async link(context, provider: string) {
       try {
+        const uid: string | undefined = context.state.user?.uid;
+        if (!uid) {
+          throw Error('missing uid');
+        }
         provider === 'portal'
-          ? await linkWithPopup(context.state.user.uid)
-          : await firebase.auth().currentUser.linkWithPopup(new app.authProviders[provider]);
+          ? await linkWithPopup(uid)
+          : await firebase.auth().currentUser?.linkWithPopup(new app.authProviders[provider]);
         alert('連携しました');
       } catch (e) {
         console.error(e);
         alert('連携に失敗しました');
       }
     },
-    async unlink(context, provider) {
+    async unlink(context, provider: string) {
       try {
         provider === 'portal'
           ? await unlinkWithPopup()
-          : await firebase.auth().currentUser.unlink(app.authProviders[provider].PROVIDER_ID);
+          : await firebase.auth().currentUser?.unlink(app.authProviders[provider].PROVIDER_ID);
         alert('連携解除しました');
       } catch (e) {
         console.error(e);
@@ -152,7 +159,7 @@ export default createStore({
       await persister.project.forceDelete(context.getters.userId, project);
     },
     watchProjectState(context) {
-      const unsubscribe = persister.project.listen(context.getters.userId, (projects) => {
+      const unsubscribe = persister.project.listen(context.getters.userId, (projects: Project[]) => {
         console.log({ projects });
         context.commit(SET_PROJECTS, projects);
       });
@@ -177,7 +184,7 @@ export default createStore({
       await persister.snippet.forceDelete(context.getters.userId, snippet);
     },
     watchSnippetState(context) {
-      const unsubscribe = persister.snippet.listen(context.getters.userId, (snippets) => {
+      const unsubscribe = persister.snippet.listen(context.getters.userId, (snippets: Snippet[]) => {
         console.log({ snippets });
         context.commit(SET_SNIPPETS, snippets);
       });

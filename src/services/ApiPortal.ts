@@ -15,7 +15,7 @@ export const signInWithPopup = async () => {
   return await firebase.auth().signInWithCustomToken(await login(token));
 }
 
-export const linkWithPopup = async (uid) => {
+export const linkWithPopup = async (uid: string) => {
   try {
     const token = localStorage.getItem(process.env.VUE_APP_PORTAL_CREDENTIAL);
     if (token) {
@@ -42,7 +42,7 @@ export const unlinkWithPopup = async () => {
   return await unlink(token);
 }
 
-function randomString(length = 128) {
+function randomString(length: number = 128) {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   for (let i = 0; i < length; i++) {
@@ -55,7 +55,7 @@ function randomString(length = 128) {
 /**
  * @see https://www.authlete.com/ja/developers/pkce/
  */
-function createCodeChallenge(codeVerifier) {
+function createCodeChallenge(codeVerifier: string) {
   return Base64.stringify(sha256(codeVerifier))
     .replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
 }
@@ -67,7 +67,7 @@ async function getAccessToken() {
   return await getOauthToken(code, codeVerifier);
 }
 
-function getOauthCode(codeVerifier) {
+function getOauthCode(codeVerifier: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const state = randomString(40);
     const codeChallenge = createCodeChallenge(codeVerifier);
@@ -80,11 +80,11 @@ function getOauthCode(codeVerifier) {
     param.append('code_challenge', codeChallenge);
     param.append('code_challenge_method', 'S256');
     const url = `${process.env.VUE_APP_PORTAL_URL}/oauth/authorize?${param.toString()}`;
-    const win = window.open(url, "portal", [
-      "width=400",
-      "height=600",
-      "status=no",
-    ]);
+    const win = window.open(url, "portal", "width=400,height=600,status=no");
+
+    if (!win) {
+      return reject('ポップアップ表示に失敗しました');
+    }
 
     let timeout = 300; // 5min
     const timer = setInterval(async () => {
@@ -118,7 +118,7 @@ function getOauthCode(codeVerifier) {
     }, 1000);
   });
 }
-async function getOauthToken(code, codeVerifier) {
+async function getOauthToken(code: string, codeVerifier: string) {
   const url = `${process.env.VUE_APP_PORTAL_URL}/oauth/token`;
   const json = JSON.stringify({
     grant_type: 'authorization_code',
@@ -136,25 +136,25 @@ async function getOauthToken(code, codeVerifier) {
   if (!res.ok) {
     throw new Error('認証トークンの発行に失敗しました');
   }
-  const body = await res.json();
+  const body: { access_token: string } = await res.json();
   return body.access_token;
 }
 
-async function login(token) {
+async function login(token: string) {
   const url = `${process.env.VUE_APP_PORTAL_URL}/api/oauth/firebase/${process.env.VUE_APP_PORTAL_PROJECT_ID}/login`;
   const headers = {
     'Accept': 'application/json',
     'Authorization': `Bearer ${token}`
   };
-  const res = await fetch(url, { method: 'POST', headers, body });
+  const res: Response = await fetch(url, { method: 'POST', headers });
   if (!res.ok) {
     throw new Error('ユーザ情報の取得に失敗しました');
   }
-  const body = await res.json();
+  const body: { custom_token: string } = await res.json();
   return body.custom_token;
 }
 
-async function link(token, uid) {
+async function link(token: string, uid: string) {
   const url = `${process.env.VUE_APP_PORTAL_URL}/api/oauth/firebase/${process.env.VUE_APP_PORTAL_PROJECT_ID}/link`;
   const headers = {
     'Accept': 'application/json',
@@ -169,7 +169,7 @@ async function link(token, uid) {
     throw new Error('ユーザの連携に失敗しました');
   }
 }
-async function unlink(token) {
+async function unlink(token: string) {
   const url = `${process.env.VUE_APP_PORTAL_URL}/api/oauth/firebase/${process.env.VUE_APP_PORTAL_PROJECT_ID}/unlink`;
   const headers = {
     'Accept': 'application/json',
