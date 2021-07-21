@@ -1,12 +1,12 @@
 <template>
   <div class="card">
     <div class="card-header">
-      {{ "value" || "(空行)" }}
+      {{ value.original || "(空行)" }}
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item" v-if="imageUrl">
         <image-preview
-          :line="line"
+          :line="value"
           :imageUrl="imageUrl"
           :size="project.data.size"
         />
@@ -23,7 +23,6 @@
   </div>
 </template>
 <script>
-import { parseLine } from "../../services/DatParser";
 import ImagePreview from "./ImagePreview.vue";
 import Fields from "./Fields/ImportAll";
 import camelCase from "camelcase";
@@ -33,7 +32,7 @@ export default {
   components: { ImagePreview, ...Fields },
   computed: {
     imageUrl() {
-      const filename = `${this.value.lineValue}.png`;
+      const filename = `${this.value.valueElement}.png`;
       const image = this.project.data.imageUrls.find(
         (i) => i.filename === filename
       );
@@ -51,8 +50,8 @@ export default {
       if (this.value.isSplit) {
         return "FieldSeparator";
       }
-      const key = this.value.lineKey
-        ? this.value.lineKey.replace("_", "-")
+      const key = this.value.keyElement
+        ? this.value.keyElement.replace("_", "-")
         : "default";
       const name = camelCase(`field-${key}`, { pascalCase: true });
 

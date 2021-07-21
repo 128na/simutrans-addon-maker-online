@@ -2,38 +2,38 @@
  * datファイル全体
  */
 class Dat {
-  raw: string;
+  original: string;
   objs: Obj[];
 
-  constructor(raw: string) {
-    this.raw = raw;
-    const rawLines = raw.split("\n");
+  constructor(original: string) {
+    this.original = original;
+    const originalLines = original.split("\n");
     let current = 0;
-    this.objs = raw.replace(/---+/gi, "---").split("---")
+    this.objs = original.replace(/---+/gi, "---").split("---")
       .map((o) => {
-        const raw = `${o}\n${rawLines[o.split("\n").length - 1]}`;
-        const range: [number, number] = [current + 1, current += o.split("\n").length];
-        return new Obj(raw, range);
+        const len = o.split("\n").length;
+        const original = `${o}\n${originalLines[len - 1]}`;
+        const range: [number, number] = [current + 1, current += len];
+        return new Obj(original, range);
       });
   }
-
-  getObj(l: number): Obj | undefined {
+  getObjByLine(l: number): Obj | undefined {
     return this.objs.find(obj => obj.inRange(l))
   }
-  getLine(l: number): Line | undefined {
-    return this.getObj(l)?.getLine(l);
+  getLineByLine(l: number): Line | undefined {
+    return this.getObjByLine(l)?.getLine(l);
   }
 }
 
 class Obj {
-  raw: string;
+  original: string;
   range: [number, number];
   lines: Line[];
 
-  constructor(raw: string, range: [number, number]) {
+  constructor(original: string, range: [number, number]) {
     this.range = range;
-    this.raw = raw;
-    this.lines = this.raw.split("\n")
+    this.original = original;
+    this.lines = original.split("\n")
       .map(l => new Line(l));
   }
 
@@ -44,14 +44,14 @@ class Obj {
     return this.lines[l - this.range[0]];
   }
   getLineByKey(key: string): Line | undefined {
-    return this.lines.find(l => l.lineKey === key);
+    return this.lines.find(l => l.keyElement === key);
   }
 
   get obj(): string | undefined {
-    return this.getLineByKey('obj')?.lineValue;
+    return this.getLineByKey('obj')?.valueElement;
   }
   get name(): string | undefined {
-    return this.getLineByKey('name')?.lineValue;
+    return this.getLineByKey('name')?.valueElement;
   }
 }
 
@@ -60,74 +60,80 @@ class Obj {
  * foo=bar
  */
 class Line {
-  raw: string;
+  original: string;
   key: Key;
   operator: string;
   value: Value;
 
-  constructor(raw: string) {
-    this.raw = raw;
-    const tmp = this.raw.match(/^([^=]*)(=> |=)?(\S*)?$/i) || [];
+  constructor(original: string) {
+    this.original = original;
+    const tmp = original.match(/^([^=]*)(=> |=)?(\S*)?$/i) || [];
     if (!tmp[2]) {
       this.key = new Key("");
       this.operator = "";
       this.value = new Value(tmp[1] || "");
     } else {
-
       this.key = new Key((tmp[1] || "").toLowerCase());
       this.operator = tmp[2] || "";
       this.value = new Value(tmp[3] || "");
     }
   }
-  hasImage(): boolean {
-    return IMAGEABLE_KEYS.includes(this.lineKey);
+  get hasImage(): boolean {
+    return IMAGEABLE_KEYS.includes(this.keyElement);
   }
-  isStaticImage(): boolean {
-    return this.hasImage() && this.operator === '=> ';
+  get isStaticImage(): boolean {
+    return this.hasImage && this.operator === '=> ';
   }
 
-  get lineKey(): string {
-    return this.key.key;
+  get keyElement(): string {
+    return this.key.element;
   }
-  get lineKeyParameters(): string[] {
+  get keyParameters(): string[] {
     return this.key.parameters;
   }
-  get lineValue(): string {
-    return this.value.value;
+  get keyWithParam(): string {
+    return this.key.original;
   }
-  get lineValueParameters(): string[] {
+
+  get valueElement(): string {
+    return this.value.element;
+  }
+  get valueParameters(): string[] {
     return this.value.parameters;
+  }
+  get valueWithParam(): string {
+    return this.value.original;
   }
 
   get isComment(): boolean {
-    return this.lineKey.startsWith('#');
+    return this.keyElement.startsWith('#');
   }
   get isSplit(): boolean {
-    return this.lineKey.startsWith('---');
+    return this.keyElement.startsWith('---');
   }
 }
 
 class Key {
-  raw: string;
-  key: string;
+  original: string;
+  element: string;
   parameters: string[];
 
-  constructor(raw: string) {
-    this.raw = raw
-    this.key = (raw.split("[")[0] || "");
-    this.parameters = [...raw.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1] || "");
+  constructor(original: string) {
+    this.original = original
+    this.element = (original.split("[")[0] || "");
+    this.parameters = [...original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1] || "");
   }
 }
 
 class Value {
-  raw: string;
-  value: string;
+  original: string;
+  element: string;
   parameters: string[];
 
-  constructor(raw: string) {
-    this.raw = raw
-    this.value = raw.split(".")[0] || "";
-    this.parameters = [...raw.matchAll(/[\.,]([-\d]*)/ig)].map(p => p[1] || "");
+  constructor(original: string) {
+    this.original = original
+    this.element = original.split(".")[0] || "";
+    this.parameters = [...original.matchAll(/[\.,]([-\d]*)/ig)].map(p => p[1] || "");
   }
 }
 

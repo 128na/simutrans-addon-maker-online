@@ -76,10 +76,10 @@ export default {
       return new Simutrans.Dat(this.convertedValue);
     },
     obj() {
-      return this.dat.getObj(this.lineNo);
+      return this.dat.getObjByLine(this.lineNo);
     },
     line() {
-      return this.dat.getLine(this.lineNo);
+      return this.dat.getLineByLine(this.lineNo);
     },
   },
   methods: {

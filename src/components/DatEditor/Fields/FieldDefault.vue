@@ -1,8 +1,8 @@
 <template>
   <li class="list-group-item">
-    <div :class="{ 'input-group': value.key.raw }">
-      <span class="input-group-text" v-show="value.key.raw">
-        <span>{{ value.key.raw }}</span>
+    <div :class="{ 'input-group': value.keyWithParam }">
+      <span class="input-group-text" v-show="value.keyWithParam">
+        <span>{{ value.keyWithParam }}</span>
         <span>{{ value.operator }}</span>
       </span>
       <input class="form-control" v-model="item" />
@@ -16,10 +16,10 @@ export default {
   computed: {
     item: {
       get() {
-        return this.value.value.raw;
+        return this.value.valueWithParam;
       },
       set(v) {
-        const line = `${this.value.key.raw}${this.value.operator}${v}`;
+        const line = `${this.value.keyWithParam}${this.value.operator}${v}`;
         this.$emit("lineUpdate", line);
       },
     },
