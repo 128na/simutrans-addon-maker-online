@@ -7,14 +7,10 @@ class Dat {
 
   constructor(original: string) {
     this.original = original;
-    const originalLines = original.split("\n");
     let current = 0;
-    this.objs = original.replace(/---+/gi, "---").split("---")
-      .map((o) => {
-        const len = o.split("\n").length;
-        const original = `${o}\n${originalLines[len - 1]}`;
-        const range: [number, number] = [current + 1, current += len];
-        return new Obj(original, range);
+    this.objs = original.replace(/---+/gi, "---").split("---\n")
+      .map(o => {
+        return new Obj(o, [current + 1, current += o.split("\n").length]);
       });
   }
   getObjByLine(l: number): Obj | undefined {
@@ -52,6 +48,9 @@ class Obj {
   }
   get name(): string | undefined {
     return this.getLineByKey('name')?.valueElement;
+  }
+  get startLineNo(): number {
+    return this.range[0];
   }
 }
 
@@ -91,9 +90,19 @@ class Line {
   get keyParameters(): string[] {
     return this.key.parameters;
   }
-  get keyWithParam(): string {
+  get keyParameter(): string {
+    return this.key.parameters.join(',');
+  }
+  get keyWithParameter(): string {
     return this.key.original;
   }
+  set keyElement(element: string) {
+    this.key.element = element;
+  }
+  set keyParameters(parameters: string[]) {
+    this.key.parameters = parameters;
+  }
+
 
   get valueElement(): string {
     return this.value.element;
@@ -101,15 +110,24 @@ class Line {
   get valueParameters(): string[] {
     return this.value.parameters;
   }
-  get valueWithParam(): string {
+  get valueParameter(): string {
+    return this.value.parameters.join(',');
+  }
+  get valueWithParameter(): string {
     return this.value.original;
+  }
+  set valueElement(element: string) {
+    this.value.element = element;
+  }
+  set valueParameters(parameters: string[]) {
+    this.value.parameters = parameters;
   }
 
   get isComment(): boolean {
-    return this.keyElement.startsWith('#');
+    return this.valueElement.startsWith('#');
   }
   get isSplit(): boolean {
-    return this.keyElement.startsWith('---');
+    return this.valueElement.startsWith('---');
   }
 }
 

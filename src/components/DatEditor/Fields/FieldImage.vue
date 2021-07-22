@@ -13,10 +13,10 @@ export default {
   computed: {
     item: {
       get() {
-        return this.value.valueWithParam;
+        return this.value.valueWithParameter;
       },
       set(v) {
-        const line = `${this.value.keyWithParam}${this.value.operator}${v}`;
+        const line = `${this.value.keyWithParameter}${this.value.operator}${v}`;
         this.$emit("lineUpdate", line);
       },
     },
