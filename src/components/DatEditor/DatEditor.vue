@@ -2,14 +2,10 @@
   <droppable-box @fileDropped="handleFileDropped">
     <template v-slot:default="props">
       <textarea
-        id="dat"
         class="form-control"
         rows="12"
         :value="value"
         @input.prevent="$emit('update:value', $event.target.value)"
-        @keyup.prevent="handleLine"
-        @mouseup.prevent="handleLine"
-        @scroll.prevent
       />
       <div class="text-secondary">
         <small v-show="props.dropping && !props.ctrl">
@@ -42,11 +38,6 @@ export default {
     SnippetSelector,
   },
   props: ["value", "project"],
-  data() {
-    return {
-      lineNo: 1,
-    };
-  },
   mounted() {
     const dat = new Simutrans.Dat(this.convertedValue);
     console.log(dat);
@@ -60,12 +51,6 @@ export default {
     dat() {
       return new Simutrans.Dat(this.convertedValue);
     },
-    obj() {
-      return this.dat.getObjByLine(this.lineNo);
-    },
-    line() {
-      return this.dat.getLineByLine(this.lineNo);
-    },
   },
   methods: {
     async handleFileDropped({ files, ctrl }) {
@@ -78,19 +63,8 @@ export default {
       );
       this.$emit("update:value", value);
     },
-    handleLine(e) {
-      this.lineNo = this.convertedValue
-        .substr(0, e.target.selectionStart)
-        .split("\n").length;
-    },
-    handleLineUpdate(line) {
-      const lines = this.convertedValue.split("\n");
-      lines.splice(this.lineNo - 1, 1, line);
-      this.$emit("update:value", lines.join("\n"));
-    },
     handleSnippetSelected(value) {
-      value = `${this.value}\n${value}`;
-      this.$emit("update:value", value);
+      this.$emit("update:value", `${this.value}\n${value}`);
     },
   },
 };
