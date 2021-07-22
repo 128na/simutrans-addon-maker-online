@@ -1,58 +1,44 @@
 <template>
-  <div class="pt-1 sp-wide">
-    <div class="row">
-      <div class="col">
-        <droppable-box @fileDropped="handleFileDropped">
-          <template v-slot:default="props">
-            <textarea
-              id="dat"
-              class="form-control"
-              rows="10"
-              :value="value"
-              @input="$emit('update:value', $event.target.value)"
-              @keyup="handleLine"
-              @mouseup="handleLine"
-            />
-            <div class="text-secondary">
-              <small v-show="props.dropping && !props.ctrl">
-                ファイル内容を追加。
-              </small>
-              <small v-show="props.dropping && props.ctrl">
-                ファイル内容で上書き。
-              </small>
-              <small v-show="!props.dropping">
-                .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き。
-              </small>
-            </div>
-          </template>
-        </droppable-box>
-        <div>
-          <snippet-selector @snippetSelected="handleSnippetSelected" />
-        </div>
+  <droppable-box @fileDropped="handleFileDropped">
+    <template v-slot:default="props">
+      <textarea
+        id="dat"
+        class="form-control"
+        rows="12"
+        :value="value"
+        @input.prevent="$emit('update:value', $event.target.value)"
+        @keyup.prevent="handleLine"
+        @mouseup.prevent="handleLine"
+        @scroll.prevent
+      />
+      <div class="text-secondary">
+        <small v-show="props.dropping && !props.ctrl">
+          ファイル内容を追加。
+        </small>
+        <small v-show="props.dropping && props.ctrl">
+          ファイル内容で上書き。
+        </small>
+        <small v-show="!props.dropping">
+          .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き。
+        </small>
       </div>
-      <!-- <div class="col">
-        <line-editor
-          v-if="line"
-          :value="line"
-          :project="project"
-          @lineUpdate="handleLineUpdate"
-        />
-        <div v-else>選択行のdat設定と説明が表示されます。</div>
-      </div> -->
-    </div>
-  </div>
+      <div>
+        <snippet-selector @snippetSelected="handleSnippetSelected" />
+      </div>
+    </template>
+  </droppable-box>
 </template>
 <script>
 import DroppableBox from "../../components/DroppableBox.vue";
 import { asyncTextReader } from "../../services/File";
-import LineEditor from "./LineEditor.vue";
+import ObjEditor from "./ObjEditor.vue";
 import SnippetSelector from "./SnippetSelector/SnippetSelector.vue";
 import { Simutrans } from "../../services/Simutrans";
 
 export default {
   components: {
     DroppableBox,
-    LineEditor,
+    ObjEditor,
     SnippetSelector,
   },
   props: ["value", "project"],
@@ -75,10 +61,10 @@ export default {
       return new Simutrans.Dat(this.convertedValue);
     },
     obj() {
-      return this.dat.getObj(this.lineNo);
+      return this.dat.getObjByLine(this.lineNo);
     },
     line() {
-      return this.dat.getLine(this.lineNo);
+      return this.dat.getLineByLine(this.lineNo);
     },
   },
   methods: {
@@ -109,14 +95,3 @@ export default {
   },
 };
 </script>
-<style>
-@media (max-width: 767.98px) {
-  .sp-wide {
-    overflow-x: auto;
-    margin-right: -0.75rem;
-  }
-  .sp-wide .row {
-    width: 150vw;
-  }
-}
-</style>

@@ -51,11 +51,7 @@ export default {
         files.map(async (f) => {
           return {
             filename: f.name,
-            url: await filePersister.project.upload(
-              this.userId,
-              this.projectId,
-              f
-            ),
+            url: await filePersister.upload(this.userId, f),
           };
         })
       );

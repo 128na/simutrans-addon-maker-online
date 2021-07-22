@@ -8,18 +8,16 @@
 </template>
 <script>
 export default {
-  props: ["value", "project"],
+  props: ["value", "obj", "project"],
   emits: ["lineUpdate"],
   computed: {
     item: {
       get() {
-        return this.value.split("=")[1] || "";
+        return this.value.valueWithParameter;
       },
       set(v) {
-        const data = this.value.split("=");
-        data.splice(1, 1, v);
-
-        this.$emit("lineUpdate", data.join("="));
+        const line = `${this.value.keyWithParameter}${this.value.operator}${v}`;
+        this.$emit("lineUpdate", line);
       },
     },
   },

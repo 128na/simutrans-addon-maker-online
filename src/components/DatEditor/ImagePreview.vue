@@ -11,7 +11,7 @@ export default {
   props: ["line", "imageUrl", "size", "isStatic"],
   computed: {
     boxStyle() {
-      const width = this.isStatic ? 32 : this.size;
+      const width = this.line.isStaticImage ? 32 : this.size;
       const height = width;
       return {
         width: `${width}px`,
@@ -27,16 +27,16 @@ export default {
       };
     },
     x() {
-      return parseInt(this.line.split(".")[2].split(",")[0]);
+      return parseInt(this.line.valueParameters[1] || 0);
     },
     y() {
-      return parseInt(this.line.split(".")[1]);
+      return parseInt(this.line.valueParameters[0] || 0);
     },
     ox() {
-      return parseInt(this.line.split(",")[1] || 0);
+      return parseInt(this.line.valueParameters[2] || 0);
     },
     oy() {
-      return parseInt(this.line.split(",")[2] || 0);
+      return parseInt(this.line.valueParameters[3] || 0);
     },
   },
 };
