@@ -1,6 +1,6 @@
 <template>
-  <button class="btn btn-outline-info">
-    <font-awesome-icon :icon="['fab', 'twitter']" class="me-2" />
+  <q-btn color="light-blue" class="full-width">
+    <q-icon name="mdi-twitter" class="q-mr-xs" />
     <slot>Twitter</slot>
-  </button>
+  </q-btn>
 </template>

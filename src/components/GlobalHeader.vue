@@ -18,7 +18,7 @@
           class="rounded-borders"
         >
           <q-item-section avatar>
-            <q-icon name="arrow_back" />
+            <q-icon name="navigate_before" />
           </q-item-section>
         </q-item>
         <q-separator />
@@ -39,7 +39,7 @@
           <q-separator v-show="canShow(item) && item.separator" />
         </template>
         <q-separator />
-        <q-item v-ripple>
+        <q-item>
           <small>{{ title }} v{{ version }} </small>
         </q-item>
       </q-list>

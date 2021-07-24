@@ -1,7 +1,7 @@
 <template>
   <div>
     <title-main>サインイン</title-main>
-    <layout-box class="d-grid gap-3">
+    <layout-box class="q-gutter-y-md">
       <button-portal @click.prevent="signin('portal')" />
       <button-google @click.prevent="signin('google')" />
       <button-twitter @click.prevent="signin('twitter')" />

@@ -1,5 +1,5 @@
 <template>
-  <button class="btn btn-light">
+  <q-btn color="grey-2" text-color="dark" class="full-width">
     <slot>登録せずに利用する</slot>
-  </button>
+  </q-btn>
 </template>

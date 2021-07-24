@@ -8,5 +8,9 @@ export default {
   config: {},
   plugins: {
   },
-  lang: lang
+  lang: lang,
+  extras: [
+    'material-icons',
+    'mdi-v5', // index.htmlにCDN追加が必要
+  ]
 }

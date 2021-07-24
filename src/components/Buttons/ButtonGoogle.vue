@@ -1,6 +1,6 @@
 <template>
-  <button class="btn btn-outline-danger">
-    <font-awesome-icon :icon="['fab', 'google']" class="me-2" />
+  <q-btn color="red" class="full-width">
+    <q-icon name="mdi-google" class="q-mr-xs" />
     <slot>Google</slot>
-  </button>
+  </q-btn>
 </template>
