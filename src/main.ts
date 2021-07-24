@@ -5,7 +5,7 @@ import router from './plugins/router'
 import store from './plugins/store'
 
 import "./firebase";
-import { Quasar } from 'quasar'
+import { Quasar, useQuasar } from 'quasar'
 import quasarUserOptions from './plugins/quasar-user-options'
 
 const app = createApp(App)
@@ -19,6 +19,33 @@ app.mixin({
       this.$router.push({ name, params });
     }
   }
+})
+
+
+app.mixin({
+  data() {
+    return {
+      $q: null,
+    };
+  },
+  created() {
+    const $q = useQuasar();
+    this.$q = $q;
+
+    const dark = localStorage.getItem("theme.dark");
+    this.$q.dark.set(dark === "1" ? true : false);
+  },
+  computed: {
+    isDarkTheme() {
+      return this.$q.dark.isActive;
+    },
+  },
+  methods: {
+    toggleTheme() {
+      this.$q.dark.toggle();
+      localStorage.setItem("theme.dark", this.isDarkTheme ? "1" : "0");
+    },
+  },
 })
 
 

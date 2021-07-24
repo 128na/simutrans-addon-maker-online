@@ -1,23 +1,11 @@
 <template>
-  <q-layout view="hHh LpR fFf" class="q-px-md" v-if="isInitialized">
+  <q-layout view="hHh LpR fFf" class="q-px-md">
     <global-header />
-
-    <q-page-container>
+    <q-page-container v-if="isInitialized">
       <router-view />
     </q-page-container>
-    <!-- 
-    <q-footer elevated class="bg-grey-8 text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-          </q-avatar>
-          <div>Title</div>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer> -->
+    <layout-loading v-else class="mt-5" />
   </q-layout>
-  <layout-loading v-else class="mt-5" />
 </template>
 
 <script>

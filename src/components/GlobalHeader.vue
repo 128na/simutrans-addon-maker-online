@@ -6,9 +6,10 @@
       <q-toolbar-title id="title">
         {{ title }}
       </q-toolbar-title>
+      <theme-toggler />
     </q-toolbar>
   </q-header>
-  <q-drawer v-model="drawer" show-if-above bordered class="bg-grey-3">
+  <q-drawer v-model="drawer" show-if-above bordered :class="drawerClass">
     <q-scroll-area class="fit">
       <q-list>
         <q-item
@@ -48,8 +49,10 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import ThemeToggler from "./ThemeToggler.vue";
 export default {
   name: "GlobalHeader",
+  components: { ThemeToggler },
   data() {
     return {
       drawer: false,
@@ -73,6 +76,9 @@ export default {
     },
     version() {
       return process.env.VUE_APP_VERSION;
+    },
+    drawerClass() {
+      return this.isDarkTheme ? "bg-grey-8" : "bg-grey-3";
     },
     menus() {
       return [
