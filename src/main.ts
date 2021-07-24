@@ -16,4 +16,13 @@ const app = createApp(App)
 
 app.component('font-awesome-icon', fontawesome);
 
+app.mixin({
+  methods: {
+    routeTo(name: string, params = {}) {
+      this.$router.push({ name, params });
+    }
+  }
+})
+
+
 app.mount('#app');

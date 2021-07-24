@@ -1,16 +1,25 @@
-<template >
-  <div v-if="isInitialized">
+<template>
+  <q-layout view="hHh LpR fFf" class="q-px-md" v-if="isInitialized">
     <global-header />
-    <div class="container-fluid my-3">
-      <router-view v-slot="{ Component }">
-        <transition name="scale-slide">
-          <component :is="Component" class="bg-white" />
-        </transition>
-      </router-view>
-    </div>
-  </div>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+    <!-- 
+    <q-footer elevated class="bg-grey-8 text-white">
+      <q-toolbar>
+        <q-toolbar-title>
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
+          </q-avatar>
+          <div>Title</div>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer> -->
+  </q-layout>
   <layout-loading v-else class="mt-5" />
 </template>
+
 <script>
 import { mapGetters, mapActions } from "vuex";
 import GlobalHeader from "./components/GlobalHeader.vue";
@@ -51,31 +60,7 @@ ul {
 li {
   list-style: none;
 }
-.navbar-brand {
+#title {
   font-weight: 700;
-}
-
-.scale-slide-enter-active,
-.scale-slide-leave-active {
-  position: absolute;
-  transition: all 0.35s ease-in-out;
-  width: 100%;
-  height: 100%;
-}
-
-.scale-slide-enter-from {
-  left: -100%;
-}
-
-.scale-slide-enter-to {
-  left: 0%;
-}
-
-.scale-slide-leave-from {
-  transform: scale(1);
-}
-
-.scale-slide-leave-to {
-  transform: scale(0.8);
 }
 </style>
