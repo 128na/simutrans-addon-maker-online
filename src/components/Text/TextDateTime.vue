@@ -7,9 +7,9 @@ export default {
   props: ["value"],
   computed: {
     text() {
-      return DateTime.fromHTTP(this.value).toLocaleString(
-        DateTime.DATETIME_SHORT
-      );
+      return DateTime.fromHTTP(this.value)
+        .setLocale("ja")
+        .toLocaleString(DateTime.DATETIME_SHORT);
     },
   },
 };

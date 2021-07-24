@@ -2,93 +2,19 @@
   <div v-if="projectLoaded">
     <title-main class="mb-3">プロジェクト管理</title-main>
     <layout-box>
-      <button class="btn btn-primary" @click="handleCreate">新規作成</button>
+      <q-btn color="primary" @click="handleCreate">新規作成</q-btn>
     </layout-box>
     <layout-box>
-      <!-- tab list -->
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <button
-            class="nav-link active"
-            data-bs-toggle="tab"
-            data-bs-target="#projects"
-          >
-            一覧
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            data-bs-toggle="tab"
-            data-bs-target="#trashed"
-          >
-            ゴミ箱
-          </button>
-        </li>
-      </ul>
-
-      <!-- tab content -->
-      <div class="tab-content">
-        <div class="tab-pane fade show active p-3" id="projects">
-          <ul>
-            <li v-for="p in projects" class="mb-2">
-              <div>
-                <router-link :to="routeProject(p)">
-                  <span>{{ p.data.title }}</span>
-                </router-link>
-                <a
-                  href="#"
-                  class="text-secondary mx-1"
-                  @click.prevent="deleteProject(p)"
-                  >ゴミ箱</a
-                >
-              </div>
-              <small>
-                <span
-                  >最終更新<text-date-time :value="p.data.updatedAt"
-                /></span>
-              </small>
-            </li>
-          </ul>
-        </div>
-        <div class="tab-pane fade p-3" id="trashed">
-          <ul>
-            <li v-for="p in trashedProjects">
-              <div>
-                <span>{{ p.data.title }}</span>
-                <a
-                  href="#"
-                  class="text-secondary mx-1"
-                  @click.prevent="restoreProject(p)"
-                  >復元</a
-                >
-                <a
-                  href="#"
-                  class="text-danger mx-1"
-                  @click.prevent="handleForceDelete(p)"
-                  >削除</a
-                >
-              </div>
-              <small>
-                <span>
-                  削除日
-                  <text-date-time :value="p.data.deletedAt" />
-                </span>
-              </small>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </layout-box>
-    <title-sub class="mb-3">エクスポート</title-sub>
-    <layout-box>
-      <p>プロジェクトデータをjson形式で出力します。</p>
-      <exporter :data="projects" exportName="projects" />
-    </layout-box>
-    <title-sub class="mb-3">インポート</title-sub>
-    <layout-box>
-      <p>json形式のプロジェクトデータを取り込みます。</p>
-      <importer @import="handleImport" />
+      <item-list
+        itemLabel="プロジェクト"
+        :items="projects"
+        :trashedItems="trashedProjects"
+        @itemClick="routeItem"
+        @itemDelete="deleteProject"
+        @itemRestore="restoreProject"
+        @itemForceDelete="handleForceDelete"
+        @import="handleImport"
+      />
     </layout-box>
   </div>
 </template>
@@ -98,17 +24,13 @@ import { mapActions, mapGetters } from "vuex";
 import LayoutBox from "../components/LayoutBox.vue";
 import TitleSub from "../components/Text/TitleSub.vue";
 import TitleMain from "../components/Text/TitleMain.vue";
-import Exporter from "../components/IExporter/Exporter.vue";
-import Importer from "../components/IExporter/Importer.vue";
-import TextDateTime from "../components/Text/TextDateTime.vue";
+import ItemList from "@/components/ItemList.vue";
 export default {
   components: {
     TitleMain,
     LayoutBox,
     TitleSub,
-    Exporter,
-    Importer,
-    TextDateTime,
+    ItemList,
   },
   name: "Projects",
   computed: {
@@ -150,23 +72,23 @@ export default {
         alert("プロジェクト作成に失敗しました");
       }
     },
-    async handleForceDelete(p) {
+    async handleForceDelete(item) {
       try {
-        confirm("削除しますか？") && (await this.forceDeleteProject(p));
+        confirm("削除しますか？") && (await this.forceDeleteProject(item));
       } catch (e) {
         alert("プロジェクト削除に失敗しました");
       }
     },
-    routeProject(p) {
-      return { name: "Project", params: { id: p.id } };
+    routeItem(item) {
+      return this.routeTo("Project", { id: item.id });
     },
     handleImport({ json, overwrite }) {
-      json.map(async (p) => {
+      json.map(async (item) => {
         try {
-          if (overwrite && this.existsProject(p.id)) {
-            await this.updateProject(p);
+          if (overwrite && this.existsProject(item.id)) {
+            await this.updateProject(item);
           } else {
-            await this.createProject(p.data);
+            await this.createProject(item.data);
           }
         } catch (e) {
           alert("インポートに失敗しました");

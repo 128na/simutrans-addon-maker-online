@@ -1,5 +1,5 @@
 <template>
-  <button class="btn btn-primary" @click="handle">エクスポート</button>
+  <q-btn color="primary" @click="handle">エクスポート</q-btn>
 </template>
 <script>
 import { saveAs } from "file-saver";

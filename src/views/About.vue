@@ -6,6 +6,32 @@
     </layout-box>
 
     <title-main>使い方</title-main>
+    <title-sub>操作の種類</title-sub>
+    <layout-box>
+      <p>
+        <q-btn color="primary">サンプル</q-btn>
+        <a class="text-primary q-mx-xs">サンプル</a>
+        その画面における主な操作に利用されます。（新規作成や保存など）
+      </p>
+      <p>
+        <q-btn color="secondary">サンプル</q-btn>
+        <a class="text-secondary q-mx-xs">サンプル</a>
+        その画面における補助的な操作に利用されます。
+      </p>
+      <p>
+        <q-btn color="negative">サンプル</q-btn>
+        <a class="text-negative q-mx-xs">サンプル</a>
+        その画面における破壊的な操作に利用されます。実行前に確認ダイアログが表示されます。（削除など）
+      </p>
+      <p>
+        <q-btn disable color="primary">サンプル</q-btn>
+        そのボタンの操作を利用可能な条件が揃っていないことを表します。（未入力項目があるなど）
+      </p>
+      <p>
+        <q-btn :loading="true" color="primary">サンプル</q-btn>
+        そのボタンの操作が実行中であることを表します。処理が完了するまで再度実行することができません。
+      </p>
+    </layout-box>
     <title-sub>プロジェクト管理</title-sub>
     <layout-box>
       プロジェクトとは、作成されるpakライブラリ単位のアドオンのことです。
@@ -16,6 +42,13 @@
     <layout-box>
       テンプレートとは、プロジェクト内のdatファイルのひな形テキストのことです。
       アプリ側で用意されたテンプレートと、自身で登録したテンプレートを使用してdat新規作成を効率的に行うことができます。
+    </layout-box>
+
+    <title-sub>画像管理</title-sub>
+    <layout-box>
+      画像とは、各プロジェクトでアップロードした画像のことです。
+      画像はプロジェクト単位でなくユーザー単位で管理されています。
+      異なるプロジェクトでも同じファイル名があると上書きされてしまいますのでご注意ください。
     </layout-box>
 
     <title-main>更新履歴</title-main>
