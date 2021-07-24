@@ -7,6 +7,7 @@ import store from './plugins/store'
 import "./firebase";
 import { Quasar, useQuasar } from 'quasar'
 import quasarUserOptions from './plugins/quasar-user-options'
+import deviceConfig from './services/deviceConfig'
 
 const app = createApp(App)
   .use(Quasar, quasarUserOptions)
@@ -32,8 +33,7 @@ app.mixin({
     const $q = useQuasar();
     this.$q = $q;
 
-    const dark = localStorage.getItem("theme.dark");
-    this.$q.dark.set(dark === "1" ? true : false);
+    this.$q.dark.set(deviceConfig.darkMode.get());
   },
   computed: {
     isDarkTheme() {
@@ -43,7 +43,7 @@ app.mixin({
   methods: {
     toggleTheme() {
       this.$q.dark.toggle();
-      localStorage.setItem("theme.dark", this.isDarkTheme ? "1" : "0");
+      deviceConfig.darkMode.set(this.isDarkTheme);
     },
   },
 })

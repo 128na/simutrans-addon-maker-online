@@ -76,8 +76,8 @@ export default {
         alert("テンプレート削除に失敗しました");
       }
     },
-    routeSnippet(item) {
-      return { name: "Snippet", params: { id: item.id } };
+    routeItem(item) {
+      return this.routeTo("Snippet", { id: item.id });
     },
     handleImport({ json, overwrite }) {
       json.map(async (item) => {

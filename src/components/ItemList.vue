@@ -5,7 +5,7 @@
       class="text-grey"
       active-color="primary"
       indicator-color="primary"
-      align="justify-start"
+      align="left"
       narrow-indicator
       inline-label
     >

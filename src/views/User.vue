@@ -10,28 +10,32 @@
         <dt>最終サインイン</dt>
         <dd><text-date-time :value="user.metadata.lastSignInTime" /></dd>
       </dl>
-      <button class="btn btn-primary" @click="signout">サインアウト</button>
+      <q-btn color="primary" @click="signout">サインアウト</q-btn>
     </layout-box>
     <title-sub>サインイン連携</title-sub>
     <layout-box>
-      <div>サインインに使用できるアカウントの連携・解除ができます</div>
+      <p>サインインに使用できるアカウントの連携・解除ができます</p>
       <dt>Portal</dt>
       <dd>
-        <a href="#" class="text-primary me-3" @click="link('portal')"> 連携 </a>
+        <a href="#" class="text-primary q-mr-sm" @click="link('portal')">
+          連携
+        </a>
         <a href="#" class="text-secondary" @click="handleUnlink('portal')">
           連携解除
         </a>
       </dd>
       <dt>Google</dt>
       <dd>
-        <a href="#" class="text-primary me-3" @click="link('google')"> 連携 </a>
+        <a href="#" class="text-primary q-mr-sm" @click="link('google')">
+          連携
+        </a>
         <a href="#" class="text-secondary" @click="handleUnlink('google')">
           連携解除
         </a>
       </dd>
       <dt>Twitter</dt>
       <dd>
-        <a href="#" class="text-primary me-3" @click="link('twitter')">
+        <a href="#" class="text-primary q-mr-sm" @click="link('twitter')">
           連携
         </a>
         <a href="#" class="text-secondary" @click="handleUnlink('twitter')"
@@ -45,7 +49,7 @@
     </layout-box>
     <title-sub>ユーザーデータ削除</title-sub>
     <layout-box>
-      <div>作成したデータを削除します。</div>
+      <p>作成したデータを削除します。</p>
     </layout-box>
   </div>
 </template>

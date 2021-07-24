@@ -7,7 +7,10 @@ class Dat {
 
   constructor(original: string) {
     this.original = original;
-    this.objs = original.replace(/---+/gi, "---").split("---\n")
+    this.objs = original
+      .replaceAll("\r\n", "\n") // win CRLF -> LF
+      .replaceAll("\r", "\n") // mac CR -> LF
+      .replace(/---+/gi, "---").split("---\n")
       .map(o => new Obj(o));
   }
 

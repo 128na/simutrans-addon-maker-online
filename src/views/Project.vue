@@ -1,68 +1,44 @@
 <template>
   <div v-if="project">
     <title-main>{{ project.data.title }}</title-main>
-    <layout-box>
-      <label for="title" class="form-label">プロジェクト名</label>
-      <input
-        type="text"
-        id="title"
-        class="form-control"
-        v-model="project.data.title"
+    <q-form class="q-gutter-md">
+      <q-input outlined v-model="project.data.title" label="プロジェクト名" />
+      <q-input
+        outlined
+        v-model="project.data.filename"
+        label="アドオン名"
+        hint="出力されるpakファイル名"
       />
-    </layout-box>
-    <layout-box>
-      <label for="filename" class="form-label">アドオン名</label>
-      <div class="input-group">
-        <input
-          type="text"
-          id="filename"
-          class="form-control"
-          v-model="project.data.filename"
-        />
-        <span class="input-group-text">.pak</span>
-      </div>
-    </layout-box>
-    <layout-box>
-      <label for="size" class="form-label">Pakサイズ</label>
-      <input
+      <q-input
+        outlined
         type="number"
-        id="size"
-        class="form-control"
         min="16"
         max="65535"
         v-model="project.data.size"
+        label="Pakサイズ"
       />
-    </layout-box>
-    <layout-box>
-      <label for="dat" class="form-label">Datデータ</label>
-      <dat-editor v-model:value="project.data.dat" :project="project" />
-    </layout-box>
-    <layout-box>
-      <label for="images" class="form-label">画像データ</label>
-      <image-editor v-model:value="project.data.imageUrls" :project="project" />
-    </layout-box>
+
+      <dat-editor v-model="project.data.dat" :project="project" />
+
+      <layout-box>
+        <image-editor
+          v-model:value="project.data.imageUrls"
+          :project="project"
+        />
+      </layout-box>
+    </q-form>
+
     <global-footer>
-      <button
-        class="btn btn-secondary me-2"
-        @click="handleReset()"
-        :disabled="!hasChanged"
-      >
+      <q-btn color="secondary" @click="handleReset()" :disabled="!hasChanged">
         取消
-      </button>
-      <button
-        class="btn btn-primary me-2"
-        @click="handleUpdate"
-        :disabled="!hasChanged"
-      >
+      </q-btn>
+      <q-btn color="primary" @click="handleUpdate" :disabled="!hasChanged">
         保存
-      </button>
-      <button-loading
-        :loading="fetching"
-        class="btn btn-primary me-2"
-        @click="handlePak"
-      >
+      </q-btn>
+      <q-btn :loading="fetching" color="primary" @click="handlePak">
         Pak化
-      </button-loading>
+      </q-btn>
+      <q-space />
 
       <last-modified>
         <text-date-time :value="project.data.updatedAt" />

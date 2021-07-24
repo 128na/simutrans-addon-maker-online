@@ -28,10 +28,10 @@
       <div class="overflow-auto">
         <div class="position-relative d-inline-block">
           <img :src="image.url" />
-          <svg-grid
+          <!-- <svg-grid
             :id="`preview-${index}`"
             :size.number="this.project.data.size"
-          />
+          /> -->
         </div>
       </div>
       <a
