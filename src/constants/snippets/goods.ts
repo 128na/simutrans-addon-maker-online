@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: '貨物',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_GoodsDef
@@ -14,3 +15,4 @@ mapcolor=
 `
   },
 ];
+export default defs;

@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: 'カーソル',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_CursorDef
@@ -75,3 +76,4 @@ image[0]=image.0.0
 `
   },
 ];
+export default defs;

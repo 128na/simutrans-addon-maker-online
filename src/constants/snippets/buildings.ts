@@ -1,6 +1,8 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: '駅舎、プラットフォーム、停留所など',
+    caption: 'type=stop, extension, depot, habour',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
@@ -32,6 +34,7 @@ frontimage[0][0][0][0][0]=image.0.0
   },
   {
     title: '市内建築物',
+    caption: 'type=res, com, ind',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
@@ -56,6 +59,7 @@ backimage[0][0][0][0][0]=image.0.0
   },
   {
     title: '記念碑、特殊建築物',
+    caption: 'type=mon, cur',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
@@ -85,6 +89,7 @@ backimage[0][0][0][0][0]=image.0.0
   },
   {
     title: '役所',
+    caption: 'type=tow',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
@@ -106,6 +111,7 @@ backimage[0][0][0][0][0]=image.0.0
   },
   {
     title: '本社',
+    caption: 'type=hq',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_BuildingsDef
 obj=building
 name=
@@ -127,3 +133,4 @@ backimage[0][0][0][0][0]=image.0.0
     `
   },
 ];
+export default defs;

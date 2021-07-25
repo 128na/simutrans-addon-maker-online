@@ -53,3 +53,16 @@ export interface PakErrorBody {
   output: string,
   error: string,
 }
+
+export interface SnippetDefinition {
+  title: string;
+  icon?: string;
+  caption?: string;
+  dat: string;
+}
+export interface SnippetDefinitionList {
+  title: string;
+  icon?: string;
+  caption?: string;
+  snippets: SnippetDefinition[];
+}

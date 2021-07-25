@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: '自然オブジェクト（静止物）',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_GroundobjDef
@@ -41,3 +42,4 @@ image[sw][0]=image.0.0
 `
   },
 ];
+export default defs;

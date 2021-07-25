@@ -20,35 +20,36 @@ import menus from './snippets/menus';
 import miscs from './snippets/miscs';
 import symbols from './snippets/symbols';
 import windowskins from './snippets/windowskins';
+import { SnippetDefinitionList } from '../plugins/interface';
 
-export const SNIPPETS = [
+export const SNIPPETS: SnippetDefinitionList[] = [
   {
-    title: '建物 (building)', snippets: [
+    title: '建物', caption: "building", icon: "maps_home_work", snippets: [
       ...buildings,
     ]
   },
   {
-    title: '車両 (vehicle, citycar)', snippets: [
+    title: '車両', caption: 'vehicle, citycar', icon: "local_shipping", snippets: [
       ...vehicles,
       ...citycars,
     ]
   },
   {
-    title: '軌道 (way, tunnel, bridge)', snippets: [
+    title: '軌道', caption: 'way, tunnel, bridge', icon: "mdi-road", snippets: [
       ...ways,
       ...tunnels,
       ...bridges,
     ]
   },
   {
-    title: '軌道関連 (way-object, crossing, signal)', snippets: [
+    title: '軌道関連', caption: 'way-object, crossing, signal', icon: "traffic", snippets: [
       ...wayobjects,
       ...crossings,
       ...signals,
     ]
   },
   {
-    title: '産業 (factory, field, smoke, good)', snippets: [
+    title: '産業', caption: 'factory, field, smoke, good', icon: "mdi-factory", snippets: [
       ...factories,
       ...fields,
       ...smokes,
@@ -56,20 +57,16 @@ export const SNIPPETS = [
     ]
   },
   {
-    title: '地形 (tree, groundObj, ground)', snippets: [
+    title: '地形', caption: 'tree, groundObj, ground', icon: "landscape", snippets: [
       ...trees,
       ...groundobjs,
       ...grounds,
     ]
   },
   {
-    title: 'その他 (pedestrian, misc)', snippets: [
+    title: 'その他', caption: 'pedestrian, misc, menu, symbol, cursor, windowSkin', icon: "mdi-cursor-default", snippets: [
       ...pedestrians,
       ...miscs,
-    ]
-  },
-  {
-    title: 'その他 (menu, symbol, cursor, windowSkin)', snippets: [
       ...menus,
       ...symbols,
       ...cursors,

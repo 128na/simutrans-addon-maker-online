@@ -3,6 +3,8 @@
     v-for="(snippetList, i) in snippetLists"
     group="snippetLists"
     expand-separator
+    :icon="snippetList.icon"
+    :caption="snippetList.caption"
     :label="snippetList.title"
     @show="handleShowList(i)"
   >
@@ -11,7 +13,9 @@
         v-for="(snippet, j) in snippetList.snippets"
         expand-separator
         group="snippets"
-        :label="`┗ ${snippet.title}`"
+        icon="mdi-subdirectory-arrow-right"
+        :caption="snippet.caption"
+        :label="snippet.title"
         @show="handleShow(snippet)"
         @hide="handleShow()"
       >
@@ -26,13 +30,15 @@
   <q-expansion-item
     expand-separator
     group="snippetLists"
+    icon="person"
     label="カスタムテンプレート"
   >
     <q-expansion-item
       v-for="(snippet, j) in mySnippets"
       group="snippets"
       expand-separator
-      :label="`┗ ${snippet.title}`"
+      icon="mdi-subdirectory-arrow-right"
+      :label="snippet.title"
     >
       <q-card>
         <q-card-section>
