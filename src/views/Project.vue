@@ -18,14 +18,9 @@
         label="Pakサイズ"
       />
 
-      <dat-editor v-model="project.data.dat" :project="project" />
+      <dat-editor :project="project" />
 
-      <layout-box>
-        <image-editor
-          v-model:value="project.data.imageUrls"
-          :project="project"
-        />
-      </layout-box>
+      <image-editor :project="project" />
     </q-form>
 
     <global-footer>

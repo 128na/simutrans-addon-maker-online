@@ -1,51 +1,51 @@
 <template>
-  <!-- tab list -->
-  <ul class="nav nav-tabs" v-show="value.length">
-    <li class="nav-item" v-for="(image, index) in value">
-      <button
-        class="nav-link"
-        :class="{ active: selected === index }"
-        data-bs-toggle="tab"
-        :data-bs-target="`#image-${index}`"
-        @click.prevent="handleTab(index)"
-      >
-        {{ image.filename }}
-      </button>
-    </li>
-  </ul>
-
-  <!-- tab content -->
-  <div class="tab-content" v-show="value.length">
-    <div
-      class="tab-pane fade p-3"
-      :class="{
-        active: selected === index,
-        show: selected === index,
-      }"
-      :id="`image-${index}`"
-      v-for="(image, index) in value"
+  <q-card flat bordered>
+    <q-tabs
+      v-model="tab"
+      class="text-grey"
+      active-color="primary"
+      indicator-color="primary"
+      align="left"
+      inline-label
+      dense
     >
-      <div class="overflow-auto">
-        <div class="position-relative d-inline-block">
-          <img :src="image.url" />
-          <!-- <svg-grid
-            :id="`preview-${index}`"
-            :size.number="this.project.data.size"
-          /> -->
-        </div>
-      </div>
-      <a
-        href="#"
-        class="text-primary me-2"
-        @click.prevent="handleDownloadImage(image)"
-        >ダウンロード</a
-      >
-      <a href="#" class="text-danger" @click.prevent="handleDeleteImage(index)"
-        >削除</a
-      >
-    </div>
-  </div>
-  <file-reader :projectId="project.id" @fileRead="handleAddImages" />
+      <template v-for="(image, index) in project.data.imageUrls">
+        <q-tab :name="index" :label="image.filename" no-caps />
+      </template>
+    </q-tabs>
+    <q-separator />
+    <q-tab-panels v-model="tab" animated>
+      <template v-for="(image, index) in project.data.imageUrls">
+        <q-tab-panel :name="index" class="q-pa-none">
+          <div>
+            <div class="relative-position" style="display: inline-block">
+              <img :src="image.url" />
+              <svg-grid
+                :id="`preview-${index}`"
+                :size.number="this.project.data.size"
+              />
+            </div>
+          </div>
+          <a
+            href="#"
+            class="text-primary q-mx-sm"
+            @click.prevent="handleDownloadImage(image)"
+            >ダウンロード</a
+          >
+          <a
+            href="#"
+            class="text-negative"
+            @click.prevent="handleDeleteImage(index)"
+            >削除</a
+          >
+        </q-tab-panel>
+      </template>
+    </q-tab-panels>
+    <q-separator />
+    <q-card-section>
+      <file-reader :projectId="project.id" @fileRead="handleAddImages" />
+    </q-card-section>
+  </q-card>
 </template>
 <script>
 import { download } from "../../services/File";
@@ -56,31 +56,28 @@ export default {
   components: { FileReader, SvgGrid },
   data() {
     return {
-      selected: 0,
+      tab: 0,
     };
   },
   methods: {
-    handleTab(index) {
-      this.selected = index;
-    },
     handleAddImages(images) {
-      const tmp = {};
-      [...this.value, ...images].map((i) => (tmp[i.filename] = i.url));
+      images.map((image) => {
+        const index = this.project.data.imageUrls.findIndex(
+          (i) => i.filename === image.filename
+        );
 
-      const value = Object.entries(tmp).map(([filename, url]) => {
-        return { filename, url };
+        if (index === -1) {
+          this.project.data.imageUrls.push(image);
+        } else {
+          this.project.data.imageUrls.splice(index, 1, image);
+        }
       });
-      this.$emit("update:value", value);
     },
     handleDeleteImage(index) {
       if (confirm("削除してもよろしいでしょうか？")) {
-        this.value.splice(index, 1);
-        this.$emit("update:value", this.value);
+        this.project.data.imageUrls.splice(index, 1);
 
-        this.selected =
-          this.selected > this.value.length - 1
-            ? this.value.length - 1
-            : this.selected;
+        this.tab = Math.min(this.tab, this.project.data.imageUrls.length - 1);
       }
     },
     handleDownloadImage(image) {

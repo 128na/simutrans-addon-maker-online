@@ -41,7 +41,7 @@
         </template>
         <q-separator />
         <q-item>
-          <small>{{ title }} v{{ version }} </small>
+          <small>version {{ version }} </small>
         </q-item>
       </q-list>
     </q-scroll-area>

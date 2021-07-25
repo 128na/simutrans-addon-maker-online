@@ -1,17 +1,11 @@
 <template>
-  <droppable-box @fileDropped="handleFileDropped">
-    <input
-      type="file"
-      id="images"
-      class="form-control"
-      :accept="accept"
-      :multiple="multiple"
-      @change.prevent="handleFile"
-    />
-    <div class="text-secondary">
-      <small> ドロップでファイルを追加。同名ファイルは上書きされます。 </small>
-    </div>
-  </droppable-box>
+  <input
+    type="file"
+    id="images"
+    :accept="accept"
+    :multiple="multiple"
+    @change.prevent="handleFile"
+  />
 </template>
 <script>
 import { asyncFileReader } from "../../services/File";

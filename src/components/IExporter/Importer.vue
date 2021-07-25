@@ -6,11 +6,7 @@
       accept=".json"
       label="ファイルを選択"
       class="q-mb-md"
-    >
-      <template v-slot:append>
-        <q-icon name="file" />
-      </template>
-    </q-file>
+    />
     <q-checkbox
       v-model="overwrite"
       label="インポート時に同一IDのデータを上書きする"

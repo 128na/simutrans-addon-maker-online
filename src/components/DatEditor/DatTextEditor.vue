@@ -5,10 +5,11 @@
         borderless
         autogrow
         type="textarea"
-        v-model="datText"
+        v-model="project.data.dat"
         rows="12"
         label="Dat"
       />
+      <q-separator />
       <div>
         <small v-show="props.dropping && !props.ctrl">
           ファイル内容を追加。
@@ -39,18 +40,10 @@ export default {
     ObjEditor,
     SnippetSelector,
   },
-  props: ["value", "project"],
+  props: ["project"],
   computed: {
     dat() {
       return new Simutrans.Dat(this.value);
-    },
-    datText: {
-      get() {
-        return this.value;
-      },
-      set(v) {
-        this.$emit("update:value", v);
-      },
     },
   },
   methods: {
@@ -58,14 +51,13 @@ export default {
       const result = await asyncTextReader(
         files.filter((f) => f.name.endsWith(".dat"))
       );
-      const value = result.reduce(
+      this.project.data.dat = result.reduce(
         (current, f) => `${current}\n# import from ${f.file.name}\n${f.result}`,
-        ctrl ? "" : this.value
+        ctrl ? "" : this.project.data.dat
       );
-      this.$emit("update:value", value);
     },
     handleSnippetSelected(value) {
-      this.$emit("update:value", `${this.value}\n${value}`);
+      project.data.dat += `\n${value}`;
     },
   },
 };
