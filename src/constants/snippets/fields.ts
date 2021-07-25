@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: 'フィールド（畑）',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_FactoryDef#Specifying_a_field_object
@@ -13,3 +14,4 @@ image[4]=image.0.0
 `
   },
 ];
+export default defs;

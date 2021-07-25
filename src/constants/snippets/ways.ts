@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: ' 道路',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_WayDef
@@ -117,3 +118,4 @@ image[nsew2]=image.0.0
     `
   },
 ];
+export default defs;

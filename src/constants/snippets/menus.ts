@@ -1,6 +1,8 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: '一般ツール',
+    caption: 'name=GeneralTools',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
 obj=menu
 name=GeneralTools
@@ -23,6 +25,7 @@ image[14]=> image.0.0
   },
   {
     title: 'シンプルツール',
+    caption: 'name=SimpleTools',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
 obj=menu
 name=SimpleTools
@@ -39,6 +42,7 @@ image[8]=> image.0.0
   },
   {
     title: 'ダイアログツール',
+    caption: 'name=DialogTools',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
 obj=menu
 name=DialogTools
@@ -66,6 +70,7 @@ image[19]=> image.0.0
   },
   {
     title: 'メニューバーツール',
+    caption: 'name=BarTools',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
 obj=menu
 name=BarTools
@@ -93,3 +98,4 @@ image[20]=> image.0.0
 `
   },
 ];
+export default defs;

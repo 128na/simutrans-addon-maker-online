@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: '地形陰影',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
@@ -189,3 +190,4 @@ image[21][0]=image.0.21
 `
   },
 ];
+export default defs;

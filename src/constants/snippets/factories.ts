@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: '産業',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_FactoryDef
@@ -60,6 +61,7 @@ frontimage[0][0][0][0][0]=image.0.1
 `
   }, {
     title: '発電所',
+    caption: 'name=xxxkraftwerk',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_FactoryDef
 obj=factory
 # 名前末尾がkraftwerkで発電所になる
@@ -117,3 +119,4 @@ frontimage[0][0][0][0][0]=image.0.1
 `
   },
 ];
+export default defs;

@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: '踏切',
     dat: `#https://simutrans-germany.com/wiki/wiki/de_CrossingDef
@@ -29,3 +30,4 @@ front_closedimage[ew][0]=image.0.0
 `
   },
 ];
+export default defs;

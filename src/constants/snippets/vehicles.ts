@@ -1,6 +1,8 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: 'トラック・バス',
+    caption: 'waytype=road',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_VehicleDef
 obj=vehicle
 name=
@@ -98,3 +100,4 @@ freightimage[0][ne]=image.0.0
 `
   },
 ];
+export default defs;

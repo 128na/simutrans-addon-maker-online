@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: '架線',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
@@ -81,3 +82,4 @@ frontimageUp2[12]=image.0.0
 `
   },
 ];
+export default defs;

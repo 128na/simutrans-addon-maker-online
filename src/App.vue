@@ -1,16 +1,13 @@
-<template >
-  <div v-if="isInitialized">
+<template>
+  <q-layout view="hHh LpR fFf" class="q-px-md">
     <global-header />
-    <div class="container-fluid my-3">
-      <router-view v-slot="{ Component }">
-        <transition name="scale-slide">
-          <component :is="Component" class="bg-white" />
-        </transition>
-      </router-view>
-    </div>
-  </div>
-  <layout-loading v-else class="mt-5" />
+    <q-page-container v-if="isInitialized">
+      <router-view />
+    </q-page-container>
+    <layout-loading v-else class="mt-5" />
+  </q-layout>
 </template>
+
 <script>
 import { mapGetters, mapActions } from "vuex";
 import GlobalHeader from "./components/GlobalHeader.vue";
@@ -51,31 +48,7 @@ ul {
 li {
   list-style: none;
 }
-.navbar-brand {
+#title {
   font-weight: 700;
-}
-
-.scale-slide-enter-active,
-.scale-slide-leave-active {
-  position: absolute;
-  transition: all 0.35s ease-in-out;
-  width: 100%;
-  height: 100%;
-}
-
-.scale-slide-enter-from {
-  left: -100%;
-}
-
-.scale-slide-enter-to {
-  left: 0%;
-}
-
-.scale-slide-leave-from {
-  transform: scale(1);
-}
-
-.scale-slide-leave-to {
-  transform: scale(0.8);
 }
 </style>

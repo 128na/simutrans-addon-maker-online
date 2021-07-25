@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: 'ウィンドウスキン',
     dat: `# https://simutrans-germany.com/wiki/wiki/en_WindowSkinDef
@@ -46,3 +47,4 @@ image[37][0]=image.0.0
 `
   },
 ];
+export default defs;
