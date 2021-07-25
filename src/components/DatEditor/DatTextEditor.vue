@@ -22,8 +22,8 @@
           .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き。
         </small>
       </div>
-      <div>
-        <!-- <snippet-selector @snippetSelected="handleSnippetSelected" /> -->
+      <div class="q-pa-xs">
+        <snippet-selector @snippetSelected="handleSnippetSelected" />
       </div>
     </template>
   </droppable-box>
@@ -58,7 +58,7 @@ export default {
       );
     },
     handleSnippetSelected(value) {
-      project.data.dat += `\n${value}`;
+      this.project.data.dat += `\n${value}`;
     },
   },
 };

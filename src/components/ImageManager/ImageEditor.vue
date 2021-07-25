@@ -28,8 +28,7 @@
           </div>
           <div class="q-pa-xs">
             <a
-              href="#"
-              class="text-secondary"
+              class="text-secondary cursor-pointer"
               @click.prevent="handleRemoveImage(index)"
             >
               プロジェクトから外す
@@ -40,13 +39,17 @@
     </q-tab-panels>
     <q-separator />
     <div class="q-pa-xs">
-      <a href="#" class="text-secondary" @click.prevent="dialog = true">
+      <a class="text-secondary cursor-pointer" @click.prevent="dialog = true">
         画像の追加
       </a>
       <q-dialog v-model="dialog">
         <q-card style="min-width: 75vw">
+          <q-toolbar>
+            <q-toolbar-title>画像管理</q-toolbar-title>
+            <q-btn flat round dense icon="close" v-close-popup />
+          </q-toolbar>
+          <q-separator />
           <image-manager v-slot="slotProps">
-            <q-separator />
             <q-toolbar>
               <span v-if="slotProps.shownFile">
                 選択中の画像: {{ slotProps.shownFile.filename }}

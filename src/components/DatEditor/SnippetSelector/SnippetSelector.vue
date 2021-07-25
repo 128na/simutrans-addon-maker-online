@@ -1,32 +1,28 @@
 <template>
-  <a href="#" data-bs-toggle="modal" data-bs-target="#snippet-selector">
+  <a class="text-secondary cursor-pointer" @click.prevent="dialog = true">
     テンプレートを挿入
   </a>
-
-  <div class="modal fade" id="snippet-selector" tabindex="-1" ref="modal">
-    <div
-      class="modal-dialog modal-dialog-scrollable modal-xl modal-fullscreen-lg-down"
-    >
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">テンプレート一覧</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" />
-        </div>
-        <div class="modal-body p-0">
-          <snippet-list :items="selected" @select="handleSelect" />
-        </div>
-        <div class="modal-footer">
-          <button
-            class="btn btn-primary"
-            :disabled="!selected"
-            @click="handleInsert"
+  <q-dialog v-model="dialog">
+    <q-card>
+      <q-toolbar>
+        <q-toolbar-title>テンプレート一覧</q-toolbar-title>
+        <q-btn flat round dense icon="close" v-close-popup />
+      </q-toolbar>
+      <q-separator />
+      <snippet-list v-slot="slotProps">
+        <q-separator />
+        <q-toolbar>
+          <q-btn
+            color="primary"
+            :disabled="!slotProps.selected"
+            @click="handleInsert(slotProps.selected)"
           >
-            {{ buttonMessage }}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+            {{ buttonMessage(slotProps.selected) }}
+          </q-btn>
+        </q-toolbar>
+      </snippet-list>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
 import SnippetList from "./SnippetList.vue";
@@ -35,26 +31,17 @@ export default {
   emits: ["snippetSelected"],
   data() {
     return {
-      selected: null,
+      dialog: false,
     };
   },
   methods: {
-    handleInsert() {
-      const instance = bootstrap.Modal.getInstance(this.$refs["modal"]);
-      if (instance) {
-        instance.hide();
-      }
-
-      this.$emit("snippetSelected", this.selected.dat);
+    handleInsert(snippet) {
+      this.$emit("snippetSelected", snippet.dat);
+      this.dialog = false;
     },
-    handleSelect(snippet) {
-      this.selected = snippet;
-    },
-  },
-  computed: {
-    buttonMessage() {
-      return this.selected
-        ? `${this.selected.title} を挿入`
+    buttonMessage(snippet) {
+      return snippet
+        ? `${snippet.title} を挿入`
         : "テンプレートを選択してください";
     },
   },
