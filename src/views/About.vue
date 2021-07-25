@@ -54,8 +54,8 @@
     <title-main>更新履歴</title-main>
     <layout-box>
       <dl>
-        <dt>2021/07/xx v 0.1.5</dt>
-        <dd>Datエディタを改良</dd>
+        <dt>2021/07/26 v 0.1.5</dt>
+        <dd>デザイン周りを調整</dd>
         <dt>2021/07/18 v 0.1.4</dt>
         <dd>画像まわりを変更、Portalログインを追加</dd>
         <dt>2021/07/13 v 0.1.3</dt>
