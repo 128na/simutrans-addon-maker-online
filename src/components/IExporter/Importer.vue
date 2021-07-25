@@ -1,20 +1,21 @@
 <template>
-  <layout-box>
-    <input type="file" class="form-control" accept=".json" @change="handle" />
-  </layout-box>
-  <layout-box>
-    <div class="form-check">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        id="overwrite"
-        v-model="overwrite"
-      />
-      <label class="form-check-label" for="overwrite">
-        インポート時に同一IDのデータを上書きする
-      </label>
+  <q-form style="max-width: 600px">
+    <q-file
+      outlined
+      v-model="file"
+      accept=".json"
+      label="ファイルを選択"
+      class="q-mb-md"
+    />
+    <q-checkbox
+      v-model="overwrite"
+      label="インポート時に同一IDのデータを上書きする"
+      class="q-mb-md"
+    />
+    <div>
+      <q-btn color="primary" @click="handle" :disable="!file">インポート</q-btn>
     </div>
-  </layout-box>
+  </q-form>
 </template>
 <script>
 import { asyncTextReader } from "../../services/File";
@@ -24,18 +25,21 @@ export default {
   emits: ["import"],
   data() {
     return {
+      file: null,
       overwrite: false,
     };
   },
   methods: {
-    async handle(e) {
-      const res = await asyncTextReader(
-        [...e.target.files].filter((f) => f.name.endsWith(".json"))
-      );
+    async handle() {
+      const res = await asyncTextReader([this.file]);
       if (res && res.length) {
-        const json = JSON.parse(res[0].result);
+        res.map((r) => {
+          const json = JSON.parse(r.result);
 
-        this.$emit("import", { json, overwrite: this.overwrite });
+          this.$emit("import", { json, overwrite: this.overwrite });
+        });
+        this.file = null;
+        alert("ファイルのインポートが完了しました");
       } else {
         alert("ファイルの読み取りに失敗しました");
       }

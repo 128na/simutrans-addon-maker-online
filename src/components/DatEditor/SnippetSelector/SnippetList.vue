@@ -1,109 +1,64 @@
 <template>
-  <div class="accordion" id="snippet-list">
-    <div class="accordion-item border-0">
-      <!-- 規定テンプレート一覧 -->
-      <template v-for="(snippetList, i) in snippetLists">
-        <h2 class="accordion-header">
-          <button
-            class="accordion-button collapsed"
-            data-bs-toggle="collapse"
-            :data-bs-target="`#snippet-${i}`"
-          >
-            {{ snippetList.title }}
-          </button>
-        </h2>
-        <div
-          :id="`snippet-${i}`"
-          data-bs-parent="#snippet-list"
-          class="accordion-collapse collapse"
-        >
-          <div class="accordion">
-            <div class="accordion-item border-0">
-              <template
-                v-if="snippetList.snippets.length"
-                v-for="(snippet, j) in snippetList.snippets"
-              >
-                <h2 class="accordion-header">
-                  <button
-                    class="accordion-button collapsed"
-                    data-bs-toggle="collapse"
-                    :data-bs-target="`#snippet-${i}-${j}`"
-                    @click="handleSnippet(snippet)"
-                  >
-                    ┗ {{ snippet.title }}
-                  </button>
-                </h2>
-                <div
-                  :id="`snippet-${i}-${j}`"
-                  :data-bs-parent="`#snippet-${i}`"
-                  class="accordion-collapse collapse"
-                >
-                  <pre
-                    class="accordion-body bg-light mb-0"
-                  ><code>{{ snippet.dat }}</code></pre>
-                </div>
-              </template>
-              <div v-else class="accordion-body">テンプレートがありません</div>
-            </div>
-          </div>
-        </div>
-      </template>
-      <!-- カスタムテンプレート -->
-      <h2 class="accordion-header">
-        <button
-          class="accordion-button collapsed"
-          data-bs-toggle="collapse"
-          data-bs-target="#snippet-mySnippet"
-        >
-          カスタムテンプレート
-        </button>
-      </h2>
-      <div
-        id="snippet-mySnippet"
-        data-bs-parent="#snippet-list"
-        class="accordion-collapse collapse"
+  <q-expansion-item
+    v-for="(snippetList, i) in snippetLists"
+    group="snippetLists"
+    expand-separator
+    :icon="snippetList.icon"
+    :caption="snippetList.caption"
+    :label="snippetList.title"
+    @show="handleShowList(i)"
+  >
+    <template v-if="isShowList(i)">
+      <q-expansion-item
+        v-for="(snippet, j) in snippetList.snippets"
+        expand-separator
+        group="snippets"
+        icon="mdi-subdirectory-arrow-right"
+        :caption="snippet.caption"
+        :label="snippet.title"
+        @show="handleShow(snippet)"
+        @hide="handleShow()"
       >
-        <div class="accordion">
-          <div class="accordion-item border-0">
-            <template
-              v-if="mySnippets.length"
-              v-for="(snippet, i) in mySnippets"
-            >
-              <h2 class="accordion-header">
-                <button
-                  class="accordion-button collapsed"
-                  data-bs-toggle="collapse"
-                  :data-bs-target="`#snippet-mySnippet-${i}`"
-                  @click="handleSnippet(snippet.data)"
-                >
-                  ┗ {{ snippet.data.title }}
-                </button>
-              </h2>
-              <div
-                :id="`snippet-mySnippet-${i}`"
-                :data-bs-parent="`#snippet-mySnippet`"
-                class="accordion-collapse collapse"
-              >
-                <pre
-                  class="accordion-body bg-light mb-0"
-                ><code>{{ snippet.data.dat }}</code></pre>
-              </div>
-            </template>
-            <div v-else class="accordion-body">テンプレートがありません</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        <q-card>
+          <q-card-section class="bg-accent">
+            <pre class="q-ma-none"><code>{{ snippet.dat }}</code></pre>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+    </template>
+  </q-expansion-item>
+  <q-expansion-item
+    expand-separator
+    group="snippetLists"
+    icon="person"
+    label="カスタムテンプレート"
+  >
+    <q-expansion-item
+      v-for="(snippet, j) in mySnippets"
+      group="snippets"
+      expand-separator
+      icon="mdi-subdirectory-arrow-right"
+      :label="snippet.title"
+    >
+      <q-card>
+        <q-card-section>
+          <pre class="q-ma-none"><code>{{ snippet.dat }}</code></pre>
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
+  </q-expansion-item>
+  <slot :selected="selected" />
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { SNIPPETS } from "../../../constants";
-import LayoutLoading from "../../LayoutLoading.vue";
 export default {
-  components: { LayoutLoading },
-  props: ["selected"],
-  emits: ["select"],
+  data() {
+    return {
+      showList: null,
+      selected: null,
+    };
+  },
   computed: {
     ...mapGetters(["snippetLoaded", "snippets"]),
     snippetLists() {
@@ -114,8 +69,14 @@ export default {
     },
   },
   methods: {
-    handleSnippet(snippet) {
-      this.$emit("select", snippet);
+    handleShow(snippet = null) {
+      this.selected = snippet;
+    },
+    handleShowList(i) {
+      this.showList = i;
+    },
+    isShowList(i) {
+      return this.showList === i;
     },
   },
 };

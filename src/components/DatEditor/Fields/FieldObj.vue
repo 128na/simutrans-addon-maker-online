@@ -18,7 +18,7 @@
   </li>
 </template>
 <script>
-import { OBJS } from "../../../constants/index";
+// import { OBJS } from "../../../constants/index";
 export default {
   props: ["value", "obj", "project"],
   emits: ["lineUpdate"],

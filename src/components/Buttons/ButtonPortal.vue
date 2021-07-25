@@ -1,7 +1,7 @@
 <template>
-  <button class="btn btn-outline-primary">
+  <q-btn color="indigo" class="full-width">
     <slot>Simutrans Addon Portal</slot>
-  </button>
+  </q-btn>
 </template>
 <script>
 export default {};

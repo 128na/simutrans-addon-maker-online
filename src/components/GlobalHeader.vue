@@ -1,104 +1,130 @@
 <template>
-  <nav class="navbar navbar-dark navbar-expand-md bg-dark">
-    <div class="container-fluid">
-      <router-link
-        class="navbar-brand"
-        :to="{ name: 'Projects' }"
-        @click="handleClick"
-      >
-        <span class="d-md-inline d-none">
-          {{ title }}
-          <small class="ms-2">v {{ version }}</small>
-        </span>
-        <span class="d-md-none">Simutrans Addon Maker</span>
-      </router-link>
-      <button
-        class="navbar-toggler"
-        data-bs-toggle="collapse"
-        data-bs-target="#global-menu"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="global-menu" ref="global-menu">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <router-link
-              class="nav-link"
-              :to="{ name: 'About' }"
-              @click="handleClick"
-            >
-              使い方
-            </router-link>
-          </li>
-          <template v-if="isLoggedIn">
-            <li class="nav-item">
-              <router-link
-                class="nav-link"
-                :to="{ name: 'Projects' }"
-                @click="handleClick"
-              >
-                プロジェクト
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link
-                class="nav-link"
-                :to="{ name: 'Snippets' }"
-                @click="handleClick"
-              >
-                テンプレート
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link
-                class="nav-link"
-                :to="{ name: 'User' }"
-                @click="handleClick"
-              >
-                {{ userName }}
-              </router-link>
-            </li>
-          </template>
-          <template v-else>
-            <li class="nav-item">
-              <router-link
-                class="nav-link"
-                :to="{ name: 'Signin' }"
-                @click="handleClick"
-              >
-                サインイン
-              </router-link>
-            </li>
-          </template>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  <q-header elevated class="bg-dark text-white">
+    <q-toolbar>
+      <q-btn dense flat round icon="menu" @click="drawer = !drawer" />
+
+      <q-toolbar-title id="title">
+        {{ title }}
+      </q-toolbar-title>
+      <theme-toggler />
+    </q-toolbar>
+  </q-header>
+  <q-drawer v-model="drawer" show-if-above bordered :class="drawerClass">
+    <q-scroll-area class="fit">
+      <q-list>
+        <q-item
+          v-ripple
+          clickable
+          @click="drawer = !drawer"
+          class="rounded-borders"
+        >
+          <q-item-section avatar>
+            <q-icon name="navigate_before" />
+          </q-item-section>
+        </q-item>
+        <q-separator />
+        <template v-for="(item, index) in menus">
+          <q-item
+            v-show="canShow(item)"
+            clickable
+            v-ripple
+            @click="routeTo(item.route)"
+          >
+            <q-item-section avatar>
+              <q-icon :name="item.icon" />
+            </q-item-section>
+            <q-item-section>
+              {{ item.label }}
+            </q-item-section>
+          </q-item>
+          <q-separator v-show="canShow(item) && item.separator" />
+        </template>
+        <q-separator />
+        <q-item>
+          <small>version {{ version }} </small>
+        </q-item>
+      </q-list>
+    </q-scroll-area>
+  </q-drawer>
 </template>
 <script>
 import { mapGetters } from "vuex";
+import ThemeToggler from "./ThemeToggler.vue";
 export default {
   name: "GlobalHeader",
+  components: { ThemeToggler },
+  data() {
+    return {
+      drawer: false,
+    };
+  },
+  methods: {
+    canShow(item) {
+      if (this.isLoggedIn && item.auth === false) {
+        return false;
+      }
+      if (!this.isLoggedIn && item.auth === true) {
+        return false;
+      }
+      return true;
+    },
+  },
   computed: {
     ...mapGetters(["isLoggedIn", "userName"]),
-    version() {
-      return process.env.VUE_APP_VERSION;
-    },
     title() {
       return process.env.VUE_APP_TITLE;
     },
     version() {
       return process.env.VUE_APP_VERSION;
     },
-  },
-  methods: {
-    handleClick() {
-      const instance = bootstrap.Collapse.getInstance(
-        this.$refs["global-menu"]
-      );
-      if (instance) {
-        instance.hide();
-      }
+    drawerClass() {
+      return this.isDarkTheme ? "bg-grey-8" : "bg-grey-3";
+    },
+    menus() {
+      return [
+        {
+          label: "プロジェクト管理",
+          icon: "library_books",
+          route: "Projects",
+          auth: true,
+          separator: false,
+        },
+        {
+          label: "テンプレート管理",
+          icon: "assignment",
+          route: "Snippets",
+          auth: true,
+          separator: false,
+        },
+        {
+          label: "画像管理",
+          icon: "photo_library",
+          route: "Images",
+          auth: true,
+          separator: true,
+        },
+        {
+          label: "サインイン",
+          icon: "login",
+          route: "Signin",
+          auth: false,
+          separator: true,
+        },
+        {
+          label: this.userName,
+          icon: "person",
+          route: "User",
+          auth: true,
+          separator: true,
+        },
+        {
+          label: "使い方",
+          icon: "help",
+          route: "About",
+          auth: null,
+          separator: false,
+        },
+      ];
     },
   },
 };

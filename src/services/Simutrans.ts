@@ -7,50 +7,37 @@ class Dat {
 
   constructor(original: string) {
     this.original = original;
-    let current = 0;
-    this.objs = original.replace(/---+/gi, "---").split("---\n")
-      .map(o => {
-        return new Obj(o, [current + 1, current += o.split("\n").length]);
-      });
+    this.objs = original
+      .replaceAll("\r\n", "\n") // win CRLF -> LF
+      .replaceAll("\r", "\n") // mac CR -> LF
+      .replace(/---+/gi, "---").split("---\n")
+      .map(o => new Obj(o));
   }
-  getObjByLine(l: number): Obj | undefined {
-    return this.objs.find(obj => obj.inRange(l))
-  }
-  getLineByLine(l: number): Line | undefined {
-    return this.getObjByLine(l)?.getLine(l);
+
+  toString(): string {
+    return this.objs.map(o => o.toString()).join("\n");
   }
 }
 
 class Obj {
   original: string;
-  range: [number, number];
-  lines: Line[];
+  params: Param[];
 
-  constructor(original: string, range: [number, number]) {
-    this.range = range;
+  constructor(original: string) {
     this.original = original;
-    this.lines = original.split("\n")
-      .map(l => new Line(l));
+    this.params = original.split("\n")
+      .map(l => new Param(l));
   }
 
-  inRange(l: number): boolean {
-    return this.range[0] <= l && l <= this.range[1];
+  findParamsByKey(key: string): Param[] {
+    return this.params.filter(p => p.keyVal === key);
   }
-  getLine(l: number): Line | undefined {
-    return this.lines[l - this.range[0]];
-  }
-  getLineByKey(key: string): Line | undefined {
-    return this.lines.find(l => l.keyElement === key);
+  findParamByKey(key: string): Param | undefined {
+    return this.params.find(p => p.keyVal === key);
   }
 
-  get obj(): string | undefined {
-    return this.getLineByKey('obj')?.valueElement;
-  }
-  get name(): string | undefined {
-    return this.getLineByKey('name')?.valueElement;
-  }
-  get startLineNo(): number {
-    return this.range[0];
+  toString(): string {
+    return this.params.map(p => p.toString()).join("\n");
   }
 }
 
@@ -58,7 +45,7 @@ class Obj {
  * dat記述の1行
  * foo=bar
  */
-class Line {
+class Param {
   original: string;
   key: Key;
   operator: string;
@@ -78,80 +65,71 @@ class Line {
     }
   }
   get hasImage(): boolean {
-    return IMAGEABLE_KEYS.includes(this.keyElement);
+    return IMAGEABLE_KEYS.includes(this.keyVal);
   }
   get isStaticImage(): boolean {
     return this.hasImage && this.operator === '=> ';
   }
 
-  get keyElement(): string {
-    return this.key.element;
+  get keyVal(): string {
+    return this.key.val;
   }
-  get keyParameters(): string[] {
-    return this.key.parameters;
+  get keyParams(): string[] {
+    return this.key.params;
   }
-  get keyParameter(): string {
-    return this.key.parameters.join(',');
+  get keyParam(): string {
+    return this.key.params.join(',');
   }
-  get keyWithParameter(): string {
+  get keyWithParam(): string {
     return this.key.original;
   }
-  set keyElement(element: string) {
-    this.key.element = element;
-  }
-  set keyParameters(parameters: string[]) {
-    this.key.parameters = parameters;
-  }
 
-
-  get valueElement(): string {
-    return this.value.element;
+  get valueVal(): string {
+    return this.value.val;
   }
-  get valueParameters(): string[] {
-    return this.value.parameters;
+  get valueParams(): string[] {
+    return this.value.params;
   }
-  get valueParameter(): string {
-    return this.value.parameters.join(',');
+  get valueParam(): string {
+    return this.value.params.join(',');
   }
-  get valueWithParameter(): string {
+  get valueWithParam(): string {
     return this.value.original;
-  }
-  set valueElement(element: string) {
-    this.value.element = element;
-  }
-  set valueParameters(parameters: string[]) {
-    this.value.parameters = parameters;
   }
 
   get isComment(): boolean {
-    return this.valueElement.startsWith('#');
+    return this.valueVal.startsWith('#');
   }
   get isSplit(): boolean {
-    return this.valueElement.startsWith('---');
+    return this.valueVal.startsWith('---');
+  }
+
+  toString(): string {
+    return `${this.keyWithParam}${this.operator}${this.valueWithParam}`;
   }
 }
 
 class Key {
   original: string;
-  element: string;
-  parameters: string[];
+  val: string;
+  params: string[];
 
   constructor(original: string) {
     this.original = original
-    this.element = (original.split("[")[0] || "");
-    this.parameters = [...original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1] || "");
+    this.val = (original.split("[")[0] || "");
+    this.params = [...original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1] || "");
   }
 }
 
 class Value {
   original: string;
-  element: string;
-  parameters: string[];
+  val: string;
+  params: string[];
 
   constructor(original: string) {
     this.original = original
-    this.element = original.split(".")[0] || "";
-    this.parameters = [...original.matchAll(/[\.,]([-\d]*)/ig)].map(p => p[1] || "");
+    this.val = original.split(".")[0] || "";
+    this.params = [...original.matchAll(/[\.,]([-\d]*)/ig)].map(p => p[1] || "");
   }
 }
 
@@ -198,7 +176,7 @@ const IMAGEABLE_KEYS: string[] = [
 export class Simutrans {
   static Dat = Dat;
   static Obj = Obj;
-  static Line = Line;
+  static Param = Param;
   static Key = Key;
   static Value = Value;
 }

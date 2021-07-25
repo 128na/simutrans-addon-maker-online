@@ -3,14 +3,16 @@
 import { createStore } from 'vuex'
 
 import firebase from "firebase";
-import app from "../firebase";
-import persister from "../firebase/persister";
-import { signInWithPopup, linkWithPopup, unlinkWithPopup } from "../services/ApiPortal";
-import { State, Project, Snippet } from './interface';
+import app from "@/firebase";
+import persister from "@/firebase/persister";
+import { signInWithPopup, linkWithPopup, unlinkWithPopup } from "@/services/ApiPortal";
+import { State, Project, Snippet, FBFile } from './interface';
+import filePersister from '@/firebase/filePersister';
 
 const SET_USER = 'SET_USER';
 const SET_PROJECTS = 'SET_PROJECTS';
 const SET_SNIPPETS = 'SET_SNIPPETS';
+const SET_FILES = 'SET_FILES';
 const SET_UNSUBSCRIBES = 'SET_UNSUBSCRIBES';
 
 export default createStore<State>({
@@ -20,6 +22,7 @@ export default createStore<State>({
     unsubscribes: [],
     projects: undefined,
     snippets: undefined,
+    files: undefined,
   },
   getters: {
     isInitialized: state => state.user !== undefined,
@@ -32,6 +35,8 @@ export default createStore<State>({
     getProject: (state) => (id: string) => state.projects?.find(i => i.id === id),
     existsProject: (state) => (id: string) => !!state.projects?.find(i => i.id === id),
     trashedProjects: state => state.projects?.filter(i => i.data.deletedAt),
+    getProjectsByFile: state => (file: FBFile) => state.projects?.filter(p => p.data.imageUrls.some(i => i.filename === file.filename)),
+    existsProjectByFile: state => (file: FBFile) => state.projects?.some(p => p.data.imageUrls.some(i => i.filename === file.filename)),
 
     snippets: state => state.snippets?.filter(i => !i.data.deletedAt),
     snippetLoaded: state => state.snippets !== undefined,
@@ -39,6 +44,8 @@ export default createStore<State>({
     existsSnippet: (state) => (id: string) => !!state.snippets?.find(i => i.id === id),
     trashedSnippets: state => state.snippets?.filter(i => i.data.deletedAt),
 
+    files: state => state.files,
+    fileLoaded: state => state.files !== undefined,
   },
   mutations: {
     [SET_USER](state, user) {
@@ -52,6 +59,10 @@ export default createStore<State>({
     },
     [SET_SNIPPETS](state, snippets) {
       state.snippets = snippets;
+    },
+    [SET_FILES](state, files) {
+      console.log({ files });
+      state.files = files;
     },
   },
   actions: {
@@ -130,6 +141,7 @@ export default createStore<State>({
             context.commit(SET_USER, user);
             context.dispatch('watchProjectState');
             context.dispatch('watchSnippetState');
+            context.dispatch('fetchFiles');
             onLoggedIn && onLoggedIn();
           } else {
             context.commit(SET_USER, null);
@@ -189,6 +201,20 @@ export default createStore<State>({
         context.commit(SET_SNIPPETS, snippets);
       });
       context.dispatch('addUnsubscribe', unsubscribe);
+    },
+
+
+    async fetchFiles(context) {
+      const files = await filePersister.fetchAll(context.getters.userId);
+      context.commit(SET_FILES, files);
+    },
+    async uploadFiles(context, files: File[]) {
+      await filePersister.upload(context.getters.userId, files);
+      context.dispatch('fetchFiles');
+    },
+    async deleteFile(context, filename: string) {
+      await filePersister.delete(context.getters.userId, filename);
+      context.dispatch('fetchFiles');
     },
 
 

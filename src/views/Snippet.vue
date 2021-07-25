@@ -1,36 +1,25 @@
 <template>
   <div v-if="snippet">
     <title-main>{{ snippet.data.title }}</title-main>
-    <layout-box>
-      <label for="title" class="form-label">テンプレート名</label>
-      <input
-        type="text"
-        id="title"
-        class="form-control"
-        v-model="snippet.data.title"
+    <q-form class="q-gutter-md">
+      <q-input outlined v-model="snippet.data.title" label="テンプレート名" />
+      <q-input
+        outlined
+        type="textarea"
+        v-model="snippet.data.dat"
+        rows="12"
+        label="Dat"
       />
-    </layout-box>
-    <layout-box>
-      <label for="dat" class="form-label">Dat</label>
-      <div class="input-group">
-        <textarea class="form-control" rows="12" v-model="snippet.data.dat" />
-      </div>
-    </layout-box>
+    </q-form>
+
     <global-footer>
-      <button
-        class="btn btn-secondary me-2"
-        @click="handleReset()"
-        :disabled="!hasChanged"
-      >
+      <q-btn color="secondary" @click="handleReset()" :disabled="!hasChanged">
         取消
-      </button>
-      <button
-        class="btn btn-primary me-2"
-        @click="handleUpdate"
-        :disabled="!hasChanged"
-      >
+      </q-btn>
+      <q-btn color="primary" @click="handleUpdate" :disabled="!hasChanged">
         保存
-      </button>
+      </q-btn>
+      <q-space />
 
       <last-modified>
         <text-date-time :value="snippet.data.updatedAt" />

@@ -3,7 +3,6 @@
     @dragover.prevent="handleDragover"
     @dragleave.prevent="handleDragleave"
     @drop.prevent="handleDrop"
-    :class="classes"
   >
     <slot :dropping="dropping" :ctrl="ctrl" />
   </div>
@@ -16,15 +15,6 @@ export default {
       ctrl: false,
       shift: false,
     };
-  },
-  computed: {
-    classes() {
-      return {
-        border: this.dropping,
-        rounded: this.dropping,
-        "border-primary": this.dropping,
-      };
-    },
   },
   methods: {
     handleDragover(e) {

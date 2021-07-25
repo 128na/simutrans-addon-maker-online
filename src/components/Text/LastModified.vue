@@ -1,5 +1,5 @@
 <template>
-  <small class="ms-auto text-white text-secondary">
+  <small class="text-white">
     最終更新<br />
     <slot />
   </small>

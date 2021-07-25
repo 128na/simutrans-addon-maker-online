@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: 'トンネル',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_TunnelDef
@@ -86,3 +87,4 @@ frontimage[wr][0]=image.0.0
     `
   },
 ];
+export default defs;

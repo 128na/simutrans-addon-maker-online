@@ -1,11 +1,10 @@
 <template>
-  <!-- フッター用スペーサー -->
-  <div class="p-4" />
-  <nav class="navbar fixed-bottom navbar-dark bg-dark">
-    <div class="container-fluid">
+  <div class="q-ma-xl" />
+  <q-footer elevated class="bg-dark text-white">
+    <q-toolbar class="q-gutter-x-sm">
       <slot />
-    </div>
-  </nav>
+    </q-toolbar>
+  </q-footer>
 </template>
 <script>
 export default {};

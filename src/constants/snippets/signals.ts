@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: '鉄道信号',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SignaleDef
@@ -156,3 +157,4 @@ image[15]=image.0.0
 `
   },
 ];
+export default defs;

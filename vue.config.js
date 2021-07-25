@@ -6,9 +6,21 @@ module.exports = {
       headers: { "Access-Control-Allow-Origin": "*" }
     }
   },
+
   pwa: {
     workboxOptions: {
       skipWaiting: true,
     }
-  }
+  },
+
+  pluginOptions: {
+    quasar: {
+      importStrategy: 'kebab',
+      rtlSupport: false
+    }
+  },
+
+  transpileDependencies: [
+    'quasar'
+  ]
 };

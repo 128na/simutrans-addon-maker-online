@@ -1,4 +1,5 @@
-export default [
+import { SnippetDefinition } from '../../plugins/interface';
+const defs: SnippetDefinition[] = [
   {
     title: '煙',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
@@ -9,3 +10,4 @@ image[0]=image.0.0
 `
   },
 ];
+export default defs;
