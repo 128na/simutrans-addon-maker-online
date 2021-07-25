@@ -14,7 +14,7 @@
     </q-tabs>
     <q-separator />
     <q-tab-panels v-model="tab" animated>
-      <q-tab-panel name="text" class="q-pa-none q-pl-sm">
+      <q-tab-panel name="text" class="q-pa-none">
         <dat-text-editor :project="project" />
       </q-tab-panel>
       <q-tab-panel name="property"> 未実装 </q-tab-panel>

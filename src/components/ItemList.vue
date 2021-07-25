@@ -31,7 +31,7 @@
                 {{ item.data.title }}
               </q-item-label>
               <q-item-label caption>
-                最終更新<text-date-time :value="item.data.updatedAt" />
+                最終更新: <text-date-time :value="item.data.updatedAt" />
                 <a
                   class="q-ml-sm text-secondary"
                   @click.stop="$emit('itemDelete', item)"

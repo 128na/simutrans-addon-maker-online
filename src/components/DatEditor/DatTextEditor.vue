@@ -4,13 +4,14 @@
       <q-input
         borderless
         autogrow
+        class="q-pl-sm"
         type="textarea"
         v-model="project.data.dat"
         rows="12"
         label="Dat"
       />
       <q-separator />
-      <div>
+      <div class="q-pa-xs">
         <small v-show="props.dropping && !props.ctrl">
           ファイル内容を追加。
         </small>

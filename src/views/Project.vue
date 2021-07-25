@@ -47,7 +47,6 @@
 import { mapActions, mapGetters } from "vuex";
 import { dataURL2File, download } from "../services/File";
 import { postPak } from "../services/ApiMakeobj";
-import ImageEditor from "../components/ImageEditor/ImageEditor.vue";
 import TitleMain from "../components/Text/TitleMain.vue";
 import LayoutBox from "../components/LayoutBox.vue";
 import LayoutLoading from "../components/LayoutLoading.vue";
@@ -56,9 +55,9 @@ import LastModified from "../components/Text/LastModified.vue";
 import GlobalFooter from "../components/GlobalFooter.vue";
 import ButtonLoading from "../components/Buttons/ButtonLoading.vue";
 import TextDateTime from "../components/Text/TextDateTime.vue";
+import ImageEditor from "@/components/ImageManager/ImageEditor.vue";
 export default {
   components: {
-    ImageEditor,
     TitleMain,
     LayoutBox,
     LayoutLoading,
@@ -67,6 +66,8 @@ export default {
     GlobalFooter,
     ButtonLoading,
     TextDateTime,
+    ImageEditor,
+    ImageEditor,
   },
   name: "Project",
   data() {

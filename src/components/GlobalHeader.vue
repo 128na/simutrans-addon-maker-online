@@ -99,7 +99,7 @@ export default {
         {
           label: "画像管理",
           icon: "photo_library",
-          route: "About",
+          route: "Images",
           auth: true,
           separator: true,
         },
