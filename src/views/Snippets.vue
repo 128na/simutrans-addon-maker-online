@@ -21,9 +21,9 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import LayoutBox from "../components/LayoutBox.vue";
-import TitleSub from "../components/Text/TitleSub.vue";
-import TitleMain from "../components/Text/TitleMain.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
+import TitleSub from "@/components/Text/TitleSub.vue";
+import TitleMain from "@/components/Text/TitleMain.vue";
 import ItemList from "@/components/ItemList.vue";
 export default {
   components: {

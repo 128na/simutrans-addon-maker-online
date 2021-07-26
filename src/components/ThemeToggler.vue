@@ -5,5 +5,8 @@
   </a>
 </template>
 <script>
-export default {};
+import { themeToggler } from "@/mixins";
+export default {
+  mixins: [themeToggler],
+};
 </script>

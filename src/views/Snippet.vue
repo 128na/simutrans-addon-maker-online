@@ -1,12 +1,12 @@
 <template>
-  <div v-if="snippet">
-    <title-main>{{ snippet.data.title }}</title-main>
+  <div v-if="editing">
+    <title-main>{{ editing.data.title }}</title-main>
     <q-form class="q-gutter-md">
-      <q-input outlined v-model="snippet.data.title" label="テンプレート名" />
+      <q-input outlined v-model="editing.data.title" label="テンプレート名" />
       <q-input
         outlined
         type="textarea"
-        v-model="snippet.data.dat"
+        v-model="editing.data.dat"
         rows="12"
         label="Dat"
       />
@@ -22,7 +22,7 @@
       <q-space />
 
       <last-modified>
-        <text-date-time :value="snippet.data.updatedAt" />
+        <text-date-time :value="editing.data.updatedAt" />
       </last-modified>
     </global-footer>
   </div>
@@ -37,6 +37,7 @@ import LayoutLoading from "../components/LayoutLoading.vue";
 import LastModified from "../components/Text/LastModified.vue";
 import GlobalFooter from "../components/GlobalFooter.vue";
 import TextDateTime from "../components/Text/TextDateTime.vue";
+import { confirmBeforeLeave } from "@/mixins";
 export default {
   components: {
     TitleMain,
@@ -46,9 +47,10 @@ export default {
     GlobalFooter,
     TextDateTime,
   },
+  mixins: [confirmBeforeLeave],
   data() {
     return {
-      snippet: null,
+      editing: null,
       original: null,
       fetching: false,
     };
@@ -57,14 +59,24 @@ export default {
     snippetLoaded() {
       this.init();
     },
+    hasChanged() {
+      if (this.hasChanged) {
+        this.setLeaveDialog();
+      } else {
+        this.clearLeaveDialog();
+      }
+    },
   },
   created() {
     this.init();
   },
+  beforeRouteLeave(to, from, next) {
+    next(this.handleBeforeLeave());
+  },
   computed: {
     ...mapGetters(["snippetLoaded", "getSnippet"]),
     hasChanged() {
-      return JSON.stringify(this.snippet) !== JSON.stringify(this.original);
+      return JSON.stringify(this.editing) !== JSON.stringify(this.original);
     },
   },
   methods: {
@@ -77,16 +89,16 @@ export default {
       if (!sni) {
         return;
       }
-      this.snippet = JSON.parse(JSON.stringify(sni));
+      this.editing = JSON.parse(JSON.stringify(sni));
       this.original = JSON.parse(JSON.stringify(sni));
     },
     handleReset() {
-      this.snippet = JSON.parse(JSON.stringify(this.original));
+      this.editing = JSON.parse(JSON.stringify(this.original));
     },
     async handleUpdate() {
       try {
-        this.updateSnippet(this.snippet);
-        this.original = JSON.parse(JSON.stringify(this.snippet));
+        this.updateSnippet(this.editing);
+        this.original = JSON.parse(JSON.stringify(this.editing));
       } catch (e) {
         alert("テンプレートの更新に失敗しました");
       }

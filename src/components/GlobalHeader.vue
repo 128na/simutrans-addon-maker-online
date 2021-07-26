@@ -3,7 +3,11 @@
     <q-toolbar>
       <q-btn dense flat round icon="menu" @click="drawer = !drawer" />
 
-      <q-toolbar-title id="title">
+      <q-toolbar-title
+        id="title"
+        class="cursor-pointer"
+        @click="drawer = !drawer"
+      >
         {{ title }}
       </q-toolbar-title>
       <theme-toggler />
@@ -48,11 +52,13 @@
   </q-drawer>
 </template>
 <script>
+import { themeToggler } from "@/mixins";
 import { mapGetters } from "vuex";
 import ThemeToggler from "./ThemeToggler.vue";
 export default {
   name: "GlobalHeader",
   components: { ThemeToggler },
+  mixins: [themeToggler],
   data() {
     return {
       drawer: false,

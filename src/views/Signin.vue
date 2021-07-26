@@ -17,12 +17,12 @@
 
 <script>
 import { mapActions } from "vuex";
-import ButtonGoogle from "../components/Buttons/ButtonGoogle.vue";
-import ButtonTwitter from "../components/Buttons/ButtonTwitter.vue";
-import ButtonAnonymous from "../components/Buttons/ButtonAnonymous.vue";
-import LayoutBox from "../components/LayoutBox.vue";
-import TitleMain from "../components/Text/TitleMain.vue";
-import ButtonPortal from "../components/Buttons/ButtonPortal.vue";
+import ButtonGoogle from "@/components/Buttons/ButtonGoogle.vue";
+import ButtonTwitter from "@/components/Buttons/ButtonTwitter.vue";
+import ButtonAnonymous from "@/components/Buttons/ButtonAnonymous.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
+import TitleMain from "@/components/Text/TitleMain.vue";
+import ButtonPortal from "@/components/Buttons/ButtonPortal.vue";
 export default {
   name: "Signin",
   components: {

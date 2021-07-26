@@ -17,12 +17,12 @@
     <q-tab-panels v-model="tab" animated>
       <template v-for="(image, index) in project.data.imageUrls">
         <q-tab-panel :name="index" class="q-pa-none">
-          <div>
+          <!-- line-height >= 1remだと画像下に空白ができるぞい -->
+          <div style="line-height: 0">
             <div
               class="relative-position"
               style="display: inline-block; line-height: 0"
             >
-              <!-- line-height >= 1remだと画像下に空白ができるぞい -->
               <img :src="image.url" />
               <svg-grid
                 :id="`preview-${index}`"
@@ -30,6 +30,7 @@
               />
             </div>
           </div>
+          <q-separator />
           <q-btn
             color="secondary"
             flat

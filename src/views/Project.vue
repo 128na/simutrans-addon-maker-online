@@ -45,17 +45,18 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { dataURL2File, download } from "../services/File";
-import { postPak } from "../services/ApiMakeobj";
-import TitleMain from "../components/Text/TitleMain.vue";
-import LayoutBox from "../components/LayoutBox.vue";
-import LayoutLoading from "../components/LayoutLoading.vue";
-import DatEditor from "../components/DatEditor/DatEditor.vue";
-import LastModified from "../components/Text/LastModified.vue";
-import GlobalFooter from "../components/GlobalFooter.vue";
-import ButtonLoading from "../components/Buttons/ButtonLoading.vue";
-import TextDateTime from "../components/Text/TextDateTime.vue";
+import { dataURL2File, download } from "@/services/File";
+import { postPak } from "@/services/ApiMakeobj";
+import TitleMain from "@/components/Text/TitleMain.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
+import LayoutLoading from "@/components/LayoutLoading.vue";
+import DatEditor from "@/components/DatEditor/DatEditor.vue";
+import LastModified from "@/components/Text/LastModified.vue";
+import GlobalFooter from "@/components/GlobalFooter.vue";
+import ButtonLoading from "@/components/Buttons/ButtonLoading.vue";
+import TextDateTime from "@/components/Text/TextDateTime.vue";
 import ImageEditor from "@/components/ImageManager/ImageEditor.vue";
+import { confirmBeforeLeave } from "@/mixins";
 export default {
   components: {
     TitleMain,
@@ -69,6 +70,7 @@ export default {
     ImageEditor,
     ImageEditor,
   },
+  mixins: [confirmBeforeLeave],
   name: "Project",
   data() {
     return {
@@ -81,9 +83,19 @@ export default {
     projectLoaded() {
       this.init();
     },
+    hasChanged() {
+      if (this.hasChanged) {
+        this.setLeaveDialog();
+      } else {
+        this.clearLeaveDialog();
+      }
+    },
   },
   created() {
     this.init();
+  },
+  beforeRouteLeave(to, from, next) {
+    next(this.handleBeforeLeave());
   },
   computed: {
     ...mapGetters(["projectLoaded", "getProject"]),
