@@ -12,6 +12,16 @@ $negative: #c10015;
 $info: #31ccec;
 $warning: #f2c037;
 
+$typography-font-family: "Noto Sans JP", sans-serif;
+
+$text-weights: (
+  thin: 300,
+  light: 300,
+  regular: 300,
+  medium: 400,
+  bold: 700,
+  bolder: 700,
+);
 $h1: (
   size: 3rem,
   line-height: 3.125rem,
@@ -47,5 +57,5 @@ $h6: (
   line-height: 1.5rem,
   weight: 400,
 );
-
+$button-font-weight: 400;
 @import "~quasar-variables-styl";

@@ -30,7 +30,7 @@
       <q-btn color="primary" @click="handleUpdate" :disabled="!hasChanged">
         保存
       </q-btn>
-      <q-btn :loading="fetching" color="primary" @click="handlePak">
+      <q-btn :loading="fetching" color="primary" no-caps @click="handlePak">
         Pak化
       </q-btn>
       <q-space />

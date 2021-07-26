@@ -29,8 +29,7 @@
     </defs>
     <rect width="100%" height="100%" :fill="fillGrid" />
   </svg>
-</template>
-<script>
+</template><script>
 export default {
   props: {
     // パターン要素のID重複が発生するとパターン同士が干渉するので注意
@@ -85,8 +84,7 @@ export default {
     },
   },
 };
-</script>
-<style scoped>
+</script><style scoped>
 svg {
   position: absolute;
   top: 0;

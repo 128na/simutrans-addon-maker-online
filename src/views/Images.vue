@@ -1,7 +1,7 @@
 <template>
   <div v-if="fileLoaded">
     <title-main class="mb-3">画像管理</title-main>
-    <q-card>
+    <q-card flat bordered>
       <image-manager :files="files" />
     </q-card>
   </div>

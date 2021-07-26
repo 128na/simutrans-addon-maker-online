@@ -38,10 +38,6 @@ export default {
 };
 </script>
 <style>
-body {
-  font-family: "Noto Sans JP", sans-serif;
-  font-weight: 300;
-}
 ul {
   padding-left: 0rem;
 }

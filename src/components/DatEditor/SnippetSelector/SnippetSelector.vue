@@ -1,7 +1,11 @@
 <template>
-  <a class="text-secondary cursor-pointer" @click.prevent="dialog = true">
-    テンプレートを挿入
-  </a>
+  <q-btn
+    color="secondary"
+    flat
+    icon="add"
+    label="テンプレートを挿入"
+    @click.prevent="dialog = true"
+  />
   <q-dialog v-model="dialog">
     <q-card>
       <q-toolbar>
@@ -12,9 +16,11 @@
       <snippet-list v-slot="slotProps">
         <q-separator />
         <q-toolbar>
+          <q-space />
           <q-btn
             color="primary"
             :disabled="!slotProps.selected"
+            icon="add"
             @click="handleInsert(slotProps.selected)"
           >
             {{ buttonMessage(slotProps.selected) }}

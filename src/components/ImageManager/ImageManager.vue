@@ -1,11 +1,7 @@
 <template>
-  <q-input
-    v-model.trim="search"
-    borderless
-    dense
-    label="絞り込み"
-    class="q-mx-md"
-  />
+  <q-card-section class="q-px-md q-py-xs">
+    <q-input v-model.trim="search" borderless dense label="絞り込み" />
+  </q-card-section>
   <q-separator />
   <template v-if="filteredFiles.length">
     <q-tabs
@@ -28,7 +24,11 @@
     <q-separator />
     <q-tab-panels v-model.number="tab" animated swipeable>
       <template v-for="(image, index) in filteredFiles">
-        <q-tab-panel :name="index" class="q-pa-none">
+        <q-tab-panel
+          :name="index"
+          class="q-pa-none scroll"
+          style="max-height: 60vh"
+        >
           <q-item>
             <q-item-section>
               <q-item-label>
@@ -80,26 +80,28 @@
     <q-item>該当なし</q-item>
   </template>
   <q-separator />
-  <q-file
-    borderless
-    v-model="selectedFiles"
-    multiple
-    dense
-    label="アップロード画像を選択"
-    accept=".png"
-    class="q-mx-md"
-  >
-    <template v-slot:after>
-      <q-btn
-        color="primary"
-        :loading="loading"
-        :disable="!selectedFiles.length"
-        @click="handleUpload"
-      >
-        アップロード
-      </q-btn>
-    </template>
-  </q-file>
+  <q-card-section class="q-px-md q-py-xs">
+    <q-file
+      borderless
+      v-model="selectedFiles"
+      multiple
+      dense
+      label="アップロード画像を選択"
+      accept=".png"
+    >
+      <template v-slot:after>
+        <q-btn
+          color="primary"
+          icon="cloud_upload"
+          :loading="loading"
+          :disable="!selectedFiles.length"
+          @click="handleUpload"
+        >
+          アップロード
+        </q-btn>
+      </template>
+    </q-file>
+  </q-card-section>
   <slot :shownFile="shownFile" />
 </template>
 <script>

@@ -1,14 +1,13 @@
 <template>
-  <q-expansion-item
-    v-for="(snippetList, i) in snippetLists"
-    group="snippetLists"
-    expand-separator
-    :icon="snippetList.icon"
-    :caption="snippetList.caption"
-    :label="snippetList.title"
-    @show="handleShowList(i)"
-  >
-    <template v-if="isShowList(i)">
+  <q-card-section style="max-height: 75vh" class="scroll q-pa-none">
+    <q-expansion-item
+      v-for="(snippetList, i) in snippetLists"
+      group="snippetLists"
+      expand-separator
+      :icon="snippetList.icon"
+      :caption="snippetList.caption"
+      :label="snippetList.title"
+    >
       <q-expansion-item
         v-for="(snippet, j) in snippetList.snippets"
         expand-separator
@@ -25,28 +24,28 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
-    </template>
-  </q-expansion-item>
-  <q-expansion-item
-    expand-separator
-    group="snippetLists"
-    icon="person"
-    label="カスタムテンプレート"
-  >
-    <q-expansion-item
-      v-for="(snippet, j) in mySnippets"
-      group="snippets"
-      expand-separator
-      icon="mdi-subdirectory-arrow-right"
-      :label="snippet.title"
-    >
-      <q-card>
-        <q-card-section>
-          <pre class="q-ma-none"><code>{{ snippet.dat }}</code></pre>
-        </q-card-section>
-      </q-card>
     </q-expansion-item>
-  </q-expansion-item>
+    <q-expansion-item
+      expand-separator
+      group="snippetLists"
+      icon="person"
+      label="カスタムテンプレート"
+    >
+      <q-expansion-item
+        v-for="(snippet, j) in mySnippets"
+        group="snippets"
+        expand-separator
+        icon="mdi-subdirectory-arrow-right"
+        :label="snippet.title"
+      >
+        <q-card>
+          <q-card-section>
+            <pre class="q-ma-none"><code>{{ snippet.dat }}</code></pre>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+    </q-expansion-item>
+  </q-card-section>
   <slot :selected="selected" />
 </template>
 <script>
@@ -55,7 +54,6 @@ import { SNIPPETS } from "../../../constants";
 export default {
   data() {
     return {
-      showList: null,
       selected: null,
     };
   },
@@ -71,12 +69,6 @@ export default {
   methods: {
     handleShow(snippet = null) {
       this.selected = snippet;
-    },
-    handleShowList(i) {
-      this.showList = i;
-    },
-    isShowList(i) {
-      return this.showList === i;
     },
   },
 };
