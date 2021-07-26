@@ -134,7 +134,6 @@ export default {
         : this.files;
     },
     shownFile() {
-      console.log(this.tab);
       return this.filteredFiles[this.tab];
     },
   },
@@ -147,7 +146,7 @@ export default {
 
         this.selectedFiles = [];
       } catch (e) {
-        console.log(e);
+        console.error(e);
         alert("アップロードに失敗しました");
       } finally {
         this.loading = false;

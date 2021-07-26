@@ -61,7 +61,6 @@ export default createStore<State>({
       state.snippets = snippets;
     },
     [SET_FILES](state, files) {
-      console.log({ files });
       state.files = files;
     },
   },
@@ -172,7 +171,6 @@ export default createStore<State>({
     },
     watchProjectState(context) {
       const unsubscribe = persister.project.listen(context.getters.userId, (projects: Project[]) => {
-        console.log({ projects });
         context.commit(SET_PROJECTS, projects);
       });
       context.dispatch('addUnsubscribe', unsubscribe);
@@ -197,7 +195,6 @@ export default createStore<State>({
     },
     watchSnippetState(context) {
       const unsubscribe = persister.snippet.listen(context.getters.userId, (snippets: Snippet[]) => {
-        console.log({ snippets });
         context.commit(SET_SNIPPETS, snippets);
       });
       context.dispatch('addUnsubscribe', unsubscribe);
