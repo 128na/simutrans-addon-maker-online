@@ -3,7 +3,7 @@
 import { createStore } from 'vuex'
 
 import firebase from "firebase";
-import app from "@/firebase";
+import { authProviders } from "@/firebase";
 import persister from "@/firebase/persister";
 import { signInWithPopup, linkWithPopup, unlinkWithPopup } from "@/services/ApiPortal";
 import { State, Project, Snippet, FBFile } from './interface';
@@ -83,7 +83,7 @@ export default createStore<State>({
         const result = provider === 'portal'
           ? await signInWithPopup()
           : (provider
-            ? await firebase.auth().signInWithPopup(new app.authProviders[provider])
+            ? await firebase.auth().signInWithPopup(new authProviders[provider])
             : await firebase.auth().signInAnonymously()
           );
 
@@ -102,7 +102,7 @@ export default createStore<State>({
         }
         provider === 'portal'
           ? await linkWithPopup(uid)
-          : await firebase.auth().currentUser?.linkWithPopup(new app.authProviders[provider]);
+          : await firebase.auth().currentUser?.linkWithPopup(new authProviders[provider]);
         alert('連携しました');
       } catch (e) {
         console.error(e);
@@ -113,7 +113,7 @@ export default createStore<State>({
       try {
         provider === 'portal'
           ? await unlinkWithPopup()
-          : await firebase.auth().currentUser?.unlink(app.authProviders[provider].PROVIDER_ID);
+          : await firebase.auth().currentUser?.unlink(authProviders[provider].PROVIDER_ID);
         alert('連携解除しました');
       } catch (e) {
         console.error(e);

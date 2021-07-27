@@ -3,6 +3,7 @@ import App from './App.vue'
 import './plugins/registerServiceWorker'
 import router from './plugins/router'
 import store from './plugins/store'
+import './plugins/web-vital';
 
 import "./firebase";
 import { Quasar } from 'quasar'

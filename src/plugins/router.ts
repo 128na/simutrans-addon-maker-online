@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Signin from '@/views/Signin.vue';
+import store from './store';
+
+import { analytics } from '@/firebase';
 
 const routes = [
   {
@@ -60,9 +63,15 @@ const router = createRouter({
   routes,
   linkActiveClass: 'active',
 });
-
-import store from './store';
 router.beforeEach((to, from, next) => {
+  const event: string = 'page_view';
+  const param = {
+    page_location: to.fullPath,
+    page_path: to.path,
+    page_title: to.name
+  };
+  analytics.logEvent(event, param);
+
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isInitialized && !store.getters.isLoggedIn) {
       next({ name: 'Signin' });

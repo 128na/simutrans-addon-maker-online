@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import "firebase/performance";
 
 // https://firebase.google.com/docs/projects/api-keys
 const firebaseConfig = {
@@ -11,14 +12,14 @@ const firebaseConfig = {
   measurementId: "G-NKDKP21HBK"
 };
 
-const app: firebase.app.App = firebase.initializeApp(firebaseConfig);
-const db: firebase.firestore.Firestore = firebase.firestore(app);
-const storage: firebase.storage.Storage = firebase.storage(app);
-const performance = firebase.performance();
+export const app: firebase.app.App = firebase.initializeApp(firebaseConfig);
+export const db: firebase.firestore.Firestore = firebase.firestore(app);
+export const storage: firebase.storage.Storage = firebase.storage(app);
+export const performance = firebase.performance();
 
-const authProviders: { [index: string]: any } = {
+// https://developers.google.com/gtagjs/reference/event?hl=ja#page_view
+export const analytics = firebase.analytics();
+export const authProviders: { [index: string]: any } = {
   google: firebase.auth.GoogleAuthProvider,
   twitter: firebase.auth.TwitterAuthProvider,
 }
-
-export default { db, storage, authProviders, performance };
