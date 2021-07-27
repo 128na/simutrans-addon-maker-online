@@ -41,12 +41,13 @@
         </q-tab-panel>
       </template>
     </q-tab-panels>
+    <q-item v-show="!project.data.imageUrls.length">画像がありません</q-item>
     <q-separator />
     <q-btn
       color="secondary"
       flat
       icon="add"
-      label="プロジェクトへ追加"
+      label="画像を追加"
       @click.prevent="dialog = true"
     />
     <q-dialog v-model="dialog">

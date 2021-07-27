@@ -14,19 +14,9 @@
       <theme-toggler />
     </q-toolbar>
   </q-header>
-  <q-drawer v-model="drawer" show-if-above bordered :class="drawerClass">
+  <q-drawer v-model="drawer" bordered :class="drawerClass">
     <q-scroll-area class="fit">
       <q-list>
-        <q-item
-          v-ripple
-          clickable
-          @click="drawer = !drawer"
-          class="rounded-borders"
-        >
-          <q-item-section avatar>
-            <q-icon name="navigate_before" />
-          </q-item-section>
-        </q-item>
         <q-separator />
         <template v-for="(item, index) in menus">
           <q-item

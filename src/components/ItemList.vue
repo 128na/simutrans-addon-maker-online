@@ -76,11 +76,11 @@
         </q-list>
       </q-tab-panel>
       <q-tab-panel name="export">
-        <p>{{ itemLabel }}データをjson形式で出力します。</p>
+        <p>{{ itemLabel }}をjson形式で出力します。</p>
         <exporter :data="items" :exportName="itemLabel" />
       </q-tab-panel>
       <q-tab-panel name="import">
-        <p>json形式の{{ itemLabel }}データを取り込みます。</p>
+        <p>json形式の{{ itemLabel }}を取り込みます。</p>
         <importer @import="$emit('import', $event)" />
       </q-tab-panel>
     </q-tab-panels>

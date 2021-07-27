@@ -24,6 +24,7 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
+      <q-item v-if="!snippetList.snippets.length"> 何もありません。 </q-item>
     </q-expansion-item>
     <q-expansion-item
       expand-separator
@@ -44,6 +45,7 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
+      <q-item v-if="!mySnippets.length"> 何もありません。 </q-item>
     </q-expansion-item>
   </q-card-section>
   <slot :selected="selected" />
