@@ -21,17 +21,15 @@ const sendToGoogleAnalytics = ({ name, delta, id, value }: Metric) => {
   });
 };
 
-const dest = process.env.NODE_ENV === 'production'
-  ? sendToGoogleAnalytics
-  : console.log;
-
-// Cumulative Layout Shift (CLS)
-getCLS(dest, true);
-// First Input Delay (FID)
-getFID(dest, true);
-// Largest Contentful Paint (LCP)
-getLCP(dest, true);
-// First Contentful Paint (FCP)
-getFCP(dest, true);
-// Time to First Byte (TTFB)
-getTTFB(dest);
+if (process.env.NODE_ENV === 'production') {
+  // Cumulative Layout Shift (CLS)
+  getCLS(sendToGoogleAnalytics);
+  // First Input Delay (FID)
+  getFID(sendToGoogleAnalytics);
+  // Largest Contentful Paint (LCP)
+  getLCP(sendToGoogleAnalytics);
+  // First Contentful Paint (FCP)
+  getFCP(sendToGoogleAnalytics);
+  // Time to First Byte (TTFB)
+  getTTFB(sendToGoogleAnalytics);
+}
