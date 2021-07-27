@@ -10,7 +10,10 @@ module.exports = {
   pwa: {
     workboxOptions: {
       skipWaiting: true,
-    }
+    },
+    themeColor: '#027be3',
+    msTileColor: '#027be3',
+    display: "standalone"
   },
 
   pluginOptions: {

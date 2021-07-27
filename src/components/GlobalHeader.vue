@@ -10,6 +10,7 @@
       >
         {{ title }}
       </q-toolbar-title>
+      <q-space />
       <theme-toggler />
     </q-toolbar>
   </q-header>

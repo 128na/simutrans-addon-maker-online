@@ -152,6 +152,21 @@ export default createStore<State>({
         alert('無念！認証ステートチェックに失敗しました');
       }
     },
+    async deleteUser(context) {
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        return;
+      }
+      try {
+        await user.delete();
+        context.dispatch('unsubscribeAll');
+      } catch (e: any) {
+        if (e.code === 'auth/requires-recent-login') {
+          return alert('最後にサインインした日付が古いようです。再度サインインしてから再操作して下さい');
+        }
+        return alert('削除に失敗しました');
+      }
+    },
 
     // プロジェクト
     async createProject(context, projectData) {
