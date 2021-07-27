@@ -14,10 +14,11 @@ const firebaseConfig = {
 const app: firebase.app.App = firebase.initializeApp(firebaseConfig);
 const db: firebase.firestore.Firestore = firebase.firestore(app);
 const storage: firebase.storage.Storage = firebase.storage(app);
+const performance = firebase.performance();
 
 const authProviders: { [index: string]: any } = {
   google: firebase.auth.GoogleAuthProvider,
   twitter: firebase.auth.TwitterAuthProvider,
 }
 
-export default { db, storage, authProviders };
+export default { db, storage, authProviders, performance };
