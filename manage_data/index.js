@@ -7,8 +7,8 @@ admin.initializeApp({
 });
 
 const existsUid = require('./authentication');
-const mapAllFiles = require('./firestore');
-const mapAllDocuments = require('./storage');
+const mapAllFiles = require('./storage');
+const mapAllDocuments = require('./firestore');
 
 // uidにマッチするユーザーが無いファイルを削除する
 const deleteMissingUserFile = async file => {
