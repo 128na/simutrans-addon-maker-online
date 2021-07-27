@@ -11,6 +11,10 @@ module.exports = {
     workboxOptions: {
       skipWaiting: true,
     },
+    iconPaths: {
+      favicon32: 'favicon.ico',
+      favicon16: 'favicon.ico',
+    },
     themeColor: '#027be3',
     msTileColor: '#027be3',
     display: "standalone"
