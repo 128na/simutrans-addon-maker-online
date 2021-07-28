@@ -17,6 +17,7 @@
   <q-drawer v-model="drawer" bordered :class="drawerClass">
     <q-scroll-area class="fit">
       <q-list>
+        <q-item class="q-my-lg" />
         <q-separator />
         <template v-for="(item, index) in menus">
           <q-item
@@ -36,7 +37,22 @@
         </template>
         <q-separator />
         <q-item>
-          <small>version {{ version }} </small>
+          <small>
+            <div>version {{ version }}</div>
+            <div>
+              <q-icon name="mdi-github" />
+              <a
+                href="https://github.com/128na/simutrans-addon-maker-online"
+                class="text-secondary"
+              >
+                Github
+              </a>
+            </div>
+            <div>
+              <q-icon name="mdi-twitter" />
+              <a href="https://twitter.com/128Na">128Na</a>
+            </div>
+          </small>
         </q-item>
       </q-list>
     </q-scroll-area>
