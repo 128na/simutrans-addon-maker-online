@@ -13,7 +13,12 @@
       class="q-mb-md"
     />
     <div>
-      <q-btn color="primary" @click="handle" :disable="!file">インポート</q-btn>
+      <q-btn
+        color="primary"
+        label="インポート"
+        :disable="!file"
+        @click="handle"
+      />
     </div>
   </q-form>
 </template>

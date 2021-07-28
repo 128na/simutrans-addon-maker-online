@@ -24,15 +24,25 @@
     </q-form>
 
     <global-footer>
-      <q-btn color="secondary" @click="handleReset()" :disabled="!hasChanged">
-        取消
-      </q-btn>
-      <q-btn color="primary" @click="handleUpdate" :disabled="!hasChanged">
-        保存
-      </q-btn>
-      <q-btn :loading="fetching" color="primary" no-caps @click="handlePak">
-        Pak化
-      </q-btn>
+      <q-btn
+        label="取消"
+        color="secondary"
+        :disabled="!hasChanged"
+        @click="handleReset()"
+      />
+      <q-btn
+        label="保存"
+        color="primary"
+        :disabled="!hasChanged"
+        @click="handleUpdate"
+      />
+      <q-btn
+        label="Pak化"
+        color="primary"
+        no-caps
+        :loading="fetching"
+        @click="handlePak"
+      />
       <q-space />
 
       <last-modified>

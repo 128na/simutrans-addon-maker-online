@@ -38,7 +38,7 @@ export const confirmBeforeLeave: ComponentOptionsMixin = {
 
 import deviceConfig from '@/services/deviceConfig'
 import { useQuasar } from 'quasar'
-export const themeToggler: ComponentOptionsMixin = {
+export const themeControl: ComponentOptionsMixin = {
   data() {
     return {
       $q: null,

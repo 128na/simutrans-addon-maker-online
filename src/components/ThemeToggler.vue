@@ -2,9 +2,9 @@
   <q-btn flat round :icon="icon" :color="color" @click="toggleTheme" />
 </template>
 <script>
-import { themeToggler } from "@/mixins";
+import { themeControl } from "@/mixins";
 export default {
-  mixins: [themeToggler],
+  mixins: [themeControl],
   computed: {
     icon() {
       return this.isDarkTheme ? "dark_mode" : "light_mode";

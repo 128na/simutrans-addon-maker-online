@@ -2,7 +2,13 @@
   <div v-if="snippetLoaded">
     <title-main class="mb-3">テンプレート管理</title-main>
     <layout-box>
-      <q-btn color="primary" outline @click="handleCreate">新規作成</q-btn>
+      <q-btn
+        color="primary"
+        outline
+        label="新規作成"
+        icon="add"
+        @click="handleCreate"
+      />
     </layout-box>
     <layout-box>
       <item-list

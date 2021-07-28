@@ -13,12 +13,18 @@
     </q-form>
 
     <global-footer>
-      <q-btn color="secondary" @click="handleReset()" :disabled="!hasChanged">
-        取消
-      </q-btn>
-      <q-btn color="primary" @click="handleUpdate" :disabled="!hasChanged">
-        保存
-      </q-btn>
+      <q-btn
+        color="secondary"
+        label="取消"
+        :disabled="!hasChanged"
+        @click="handleReset()"
+      />
+      <q-btn
+        color="primary"
+        label="保存"
+        :disabled="!hasChanged"
+        @click="handleUpdate"
+      />
       <q-space />
 
       <last-modified>

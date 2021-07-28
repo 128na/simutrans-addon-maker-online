@@ -28,7 +28,12 @@
         <q-item>
           <q-item-section>
             <q-item-label>
-              <q-btn color="primary" @click="signout">サインアウト</q-btn>
+              <q-btn
+                color="primary"
+                label="サインアウト"
+                icon="logout"
+                @click="signout"
+              />
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -39,63 +44,59 @@
       <p>サインインに使用できるアカウントの連携・解除ができます。</p>
 
       <q-list>
+        <template v-for="service in services">
+          <q-item>
+            <q-item-section>
+              <q-item-label>{{ service.title }}</q-item-label>
+              <q-item-label class="q-gutter-x-sm">
+                <q-btn
+                  color="primary"
+                  label="連携"
+                  icon="link"
+                  @click="link(service.name)"
+                />
+                <q-btn
+                  color="secondary"
+                  label="再認証"
+                  icon="login"
+                  @click="signin(service.name)"
+                />
+                <q-btn
+                  color="secondary"
+                  label="連携解除"
+                  icon="link_off"
+                  @click="handleUnlink(service.name)"
+                />
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </template>
         <q-item>
-          <q-item-section>
-            <q-item-label>Simutrans Addon Portal</q-item-label>
-            <q-item-label class="q-gutter-x-sm">
-              <q-btn color="primary" @click="link('portal')"> 連携 </q-btn>
-              <q-btn color="secondary" @click="signin('portal')">
-                再認証
-              </q-btn>
-              <q-btn color="secondary" @click="handleUnlink('portal')">
-                連携解除
-              </q-btn>
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>
-            <q-item-label>Google</q-item-label>
-            <q-item-label class="q-gutter-x-sm">
-              <q-btn color="primary" @click="link('google')"> 連携 </q-btn>
-              <q-btn color="secondary" @click="signin('google')">
-                再認証
-              </q-btn>
-              <q-btn color="secondary" @click="handleUnlink('google')">
-                連携解除
-              </q-btn>
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-        <q-item>
-          <q-item-section>
-            <q-item-label>Twitter</q-item-label>
-            <q-item-label class="q-gutter-x-sm">
-              <q-btn color="primary" @click="link('twitter')"> 連携 </q-btn>
-              <q-btn color="secondary" @click="signin('twitter')">
-                再認証
-              </q-btn>
-              <q-btn color="secondary" @click="handleUnlink('twitter')">
-                連携解除
-              </q-btn>
-            </q-item-label>
-          </q-item-section>
+          <q-item-label caption>
+            既にこのアプリに連携しているアカウント同士、匿名アカウントとは連携できません。<br />
+            ゲストアカウントを利用している場合はアカウント連携をお勧めします。<br />
+            サインイン連携していないゲストアカウントでサインアウトすると二度とそのデータにはアクセスできなくなります。
+          </q-item-label>
         </q-item>
       </q-list>
-      <small>
-        ※
-        既にこのアプリに連携しているアカウント同士、匿名アカウントとは連携できません
-      </small>
     </layout-box>
     <title-sub>ユーザー削除</title-sub>
     <layout-box>
-      <p>作成したデータとユーザーを削除します。</p>
+      <p>
+        作成したデータとユーザーを削除します。<br />
+        作成したデータはユーザー削除実行後、24時間以内に削除されます。
+      </p>
     </layout-box>
     <q-list>
       <q-item>
         <q-item-section>
           <q-item-label class="q-gutter-x-sm">
-            <q-btn color="negative" @click="handleDelete"> 削除 </q-btn>
+            <q-btn
+              color="negative"
+              label="削除"
+              icon="mdi-bomb"
+              @click="handleDelete"
+            />
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -126,6 +127,13 @@ export default {
   computed: {
     ...mapState(["user"]),
     ...mapGetters(["isLoggedIn", "userName", "userId"]),
+    services() {
+      return [
+        { title: "Simutrans Addon Portal", name: "portal" },
+        { title: "Google", name: "google" },
+        { title: "Twitter", name: "twitter" },
+      ];
+    },
   },
 };
 </script>

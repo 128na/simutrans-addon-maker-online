@@ -19,12 +19,11 @@
           <q-space />
           <q-btn
             color="primary"
-            :disabled="!slotProps.selected"
             icon="add"
+            :disabled="!slotProps.selected"
+            :label="buttonMessage(slotProps.selected)"
             @click="handleInsert(slotProps.selected)"
-          >
-            {{ buttonMessage(slotProps.selected) }}
-          </q-btn>
+          />
         </q-toolbar>
       </snippet-list>
     </q-card>

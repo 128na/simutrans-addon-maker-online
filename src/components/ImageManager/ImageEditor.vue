@@ -58,18 +58,15 @@
         </q-toolbar>
         <q-separator />
         <image-manager v-slot="slotProps">
-          <q-separator />
-          <q-toolbar>
-            <q-space />
-            <q-btn
-              color="primary"
-              no-caps
-              @click="handleAddImage(slotProps.shownFile)"
-              :disable="!slotProps.shownFile"
-              icon="add"
-              label="プロジェクトへ追加"
-            />
-          </q-toolbar>
+          <q-btn
+            color="primary"
+            flat
+            no-caps
+            icon="add"
+            label="プロジェクトへ追加"
+            :disable="!slotProps.selected"
+            @click="handleAddImage(slotProps.selected)"
+          />
         </image-manager>
       </q-card>
     </q-dialog>

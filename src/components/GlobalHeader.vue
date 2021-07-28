@@ -43,13 +43,13 @@
   </q-drawer>
 </template>
 <script>
-import { themeToggler } from "@/mixins";
+import { themeControl } from "@/mixins";
 import { mapGetters } from "vuex";
 import ThemeToggler from "./ThemeToggler.vue";
 export default {
   name: "GlobalHeader",
   components: { ThemeToggler },
-  mixins: [themeToggler],
+  mixins: [themeControl],
   data() {
     return {
       drawer: false,

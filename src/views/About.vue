@@ -9,23 +9,23 @@
     <title-sub>操作の種類</title-sub>
     <layout-box>
       <p>
-        <q-btn color="primary" class="q-mr-sm">サンプル</q-btn>
+        <q-btn color="primary" label="サンプル" />
         その画面における主な操作に利用されます。（新規作成や保存など）
       </p>
       <p>
-        <q-btn color="secondary" class="q-mr-sm">サンプル</q-btn>
+        <q-btn color="secondary" label="サンプル" />
         その画面における補助的な操作に利用されます。
       </p>
       <p>
-        <q-btn color="negative" class="q-mr-sm">サンプル</q-btn>
+        <q-btn color="negative" label="サンプル" />
         その画面における破壊的な操作に利用されます。実行前に確認ダイアログが表示されます。（削除など）
       </p>
       <p>
-        <q-btn disable color="primary" class="q-mr-sm">サンプル</q-btn>
+        <q-btn disable color="primary" label="サンプル" />
         そのボタンの操作を利用可能な条件が揃っていないことを表します。（未入力項目があるなど）
       </p>
       <p>
-        <q-btn loading color="primary" class="q-mr-sm">サンプル</q-btn>
+        <q-btn loading color="primary" label="サンプル" />
         そのボタンの操作が実行中であることを表します。処理が完了するまで再度実行することができません。
       </p>
     </layout-box>

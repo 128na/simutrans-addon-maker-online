@@ -3,82 +3,46 @@
     <q-input v-model.trim="search" borderless dense label="絞り込み" />
   </q-card-section>
   <q-separator />
-  <template v-if="filteredFiles.length">
-    <q-tabs
-      v-model="tab"
-      no-caps
-      inline-label
-      align="left"
-      class="text-grey"
-      active-color="primary"
-      indicator-color="primary"
-    >
+
+  <q-tabs
+    v-model="col"
+    dense
+    align="left"
+    active-color="primary"
+    indicator-color="primary"
+  >
+    <template v-for="colOption in colOptions">
+      <q-tab
+        style="justify-content: initial; text-align: left"
+        :label="colOption.text"
+        :icon="colOption.icon"
+        :name="colOption.value"
+      />
+    </template>
+  </q-tabs>
+  <q-separator />
+  <q-card-section>
+    <div class="q-col-gutter-sm row items-start">
       <template v-for="(image, index) in filteredFiles">
-        <q-tab
-          style="justify-content: initial; text-align: left"
-          :name="index"
-          :label="image.filename"
-        />
+        <div :class="colClass">
+          <q-img
+            fit="cover"
+            :src="image.url"
+            :alt="image.filename"
+            ratio="1"
+            @click="handleSelect(image)"
+          >
+            <div class="absolute-bottom text-center">
+              <small>{{ image.filename }}</small>
+            </div>
+          </q-img>
+        </div>
       </template>
-    </q-tabs>
-    <q-separator />
-    <q-tab-panels v-model.number="tab" animated swipeable>
-      <template v-for="(image, index) in filteredFiles">
-        <q-tab-panel
-          :name="index"
-          class="q-pa-none scroll"
-          style="max-height: 60vh"
-        >
-          <q-item>
-            <q-item-section>
-              <q-item-label>
-                {{ image.filename }}
-              </q-item-label>
-              <q-item-label caption>
-                <div class="q-mb-xs">
-                  利用プロジェクト:
-                  <template
-                    v-if="existsProjectByFile(image)"
-                    v-for="project in getProjectsByFile(image)"
-                  >
-                    <a
-                      class="text-secondary cursor-pointer q-mr-sm"
-                      :to="{ name: 'Project', params: { id: project.id } }"
-                    >
-                      {{ project.data.title }}
-                    </a>
-                  </template>
-                  <template v-else>なし</template>
-                </div>
-                <div>
-                  最終更新: <text-date-time :value="image.updatedAt" />
-                  <a
-                    class="text-secondary cursor-pointer"
-                    @click="handleDownloadImage(image)"
-                  >
-                    ダウンロード
-                  </a>
-                  <a
-                    class="text-negative cursor-pointer"
-                    @click="handleDelete(image)"
-                  >
-                    削除
-                  </a>
-                </div>
-              </q-item-label>
-            </q-item-section>
-          </q-item>
-          <q-separator />
-          <q-item class="q-pa-none">
-            <img :src="image.url" />
-          </q-item>
-        </q-tab-panel>
+      <template v-if="!filteredFiles.length">
+        <q-item>該当なし</q-item>
       </template>
-    </q-tab-panels>
-  </template>
-  <template v-else>
-    <q-item>該当なし</q-item>
-  </template>
+    </div>
+  </q-card-section>
   <q-separator />
   <q-card-section class="q-px-md q-py-xs">
     <q-file
@@ -91,7 +55,37 @@
       @change="handleUpload"
     />
   </q-card-section>
-  <slot :shownFile="shownFile" />
+  <q-dialog v-model="dialog">
+    <q-card v-if="selected" style="max-width: 90vw; max-height: 90vh">
+      <q-card-section>
+        <div>{{ selected.filename }}</div>
+        <small>最終更新: <text-date-time :value="selected.updatedAt" /></small>
+      </q-card-section>
+      <q-separator />
+      <q-card-section
+        class="scroll q-pa-none"
+        style="line-height: 0; max-height: 75vh"
+      >
+        <img loading="lazy" :src="selected.url" :alt="selected.filename" />
+      </q-card-section>
+      <q-separator />
+      <q-btn
+        flat
+        color="negative"
+        icon="delete"
+        label="削除"
+        @click="handleDelete(selected)"
+      />
+      <q-btn
+        flat
+        color="secondary"
+        icon="cloud_download"
+        label="ダウンロード"
+        @click="handleDownloadImage(selected)"
+      />
+      <slot :selected="selected" />
+    </q-card>
+  </q-dialog>
 </template>
 <script>
 import { download } from "@/services/File";
@@ -99,30 +93,49 @@ import { mapActions, mapGetters } from "vuex";
 import LastModified from "../Text/LastModified.vue";
 import TextDateTime from "../Text/TextDateTime.vue";
 import SvgGrid from "../Svg/SvgGrid.vue";
+import { themeControl } from "@/mixins";
+import { rect } from "../../services/Svg";
+
 export default {
   components: { LastModified, TextDateTime, SvgGrid },
+  mixins: [themeControl],
   data() {
     return {
-      tab: 0,
       selectedFiles: [],
       search: "",
+      col: 4,
+      selected: null,
     };
-  },
-  watch: {
-    filteredFiles() {
-      this.tab = Math.max(0, Math.min(this.tab, this.filteredFiles.length - 1));
-    },
   },
   computed: {
     ...mapGetters(["files", "existsProjectByFile", "getProjectsByFile"]),
+    dialog: {
+      get() {
+        return !!this.selected;
+      },
+      set(v) {
+        if (!v) {
+          this.selected = null;
+        }
+      },
+    },
+    colClass() {
+      return `col-${this.col}`;
+    },
+    colOptions() {
+      return [
+        { value: 2, icon: rect(6, 16, 8, this.isDarkTheme) },
+        { value: 3, icon: rect(4, 24, 12, this.isDarkTheme) },
+        { value: 4, icon: rect(3, 36, 12, this.isDarkTheme) },
+        { value: 6, icon: rect(2, 58, 12, this.isDarkTheme) },
+        { value: 12, icon: rect(1, 1, 0, this.isDarkTheme) },
+      ];
+    },
     filteredFiles() {
       const key = this.search.toLowerCase();
       return this.search
         ? this.files.filter((f) => f.filename.toLowerCase().includes(key))
         : this.files;
-    },
-    shownFile() {
-      return this.filteredFiles[this.tab];
     },
   },
   methods: {
@@ -137,9 +150,13 @@ export default {
         alert("アップロードに失敗しました");
       }
     },
+    handleSelect(image) {
+      this.selected = image;
+    },
     async handleDelete(image) {
       if (confirm("削除しますか？")) {
         await this.deleteFile(image.filename);
+        this.selected = null;
       }
     },
     handleDownloadImage(image) {
