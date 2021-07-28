@@ -10,8 +10,14 @@ const icons = [
   "flight_takeoff",
   "directions_boat",
   "directions_bus",
+  "directions_car_filled",
   "train",
   "subway",
+  "two_wheeler",
+  "agriculture",
+  "pedal_bike",
+  "snowmobile",
+  "local_taxi",
 ];
 export default {
   computed: {
