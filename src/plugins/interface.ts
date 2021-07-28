@@ -33,7 +33,12 @@ export interface FBFile {
   filename: string;
   url: string;
 }
+export interface MessageState {
+  type: string;
+  text: string;
+}
 export interface State {
+  message: MessageState | null;
   user: firebase.User | undefined;
   credential: firebase.auth.UserCredential | null;
   unsubscribes: firebase.Unsubscribe[];

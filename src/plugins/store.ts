@@ -10,6 +10,7 @@ import { State, Project, Snippet, FBFile } from './interface';
 import filePersister from '@/firebase/filePersister';
 import { handleFirebaseAuthError, handleFirebaseStorageError, handleFirestoreError } from '@/services/ErrorHandling';
 
+const SET_MESSAGE = 'SET_MESSAGE';
 const SET_USER = 'SET_USER';
 const SET_CREDENTIAL = 'SET_CREDENTIAL';
 const SET_PROJECTS = 'SET_PROJECTS';
@@ -19,6 +20,7 @@ const SET_UNSUBSCRIBES = 'SET_UNSUBSCRIBES';
 
 export default createStore<State>({
   state: {
+    message: null,
     // https://firebase.google.com/docs/reference/js/firebase.User
     user: undefined,
     credential: null,
@@ -28,6 +30,9 @@ export default createStore<State>({
     files: undefined,
   },
   getters: {
+    hasMessage: state => !!state.message,
+    message: state => state.message,
+
     isInitialized: state => state.user !== undefined,
     isLoggedIn: state => !!state.user,
     userName: state => state.user?.displayName || 'Guest',
@@ -52,6 +57,9 @@ export default createStore<State>({
     fileLoaded: state => state.files !== undefined,
   },
   mutations: {
+    [SET_MESSAGE](state, message) {
+      state.message = message;
+    },
     [SET_USER](state, user) {
       state.user = user;
     },
@@ -83,6 +91,10 @@ export default createStore<State>({
       context.commit(SET_UNSUBSCRIBES, []);
     },
 
+    clearMessage(context) {
+      context.commit(SET_MESSAGE, null);
+    },
+
     // 認証
     async signin(context, provider = null) {
       try {
@@ -98,7 +110,7 @@ export default createStore<State>({
         context.commit(SET_USER, result.user);
         context.commit(SET_CREDENTIAL, result.credential);
       } catch (e: any) {
-        handleFirebaseAuthError(e);
+        context.commit(SET_MESSAGE, handleFirebaseAuthError(e));
       }
     },
     async link(context, provider: string) {
@@ -112,7 +124,7 @@ export default createStore<State>({
           : await firebase.auth().currentUser?.linkWithPopup(new authProviders[provider]);
         alert('連携しました');
       } catch (e: any) {
-        handleFirebaseAuthError(e);
+        context.commit(SET_MESSAGE, handleFirebaseAuthError(e));
       }
     },
     async unlink(context, provider: string) {
@@ -122,7 +134,7 @@ export default createStore<State>({
           : await firebase.auth().currentUser?.unlink(authProviders[provider].PROVIDER_ID);
         alert('連携解除しました');
       } catch (e: any) {
-        handleFirebaseAuthError(e);
+        context.commit(SET_MESSAGE, handleFirebaseAuthError(e));
       }
     },
     async signout(context) {
@@ -132,7 +144,7 @@ export default createStore<State>({
         context.commit(SET_USER, null);
         context.commit(SET_PROJECTS, []);
       } catch (e: any) {
-        handleFirebaseAuthError(e);
+        context.commit(SET_MESSAGE, handleFirebaseAuthError(e));
       }
     },
 
@@ -153,7 +165,7 @@ export default createStore<State>({
           }
         });
       } catch (e: any) {
-        handleFirebaseAuthError(e);
+        context.commit(SET_MESSAGE, handleFirebaseAuthError(e));
       }
     },
     async deleteUser(context) {
@@ -165,7 +177,7 @@ export default createStore<State>({
         await user.delete();
         context.dispatch('unsubscribeAll');
       } catch (e: any) {
-        handleFirebaseAuthError(e);
+        context.commit(SET_MESSAGE, handleFirebaseAuthError(e));
       }
     },
 
@@ -174,35 +186,35 @@ export default createStore<State>({
       try {
         await persister.project.create(context.getters.userId, projectData);
       } catch (e: any) {
-        handleFirestoreError(e);
+        context.commit(SET_MESSAGE, handleFirestoreError(e));
       }
     },
     async updateProject(context, project) {
       try {
         await persister.project.update(context.getters.userId, project);
       } catch (e: any) {
-        handleFirestoreError(e);
+        context.commit(SET_MESSAGE, handleFirestoreError(e));
       }
     },
     async deleteProject(context, project) {
       try {
         await persister.project.delete(context.getters.userId, project);
       } catch (e: any) {
-        handleFirestoreError(e);
+        context.commit(SET_MESSAGE, handleFirestoreError(e));
       }
     },
     async restoreProject(context, project) {
       try {
         await persister.project.restore(context.getters.userId, project);
       } catch (e: any) {
-        handleFirestoreError(e);
+        context.commit(SET_MESSAGE, handleFirestoreError(e));
       }
     },
     async forceDeleteProject(context, project) {
       try {
         await persister.project.forceDelete(context.getters.userId, project);
       } catch (e: any) {
-        handleFirestoreError(e);
+        context.commit(SET_MESSAGE, handleFirestoreError(e));
       }
     },
     watchProjectState(context) {
@@ -218,35 +230,35 @@ export default createStore<State>({
       try {
         await persister.snippet.create(context.getters.userId, snippetData);
       } catch (e: any) {
-        handleFirestoreError(e);
+        context.commit(SET_MESSAGE, handleFirestoreError(e));
       }
     },
     async updateSnippet(context, snippet) {
       try {
         await persister.snippet.update(context.getters.userId, snippet);
       } catch (e: any) {
-        handleFirestoreError(e);
+        context.commit(SET_MESSAGE, handleFirestoreError(e));
       }
     },
     async deleteSnippet(context, snippet) {
       try {
         await persister.snippet.delete(context.getters.userId, snippet);
       } catch (e: any) {
-        handleFirestoreError(e);
+        context.commit(SET_MESSAGE, handleFirestoreError(e));
       }
     },
     async restoreSnippet(context, snippet) {
       try {
         await persister.snippet.restore(context.getters.userId, snippet);
       } catch (e: any) {
-        handleFirestoreError(e);
+        context.commit(SET_MESSAGE, handleFirestoreError(e));
       }
     },
     async forceDeleteSnippet(context, snippet) {
       try {
         await persister.snippet.forceDelete(context.getters.userId, snippet);
       } catch (e: any) {
-        handleFirestoreError(e);
+        context.commit(SET_MESSAGE, handleFirestoreError(e));
       }
     },
     watchSnippetState(context) {
@@ -262,7 +274,7 @@ export default createStore<State>({
         const files = await filePersister.fetchAll(context.getters.userId);
         context.commit(SET_FILES, files);
       } catch (e: any) {
-        handleFirebaseStorageError(e);
+        context.commit(SET_MESSAGE, handleFirebaseStorageError(e));
       }
     },
     async uploadFiles(context, files: File[]) {
@@ -270,7 +282,7 @@ export default createStore<State>({
         await filePersister.upload(context.getters.userId, files);
         context.dispatch('fetchFiles');
       } catch (e: any) {
-        handleFirebaseStorageError(e);
+        context.commit(SET_MESSAGE, handleFirebaseStorageError(e));
       }
     },
     async deleteFile(context, filename: string) {
@@ -278,7 +290,7 @@ export default createStore<State>({
         await filePersister.delete(context.getters.userId, filename);
         context.dispatch('fetchFiles');
       } catch (e: any) {
-        handleFirebaseStorageError(e);
+        context.commit(SET_MESSAGE, handleFirebaseStorageError(e));
       }
     },
 

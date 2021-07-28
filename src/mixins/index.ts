@@ -37,17 +37,8 @@ export const confirmBeforeLeave: ComponentOptionsMixin = {
 };
 
 import deviceConfig from '@/services/deviceConfig'
-import { useQuasar } from 'quasar'
 export const themeControl: ComponentOptionsMixin = {
-  data() {
-    return {
-      $q: null,
-    };
-  },
   created() {
-    const $q = useQuasar();
-    this.$q = $q;
-
     this.$q.dark.set(deviceConfig.darkMode.get());
   },
   computed: {
@@ -63,7 +54,17 @@ export const themeControl: ComponentOptionsMixin = {
   },
 };
 
+import { useQuasar } from 'quasar'
 export const globalMixin: ComponentOptionsMixin = {
+  data() {
+    return {
+      $q: null,
+    };
+  },
+  created() {
+    const $q = useQuasar();
+    this.$q = $q;
+  },
   methods: {
     /**
      * ルーターショートハンド
