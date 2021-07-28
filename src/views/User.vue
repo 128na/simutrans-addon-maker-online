@@ -57,15 +57,16 @@
                 />
                 <q-btn
                   color="secondary"
+                  label="解除"
+                  icon="link_off"
+                  @click="handleUnlink(service.name)"
+                />
+                <q-btn
+                  v-if="!hasCredential"
+                  color="secondary"
                   label="再認証"
                   icon="login"
                   @click="signin(service.name)"
-                />
-                <q-btn
-                  color="secondary"
-                  label="連携解除"
-                  icon="link_off"
-                  @click="handleUnlink(service.name)"
                 />
               </q-item-label>
             </q-item-section>
@@ -126,7 +127,7 @@ export default {
   },
   computed: {
     ...mapState(["user"]),
-    ...mapGetters(["isLoggedIn", "userName", "userId"]),
+    ...mapGetters(["isLoggedIn", "userName", "userId", "hasCredential"]),
     services() {
       return [
         { title: "Simutrans Addon Portal", name: "portal" },
