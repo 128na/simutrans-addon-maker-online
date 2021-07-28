@@ -88,19 +88,8 @@
       dense
       label="アップロード画像を選択"
       accept=".png"
-    >
-      <template v-slot:after>
-        <q-btn
-          color="primary"
-          icon="cloud_upload"
-          :loading="loading"
-          :disable="!selectedFiles.length"
-          @click="handleUpload"
-        >
-          アップロード
-        </q-btn>
-      </template>
-    </q-file>
+      @change="handleUpload"
+    />
   </q-card-section>
   <slot :shownFile="shownFile" />
 </template>
@@ -117,7 +106,6 @@ export default {
       tab: 0,
       selectedFiles: [],
       search: "",
-      loading: false,
     };
   },
   watch: {
@@ -141,15 +129,12 @@ export default {
     ...mapActions(["uploadFiles", "deleteFile"]),
     async handleUpload() {
       try {
-        this.loading = true;
         await this.uploadFiles(this.selectedFiles);
 
         this.selectedFiles = [];
       } catch (e) {
         console.error(e);
         alert("アップロードに失敗しました");
-      } finally {
-        this.loading = false;
       }
     },
     async handleDelete(image) {
