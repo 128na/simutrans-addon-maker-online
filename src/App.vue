@@ -37,14 +37,3 @@ export default {
   },
 };
 </script>
-<style>
-ul {
-  padding-left: 0rem;
-}
-li {
-  list-style: none;
-}
-#title {
-  font-weight: 700;
-}
-</style>

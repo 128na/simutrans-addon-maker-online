@@ -1,3 +1,17 @@
-@import './quasar.variables.scss';
-@import '~quasar-styl';
+@import "./quasar.variables.scss";
+@import "~quasar-styl";
 // @import '~quasar-addon-styl';
+
+body {
+  word-break: break-all;
+}
+
+ul {
+  padding-left: 0rem;
+}
+li {
+  list-style: none;
+}
+#title {
+  font-weight: 700;
+}
