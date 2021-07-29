@@ -34,7 +34,7 @@
               </q-item-section>
 
               <q-item-section top side>
-                <div class="q-gutter-xs">
+                <div class="q-gutter-x-xs">
                   <slot name="itemAction" :item="item" />
                 </div>
               </q-item-section>
@@ -57,7 +57,7 @@
               </q-item-section>
 
               <q-item-section top side>
-                <div class="q-gutter-xs">
+                <div class="q-gutter-x-xs">
                   <slot name="trashedItemAction" :item="item" />
                 </div>
               </q-item-section>

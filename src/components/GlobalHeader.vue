@@ -17,7 +17,9 @@
   <q-drawer v-model="drawer" bordered :class="drawerClass">
     <q-scroll-area class="fit">
       <q-list>
-        <q-item class="q-my-lg" />
+        <q-item>
+          {{ title }}
+        </q-item>
         <q-separator />
         <template v-for="(item, index) in menus">
           <q-item
@@ -70,6 +72,10 @@ export default {
     return {
       drawer: false,
     };
+  },
+  created() {
+    // PCサイズの場合はデフォルトでサイドバー表示状態
+    this.drawer = ["md", "lg", "xl"].includes(this.$q.screen.name);
   },
   methods: {
     canShow(item) {

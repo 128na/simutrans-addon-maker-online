@@ -24,9 +24,10 @@
             size="sm"
             color="secondary"
             icon="delete"
-            label="ゴミ箱へ"
             @click.stop="deleteProject(props.item)"
-          />
+          >
+            ゴミ箱へ
+          </q-btn>
         </template>
         <template v-slot:trashedItemAction="props">
           <q-btn
@@ -34,17 +35,19 @@
             size="sm"
             color="secondary"
             icon="restore_from_trash"
-            label="復元"
             @click.stop="restoreProject(props.item)"
-          />
+          >
+            復元
+          </q-btn>
           <q-btn
             flat
             size="sm"
             color="negative"
             icon="delete_forever"
-            label="削除"
             @click.stop="handleForceDelete(props.item)"
-          />
+          >
+            削除
+          </q-btn>
         </template>
       </item-list>
     </layout-box>
