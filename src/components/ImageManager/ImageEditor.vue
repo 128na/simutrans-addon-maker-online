@@ -50,8 +50,8 @@
       label="画像を追加"
       @click.prevent="dialog = true"
     />
-    <q-dialog v-model="dialog">
-      <q-card style="min-width: 75vw">
+    <q-dialog v-model="dialog" full-height full-width>
+      <q-card bordered>
         <q-toolbar>
           <q-toolbar-title>画像管理</q-toolbar-title>
           <q-btn flat round dense icon="close" v-close-popup />

@@ -60,7 +60,7 @@ image[12][0]=image.0.12
 `
   },
   {
-    title: '変電所（送電）',
+    title: '変電所',
     caption: 'name=PowerSource',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_MiscDef
 obj=misc
@@ -76,7 +76,7 @@ image[5][0]=> image.0.5
 `
   },
   {
-    title: '変電所（受電）',
+    title: '変電所',
     caption: 'name=PowerDest',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_MiscDef
 obj=misc

@@ -1,5 +1,5 @@
 <template>
-  <q-card-section style="max-height: 75vh" class="scroll q-pa-none">
+  <q-card-section class="q-pa-none">
     <q-expansion-item
       v-for="(snippetList, i) in snippetLists"
       group="snippetLists"
@@ -12,15 +12,13 @@
         v-for="(snippet, j) in snippetList.snippets"
         expand-separator
         group="snippets"
-        icon="mdi-subdirectory-arrow-right"
         :caption="snippet.caption"
         :label="snippet.title"
-        @show="handleShow(snippet)"
-        @hide="handleShow()"
       >
         <q-card>
+          <slot :selected="snippet" />
           <q-card-section class="bg-accent">
-            <pre class="q-ma-none"><code>{{ snippet.dat }}</code></pre>
+            <pre class="scroll q-ma-none"><code>{{ snippet.dat }}</code></pre>
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -36,10 +34,10 @@
         v-for="(snippet, j) in mySnippets"
         group="snippets"
         expand-separator
-        icon="mdi-subdirectory-arrow-right"
-        :label="snippet.title"
+        :label="snippet.title || '(名称無し)'"
       >
         <q-card>
+          <slot :selected="snippet" />
           <q-card-section>
             <pre class="q-ma-none"><code>{{ snippet.dat }}</code></pre>
           </q-card-section>
@@ -48,17 +46,11 @@
       <q-item v-if="!mySnippets.length"> 何もありません。 </q-item>
     </q-expansion-item>
   </q-card-section>
-  <slot :selected="selected" />
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { SNIPPETS } from "../../../constants";
 export default {
-  data() {
-    return {
-      selected: null,
-    };
-  },
   computed: {
     ...mapGetters(["snippetLoaded", "snippets"]),
     snippetLists() {
@@ -66,11 +58,6 @@ export default {
     },
     mySnippets() {
       return this.snippetLoaded ? this.snippets : [];
-    },
-  },
-  methods: {
-    handleShow(snippet = null) {
-      this.selected = snippet;
     },
   },
 };

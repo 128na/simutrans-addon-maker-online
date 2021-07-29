@@ -1,5 +1,17 @@
 <template>
   <q-card-section class="q-px-md q-py-xs">
+    <q-file
+      borderless
+      v-model="selectedFiles"
+      multiple
+      dense
+      label="アップロード画像を選択"
+      accept=".png"
+      @change="handleUpload"
+    />
+  </q-card-section>
+  <q-separator />
+  <q-card-section class="q-px-md q-py-xs">
     <q-input v-model.trim="search" borderless dense label="絞り込み" />
   </q-card-section>
   <q-separator />
@@ -21,8 +33,8 @@
     </template>
   </q-tabs>
   <q-separator />
-  <q-card-section>
-    <div class="q-col-gutter-sm row items-start">
+  <q-card-section class="q-px-none">
+    <div class="scroll q-col-gutter-sm row items-start">
       <template v-for="(image, index) in filteredFiles">
         <div :class="colClass">
           <q-img
@@ -43,24 +55,12 @@
       </template>
     </div>
   </q-card-section>
-  <q-separator />
-  <q-card-section class="q-px-md q-py-xs">
-    <q-file
-      borderless
-      v-model="selectedFiles"
-      multiple
-      dense
-      label="アップロード画像を選択"
-      accept=".png"
-      @change="handleUpload"
-    />
-  </q-card-section>
   <q-dialog v-model="dialog">
-    <q-card v-if="selected" style="max-width: 90vw; max-height: 90vh">
-      <q-card-section>
-        <div>{{ selected.filename }}</div>
-        <small>最終更新: <text-date-time :value="selected.updatedAt" /></small>
-      </q-card-section>
+    <q-card bordered v-if="selected" style="max-width: 90vw; max-height: 90vh">
+      <q-toolbar>
+        <q-toolbar-title>{{ selected.filename }}</q-toolbar-title>
+        <q-btn flat round dense icon="close" v-close-popup />
+      </q-toolbar>
       <q-separator />
       <q-card-section
         class="scroll q-pa-none"
@@ -69,6 +69,9 @@
         <img loading="lazy" :src="selected.url" :alt="selected.filename" />
       </q-card-section>
       <q-separator />
+      <q-card-section class="q-py-xs">
+        <small>最終更新: <text-date-time :value="selected.updatedAt" /></small>
+      </q-card-section>
       <q-btn
         flat
         color="negative"
@@ -125,11 +128,11 @@ export default {
     },
     colOptions() {
       return [
-        { value: 2, icon: rect(6, 16, 8, this.isDarkTheme) },
-        { value: 3, icon: rect(4, 24, 12, this.isDarkTheme) },
-        { value: 4, icon: rect(3, 36, 12, this.isDarkTheme) },
-        { value: 6, icon: rect(2, 58, 12, this.isDarkTheme) },
         { value: 12, icon: rect(1, 1, 0, this.isDarkTheme) },
+        { value: 6, icon: rect(2, 58, 12, this.isDarkTheme) },
+        { value: 4, icon: rect(3, 36, 12, this.isDarkTheme) },
+        { value: 3, icon: rect(4, 24, 12, this.isDarkTheme) },
+        { value: 2, icon: rect(6, 16, 8, this.isDarkTheme) },
       ];
     },
     filteredFiles() {

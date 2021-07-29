@@ -6,25 +6,22 @@
     label="テンプレートを挿入"
     @click.prevent="dialog = true"
   />
-  <q-dialog v-model="dialog">
-    <q-card>
+  <q-dialog v-model="dialog" full-width full-height>
+    <q-card bordered>
       <q-toolbar>
         <q-toolbar-title>テンプレート一覧</q-toolbar-title>
         <q-btn flat round dense icon="close" v-close-popup />
       </q-toolbar>
       <q-separator />
       <snippet-list v-slot="slotProps">
+        <q-btn
+          flat
+          color="primary"
+          icon="add"
+          label="このテンプレートを挿入"
+          @click="handleInsert(slotProps.selected)"
+        />
         <q-separator />
-        <q-toolbar>
-          <q-space />
-          <q-btn
-            color="primary"
-            icon="add"
-            :disabled="!slotProps.selected"
-            :label="buttonMessage(slotProps.selected)"
-            @click="handleInsert(slotProps.selected)"
-          />
-        </q-toolbar>
       </snippet-list>
     </q-card>
   </q-dialog>

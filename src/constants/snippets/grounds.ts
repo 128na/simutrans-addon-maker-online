@@ -132,7 +132,7 @@ image[5][0]=image.0.5
 `
   },
   {
-    title: 'スロープ壁面（市内）',
+    title: '市内スロープ壁面',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=Basement
@@ -161,7 +161,7 @@ image[21][0]=image.0.21
 `
   },
   {
-    title: 'スロープ壁面（市外）',
+    title: '市外スロープ壁面',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_oldGroundDef
 obj=ground
 name=Slopes

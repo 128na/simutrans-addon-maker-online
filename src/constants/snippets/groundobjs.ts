@@ -1,7 +1,8 @@
 import { SnippetDefinition } from '../../plugins/interface';
 const defs: SnippetDefinition[] = [
   {
-    title: '自然オブジェクト（静止物）',
+    title: '自然オブジェクト',
+    caption: '静止物',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_GroundobjDef
 obj=tree
 name=
@@ -17,7 +18,8 @@ image[0][0]=image.0.0
 `
   },
   {
-    title: '自然オブジェクト（移動物）',
+    title: '自然オブジェクト',
+    caption: '移動物',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_GroundobjDef
 obj=tree
 name=
