@@ -28,7 +28,7 @@
         label="取消"
         color="secondary"
         :disabled="!hasChanged"
-        @click="handleReset()"
+        @click="handleReset"
       />
       <q-btn
         label="保存"
@@ -67,6 +67,8 @@ import ButtonLoading from "@/components/Buttons/ButtonLoading.vue";
 import TextDateTime from "@/components/Text/TextDateTime.vue";
 import ImageEditor from "@/components/ImageManager/ImageEditor.vue";
 import { confirmBeforeLeave } from "@/mixins";
+import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
+import { getPakErrorMessage } from "../services/ErrorMessages";
 export default {
   components: {
     TitleMain,
@@ -133,8 +135,9 @@ export default {
       try {
         this.updateProject(this.project);
         this.original = JSON.parse(JSON.stringify(this.project));
+        this.notifyPositive("更新しました。");
       } catch (e) {
-        alert("プロジェクトの更新に失敗しました");
+        this.notifyNegative(getFirestoreErrorMessage(e));
       }
     },
     async handlePak() {
@@ -147,8 +150,9 @@ export default {
           imageUrls: this.project.data.imageUrls,
         });
         download(url, `${this.project.data.filename}.pak`);
+        this.notifyPositive("Pak化しました。");
       } catch (e) {
-        alert(e.message);
+        this.notifyNegative(getPakErrorMessage(e));
       } finally {
         this.fetching = false;
       }

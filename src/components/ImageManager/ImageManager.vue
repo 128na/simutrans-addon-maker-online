@@ -95,6 +95,7 @@ import TextDateTime from "../Text/TextDateTime.vue";
 import SvgGrid from "../Svg/SvgGrid.vue";
 import { themeControl } from "@/mixins";
 import { rect } from "../../services/Svg";
+import { getFirebaseStorageErrorMessage } from "../../services/ErrorMessages";
 
 export default {
   components: { LastModified, TextDateTime, SvgGrid },
@@ -145,18 +146,23 @@ export default {
         await this.uploadFiles(this.selectedFiles);
 
         this.selectedFiles = [];
+        this.notifyPositive("画像をアップロードしました");
       } catch (e) {
-        console.error(e);
-        alert("アップロードに失敗しました");
+        this.notifyNegative(getFirebaseStorageErrorMessage(e));
       }
     },
     handleSelect(image) {
       this.selected = image;
     },
     async handleDelete(image) {
-      if (confirm("削除しますか？")) {
-        await this.deleteFile(image.filename);
-        this.selected = null;
+      try {
+        if (confirm("削除しますか？")) {
+          await this.deleteFile(image.filename);
+          this.selected = null;
+          this.notifyPositive("画像を削除しました。");
+        }
+      } catch (e) {
+        this.notifyNegative(getFirebaseStorageErrorMessage(e));
       }
     },
     handleDownloadImage(image) {

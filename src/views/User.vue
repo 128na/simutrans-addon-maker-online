@@ -32,7 +32,7 @@
                 color="primary"
                 label="サインアウト"
                 icon="logout"
-                @click="signout"
+                @click="handleSignout"
               />
             </q-item-label>
           </q-item-section>
@@ -53,7 +53,7 @@
                   color="primary"
                   label="連携"
                   icon="link"
-                  @click="link(service.name)"
+                  @click="handleLink(service.name)"
                 />
                 <q-btn
                   color="secondary"
@@ -66,7 +66,7 @@
                   color="secondary"
                   label="再認証"
                   icon="login"
-                  @click="signin(service.name)"
+                  @click="handleSignin(service.name)"
                 />
               </q-item-label>
             </q-item-section>
@@ -110,18 +110,53 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import TitleSub from "@/components/Text/TitleSub.vue";
 import { mapState, mapGetters, mapActions } from "vuex";
 import TextDateTime from "@/components/Text/TextDateTime.vue";
+import { getFirebaseAuthErrorMessage } from "../services/ErrorMessages";
 export default {
   components: { TitleMain, LayoutBox, TitleSub, TextDateTime },
   methods: {
     ...mapActions(["signin", "signout", "link", "unlink", "deleteUser"]),
-    handleUnlink(provider) {
-      if (confirm("連携解除してもよろしいですか？")) {
-        this.unlink(provider);
+    async handleSignin(provider) {
+      try {
+        await this.signin(provider);
+        this.notifyPositive("再認証しました。");
+      } catch (e) {
+        this.notifyNegative(getFirebaseAuthErrorMessage(e));
       }
     },
-    handleDelete() {
-      if (confirm("ユーザーデータを削除してもよろしいですか？")) {
-        this.deleteUser();
+    async handleSignout() {
+      try {
+        await this.signout();
+        this.notifyPositive("サインアウトしました。");
+      } catch (e) {
+        this.notifyNegative(getFirebaseAuthErrorMessage(e));
+      }
+    },
+    async handleLink(provider) {
+      try {
+        await this.link(provider);
+        this.notifyPositive("連携しました。");
+      } catch (e) {
+        this.notifyNegative(getFirebaseAuthErrorMessage(e));
+      }
+    },
+    async handleUnlink(provider) {
+      try {
+        if (confirm("連携解除してもよろしいですか？")) {
+          await this.unlink(provider);
+          this.notifyPositive("連携解除しました。");
+        }
+      } catch (e) {
+        this.notifyNegative(getFirebaseAuthErrorMessage(e));
+      }
+    },
+    async handleDelete() {
+      try {
+        if (confirm("ユーザーデータを削除してもよろしいですか？")) {
+          await this.deleteUser();
+          this.notifyPositive("削除しました。");
+        }
+      } catch (e) {
+        this.notifyNegative(getFirebaseAuthErrorMessage(e));
       }
     },
   },

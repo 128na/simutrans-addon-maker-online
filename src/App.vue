@@ -16,6 +16,7 @@ import LayoutLoading from "./components/LayoutLoading.vue";
 export default {
   components: { GlobalHeader, LayoutLoading },
   created() {
+    window.$q = this.$q;
     this.watchAuthState({
       onLoggedIn: () => {
         if (this.$route.name === "Signin") {
@@ -29,35 +30,8 @@ export default {
       },
     });
   },
-  watch: {
-    message() {
-      if (!this.message) {
-        return;
-      }
-
-      switch (this.message.type) {
-        case "error":
-          return this.$q.notify({
-            type: "negative",
-            message: this.message.text,
-            actions: [{ icon: "close", color: "white" }],
-            timeout: 0,
-          });
-        case "success":
-          return this.$q.notify({
-            type: "positive",
-            message: this.message.text,
-          });
-        default:
-          return this.$q.notify({
-            type: "info",
-            message: this.message.text,
-          });
-      }
-    },
-  },
   computed: {
-    ...mapGetters(["isInitialized", "message"]),
+    ...mapGetters(["isInitialized"]),
   },
   methods: {
     ...mapActions(["watchAuthState"]),

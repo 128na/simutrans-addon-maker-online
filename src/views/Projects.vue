@@ -31,6 +31,7 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import TitleSub from "@/components/Text/TitleSub.vue";
 import TitleMain from "@/components/Text/TitleMain.vue";
 import ItemList from "@/components/ItemList.vue";
+import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
 export default {
   components: {
     TitleMain,
@@ -75,31 +76,34 @@ export default {
           imageUrls: [],
         });
       } catch (e) {
-        alert("プロジェクト作成に失敗しました");
+        this.notifyNegative(getFirestoreErrorMessage(e));
       }
     },
     async handleForceDelete(item) {
       try {
-        confirm("削除しますか？") && (await this.forceDeleteProject(item));
+        if (confirm("削除しますか？")) {
+          await this.forceDeleteProject(item);
+          this.notifyPositive("削除しました。");
+        }
       } catch (e) {
-        alert("プロジェクト削除に失敗しました");
+        this.notifyNegative(getFirestoreErrorMessage(e));
       }
     },
     routeItem(item) {
       return this.routeTo("Project", { id: item.id });
     },
     handleImport({ json, overwrite }) {
-      json.map(async (item) => {
-        try {
+      try {
+        json.map(async (item) => {
           if (overwrite && this.existsProject(item.id)) {
             await this.updateProject(item);
           } else {
             await this.createProject(item.data);
           }
-        } catch (e) {
-          alert("インポートに失敗しました");
-        }
-      });
+        });
+      } catch (e) {
+        this.notifyNegative("インポートに失敗しました");
+      }
     },
   },
 };

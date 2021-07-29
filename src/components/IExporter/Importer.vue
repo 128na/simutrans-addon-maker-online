@@ -36,17 +36,19 @@ export default {
   },
   methods: {
     async handle() {
-      const res = await asyncTextReader([this.file]);
-      if (res && res.length) {
-        res.map((r) => {
-          const json = JSON.parse(r.result);
+      try {
+        const res = await asyncTextReader([this.file]);
+        if (res && res.length) {
+          res.map((r) => {
+            const json = JSON.parse(r.result);
 
-          this.$emit("import", { json, overwrite: this.overwrite });
-        });
-        this.file = null;
-        alert("ファイルのインポートが完了しました");
-      } else {
-        alert("ファイルの読み取りに失敗しました");
+            this.$emit("import", { json, overwrite: this.overwrite });
+          });
+          this.file = null;
+          this.notifyPositive("インポートが完了しました");
+        }
+      } catch (e) {
+        this.notifyNegative("インポートに失敗しました");
       }
     },
   },

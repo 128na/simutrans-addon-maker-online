@@ -9,15 +9,27 @@
     <title-sub>操作の種類</title-sub>
     <layout-box>
       <p>
-        <q-btn color="primary" label="サンプル" />
+        <q-btn
+          color="primary"
+          label="サンプル"
+          @click="notifyPositive('サンプル処理完了メッセージ')"
+        />
         その画面における主な操作に利用されます。（新規作成や保存など）
       </p>
       <p>
-        <q-btn color="secondary" label="サンプル" />
+        <q-btn
+          color="secondary"
+          label="サンプル"
+          @click="notifyInfo('サンプル補足情報メッセージ')"
+        />
         その画面における補助的な操作に利用されます。
       </p>
       <p>
-        <q-btn color="negative" label="サンプル" />
+        <q-btn
+          color="negative"
+          label="サンプル"
+          @click="notifyNegative('サンプルエラーメッセージ')"
+        />
         その画面における破壊的な操作に利用されます。実行前に確認ダイアログが表示されます。（削除など）
       </p>
       <p>

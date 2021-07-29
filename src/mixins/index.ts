@@ -73,6 +73,35 @@ export const globalMixin: ComponentOptionsMixin = {
      */
     routeTo(name: string, params = {}) {
       this.$router.push({ name, params });
-    }
+    },
+    notifyInfo(message: string) {
+      console.warn(message);
+      (message);
+      return this.$q.notify({
+        type: "info",
+        message,
+        position: 'top',
+      });
+    },
+    // 自動で閉じない
+    notifyNegative(message: string) {
+      console.error(message);
+      return this.$q.notify({
+        type: "negative",
+        message,
+        position: 'top',
+        actions: [{ icon: "close", color: "white" }],
+        classes: ['pre-line'],
+        timeout: 0,
+      });
+    },
+    notifyPositive(message: string) {
+      console.info(message);
+      return this.$q.notify({
+        type: "positive",
+        message,
+        position: 'top',
+      });
+    },
   }
 }

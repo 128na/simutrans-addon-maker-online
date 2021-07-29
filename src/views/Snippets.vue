@@ -31,6 +31,7 @@ import LayoutBox from "@/components/LayoutBox.vue";
 import TitleSub from "@/components/Text/TitleSub.vue";
 import TitleMain from "@/components/Text/TitleMain.vue";
 import ItemList from "@/components/ItemList.vue";
+import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
 export default {
   components: {
     TitleMain,
@@ -72,31 +73,34 @@ export default {
           dat: "",
         });
       } catch (e) {
-        alert("テンプレート作成に失敗しました");
+        this.notifyNegative(getFirestoreErrorMessage(e));
       }
     },
     async handleForceDelete(item) {
       try {
-        confirm("削除しますか？") && (await this.forceDeleteSnippet(item));
+        if (confirm("削除しますか？")) {
+          await this.forceDeleteSnippet(item);
+          this.notifyPositive("削除しました。");
+        }
       } catch (e) {
-        alert("テンプレート削除に失敗しました");
+        this.notifyNegative(getFirestoreErrorMessage(e));
       }
     },
     routeItem(item) {
       return this.routeTo("Snippet", { id: item.id });
     },
     handleImport({ json, overwrite }) {
-      json.map(async (item) => {
-        try {
+      try {
+        json.map(async (item) => {
           if (overwrite && this.existsSnippet(item.id)) {
             await this.updateSnippet(item);
           } else {
             await this.createSnippet(item.data);
           }
-        } catch (e) {
-          alert("インポートに失敗しました");
-        }
-      });
+        });
+      } catch (e) {
+        this.notifyNegative("インポートに失敗しました");
+      }
     },
   },
 };

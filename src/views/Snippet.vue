@@ -44,6 +44,7 @@ import LastModified from "../components/Text/LastModified.vue";
 import GlobalFooter from "../components/GlobalFooter.vue";
 import TextDateTime from "../components/Text/TextDateTime.vue";
 import { confirmBeforeLeave } from "@/mixins";
+import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
 export default {
   components: {
     TitleMain,
@@ -105,8 +106,9 @@ export default {
       try {
         this.updateSnippet(this.editing);
         this.original = JSON.parse(JSON.stringify(this.editing));
+        this.notifyPositive("更新しました。");
       } catch (e) {
-        alert("テンプレートの更新に失敗しました");
+        this.notifyNegative(getFirestoreErrorMessage(e));
       }
     },
   },
