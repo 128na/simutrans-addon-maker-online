@@ -80,6 +80,14 @@ export default {
   beforeRouteLeave(to, from, next) {
     next(this.handleBeforeLeave());
   },
+  beforeRouteUpdate(to, from, next) {
+    if (this.handleBeforeLeave()) {
+      this.init(to);
+      next();
+    } else {
+      next(false);
+    }
+  },
   computed: {
     ...mapGetters(["snippetLoaded", "getSnippet"]),
     hasChanged() {

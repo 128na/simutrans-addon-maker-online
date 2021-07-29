@@ -23,11 +23,13 @@ export const confirmBeforeLeave: ComponentOptionsMixin = {
     handleBeforeLeave() {
       if (this.hasLeaveDialog) {
         if (confirm('未保存の変更があります。保存せずにページを離れますか？')) {
-          return this.clearLeaveDialog();
+          this.clearLeaveDialog();
+          return true;
         } else {
           return false;
         }
       }
+      return true;
     },
     leaveDialog(event: BeforeUnloadEvent) {
       event.preventDefault();

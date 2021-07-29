@@ -109,6 +109,14 @@ export default {
   beforeRouteLeave(to, from, next) {
     next(this.handleBeforeLeave());
   },
+  beforeRouteUpdate(to, from, next) {
+    if (this.handleBeforeLeave()) {
+      this.init(to);
+      next();
+    } else {
+      next(false);
+    }
+  },
   computed: {
     ...mapGetters(["projectLoaded", "getProject"]),
     hasChanged() {
@@ -117,11 +125,11 @@ export default {
   },
   methods: {
     ...mapActions(["updateProject"]),
-    init() {
+    init(route = this.$route) {
       if (!this.projectLoaded) {
         return;
       }
-      const prj = this.getProject(this.$route.params.id);
+      const prj = this.getProject(route.params.id);
       if (!prj) {
         return;
       }

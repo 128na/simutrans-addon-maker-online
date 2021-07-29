@@ -13,7 +13,7 @@
         <q-tab :name="index" :label="image.filename" no-caps />
       </template>
     </q-tabs>
-    <q-separator />
+    <q-separator v-show="project.data.imageUrls.length" />
     <q-tab-panels v-model="tab" animated>
       <template v-for="(image, index) in project.data.imageUrls">
         <q-tab-panel :name="index" class="q-pa-none">

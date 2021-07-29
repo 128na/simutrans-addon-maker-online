@@ -56,7 +56,7 @@
     </div>
   </q-card-section>
   <q-dialog v-model="dialog">
-    <q-card bordered v-if="selected" style="max-width: 90vw; max-height: 90vh">
+    <q-card bordered v-if="selected" style="max-width: 90vw; max-height: 85vh">
       <q-toolbar>
         <q-toolbar-title>{{ selected.filename }}</q-toolbar-title>
         <q-btn flat round dense icon="close" v-close-popup />
@@ -69,6 +69,16 @@
         <img loading="lazy" :src="selected.url" :alt="selected.filename" />
       </q-card-section>
       <q-separator />
+      <q-card-section class="q-py-xs row q-col-gutter-sm">
+        <template v-for="p in getProjectsByFile(selected)">
+          <router-link
+            :to="{ name: 'Project', params: { id: p.id } }"
+            class="text-secondary"
+          >
+            {{ p.data.title }}
+          </router-link>
+        </template>
+      </q-card-section>
       <q-card-section class="q-py-xs">
         <small>最終更新: <text-date-time :value="selected.updatedAt" /></small>
       </q-card-section>
