@@ -16,11 +16,37 @@
         :items="snippets"
         :trashedItems="trashedSnippets"
         @itemClick="routeItem"
-        @itemDelete="deleteSnippet"
-        @itemRestore="restoreSnippet"
-        @itemForceDelete="handleForceDelete"
         @import="handleImport"
-      />
+      >
+        <template v-slot:itemAction="props">
+          <q-btn
+            flat
+            size="sm"
+            color="secondary"
+            icon="delete"
+            label="ゴミ箱へ"
+            @click.stop="deleteSnippet(props.item)"
+          />
+        </template>
+        <template v-slot:trashedItemAction="props">
+          <q-btn
+            flat
+            size="sm"
+            color="secondary"
+            icon="restore_from_trash"
+            label="復元"
+            @click.stop="restoreSnippet(props.item)"
+          />
+          <q-btn
+            flat
+            size="sm"
+            color="negative"
+            icon="delete_forever"
+            label="削除"
+            @click.stop="handleForceDelete(props.item)"
+          />
+        </template>
+      </item-list>
     </layout-box>
   </div>
 </template>

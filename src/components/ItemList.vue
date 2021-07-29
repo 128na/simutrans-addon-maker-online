@@ -30,14 +30,12 @@
               <q-item-label>
                 {{ item.data.title }}
               </q-item-label>
-              <q-item-label caption>
-                最終更新: <text-date-time :value="item.data.updatedAt" />
-                <a
-                  class="q-ml-sm text-secondary"
-                  @click.stop="$emit('itemDelete', item)"
-                >
-                  ゴミ箱へ
-                </a>
+              <q-item-label>
+                <q-item-label caption>
+                  最終更新: <text-date-time :value="item.data.updatedAt" />
+                </q-item-label>
+                <q-space />
+                <slot name="itemAction" :item="item" />
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -55,18 +53,9 @@
               </q-item-label>
               <q-item-label caption>
                 削除日<text-date-time :value="item.data.deletedAt" />
-                <a
-                  class="q-ml-sm text-secondary cursor-pointer"
-                  @click.stop="$emit('itemRestore', item)"
-                >
-                  復元
-                </a>
-                <a
-                  class="q-ml-sm text-negative cursor-pointer"
-                  @click.stop="$emit('itemForceDelete', item)"
-                >
-                  削除
-                </a>
+              </q-item-label>
+              <q-item-label>
+                <slot name="trashedItemAction" :item="item" />
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -118,13 +107,7 @@ export default {
       },
     },
   },
-  emits: [
-    "itemClick",
-    "itemDelete",
-    "itemRestore",
-    "itemForceDelete",
-    "import",
-  ],
+  emits: ["itemClick", "import"],
   data() {
     return {
       tab: "items",
