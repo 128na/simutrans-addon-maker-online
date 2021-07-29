@@ -2,6 +2,7 @@ import { SnippetDefinition } from '../../plugins/interface';
 const defs: SnippetDefinition[] = [
   {
     title: '鉄道信号',
+    caption: '通常、多閉塞、振分など',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SignaleDef
 obj=roadsign
 name=
@@ -44,7 +45,8 @@ image[15]=image.0.0
 `
   },
   {
-    title: '鉄道信号（プレ、プライオリティ）',
+    title: '鉄道信号',
+    caption: 'プレシグナル、プライオリティシグナル',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SignaleDef
 obj=roadsign
 name=

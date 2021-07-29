@@ -1,25 +1,27 @@
 <template>
-  <a class="text-secondary cursor-pointer" @click.prevent="dialog = true">
-    テンプレートを挿入
-  </a>
-  <q-dialog v-model="dialog">
-    <q-card>
+  <q-btn
+    color="secondary"
+    flat
+    icon="add"
+    label="テンプレートを挿入"
+    @click.prevent="dialog = true"
+  />
+  <q-dialog v-model="dialog" full-width full-height>
+    <q-card bordered>
       <q-toolbar>
         <q-toolbar-title>テンプレート一覧</q-toolbar-title>
         <q-btn flat round dense icon="close" v-close-popup />
       </q-toolbar>
       <q-separator />
       <snippet-list v-slot="slotProps">
+        <q-btn
+          flat
+          color="primary"
+          icon="add"
+          label="このテンプレートを挿入"
+          @click="handleInsert(slotProps.selected)"
+        />
         <q-separator />
-        <q-toolbar>
-          <q-btn
-            color="primary"
-            :disabled="!slotProps.selected"
-            @click="handleInsert(slotProps.selected)"
-          >
-            {{ buttonMessage(slotProps.selected) }}
-          </q-btn>
-        </q-toolbar>
       </snippet-list>
     </q-card>
   </q-dialog>

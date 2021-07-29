@@ -54,7 +54,8 @@ imageup2[6]=image.0.0
     `
   },
   {
-    title: ' 軌道（ポイント切替対応）',
+    title: ' 軌道',
+    caption: 'ポイント切替対応',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_WayDef
 obj=way
 name=

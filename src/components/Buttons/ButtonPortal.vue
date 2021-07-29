@@ -1,5 +1,5 @@
 <template>
-  <q-btn color="indigo" class="full-width">
+  <q-btn color="indigo" class="full-width" no-caps>
     <slot>Simutrans Addon Portal</slot>
   </q-btn>
 </template>

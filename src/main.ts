@@ -3,50 +3,18 @@ import App from './App.vue'
 import './plugins/registerServiceWorker'
 import router from './plugins/router'
 import store from './plugins/store'
+import './plugins/web-vital';
 
 import "./firebase";
-import { Quasar, useQuasar } from 'quasar'
+import { Quasar } from 'quasar'
 import quasarUserOptions from './plugins/quasar-user-options'
-import deviceConfig from './services/deviceConfig'
+import { globalMixin } from './mixins/index';
 
 const app = createApp(App)
   .use(Quasar, quasarUserOptions)
   .use(store)
   .use(router);
 
-app.mixin({
-  methods: {
-    routeTo(name: string, params = {}) {
-      this.$router.push({ name, params });
-    }
-  }
-})
-
-
-app.mixin({
-  data() {
-    return {
-      $q: null,
-    };
-  },
-  created() {
-    const $q = useQuasar();
-    this.$q = $q;
-
-    this.$q.dark.set(deviceConfig.darkMode.get());
-  },
-  computed: {
-    isDarkTheme() {
-      return this.$q.dark.isActive;
-    },
-  },
-  methods: {
-    toggleTheme() {
-      this.$q.dark.toggle();
-      deviceConfig.darkMode.set(this.isDarkTheme);
-    },
-  },
-})
-
+app.mixin(globalMixin);
 
 app.mount('#app');

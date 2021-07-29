@@ -3,13 +3,14 @@
 import { createStore } from 'vuex'
 
 import firebase from "firebase";
-import app from "@/firebase";
+import { authProviders } from "@/firebase";
 import persister from "@/firebase/persister";
 import { signInWithPopup, linkWithPopup, unlinkWithPopup } from "@/services/ApiPortal";
 import { State, Project, Snippet, FBFile } from './interface';
 import filePersister from '@/firebase/filePersister';
 
 const SET_USER = 'SET_USER';
+const SET_CREDENTIAL = 'SET_CREDENTIAL';
 const SET_PROJECTS = 'SET_PROJECTS';
 const SET_SNIPPETS = 'SET_SNIPPETS';
 const SET_FILES = 'SET_FILES';
@@ -19,6 +20,7 @@ export default createStore<State>({
   state: {
     // https://firebase.google.com/docs/reference/js/firebase.User
     user: undefined,
+    credential: null,
     unsubscribes: [],
     projects: undefined,
     snippets: undefined,
@@ -29,6 +31,7 @@ export default createStore<State>({
     isLoggedIn: state => !!state.user,
     userName: state => state.user?.displayName || 'Guest',
     userId: state => state.user?.uid,
+    hasCredential: state => !!state.credential,
 
     projects: state => state.projects?.filter(i => !i.data.deletedAt),
     projectLoaded: state => state.projects !== undefined,
@@ -51,6 +54,9 @@ export default createStore<State>({
     [SET_USER](state, user) {
       state.user = user;
     },
+    [SET_CREDENTIAL](state, credential) {
+      state.credential = credential;
+    },
     [SET_UNSUBSCRIBES](state, unsubscribes) {
       state.unsubscribes = unsubscribes;
     },
@@ -61,7 +67,6 @@ export default createStore<State>({
       state.snippets = snippets;
     },
     [SET_FILES](state, files) {
-      console.log({ files });
       state.files = files;
     },
   },
@@ -78,80 +83,62 @@ export default createStore<State>({
 
     // 認証
     async signin(context, provider = null) {
-      try {
-        // 認証永続化
-        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-        const result = provider === 'portal'
-          ? await signInWithPopup()
-          : (provider
-            ? await firebase.auth().signInWithPopup(new app.authProviders[provider])
-            : await firebase.auth().signInAnonymously()
-          );
+      // 認証永続化
+      await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      const result = provider === 'portal'
+        ? await signInWithPopup()
+        : (provider
+          ? await firebase.auth().signInWithPopup(new authProviders[provider])
+          : await firebase.auth().signInAnonymously()
+        );
 
-        const user = result.user;
-        context.commit(SET_USER, user);
-      } catch (e) {
-        console.error(e);
-        alert('ログインに失敗しました');
-      }
+      context.commit(SET_USER, result.user);
+      context.commit(SET_CREDENTIAL, result.credential);
     },
     async link(context, provider: string) {
-      try {
-        const uid: string | undefined = context.state.user?.uid;
-        if (!uid) {
-          throw Error('missing uid');
-        }
-        provider === 'portal'
-          ? await linkWithPopup(uid)
-          : await firebase.auth().currentUser?.linkWithPopup(new app.authProviders[provider]);
-        alert('連携しました');
-      } catch (e) {
-        console.error(e);
-        alert('連携に失敗しました');
+      const uid: string | undefined = context.state.user?.uid;
+      if (!uid) {
+        throw Error('missing uid');
       }
+      provider === 'portal'
+        ? await linkWithPopup(uid)
+        : await firebase.auth().currentUser?.linkWithPopup(new authProviders[provider]);
     },
     async unlink(context, provider: string) {
-      try {
-        provider === 'portal'
-          ? await unlinkWithPopup()
-          : await firebase.auth().currentUser?.unlink(app.authProviders[provider].PROVIDER_ID);
-        alert('連携解除しました');
-      } catch (e) {
-        console.error(e);
-        alert('連携解除に失敗しました');
-      }
+      provider === 'portal'
+        ? await unlinkWithPopup()
+        : await firebase.auth().currentUser?.unlink(authProviders[provider].PROVIDER_ID);
     },
     async signout(context) {
-      try {
-        await firebase.auth().signOut();
-        context.dispatch('unsubscribeAll');
-        context.commit(SET_USER, null);
-        context.commit(SET_PROJECTS, []);
-      } catch (e) {
-        console.error(e);
-        alert('ログアウトに失敗しました');
-      }
+      await firebase.auth().signOut();
+      context.dispatch('unsubscribeAll');
+      context.commit(SET_USER, null);
+      context.commit(SET_PROJECTS, []);
     },
 
     // firebaseの認証状態変化に応じてステートを更新する
     watchAuthState(context, { onLoggedIn, onLoggedOut }) {
-      try {
-        firebase.auth().onAuthStateChanged((user) => {
-          if (user) {
-            context.commit(SET_USER, user);
-            context.dispatch('watchProjectState');
-            context.dispatch('watchSnippetState');
-            context.dispatch('fetchFiles');
-            onLoggedIn && onLoggedIn();
-          } else {
-            context.commit(SET_USER, null);
-            onLoggedOut && onLoggedOut();
-          }
-        });
-      } catch (e) {
-        console.error(e);
-        alert('無念！認証ステートチェックに失敗しました');
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          context.commit(SET_USER, user);
+          context.dispatch('watchProjectState');
+          context.dispatch('watchSnippetState');
+          context.dispatch('fetchFiles');
+          onLoggedIn && onLoggedIn();
+        } else {
+          context.commit(SET_USER, null);
+          context.commit(SET_CREDENTIAL, null);
+          onLoggedOut && onLoggedOut();
+        }
+      });
+    },
+    async deleteUser(context) {
+      const user = firebase.auth().currentUser;
+      if (!user) {
+        return;
       }
+      await user.delete();
+      context.dispatch('unsubscribeAll');
     },
 
     // プロジェクト
@@ -172,7 +159,6 @@ export default createStore<State>({
     },
     watchProjectState(context) {
       const unsubscribe = persister.project.listen(context.getters.userId, (projects: Project[]) => {
-        console.log({ projects });
         context.commit(SET_PROJECTS, projects);
       });
       context.dispatch('addUnsubscribe', unsubscribe);
@@ -197,7 +183,6 @@ export default createStore<State>({
     },
     watchSnippetState(context) {
       const unsubscribe = persister.snippet.listen(context.getters.userId, (snippets: Snippet[]) => {
-        console.log({ snippets });
         context.commit(SET_SNIPPETS, snippets);
       });
       context.dispatch('addUnsubscribe', unsubscribe);
@@ -221,4 +206,4 @@ export default createStore<State>({
   },
   modules: {
   }
-})
+});

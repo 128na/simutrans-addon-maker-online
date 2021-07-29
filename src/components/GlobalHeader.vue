@@ -1,26 +1,24 @@
 <template>
-  <q-header elevated class="bg-dark text-white">
+  <q-header elevated reveal class="bg-dark text-white">
     <q-toolbar>
       <q-btn dense flat round icon="menu" @click="drawer = !drawer" />
 
-      <q-toolbar-title id="title">
+      <q-toolbar-title
+        id="title"
+        class="cursor-pointer"
+        @click="drawer = !drawer"
+      >
         {{ title }}
       </q-toolbar-title>
+      <q-space />
       <theme-toggler />
     </q-toolbar>
   </q-header>
-  <q-drawer v-model="drawer" show-if-above bordered :class="drawerClass">
+  <q-drawer v-model="drawer" bordered :class="drawerClass">
     <q-scroll-area class="fit">
       <q-list>
-        <q-item
-          v-ripple
-          clickable
-          @click="drawer = !drawer"
-          class="rounded-borders"
-        >
-          <q-item-section avatar>
-            <q-icon name="navigate_before" />
-          </q-item-section>
+        <q-item>
+          {{ title }}
         </q-item>
         <q-separator />
         <template v-for="(item, index) in menus">
@@ -41,22 +39,43 @@
         </template>
         <q-separator />
         <q-item>
-          <small>version {{ version }} </small>
+          <small>
+            <div>version {{ version }}</div>
+            <div>
+              <q-icon name="mdi-github" />
+              <a
+                href="https://github.com/128na/simutrans-addon-maker-online"
+                class="text-secondary"
+              >
+                Github
+              </a>
+            </div>
+            <div>
+              <q-icon name="mdi-twitter" />
+              <a href="https://twitter.com/128Na">128Na</a>
+            </div>
+          </small>
         </q-item>
       </q-list>
     </q-scroll-area>
   </q-drawer>
 </template>
 <script>
+import { themeControl } from "@/mixins";
 import { mapGetters } from "vuex";
 import ThemeToggler from "./ThemeToggler.vue";
 export default {
   name: "GlobalHeader",
   components: { ThemeToggler },
+  mixins: [themeControl],
   data() {
     return {
       drawer: false,
     };
+  },
+  created() {
+    // PCサイズの場合はデフォルトでサイドバー表示状態
+    this.drawer = ["md", "lg", "xl"].includes(this.$q.screen.name);
   },
   methods: {
     canShow(item) {

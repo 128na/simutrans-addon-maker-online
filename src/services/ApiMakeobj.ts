@@ -1,4 +1,5 @@
 import { LaraveValidatonErrorBody, PakErrorBody } from "@/plugins/interface";
+import { LaravelError } from "./ErrorMessages";
 
 // pak化実行
 export const postPak = async function (data: Object) {
@@ -13,7 +14,7 @@ export const postPak = async function (data: Object) {
   });
 
   if (!res.ok) {
-    return await handleError(res);
+    throw new LaravelError(res.status, await res.json());
   }
   const body = await res.json();
   return body.pakfile;

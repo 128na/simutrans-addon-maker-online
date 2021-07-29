@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import TitleMain from "../components/Text/TitleMain.vue";
+import TitleMain from "@/components/Text/TitleMain.vue";
 export default {
   components: { TitleMain },
 };

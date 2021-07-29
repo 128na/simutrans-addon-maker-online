@@ -16,6 +16,7 @@ import LayoutLoading from "./components/LayoutLoading.vue";
 export default {
   components: { GlobalHeader, LayoutLoading },
   created() {
+    window.$q = this.$q;
     this.watchAuthState({
       onLoggedIn: () => {
         if (this.$route.name === "Signin") {
@@ -37,18 +38,3 @@ export default {
   },
 };
 </script>
-<style>
-body {
-  font-family: "Noto Sans JP", sans-serif;
-  font-weight: 300;
-}
-ul {
-  padding-left: 0rem;
-}
-li {
-  list-style: none;
-}
-#title {
-  font-weight: 700;
-}
-</style>

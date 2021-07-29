@@ -13,12 +13,16 @@
         <q-tab :name="index" :label="image.filename" no-caps />
       </template>
     </q-tabs>
-    <q-separator />
+    <q-separator v-show="project.data.imageUrls.length" />
     <q-tab-panels v-model="tab" animated>
       <template v-for="(image, index) in project.data.imageUrls">
         <q-tab-panel :name="index" class="q-pa-none">
-          <div>
-            <div class="relative-position" style="display: inline-block">
+          <!-- line-height >= 1remだと画像下に空白ができるぞい -->
+          <div style="line-height: 0">
+            <div
+              class="relative-position"
+              style="display: inline-block; line-height: 0"
+            >
               <img :src="image.url" />
               <svg-grid
                 :id="`preview-${index}`"
@@ -26,47 +30,46 @@
               />
             </div>
           </div>
-          <div class="q-pa-xs">
-            <a
-              class="text-secondary cursor-pointer"
-              @click.prevent="handleRemoveImage(index)"
-            >
-              プロジェクトから外す
-            </a>
-          </div>
+          <q-separator />
+          <q-btn
+            color="secondary"
+            flat
+            icon="remove"
+            label="プロジェクトから外す"
+            @click.prevent="handleRemoveImage(index)"
+          />
         </q-tab-panel>
       </template>
     </q-tab-panels>
+    <q-item v-show="!project.data.imageUrls.length">画像がありません</q-item>
     <q-separator />
-    <div class="q-pa-xs">
-      <a class="text-secondary cursor-pointer" @click.prevent="dialog = true">
-        画像の追加
-      </a>
-      <q-dialog v-model="dialog">
-        <q-card style="min-width: 75vw">
-          <q-toolbar>
-            <q-toolbar-title>画像管理</q-toolbar-title>
-            <q-btn flat round dense icon="close" v-close-popup />
-          </q-toolbar>
-          <q-separator />
-          <image-manager v-slot="slotProps">
-            <q-toolbar>
-              <span v-if="slotProps.shownFile">
-                選択中の画像: {{ slotProps.shownFile.filename }}
-              </span>
-              <q-space />
-              <q-btn
-                color="primary"
-                no-caps
-                @click="handleAddImage(slotProps.shownFile)"
-                :disable="!slotProps.shownFile"
-                label="選択画像をプロジェクトへ追加"
-              />
-            </q-toolbar>
-          </image-manager>
-        </q-card>
-      </q-dialog>
-    </div>
+    <q-btn
+      color="secondary"
+      flat
+      icon="add"
+      label="画像を追加"
+      @click.prevent="dialog = true"
+    />
+    <q-dialog v-model="dialog" full-height full-width>
+      <q-card bordered>
+        <q-toolbar>
+          <q-toolbar-title>画像管理</q-toolbar-title>
+          <q-btn flat round dense icon="close" v-close-popup />
+        </q-toolbar>
+        <q-separator />
+        <image-manager v-slot="slotProps">
+          <q-btn
+            color="primary"
+            flat
+            no-caps
+            icon="add"
+            label="プロジェクトへ追加"
+            :disable="!slotProps.selected"
+            @click="handleAddImage(slotProps.selected)"
+          />
+        </image-manager>
+      </q-card>
+    </q-dialog>
   </q-card>
 </template>
 <script>

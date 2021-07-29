@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Signin from '@/views/Signin.vue';
+import store from './store';
+import { pageView } from './analytics';
 
 const routes = [
   {
@@ -58,11 +60,10 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  linkActiveClass: 'active',
 });
-
-import store from './store';
 router.beforeEach((to, from, next) => {
+  pageView(to);
+
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isInitialized && !store.getters.isLoggedIn) {
       next({ name: 'Signin' });

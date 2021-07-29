@@ -34,13 +34,13 @@ export interface FBFile {
   url: string;
 }
 export interface State {
-  user: firebase.User | undefined,
-  unsubscribes: firebase.Unsubscribe[],
-  projects: Project[] | undefined,
-  snippets: Snippet[] | undefined,
-  files: FBFile[] | undefined,
+  user: firebase.User | undefined;
+  credential: firebase.auth.UserCredential | null;
+  unsubscribes: firebase.Unsubscribe[];
+  projects: Project[] | undefined;
+  snippets: Snippet[] | undefined;
+  files: FBFile[] | undefined;
 }
-
 
 // API
 export interface LaraveValidatonErrorBody {

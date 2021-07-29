@@ -2,6 +2,7 @@ import { SnippetDefinition } from '../../plugins/interface';
 const defs: SnippetDefinition[] = [
   {
     title: '自家用車',
+    caption: 'obj=citycar',
     dat: `# https://simutrans-germany.com/wiki/wiki/de_SmokeDef
 obj=citycar
 name=

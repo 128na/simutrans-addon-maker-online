@@ -24,15 +24,25 @@
     </q-form>
 
     <global-footer>
-      <q-btn color="secondary" @click="handleReset()" :disabled="!hasChanged">
-        取消
-      </q-btn>
-      <q-btn color="primary" @click="handleUpdate" :disabled="!hasChanged">
-        保存
-      </q-btn>
-      <q-btn :loading="fetching" color="primary" @click="handlePak">
-        Pak化
-      </q-btn>
+      <q-btn
+        label="取消"
+        color="secondary"
+        :disabled="!hasChanged"
+        @click="handleReset"
+      />
+      <q-btn
+        label="保存"
+        color="primary"
+        :disabled="!hasChanged"
+        @click="handleUpdate"
+      />
+      <q-btn
+        label="Pak化"
+        color="primary"
+        no-caps
+        :loading="fetching"
+        @click="handlePak"
+      />
       <q-space />
 
       <last-modified>
@@ -45,17 +55,20 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { dataURL2File, download } from "../services/File";
-import { postPak } from "../services/ApiMakeobj";
-import TitleMain from "../components/Text/TitleMain.vue";
-import LayoutBox from "../components/LayoutBox.vue";
-import LayoutLoading from "../components/LayoutLoading.vue";
-import DatEditor from "../components/DatEditor/DatEditor.vue";
-import LastModified from "../components/Text/LastModified.vue";
-import GlobalFooter from "../components/GlobalFooter.vue";
-import ButtonLoading from "../components/Buttons/ButtonLoading.vue";
-import TextDateTime from "../components/Text/TextDateTime.vue";
+import { dataURL2File, download } from "@/services/File";
+import { postPak } from "@/services/ApiMakeobj";
+import TitleMain from "@/components/Text/TitleMain.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
+import LayoutLoading from "@/components/LayoutLoading.vue";
+import DatEditor from "@/components/DatEditor/DatEditor.vue";
+import LastModified from "@/components/Text/LastModified.vue";
+import GlobalFooter from "@/components/GlobalFooter.vue";
+import ButtonLoading from "@/components/Buttons/ButtonLoading.vue";
+import TextDateTime from "@/components/Text/TextDateTime.vue";
 import ImageEditor from "@/components/ImageManager/ImageEditor.vue";
+import { confirmBeforeLeave } from "@/mixins";
+import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
+import { getPakErrorMessage } from "../services/ErrorMessages";
 export default {
   components: {
     TitleMain,
@@ -69,6 +82,7 @@ export default {
     ImageEditor,
     ImageEditor,
   },
+  mixins: [confirmBeforeLeave],
   name: "Project",
   data() {
     return {
@@ -81,9 +95,27 @@ export default {
     projectLoaded() {
       this.init();
     },
+    hasChanged() {
+      if (this.hasChanged) {
+        this.setLeaveDialog();
+      } else {
+        this.clearLeaveDialog();
+      }
+    },
   },
   created() {
     this.init();
+  },
+  beforeRouteLeave(to, from, next) {
+    next(this.handleBeforeLeave());
+  },
+  beforeRouteUpdate(to, from, next) {
+    if (this.handleBeforeLeave()) {
+      this.init(to);
+      next();
+    } else {
+      next(false);
+    }
   },
   computed: {
     ...mapGetters(["projectLoaded", "getProject"]),
@@ -93,11 +125,11 @@ export default {
   },
   methods: {
     ...mapActions(["updateProject"]),
-    init() {
+    init(route = this.$route) {
       if (!this.projectLoaded) {
         return;
       }
-      const prj = this.getProject(this.$route.params.id);
+      const prj = this.getProject(route.params.id);
       if (!prj) {
         return;
       }
@@ -111,8 +143,9 @@ export default {
       try {
         this.updateProject(this.project);
         this.original = JSON.parse(JSON.stringify(this.project));
+        this.notifyPositive("更新しました。");
       } catch (e) {
-        alert("プロジェクトの更新に失敗しました");
+        this.notifyNegative(getFirestoreErrorMessage(e));
       }
     },
     async handlePak() {
@@ -125,8 +158,9 @@ export default {
           imageUrls: this.project.data.imageUrls,
         });
         download(url, `${this.project.data.filename}.pak`);
+        this.notifyPositive("Pak化しました。");
       } catch (e) {
-        alert(e.message);
+        this.notifyNegative(getPakErrorMessage(e));
       } finally {
         this.fetching = false;
       }

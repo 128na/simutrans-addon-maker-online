@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card flat bordered>
     <q-tabs
       v-model="tab"
       class="text-grey"
@@ -20,27 +20,26 @@
     <q-tab-panels v-model="tab" animated>
       <q-tab-panel name="items" class="q-pa-none">
         <q-list separator>
-          <q-item
-            v-for="item in items"
-            clickable
-            v-ripple
-            @click.prevent="$emit('itemClick', item)"
-          >
-            <q-item-section>
-              <q-item-label>
-                {{ item.data.title }}
-              </q-item-label>
-              <q-item-label caption>
-                最終更新: <text-date-time :value="item.data.updatedAt" />
-                <a
-                  class="q-ml-sm text-secondary"
-                  @click.stop="$emit('itemDelete', item)"
-                >
-                  ゴミ箱へ
-                </a>
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+          <template v-for="item in items">
+            <q-item
+              clickable
+              v-ripple
+              @click.prevent="$emit('itemClick', item)"
+            >
+              <q-item-section top>
+                <q-item-label lines="1">{{ item.data.title }}</q-item-label>
+                <q-item-label caption lines="1">
+                  最終更新: <text-date-time :value="item.data.updatedAt" />
+                </q-item-label>
+              </q-item-section>
+
+              <q-item-section top side>
+                <div class="q-gutter-x-xs">
+                  <slot name="itemAction" :item="item" />
+                </div>
+              </q-item-section>
+            </q-item>
+          </template>
           <q-item v-show="!items.length">
             <q-item-section>何もありません</q-item-section>
           </q-item>
@@ -48,39 +47,33 @@
       </q-tab-panel>
       <q-tab-panel name="deleted" class="q-pa-none">
         <q-list separator>
-          <q-item v-for="item in trashedItems">
-            <q-item-section>
-              <q-item-label>
-                {{ item.data.title }}
-              </q-item-label>
-              <q-item-label caption>
-                削除日<text-date-time :value="item.data.deletedAt" />
-                <a
-                  class="q-ml-sm text-secondary cursor-pointer"
-                  @click.stop="$emit('itemRestore', item)"
-                >
-                  復元
-                </a>
-                <a
-                  class="q-ml-sm text-negative cursor-pointer"
-                  @click.stop="$emit('itemForceDelete', item)"
-                >
-                  削除
-                </a>
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+          <template v-for="item in trashedItems">
+            <q-item>
+              <q-item-section top>
+                <q-item-label lines="1">{{ item.data.title }}</q-item-label>
+                <q-item-label caption lines="1">
+                  削除日<text-date-time :value="item.data.deletedAt" />
+                </q-item-label>
+              </q-item-section>
+
+              <q-item-section top side>
+                <div class="q-gutter-x-xs">
+                  <slot name="trashedItemAction" :item="item" />
+                </div>
+              </q-item-section>
+            </q-item>
+          </template>
           <q-item v-show="!trashedItems.length">
             <q-item-section>何もありません</q-item-section>
           </q-item>
         </q-list>
       </q-tab-panel>
       <q-tab-panel name="export">
-        <p>{{ itemLabel }}データをjson形式で出力します。</p>
+        <p>{{ itemLabel }}をjson形式で出力します。</p>
         <exporter :data="items" :exportName="itemLabel" />
       </q-tab-panel>
       <q-tab-panel name="import">
-        <p>json形式の{{ itemLabel }}データを取り込みます。</p>
+        <p>json形式の{{ itemLabel }}を取り込みます。</p>
         <importer @import="$emit('import', $event)" />
       </q-tab-panel>
     </q-tab-panels>
@@ -118,13 +111,7 @@ export default {
       },
     },
   },
-  emits: [
-    "itemClick",
-    "itemDelete",
-    "itemRestore",
-    "itemForceDelete",
-    "import",
-  ],
+  emits: ["itemClick", "import"],
   data() {
     return {
       tab: "items",

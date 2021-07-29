@@ -2,10 +2,10 @@
   <div>
     <title-main>サインイン</title-main>
     <layout-box class="q-gutter-y-md">
-      <button-portal @click.prevent="signin('portal')" />
-      <button-google @click.prevent="signin('google')" />
-      <button-twitter @click.prevent="signin('twitter')" />
-      <button-anonymous @click.prevent="signin()" />
+      <button-portal @click.prevent="handleSignin('portal')" />
+      <button-google @click.prevent="handleSignin('google')" />
+      <button-twitter @click.prevent="handleSignin('twitter')" />
+      <button-anonymous @click.prevent="handleSignin()" />
       <small>
         ※
         登録なしでもデータは保存されますが、別端末などとデータの共有はできません。<br />
@@ -17,12 +17,13 @@
 
 <script>
 import { mapActions } from "vuex";
-import ButtonGoogle from "../components/Buttons/ButtonGoogle.vue";
-import ButtonTwitter from "../components/Buttons/ButtonTwitter.vue";
-import ButtonAnonymous from "../components/Buttons/ButtonAnonymous.vue";
-import LayoutBox from "../components/LayoutBox.vue";
-import TitleMain from "../components/Text/TitleMain.vue";
-import ButtonPortal from "../components/Buttons/ButtonPortal.vue";
+import ButtonGoogle from "@/components/Buttons/ButtonGoogle.vue";
+import ButtonTwitter from "@/components/Buttons/ButtonTwitter.vue";
+import ButtonAnonymous from "@/components/Buttons/ButtonAnonymous.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
+import TitleMain from "@/components/Text/TitleMain.vue";
+import ButtonPortal from "@/components/Buttons/ButtonPortal.vue";
+import { getFirebaseAuthErrorMessage } from "../services/ErrorMessages";
 export default {
   name: "Signin",
   components: {
@@ -40,6 +41,14 @@ export default {
   },
   methods: {
     ...mapActions(["signin"]),
+    async handleSignin(provider = null) {
+      try {
+        await this.signin(provider);
+        this.notifyPositive("サインインしました");
+      } catch (e) {
+        this.notifyNegative(getFirebaseAuthErrorMessage(e));
+      }
+    },
   },
 };
 </script>
