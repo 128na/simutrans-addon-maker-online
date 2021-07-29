@@ -9,7 +9,6 @@ import { signInWithPopup, linkWithPopup, unlinkWithPopup } from "@/services/ApiP
 import { State, Project, Snippet, FBFile } from './interface';
 import filePersister from '@/firebase/filePersister';
 
-const SET_MESSAGE = 'SET_MESSAGE';
 const SET_USER = 'SET_USER';
 const SET_CREDENTIAL = 'SET_CREDENTIAL';
 const SET_PROJECTS = 'SET_PROJECTS';
@@ -19,7 +18,6 @@ const SET_UNSUBSCRIBES = 'SET_UNSUBSCRIBES';
 
 export default createStore<State>({
   state: {
-    message: null,
     // https://firebase.google.com/docs/reference/js/firebase.User
     user: undefined,
     credential: null,
@@ -29,9 +27,6 @@ export default createStore<State>({
     files: undefined,
   },
   getters: {
-    hasMessage: state => !!state.message,
-    message: state => state.message,
-
     isInitialized: state => state.user !== undefined,
     isLoggedIn: state => !!state.user,
     userName: state => state.user?.displayName || 'Guest',
@@ -56,9 +51,6 @@ export default createStore<State>({
     fileLoaded: state => state.files !== undefined,
   },
   mutations: {
-    [SET_MESSAGE](state, message) {
-      state.message = message;
-    },
     [SET_USER](state, user) {
       state.user = user;
     },
@@ -88,10 +80,6 @@ export default createStore<State>({
     unsubscribeAll(context) {
       context.state.unsubscribes.map(unsubscribe => unsubscribe());
       context.commit(SET_UNSUBSCRIBES, []);
-    },
-
-    clearMessage(context) {
-      context.commit(SET_MESSAGE, null);
     },
 
     // 認証
