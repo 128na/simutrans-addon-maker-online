@@ -8,14 +8,12 @@ export const confirmBeforeLeave: ComponentOptionsMixin = {
   methods: {
     setLeaveDialog() {
       if (!this.hasLeaveDialog) {
-        console.log('setLeaveDialog')
         window.addEventListener("beforeunload", this.leaveDialog);
         this.hasLeaveDialog = true;
       }
     },
     clearLeaveDialog() {
       if (this.hasLeaveDialog) {
-        console.log('clearLeaveDialog')
         window.removeEventListener("beforeunload", this.leaveDialog);
         this.hasLeaveDialog = false;
       }

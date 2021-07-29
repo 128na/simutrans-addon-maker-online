@@ -55,7 +55,6 @@ export default createStore<State>({
       state.user = user;
     },
     [SET_CREDENTIAL](state, credential) {
-      console.log({ credential })
       state.credential = credential;
     },
     [SET_UNSUBSCRIBES](state, unsubscribes) {

@@ -14,7 +14,6 @@ const mapAllDocuments = require('./firestore');
 const deleteMissingUserFile = async file => {
   const uid = file.name.split('/')[1];
   const exists = await existsUid(uid);
-  console.log(file.name, exists);
   if (!exists) {
     await file.delete();
   }
