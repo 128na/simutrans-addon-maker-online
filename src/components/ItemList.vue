@@ -20,25 +20,26 @@
     <q-tab-panels v-model="tab" animated>
       <q-tab-panel name="items" class="q-pa-none">
         <q-list separator>
-          <q-item
-            v-for="item in items"
-            clickable
-            v-ripple
-            @click.prevent="$emit('itemClick', item)"
-          >
-            <q-item-section>
-              <q-item-label>
-                {{ item.data.title }}
-              </q-item-label>
-              <q-item-label>
-                <q-item-label caption>
+          <template v-for="item in items">
+            <q-item
+              clickable
+              v-ripple
+              @click.prevent="$emit('itemClick', item)"
+            >
+              <q-item-section top>
+                <q-item-label lines="1">{{ item.data.title }}</q-item-label>
+                <q-item-label caption lines="1">
                   最終更新: <text-date-time :value="item.data.updatedAt" />
                 </q-item-label>
-                <q-space />
-                <slot name="itemAction" :item="item" />
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+              </q-item-section>
+
+              <q-item-section top side>
+                <div class="q-gutter-xs">
+                  <slot name="itemAction" :item="item" />
+                </div>
+              </q-item-section>
+            </q-item>
+          </template>
           <q-item v-show="!items.length">
             <q-item-section>何もありません</q-item-section>
           </q-item>
@@ -46,19 +47,22 @@
       </q-tab-panel>
       <q-tab-panel name="deleted" class="q-pa-none">
         <q-list separator>
-          <q-item v-for="item in trashedItems">
-            <q-item-section>
-              <q-item-label>
-                {{ item.data.title }}
-              </q-item-label>
-              <q-item-label caption>
-                削除日<text-date-time :value="item.data.deletedAt" />
-              </q-item-label>
-              <q-item-label>
-                <slot name="trashedItemAction" :item="item" />
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+          <template v-for="item in trashedItems">
+            <q-item>
+              <q-item-section top>
+                <q-item-label lines="1">{{ item.data.title }}</q-item-label>
+                <q-item-label caption lines="1">
+                  削除日<text-date-time :value="item.data.deletedAt" />
+                </q-item-label>
+              </q-item-section>
+
+              <q-item-section top side>
+                <div class="q-gutter-xs">
+                  <slot name="trashedItemAction" :item="item" />
+                </div>
+              </q-item-section>
+            </q-item>
+          </template>
           <q-item v-show="!trashedItems.length">
             <q-item-section>何もありません</q-item-section>
           </q-item>
