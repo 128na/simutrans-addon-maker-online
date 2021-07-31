@@ -46,13 +46,21 @@
               <a
                 href="https://github.com/128na/simutrans-addon-maker-online"
                 class="text-secondary"
+                target="_blank"
+                rel="noopener"
               >
                 Github
               </a>
             </div>
             <div>
               <q-icon name="mdi-twitter" />
-              <a href="https://twitter.com/128Na">128Na</a>
+              <a
+                href="https://twitter.com/128Na"
+                target="_blank"
+                rel="noopener"
+              >
+                128Na
+              </a>
             </div>
           </small>
         </q-item>

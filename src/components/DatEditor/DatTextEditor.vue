@@ -9,6 +9,7 @@
           v-model="project.data.dat"
           rows="12"
           label="Dat"
+          style="min-height: 30vh"
         />
       </q-card-section>
       <q-separator />
