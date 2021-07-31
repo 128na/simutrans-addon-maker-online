@@ -1,28 +1,5 @@
 export const OBJ_SEPARATOR = '---';
 
-export const OBJ_ICONS = {
-  buildings: "maps_home_work",
-  vehicle: "local_shipping",
-  citycars: "local_shipping",
-  ways: "mdi-road",
-  tunnels: "mdi-road",
-  bridges: "mdi-road",
-  factories: "mdi-factory",
-  fields: "mdi-factory",
-  smokes: "mdi-factory",
-  goods: "mdi-factory",
-  trees: "landscape",
-  groundobjs: "landscape",
-  grounds: "landscape",
-  pedestrians: "mdi-cursor-default",
-  miscs: "mdi-cursor-default",
-  menus: "mdi-cursor-default",
-  symbols: "mdi-cursor-default",
-  cursors: "mdi-cursor-default",
-  windowskins: "mdi-cursor-default",
-  other: "mdi-file-question",
-};
-
 export const IMAGEABLE_KEYS: string[] = [
   "icon",
   "cursor",
@@ -81,11 +58,11 @@ export class Dat {
   }
 
   toString(): string {
-    return this.objs.map(o => o.toString()).join(`\n${OBJ_SEPARATOR}\n`);
+    return this.objs.map(o => o.toString()).join(`\n${OBJ_SEPARATOR}\n`).replace(/\n+/mgi, '\n');
   }
 }
 
-class Obj {
+export class Obj {
   original: string;
   params: Param[];
 
@@ -93,6 +70,20 @@ class Obj {
     this.original = original;
     this.params = original.split("\n")
       .map(l => new Param(l));
+  }
+
+  updateFromString(original: string) {
+    this.original = original;
+    this.params = original.split("\n")
+      .map(l => new Param(l));
+  }
+  updateOrCreate(keyWithParam: string, value: string, operator = '=') {
+    const param = this.findParamByKeyWithParam(keyWithParam);
+    if (param) {
+      param.valueWithParam = value;
+    } else {
+      this.updateFromString(`${this.original}\n${keyWithParam}${operator}${value}`);
+    }
   }
 
   get obj(): string | undefined {
@@ -107,6 +98,9 @@ class Obj {
   }
   findParamByKey(key: string): Param | undefined {
     return this.params.find(p => p.keyVal === key);
+  }
+  findParamByKeyWithParam(keyWithParam: string): Param | undefined {
+    return this.params.find(p => p.keyWithParam === keyWithParam);
   }
 
   toString(): string {
@@ -156,6 +150,9 @@ class Param {
   get keyWithParam(): string {
     return this.key.original;
   }
+  set keyWithParam(key: string) {
+    this.key = new Key(key);
+  }
 
   get valueVal(): string {
     return this.value.val;
@@ -168,6 +165,9 @@ class Param {
   }
   get valueWithParam(): string {
     return this.value.original;
+  }
+  set valueWithParam(value: string) {
+    this.value = new Value(value);
   }
 
   get isComment(): boolean {

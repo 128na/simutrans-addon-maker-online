@@ -7,7 +7,6 @@
           autogrow
           type="textarea"
           v-model="project.data.dat"
-          rows="12"
           label="Dat"
           style="min-height: 30vh"
         />
@@ -31,22 +30,14 @@
 <script>
 import DroppableBox from "../../components/DroppableBox.vue";
 import { asyncTextReader } from "../../services/File";
-import ObjEditor from "./ObjEditor.vue";
 import SnippetSelector from "./SnippetSelector/SnippetSelector.vue";
-import { Simutrans } from "@/services/Simutrans";
 
 export default {
   components: {
     DroppableBox,
-    ObjEditor,
     SnippetSelector,
   },
   props: ["project"],
-  computed: {
-    dat() {
-      return new Simutrans.Dat(this.value);
-    },
-  },
   methods: {
     async handleFileDropped({ files, ctrl }) {
       const result = await asyncTextReader(

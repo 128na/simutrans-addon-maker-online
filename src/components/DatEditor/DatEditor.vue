@@ -37,5 +37,14 @@ export default {
       tab: "text",
     };
   },
+  watch: {
+    tab(v) {
+      localStorage.setItem("propatyEditor", v);
+    },
+  },
+  created() {
+    this.tab = localStorage.getItem("propatyEditor") || "text";
+  },
+  computed: {},
 };
 </script>

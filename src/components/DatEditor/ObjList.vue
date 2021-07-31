@@ -18,7 +18,7 @@
         <template v-for="(obj, index) in dat.objs">
           <q-tab
             :name="index"
-            :icon="objIcons[obj.obj || 'other']"
+            :icon="objComponent(obj).icon"
             :label="obj.name || '(名称無し)'"
             no-caps
             style="justify-content: initial; text-align: left"
@@ -37,9 +37,14 @@
         transition-next="jump-up"
       >
         <template v-for="(obj, index) in dat.objs">
-          <q-tab-panel :name="index">
-            <div class="text-h4 q-mb-md">{{ obj.name || "(名称無し)" }}</div>
-            <pre>{{ obj.original }}</pre>
+          <q-tab-panel :name="index" style="min-height: 30vh">
+            <component
+              :is="objComponent(obj)"
+              :obj="obj"
+              :dat="dat"
+              :project="project"
+              @update="handleUpdate"
+            />
           </q-tab-panel>
         </template>
       </q-tab-panels>
@@ -47,21 +52,39 @@
   </q-splitter>
 </template>
 <script>
-import { Dat, OBJ_ICONS } from "@/services/Simutrans";
-
+import { Dat } from "@/services/Simutrans";
+import ObjEditor from "./ObjEditor";
+import camelcase from "camelcase";
 export default {
+  components: { ...ObjEditor },
   props: ["project"],
   data() {
     return {
-      dat: null,
       tab: 0,
       splitter: 20,
     };
   },
-  created() {
-    this.dat = new Dat(this.project.data.dat);
+  methods: {
+    objComponent(obj) {
+      const name = camelcase(`obj-${obj.obj}`, { pascalCase: true });
+      if (this.$options.components[name]) {
+        return this.$options.components[name];
+      }
+      return this.$options.components["ObjNone"];
+    },
+    handleUpdate() {
+      this.project.data.dat = this.dat.toString();
+    },
   },
   computed: {
+    dat: {
+      get() {
+        return new Dat(this.project.data.dat);
+      },
+      set(v) {
+        this.project.data.dat = v.toString();
+      },
+    },
     objIcons() {
       return OBJ_ICONS;
     },
