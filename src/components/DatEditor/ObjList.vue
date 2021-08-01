@@ -53,10 +53,10 @@
 </template>
 <script>
 import { Dat } from "@/services/Simutrans";
-import ObjEditor from "./ObjEditor";
+import ObjEditors from "./ObjEditor";
 import camelcase from "camelcase";
 export default {
-  components: { ...ObjEditor },
+  components: { ...ObjEditors },
   props: ["project"],
   data() {
     return {

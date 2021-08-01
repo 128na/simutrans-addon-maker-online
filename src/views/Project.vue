@@ -46,7 +46,7 @@
       <q-space />
 
       <last-modified>
-        <text-date-time :value="project.data.updatedAt" />
+        <text-date-time v-model="project.data.updatedAt" />
       </last-modified>
     </global-footer>
   </div>

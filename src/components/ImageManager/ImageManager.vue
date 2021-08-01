@@ -80,7 +80,7 @@
         </template>
       </q-card-section>
       <q-card-section class="q-py-xs">
-        <small>最終更新: <text-date-time :value="selected.updatedAt" /></small>
+        <small>最終更新: <text-date-time v-model="selected.updatedAt" /></small>
       </q-card-section>
       <q-btn
         flat

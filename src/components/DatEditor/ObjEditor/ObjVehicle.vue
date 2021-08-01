@@ -1,62 +1,29 @@
 <template>
-  <q-input v-model="name" label="アドオン名" />
-  <q-input v-model="copyright" label="作者" />
-  <q-input v-model="speed" label="最高速度" type="number" />
-  <q-input v-model="payload" label="積載量" />
+  <template v-if="obj">
+    <param-name v-model="obj" />
+    <param-copyright v-model="obj" />
+    <param-way-type v-model="obj" />
+    <param-freight v-model="obj" />
+    <param-speed v-model="obj" />
+    <param-payload v-model="obj" />
+    <param-cost v-model="obj" />
+    <param-weight v-model="obj" />
+    <param-length v-model="obj" />
+    <param-power v-model="obj" />
+    <param-gear v-model="obj" />
+    <param-running-cost v-model="obj" />
+  </template>
 </template>
 <script>
+import Params from "./ParamEditor";
 export default {
   icon: "local_shipping",
+  components: { ...Params },
   props: ["obj", "dat", "project"],
   emits: ["update"],
-  computed: {
-    name: {
-      get() {
-        const param = this.obj.findParamByKey("name");
-        if (param) {
-          return param.valueVal;
-        }
-      },
-      set(v) {
-        this.obj.updateOrCreate("name", v);
-        this.$emit("update");
-      },
-    },
-    copyright: {
-      get() {
-        const param = this.obj.findParamByKey("copyright");
-        if (param) {
-          return param.valueVal;
-        }
-      },
-      set(v) {
-        this.obj.updateOrCreate("copyright", v);
-        this.$emit("update");
-      },
-    },
-    speed: {
-      get() {
-        const param = this.obj.findParamByKey("speed");
-        if (param) {
-          return param.valueVal;
-        }
-      },
-      set(v) {
-        this.obj.updateOrCreate("speed", v);
-        this.$emit("update");
-      },
-    },
-    payload: {
-      get() {
-        const param = this.obj.findParamByKey("payload");
-        if (param) {
-          return param.valueVal;
-        }
-      },
-      set(v) {
-        this.obj.updateOrCreate("payload", v);
-        this.$emit("update");
-      },
+  watch: {
+    obj() {
+      this.$emit("update");
     },
   },
 };
