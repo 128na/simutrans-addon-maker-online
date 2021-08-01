@@ -9,7 +9,7 @@
     input-debounce="0"
     new-value-mode="add-unique"
     fill-input
-    label="積載タイプ"
+    label="煙"
     v-model="value"
     :options="options"
     :rules="rules"
@@ -17,13 +17,12 @@
   />
 </template>
 <script>
-import { required } from "@/services/Validator";
-import { FREIGHTS } from "@/services/Simutrans";
-
-const options = FREIGHTS.map((f) =>
+import {} from "@/services/Validator";
+import { SMOKES } from "@/services/Simutrans";
+const options = SMOKES.map((f) =>
   Object.create({
-    value: f.name,
-    label: `${f.pak ? "[" + f.pak + "]" : ""} ${f.label} (${f.name})`,
+    value: f.value,
+    label: `${f.pak ? "[" + f.pak + "]" : ""} ${f.label} (${f.value})`,
   })
 );
 export default {
@@ -34,13 +33,13 @@ export default {
     };
   },
   computed: {
-    rules: () => [required],
+    rules: () => [],
     value: {
       get() {
-        return this.modelValue.findParamByKey("freight")?.value;
+        return this.modelValue.findParamByKey("smoke")?.value;
       },
       set(v) {
-        this.modelValue.updateOrCreate("freight", v);
+        this.modelValue.updateOrCreate("smoke", v);
         this.$emit("update:modelValue");
       },
     },

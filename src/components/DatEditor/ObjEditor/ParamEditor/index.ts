@@ -11,6 +11,12 @@ import ParamRunningCost from "./ParamRunningCost.vue";
 import ParamSpeed from "./ParamSpeed.vue";
 import ParamWayType from "./ParamWayType.vue";
 import ParamWeight from "./ParamWeight.vue";
+import ParamPowerGear from "./ParamPowerGear.vue";
+import ParamIntroRetire from "./ParamIntroRetire.vue";
+import ParamEngineType from "./ParamEngineType.vue";
+import ParamSmoke from "./ParamSmoke.vue";
+import ParamSound from "./ParamSound.vue";
+import ParamLoadingTime from "./ParamLoadingTime.vue";
 
 export default {
   ParamCopyright,
@@ -25,4 +31,10 @@ export default {
   ParamSpeed,
   ParamWayType,
   ParamWeight,
+  ParamPowerGear,
+  ParamIntroRetire,
+  ParamEngineType,
+  ParamSmoke,
+  ParamSound,
+  ParamLoadingTime,
 };

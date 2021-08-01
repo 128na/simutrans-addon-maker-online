@@ -9,6 +9,28 @@ export const WAYTYPES = [
   { value: 'water', label: '海路・運河' },
   { value: 'air', label: '空路' },
 ];
+// 動力タイプ一覧
+export const ENGINE_TYPES = [
+  { value: 'steam', label: '蒸気機関' },
+  { value: 'diesel', label: 'ディーゼル機関' },
+  { value: 'electric', label: '電気機関' },
+  { value: 'bio', label: '動物' },
+  { value: 'sail', label: '帆走' },
+  { value: 'fuel_cell', label: '燃料電池' },
+  { value: 'hydrogene', label: '水素燃料' },
+  { value: 'battery', label: '蓄電池' }
+];
+
+export const SMOKES = [
+  { pak: '64', value: 'Steam', label: '蒸気機関車、蒸気船用' },
+  { pak: '64', value: 'Diesel', label: 'ディーゼル車用' },
+  { pak: '128', value: 'Diesel', label: 'ディーゼル (白煙)' },
+  { pak: '128', value: 'Diesel_black', label: 'ディーゼル (黒煙)' },
+  { pak: '128', value: 'Diesel_small', label: 'ディーゼル (小型機関車用)' },
+  { pak: '128', value: 'Steam', label: '蒸気機関車用 (黒煙のみ)' },
+  { pak: '128', value: 'Steam2', label: '蒸気機関車用 (黒煙+ピストンの蒸気)' },
+  { pak: '128', value: 'Steam_ship', label: '蒸気船用 (白煙)' },
+]
 
 // 貨物一覧
 // https://japanese.simutrans.com/index.php?cmd=read&page=%A5%A2%A5%C9%A5%AA%A5%F3%B3%AB%C8%AF%2Fdat%A5%D5%A5%A1%A5%A4%A5%EB%B5%AD%BD%D2%A5%EA%A5%D5%A5%A1%A5%EC%A5%F3%A5%B9%2Fgoods%28%B2%DF%CA%AA%29
@@ -345,4 +367,11 @@ class Value {
     this._val = original.split(".")[0] || "";
     this._params = [...original.matchAll(/[\.,]([-\d]*)/ig)].map(p => p[1] || "");
   }
+}
+
+export function calculateMaxSpeed(power: number, gear = 100, weight: number): number {
+  const pg = (power * gear) / 100;
+  const w = Math.max(1, weight);
+
+  return Math.max(0, Math.ceil(51.44 * Math.sqrt(pg / w) - 15.637));
 }

@@ -3,15 +3,19 @@
     <param-name v-model="obj" />
     <param-copyright v-model="obj" />
     <param-way-type v-model="obj" />
+    <param-engine-type v-model="obj" />
     <param-freight v-model="obj" />
     <param-speed v-model="obj" />
     <param-payload v-model="obj" />
-    <param-cost v-model="obj" />
     <param-weight v-model="obj" />
+    <param-power-gear v-model="obj" />
     <param-length v-model="obj" />
-    <param-power v-model="obj" />
-    <param-gear v-model="obj" />
+    <param-cost v-model="obj" />
     <param-running-cost v-model="obj" />
+    <param-intro-retire v-model="obj" />
+    <param-smoke v-model="obj" />
+    <param-sound v-model="obj" />
+    <param-loading-time v-model="obj" />
   </template>
 </template>
 <script>
@@ -27,4 +31,4 @@ export default {
     },
   },
 };
-</script>
+</script>, ParamIntroRetire
