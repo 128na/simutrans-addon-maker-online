@@ -18,7 +18,7 @@
 </template>
 <script>
 import { required } from "@/services/Validator";
-import { FREIGHTS } from "@/services/Simutrans";
+import { FREIGHTS } from "@/constants";
 
 const options = FREIGHTS.map((f) =>
   Object.create({

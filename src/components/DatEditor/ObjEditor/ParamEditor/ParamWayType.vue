@@ -13,7 +13,7 @@
 </template>
 <script>
 import { required, minEq, maxEq } from "@/services/Validator";
-import { WAYTYPES } from "@/services/Simutrans";
+import { WAYTYPES } from "@/constants";
 const options = WAYTYPES.map((wt) =>
   Object.create({
     value: wt.value,

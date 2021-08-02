@@ -16,6 +16,7 @@
     <param-smoke v-model="obj" />
     <param-sound v-model="obj" />
     <param-loading-time v-model="obj" />
+    <param-constraint v-model="obj" :dat="dat" />
   </template>
 </template>
 <script>

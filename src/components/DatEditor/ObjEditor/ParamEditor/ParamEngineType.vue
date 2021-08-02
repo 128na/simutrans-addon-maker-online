@@ -13,7 +13,7 @@
 </template>
 <script>
 import { required } from "@/services/Validator";
-import { ENGINE_TYPES } from "@/services/Simutrans";
+import { ENGINE_TYPES } from "@/constants";
 const options = ENGINE_TYPES.map((wt) =>
   Object.create({
     value: wt.value,

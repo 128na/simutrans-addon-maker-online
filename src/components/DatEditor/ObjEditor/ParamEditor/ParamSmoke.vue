@@ -18,7 +18,7 @@
 </template>
 <script>
 import {} from "@/services/Validator";
-import { SMOKES } from "@/services/Simutrans";
+import { SMOKES } from "@/constants";
 const options = SMOKES.map((f) =>
   Object.create({
     value: f.value,
