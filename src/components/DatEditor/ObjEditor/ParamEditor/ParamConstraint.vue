@@ -2,10 +2,11 @@
   <div class="q-gutter-md row items-start">
     <q-select
       dense
-      borderless
       use-input
       use-chips
       multiple
+      hide-hint
+      hide-bottom-space
       input-debounce="0"
       new-value-mode="add-unique"
       class="col"
@@ -17,10 +18,11 @@
     />
     <q-select
       dense
-      borderless
       use-input
       use-chips
       multiple
+      hide-hint
+      hide-bottom-space
       input-debounce="0"
       new-value-mode="add-unique"
       class="col"
@@ -84,7 +86,6 @@ export default {
     },
   },
   methods: {
-    createValue() {},
     filter(val, update) {
       const values = val.toLowerCase().split(" ");
       update(() => {

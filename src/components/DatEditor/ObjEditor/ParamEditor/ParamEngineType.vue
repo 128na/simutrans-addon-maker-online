@@ -12,7 +12,7 @@
   />
 </template>
 <script>
-import { required } from "@/services/Validator";
+import { required, includes } from "@/services/Validator";
 import { ENGINE_TYPES } from "@/constants";
 const options = ENGINE_TYPES.map((wt) =>
   Object.create({
@@ -23,7 +23,9 @@ const options = ENGINE_TYPES.map((wt) =>
 export default {
   props: ["modelValue"],
   computed: {
-    rules: () => [required],
+    rules() {
+      return [required, includes(this.options.map((o) => o.value))];
+    },
     options: () => options,
     value: {
       get() {

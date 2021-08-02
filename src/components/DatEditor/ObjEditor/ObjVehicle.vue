@@ -1,23 +1,41 @@
 <template>
-  <template v-if="obj">
+  <h6>基本情報</h6>
+  <div class="q-ml-md">
     <param-name v-model="obj" />
     <param-copyright v-model="obj" />
     <param-way-type v-model="obj" />
     <param-engine-type v-model="obj" />
-    <param-freight v-model="obj" />
+  </div>
+  <h6>スペック</h6>
+  <div class="q-ml-md">
     <param-speed v-model="obj" />
     <param-payload v-model="obj" />
     <param-weight v-model="obj" />
     <param-power-gear v-model="obj" />
-    <param-length v-model="obj" />
+  </div>
+  <h6>コスト</h6>
+  <div class="q-ml-md">
     <param-cost v-model="obj" />
     <param-running-cost v-model="obj" />
-    <param-intro-retire v-model="obj" />
+  </div>
+  <h6>その他</h6>
+  <div class="q-ml-md">
+    <param-length v-model="obj" />
     <param-smoke v-model="obj" />
     <param-sound v-model="obj" />
     <param-loading-time v-model="obj" />
+    <param-intro-retire v-model="obj" />
+  </div>
+  <h6>連結</h6>
+  <div class="q-ml-md">
     <param-constraint v-model="obj" :dat="dat" />
-  </template>
+  </div>
+  <h6>積載</h6>
+  <div class="q-ml-md">
+    <param-freight v-model="obj" />
+    <param-freightimagetype v-model="obj" :project="project" />
+  </div>
+  <h6>画像</h6>
 </template>
 <script>
 import Params from "./ParamEditor";

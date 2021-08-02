@@ -12,7 +12,7 @@
   />
 </template>
 <script>
-import { required, minEq, maxEq } from "@/services/Validator";
+import { required, minEq, maxEq, includes } from "@/services/Validator";
 import { WAYTYPES } from "@/constants";
 const options = WAYTYPES.map((wt) =>
   Object.create({
@@ -23,7 +23,9 @@ const options = WAYTYPES.map((wt) =>
 export default {
   props: ["modelValue"],
   computed: {
-    rules: () => [required],
+    rules() {
+      return [required, includes(this.options.map((o) => o.value))];
+    },
     options: () => options,
     value: {
       get() {

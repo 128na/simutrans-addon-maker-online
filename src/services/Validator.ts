@@ -12,3 +12,5 @@ export const betweenEq = (min: number, max: number) => (val: number) => isNaN(va
 export const regExp = (reg: RegExp, message = 'フォーマットが一致しません') => (val: string) => reg.test(val) || message;
 
 export const maxSpeed = (maxSpeed: number) => (val: number) => val > maxSpeed || '最高速度に到達できない可能性があります';
+
+export const includes = (arr: [string]) => (val: string) => arr.includes(val) || `${arr.join(', ')}のいずれかを選択してください`;
