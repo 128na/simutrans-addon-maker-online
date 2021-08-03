@@ -132,7 +132,10 @@ export default {
       return JSON.stringify(this.project) !== JSON.stringify(this.original);
     },
     paksets() {
-      return PAKSETS;
+      return [
+        { value: null, label: "指定なし" },
+        ...PAKSETS.filter((p) => p.size == this.project.data.size),
+      ];
     },
   },
   methods: {

@@ -27,7 +27,7 @@
         <path :d="pattern" fill="none" stroke="gray" stroke-width="1" />
       </pattern>
     </defs>
-    <rect width="100%" height="100%" :fill="fillGrid" />
+    <rect width="100%" height="100%" v-if="size" :fill="fillGrid" />
   </svg>
 </template><script>
 export default {

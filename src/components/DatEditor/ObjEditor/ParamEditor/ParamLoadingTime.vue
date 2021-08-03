@@ -8,6 +8,7 @@
     type="number"
     suffix="msec"
     hint="2000~ (未指定の場合1000)"
+    min="2000"
     v-model="value"
     :rules="rules"
   />

@@ -9,6 +9,8 @@
       type="number"
       class="col"
       suffix="年"
+      min="0"
+      max="2999"
       v-model="introYear"
       :rules="yearRules"
     />
@@ -21,6 +23,8 @@
       type="number"
       class="col"
       suffix="月"
+      min="1"
+      max="12"
       v-model="introMonth"
       :rules="monthRules"
     />
@@ -35,6 +39,8 @@
       type="number"
       class="col"
       suffix="年"
+      min="0"
+      max="2999"
       v-model="retireYear"
       :rules="yearRules"
     />
@@ -47,6 +53,8 @@
       type="number"
       class="col"
       suffix="月"
+      min="1"
+      max="12"
       v-model="retireMonth"
       :rules="monthRules"
     />

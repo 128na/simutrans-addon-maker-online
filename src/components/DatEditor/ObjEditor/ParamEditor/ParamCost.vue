@@ -8,6 +8,7 @@
     label="購入費"
     type="number"
     suffix="￠"
+    min="0"
     v-model="value"
     :rules="rules"
   />

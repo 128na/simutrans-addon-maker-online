@@ -6,6 +6,8 @@
     input-debounce="0"
     label="積載量"
     type="number"
+    min="1"
+    max="65535"
     v-model="value"
     :rules="rules"
   />

@@ -26,7 +26,7 @@ const options = FREIGHTS.map((f) =>
     value: f.name,
     label: `${f.pak ? "[" + f.pak + "]" : ""} ${f.label} (${f.name})`,
     catg: f.catg,
-    size: f.size,
+    pak: f.pak,
   })
 );
 export default {
@@ -60,31 +60,28 @@ export default {
         return options.find((f) => f.value === this.freight)?.catg;
       }
     },
-    freighttypes() {
-      console.log(this.catg);
+    pakFilteredOptions() {
+      return this.project.data.pak
+        ? options.filter((opt) => opt.pak === this.project.data.pak)
+        : options;
+    },
+    filteredOptions() {
       // 専用貨物の場合、それのみ
-      if (this.catg === null) {
-        return [
-          options.find(
-            (f) => f.size == this.project.data.size && f.value === this.freight
-          ),
-        ];
+      if (this.catg === 0) {
+        return [this.pakFilteredOptions.find((f) => f.value === this.freight)];
       }
-      // 未選択の場合、すべて
       if (this.catg === undefined) {
-        return options;
+        return this.pakFilteredOptions;
       }
       // 選択済みの場合、同カテゴリのみ
-      return options.filter(
-        (f) => f.size == this.project.data.size && f.catg == this.catg
-      );
+      return this.pakFilteredOptions.filter((f) => f.catg === this.catg);
     },
   },
   methods: {
     filter(val, update) {
       const values = val.toLowerCase().split(" ");
       update(() => {
-        this.options = this.freighttypes.filter((opt) =>
+        this.options = this.filteredOptions.filter((opt) =>
           values.every(
             (v) =>
               opt.value.toLowerCase().includes(v) ||

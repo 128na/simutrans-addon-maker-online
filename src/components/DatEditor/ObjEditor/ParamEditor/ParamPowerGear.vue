@@ -9,6 +9,8 @@
       type="number"
       class="col"
       suffix="kW"
+      min="0"
+      max="65535"
       v-model="power"
       :rules="rules"
     />
@@ -20,6 +22,8 @@
       label="ギア比"
       type="number"
       class="col"
+      min="0"
+      max="65535"
       v-model="gear"
       :rules="rules"
     />
@@ -33,7 +37,7 @@
   <q-dialog v-model="dialog">
     <q-card>
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">到達最高速度計算</div>
+        <div class="text-h6">到達最高速度計算ツール</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -47,6 +51,8 @@
           label="最高速度"
           type="number"
           suffix="km/h"
+          min="0"
+          max="65535"
           v-model="speed"
           :rules="rules"
         />
@@ -58,6 +64,8 @@
           label="出力"
           type="number"
           suffix="kW"
+          min="0"
+          max="65535"
           v-model="power"
           :rules="rules"
         />
@@ -69,6 +77,8 @@
           input-debounce="0"
           label="ギア比"
           type="number"
+          min="0"
+          max="65535"
           v-model="gear"
           :rules="rules"
         />
@@ -80,6 +90,8 @@
           label="積載重量"
           suffix="t"
           type="number"
+          min="0"
+          max="65535"
           :rules="rules"
           v-model="additionalWeight"
         />
@@ -91,6 +103,8 @@
           label="自重"
           suffix="t"
           type="number"
+          min="0"
+          max="65535"
           :rules="rules"
           v-model="weight"
         />
@@ -102,6 +116,8 @@
           label="到達可能最高速度"
           suffix="km/h"
           type="number"
+          min="0"
+          max="65535"
           v-model="calculatedSpeed"
           :rules="speedRules"
         />

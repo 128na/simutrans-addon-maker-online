@@ -21,7 +21,7 @@
   <h6>その他</h6>
   <div class="q-ml-md">
     <param-length v-model="obj" />
-    <param-smoke v-model="obj" />
+    <param-smoke v-model="obj" :project="project" />
     <param-sound v-model="obj" />
     <param-loading-time v-model="obj" />
     <param-intro-retire v-model="obj" />
@@ -32,7 +32,7 @@
   </div>
   <h6>積載</h6>
   <div class="q-ml-md">
-    <param-freight v-model="obj" />
+    <param-freight v-model="obj" :project="project" />
     <param-freightimagetype v-model="obj" :project="project" />
   </div>
   <h6>画像</h6>

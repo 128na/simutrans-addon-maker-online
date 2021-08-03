@@ -7,6 +7,8 @@
     label="車両長"
     type="number"
     hint="1~16 (デフォルト:8)"
+    min="1"
+    max="16"
     v-model="value"
     :rules="rules"
   />

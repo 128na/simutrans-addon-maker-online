@@ -7,6 +7,7 @@
     label="自重"
     type="number"
     suffix="t"
+    min="0"
     v-model="value"
     :rules="rules"
   />
