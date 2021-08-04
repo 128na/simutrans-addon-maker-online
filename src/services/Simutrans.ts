@@ -1,3 +1,5 @@
+import { SORT_KEYS } from "@/constants";
+
 const IMAGEABLE_KEYS: string[] = [
   "icon",
   "cursor",
@@ -106,6 +108,7 @@ export class Obj {
   }
 
   toString(): string {
+    this._params.sort((a, b) => (SORT_KEYS[a.keyVal] || SORT_KEYS.unknown) - (SORT_KEYS[b.keyVal] || SORT_KEYS.unknown));
     return this._params
       .filter(p => !p.isEmpty)
       .map(p => p.toString())
