@@ -1,17 +1,17 @@
 <template>
-  <div :style="boxStyle" class="position-relative">
+  <div :style="boxStyle" class="relative-position">
     <div :style="imageStyle" class="preview" />
     <svg-grid :size="size" :ox="ox" :oy="oy" />
   </div>
 </template>
 <script>
-import SvgGrid from "../Svg/SvgGrid.vue";
+import SvgGrid from "@/components/Svg/SvgGrid.vue";
 export default {
   components: { SvgGrid },
-  props: ["line", "imageUrl", "size", "isStatic"],
+  props: ["param", "project"],
   computed: {
     boxStyle() {
-      const width = this.line.isStaticImage ? 32 : this.size;
+      const width = this.param.isStaticImage ? 32 : this.size;
       const height = width;
       return {
         width: `${width}px`,
@@ -26,17 +26,25 @@ export default {
         "background-position": `left ${left}px top ${top}px`,
       };
     },
+    imageUrl() {
+      const filename = `${this.param.valueVal}.png`;
+      return this.project.data.imageUrls.find((i) => i.filename === filename)
+        ?.url;
+    },
+    size() {
+      return this.project.data.size;
+    },
     x() {
-      return parseInt(this.line.valueParameters[1] || 0);
+      return parseInt(this.param.valueParams[1] || 0);
     },
     y() {
-      return parseInt(this.line.valueParameters[0] || 0);
+      return parseInt(this.param.valueParams[0] || 0);
     },
     ox() {
-      return parseInt(this.line.valueParameters[2] || 0);
+      return parseInt(this.param.valueParams[2] || 0);
     },
     oy() {
-      return parseInt(this.line.valueParameters[3] || 0);
+      return parseInt(this.param.valueParams[3] || 0);
     },
   },
 };

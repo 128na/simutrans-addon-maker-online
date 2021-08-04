@@ -36,6 +36,20 @@
     <param-freightimagetype v-model="obj" :project="project" />
   </div>
   <h6>画像</h6>
+  <param-images
+    v-model="obj"
+    :project="project"
+    :imageNames="['emptyimage']"
+    :directions="directions"
+  />
+  <param-images
+    v-if="freightimagetypes"
+    v-model="obj"
+    :project="project"
+    :imageNames="['freightimage']"
+    :directions="directions"
+    :x="freightimagetypes - 1"
+  />
 </template>
 <script>
 import Params from "./ParamEditor";
@@ -47,6 +61,17 @@ export default {
   watch: {
     obj() {
       this.$emit("update");
+    },
+  },
+  computed: {
+    imageNames() {
+      return ["emptyimage"];
+    },
+    directions() {
+      return ["s", "n", "e", "w", "ne", "sw", "se", "nw"];
+    },
+    freightimagetypes() {
+      return this.obj.findParamsByKeyVal("freightimagetype").length;
     },
   },
 };

@@ -106,6 +106,9 @@ export class Obj {
   findParamByKey(key: string): Param | undefined {
     return this._params.find(p => p.key === key);
   }
+  findParamByKeyParams(keyVal: string, keyParams: string[]): Param | undefined {
+    return this._params.find(p => p.keyVal === keyVal && keyParams.every((kp, i) => (kp === p.keyParams[i])));
+  }
 
   toString(): string {
     this._params.sort((a, b) => (SORT_KEYS[a.keyVal] || SORT_KEYS.unknown) - (SORT_KEYS[b.keyVal] || SORT_KEYS.unknown));

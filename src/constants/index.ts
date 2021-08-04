@@ -241,6 +241,7 @@ export const FREIGHTS = [
   { size: 128, pak: PAK_128JP, catg: 13, cat_name: '鮮魚', label: '魚（需要先へ、鮮魚）', name: 'fishB13', value: '0.42', speed_bonus: '8', weight_per_unit: '1000', metric: 'tonnen' },
 ];
 
+// dat書き出し時の項目ソート順定義
 export const SORT_KEYS: { [index: string]: number } = {
   // 不明
   unknown: 10000,
