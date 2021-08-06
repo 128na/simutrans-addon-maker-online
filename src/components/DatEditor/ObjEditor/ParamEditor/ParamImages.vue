@@ -1,20 +1,26 @@
 <template>
-  <template v-for="k in imageKeys">
-    <div>
-      <div>{{ k.param?.toString() || "未指定" }}</div>
-      <image-preview :param="k.param" :project="project" />
-    </div>
+  <template v-for="imageParam in imageParams">
+    <param-image
+      :param="imageParam.param"
+      :label="imageParam.label"
+      :value="imageParam.value"
+      :isStatic="isStatic"
+      :project="project"
+      @update="handleUpdate(imageParam.label, $event)"
+    />
   </template>
 </template>
-
 <script>
-import {} from "@/services/Validator";
-import ImagePreview from "./ImagePreview.vue";
+import ParamImage from "./ParamImage.vue";
 export default {
-  components: { ImagePreview },
+  components: { ParamImage },
   props: {
     modelValue: {},
     project: {},
+    isStatic: {
+      type: Boolean,
+      default: false,
+    },
     imageNames: {
       type: Array,
       default: () => ["image"],
@@ -46,9 +52,18 @@ export default {
       default: false,
     },
   },
-  methods: {},
+  methods: {
+    key(keyVal, keyParams) {
+      const p = keyParams.map((p) => `[${p}]`).join("");
+      return `${keyVal}${p}`;
+    },
+    handleUpdate(key, value) {
+      this.modelValue.updateOrCreate(key, value, this.isStatic ? "=> " : "=");
+      this.$emit("update:modelValue");
+    },
+  },
   computed: {
-    imageKeys() {
+    imageParams() {
       return this.imageNames
         .map((n) => [n])
         .flatMap((l) => this.directions.map((d) => [...l, d]))
@@ -61,7 +76,13 @@ export default {
           const keyVal = l[0];
           const keyParams = l.filter((_, i) => i);
           const param = this.modelValue.findParamByKeyParams(keyVal, keyParams);
-          return { keyVal, keyParams, param };
+          const label = this.key(keyVal, keyParams);
+          const value = param?.value;
+          return {
+            label,
+            value,
+            param,
+          };
         });
     },
     needX() {

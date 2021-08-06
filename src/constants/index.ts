@@ -243,6 +243,8 @@ export const FREIGHTS = [
 
 // dat書き出し時の項目ソート順定義
 export const SORT_KEYS: { [index: string]: number } = {
+  // コメント
+  comment: 0,
   // 不明
   unknown: 10000,
   // 一般

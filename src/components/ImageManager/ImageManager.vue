@@ -56,7 +56,7 @@
     </div>
   </q-card-section>
   <q-dialog v-model="dialog">
-    <q-card bordered v-if="selected" style="max-width: 90vw; max-height: 85vh">
+    <q-card bordered v-if="selected" style="max-width: 90vw; max-height: 90vh">
       <q-toolbar>
         <q-toolbar-title>{{ selected.filename }}</q-toolbar-title>
         <q-btn flat round dense icon="close" v-close-popup />
@@ -64,7 +64,7 @@
       <q-separator />
       <q-card-section
         class="scroll q-pa-none"
-        style="line-height: 0; max-height: 75vh"
+        style="line-height: 0; max-height: 70vh"
       >
         <img loading="lazy" :src="selected.url" :alt="selected.filename" />
       </q-card-section>

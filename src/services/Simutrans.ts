@@ -107,16 +107,24 @@ export class Obj {
     return this._params.find(p => p.key === key);
   }
   findParamByKeyParams(keyVal: string, keyParams: string[]): Param | undefined {
-    return this._params.find(p => p.keyVal === keyVal && keyParams.every((kp, i) => (kp === p.keyParams[i])));
+    return this._params.find(p => p.keyVal === keyVal && keyParams.every((kp, i) => (kp == p.keyParams[i])));
   }
 
   toString(): string {
-    this._params.sort((a, b) => (SORT_KEYS[a.keyVal] || SORT_KEYS.unknown) - (SORT_KEYS[b.keyVal] || SORT_KEYS.unknown));
+    this._params.sort(comp);
     return this._params
       .filter(p => !p.isEmpty)
       .map(p => p.toString())
       .join("\n");
   }
+}
+// datテキストソート基準
+function comp(a: Param, b: Param): number {
+  const [oa, ob] = [
+    a.isComment ? SORT_KEYS.comment : SORT_KEYS[a.keyVal] || SORT_KEYS.unknown,
+    b.isComment ? SORT_KEYS.comment : SORT_KEYS[b.keyVal] || SORT_KEYS.unknown
+  ];
+  return oa - ob;
 }
 
 /**
@@ -173,7 +181,7 @@ class Param {
   get valueVal(): string {
     return this._value._val;
   }
-  get valueParams(): string[] {
+  get valueParams(): number[] {
     return this._value._params;
   }
   get valueParam(): string {
@@ -211,12 +219,12 @@ class Key {
 class Value {
   _original: string;
   _val: string;
-  _params: string[];
+  _params: number[];
 
   constructor(original: string) {
     this._original = original
     this._val = original.split(".")[0] || "";
-    this._params = [...original.matchAll(/[\.,]([-\d]*)/ig)].map(p => p[1] || "");
+    this._params = [...original.matchAll(/[\.,]([-\d]*)/ig)].map(p => parseInt(p[1], 10) || 0);
   }
 }
 

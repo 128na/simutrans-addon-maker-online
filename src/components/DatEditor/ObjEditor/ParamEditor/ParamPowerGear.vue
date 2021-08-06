@@ -35,7 +35,7 @@
     />
   </div>
   <q-dialog v-model="dialog">
-    <q-card>
+    <q-card bordered>
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6">到達最高速度計算ツール</div>
         <q-space />
@@ -43,6 +43,13 @@
       </q-card-section>
       <q-separator />
       <q-card-section>
+        <small>なんとなく運転曲線</small>
+        <speed-graph
+          :maxSpeed="speed"
+          :power="power"
+          :gear="gear"
+          :weight="weight"
+        />
         <q-input
           dense
           hide-hint
@@ -128,7 +135,9 @@
 <script>
 import { minEq, maxSpeed } from "@/services/Validator";
 import { calculateMaxSpeed } from "@/services/Simutrans";
+import SpeedGraph from "@/components/Svg/SpeedGraph.vue";
 export default {
+  components: { SpeedGraph },
   props: ["modelValue"],
   data() {
     return {

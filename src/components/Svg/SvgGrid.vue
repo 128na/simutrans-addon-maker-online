@@ -1,5 +1,5 @@
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg">
+  <svg xmlns="http://www.w3.org/2000/svg" v-if="size">
     <defs>
       <pattern
         :id="subGridId"
@@ -27,16 +27,11 @@
         <path :d="pattern" fill="none" stroke="gray" stroke-width="1" />
       </pattern>
     </defs>
-    <rect width="100%" height="100%" v-if="size" :fill="fillGrid" />
+    <rect width="100%" height="100%" :fill="fillGrid" />
   </svg>
 </template><script>
 export default {
   props: {
-    // パターン要素のID重複が発生するとパターン同士が干渉するので注意
-    id: {
-      type: String,
-      default: "grid",
-    },
     size: {
       type: [String, Number],
       default: 64,
@@ -55,11 +50,15 @@ export default {
     },
   },
   computed: {
+    // パターン要素のID重複が発生するとパターン同士が干渉するので注意
+    uid() {
+      return crypto.getRandomValues(new Uint32Array(1)).join("");
+    },
     gridId() {
-      return `${this.id}`;
+      return `${this.uid}`;
     },
     subGridId() {
-      return `${this.id}-sub`;
+      return `${this.uid}-sub`;
     },
     fillSubGrid() {
       return `url(#${this.subGridId})`;

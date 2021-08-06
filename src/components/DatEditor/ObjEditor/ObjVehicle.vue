@@ -36,20 +36,22 @@
     <param-freightimagetype v-model="obj" :project="project" />
   </div>
   <h6>画像</h6>
-  <param-images
-    v-model="obj"
-    :project="project"
-    :imageNames="['emptyimage']"
-    :directions="directions"
-  />
-  <param-images
-    v-if="freightimagetypes"
-    v-model="obj"
-    :project="project"
-    :imageNames="['freightimage']"
-    :directions="directions"
-    :x="freightimagetypes - 1"
-  />
+  <div class="q-ml-md">
+    <param-images
+      v-model="obj"
+      :project="project"
+      :imageNames="['emptyimage']"
+      :directions="directions"
+    />
+    <param-images
+      v-if="freightimagetypes"
+      v-model="obj"
+      :project="project"
+      :imageNames="['freightimage']"
+      :directions="directions"
+      :x="freightimagetypes - 1"
+    />
+  </div>
 </template>
 <script>
 import Params from "./ParamEditor";

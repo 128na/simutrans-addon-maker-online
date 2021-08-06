@@ -5,6 +5,7 @@ import ParamEngineType from "./ParamEngineType.vue";
 import ParamFreight from "./ParamFreight.vue";
 import ParamFreightimagetype from "./ParamFreightimagetype.vue";
 import ParamImages from "./ParamImages.vue";
+import ParamImage from "./ParamImage.vue";
 import ParamIntroRetire from "./ParamIntroRetire.vue";
 import ParamLength from "./ParamLength.vue";
 import ParamLoadingTime from "./ParamLoadingTime.vue";
@@ -26,6 +27,7 @@ export default {
   ParamFreight,
   ParamFreightimagetype,
   ParamImages,
+  ParamImage,
   ParamIntroRetire,
   ParamLength,
   ParamLoadingTime,
