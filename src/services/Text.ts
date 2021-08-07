@@ -23,3 +23,8 @@ const randomText = (arr: string[], item: string): string =>
 
 export const randomNewTitle = (item: string): string => randomText(newTitle, item);
 export const randomCopyTitle = (item: string): string => randomText(copyTitle, item);
+
+/**
+ * ランダムなIDを返す
+ */
+export const uid = (): string => crypto.getRandomValues(new Uint32Array(1)).join("");

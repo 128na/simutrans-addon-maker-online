@@ -105,12 +105,13 @@
   </div>
 </template>
 <script>
-import TitleMain from "@/components/Text/TitleMain.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
-import TitleSub from "@/components/Text/TitleSub.vue";
-import { mapState, mapGetters, mapActions } from "vuex";
 import TextDateTime from "@/components/Text/TextDateTime.vue";
-import { getFirebaseAuthErrorMessage } from "../services/ErrorMessages";
+import TitleMain from "@/components/Text/TitleMain.vue";
+import TitleSub from "@/components/Text/TitleSub.vue";
+import { getFirebaseAuthErrorMessage } from "@/services/ErrorMessages";
+import { mapState, mapGetters, mapActions } from "vuex";
+
 export default {
   components: { TitleMain, LayoutBox, TitleSub, TextDateTime },
   methods: {

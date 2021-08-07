@@ -64,13 +64,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import LayoutBox from "@/components/LayoutBox.vue";
-import TitleSub from "@/components/Text/TitleSub.vue";
-import TitleMain from "@/components/Text/TitleMain.vue";
 import ItemList from "@/components/ItemList.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
+import TitleMain from "@/components/Text/TitleMain.vue";
+import TitleSub from "@/components/Text/TitleSub.vue";
 import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
-import { randomCopyTitle, randomNewTitle } from "../services/Text";
+import { mapActions, mapGetters } from "vuex";
+import { randomCopyTitle, randomNewTitle } from "@/services/Text";
 
 export default {
   components: {

@@ -29,7 +29,9 @@
     </defs>
     <rect width="100%" height="100%" :fill="fillGrid" />
   </svg>
-</template><script>
+</template>
+<script>
+import { uid } from "@/services/Text";
 export default {
   props: {
     size: {
@@ -52,7 +54,7 @@ export default {
   computed: {
     // パターン要素のID重複が発生するとパターン同士が干渉するので注意
     uid() {
-      return crypto.getRandomValues(new Uint32Array(1)).join("");
+      return uid();
     },
     gridId() {
       return `${this.uid}`;

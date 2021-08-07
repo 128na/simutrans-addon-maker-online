@@ -25,7 +25,8 @@
 </template>
 <script>
 import { calculateSpeedFn } from "@/services/Simutrans";
-const createArray = (count) => [...new Array(count)].map((_, i) => i);
+import { createArray } from "@/services/Array";
+
 export default {
   props: {
     limitSpeed: {

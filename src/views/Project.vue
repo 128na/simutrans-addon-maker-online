@@ -70,22 +70,23 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import { download } from "@/services/File";
-import { postPak } from "@/services/ApiMakeobj";
-import LayoutLoading from "@/components/LayoutLoading.vue";
 import DatEditor from "@/components/DatEditor/DatEditor.vue";
-import LastModified from "@/components/Text/LastModified.vue";
 import GlobalFooter from "@/components/GlobalFooter.vue";
-import TextDateTime from "@/components/Text/TextDateTime.vue";
 import ImageEditor from "@/components/ImageManager/ImageEditor.vue";
+import LastModified from "@/components/Text/LastModified.vue";
+import LayoutLoading from "@/components/LayoutLoading.vue";
+import TextDateTime from "@/components/Text/TextDateTime.vue";
+import { PAKSETS } from "@/constants";
+import { clone, equals } from "@/services/Object";
 import { confirmBeforeLeave } from "@/mixins";
+import { download } from "@/services/File";
+import { mapActions, mapGetters } from "vuex";
+import { postPak } from "@/services/ApiMakeobj";
 import {
   getFirestoreErrorMessage,
   getPakErrorMessage,
 } from "@/services/ErrorMessages";
-import { PAKSETS } from "@/constants";
-import { clone, equals } from "@/services/Object";
+
 export default {
   components: {
     LayoutLoading,

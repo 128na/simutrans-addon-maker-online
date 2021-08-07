@@ -6,6 +6,7 @@
 </template>
 <script>
 import SvgGrid from "@/components/Svg/SvgGrid.vue";
+
 export default {
   components: { SvgGrid },
   props: ["param", "project"],

@@ -80,9 +80,10 @@
   </q-card>
 </template>
 <script>
-import TextDateTime from "./Text/TextDateTime.vue";
 import Exporter from "./IExporter/Exporter.vue";
 import Importer from "./IExporter/Importer.vue";
+import TextDateTime from "./Text/TextDateTime.vue";
+
 export default {
   components: {
     Exporter,

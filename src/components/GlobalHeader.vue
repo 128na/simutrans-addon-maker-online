@@ -69,9 +69,10 @@
   </q-drawer>
 </template>
 <script>
-import { themeControl } from "@/mixins";
-import { mapGetters } from "vuex";
 import ThemeToggler from "./ThemeToggler.vue";
+import { mapGetters } from "vuex";
+import { themeControl } from "@/mixins";
+
 export default {
   name: "GlobalHeader",
   components: { ThemeToggler },

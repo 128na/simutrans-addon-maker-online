@@ -57,6 +57,7 @@
 </template>
 <script>
 import Params from "./ParamEditor";
+
 export default {
   icon: "local_shipping",
   components: { ...Params },

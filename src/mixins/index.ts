@@ -1,4 +1,7 @@
-import { ComponentOptionsMixin } from "vue"
+import deviceConfig from '@/services/deviceConfig';
+import { ComponentOptionsMixin } from "vue";
+import { useQuasar } from 'quasar';
+
 export const confirmBeforeLeave: ComponentOptionsMixin = {
   data() {
     return {
@@ -36,7 +39,6 @@ export const confirmBeforeLeave: ComponentOptionsMixin = {
   }
 };
 
-import deviceConfig from '@/services/deviceConfig'
 export const themeControl: ComponentOptionsMixin = {
   created() {
     this.$q.dark.set(deviceConfig.darkMode.get());
@@ -54,7 +56,6 @@ export const themeControl: ComponentOptionsMixin = {
   },
 };
 
-import { useQuasar } from 'quasar'
 export const globalMixin: ComponentOptionsMixin = {
   data() {
     return {

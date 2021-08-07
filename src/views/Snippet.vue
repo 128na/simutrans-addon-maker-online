@@ -42,14 +42,15 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import LayoutLoading from "@/components/LayoutLoading.vue";
-import LastModified from "@/components/Text/LastModified.vue";
 import GlobalFooter from "@/components/GlobalFooter.vue";
+import LastModified from "@/components/Text/LastModified.vue";
+import LayoutLoading from "@/components/LayoutLoading.vue";
 import TextDateTime from "@/components/Text/TextDateTime.vue";
+import { clone, equals } from "@/services/Object";
 import { confirmBeforeLeave } from "@/mixins";
 import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
-import { clone, equals } from "@/services/Object";
+import { mapActions, mapGetters } from "vuex";
+
 export default {
   components: {
     LayoutLoading,

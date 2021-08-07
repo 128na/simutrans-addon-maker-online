@@ -3,6 +3,7 @@
 </template>
 <script>
 import { themeControl } from "@/mixins";
+
 export default {
   mixins: [themeControl],
   computed: {

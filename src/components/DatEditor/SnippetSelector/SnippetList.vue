@@ -48,8 +48,9 @@
   </q-card-section>
 </template>
 <script>
+import { SNIPPETS } from "@/constants";
 import { mapGetters } from "vuex";
-import { SNIPPETS } from "../../../constants";
+
 export default {
   computed: {
     ...mapGetters(["snippetLoaded", "snippets"]),

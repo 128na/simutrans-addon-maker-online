@@ -5,6 +5,7 @@
 </template>
 <script>
 import TitleMain from "@/components/Text/TitleMain.vue";
+
 export default {
   components: { TitleMain },
 };

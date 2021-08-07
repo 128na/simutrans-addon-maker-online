@@ -28,6 +28,7 @@
 </template>
 <script>
 import SnippetList from "./SnippetList.vue";
+
 export default {
   components: { SnippetList },
   emits: ["snippetSelected"],

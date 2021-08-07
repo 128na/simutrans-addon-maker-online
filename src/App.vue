@@ -9,9 +9,9 @@
 </template>
 
 <script>
+import GlobalHeader from "@/components/GlobalHeader.vue";
+import LayoutLoading from "@/components/LayoutLoading.vue";
 import { mapGetters, mapActions } from "vuex";
-import GlobalHeader from "./components/GlobalHeader.vue";
-import LayoutLoading from "./components/LayoutLoading.vue";
 
 export default {
   components: { GlobalHeader, LayoutLoading },

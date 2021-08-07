@@ -8,9 +8,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import TitleMain from "@/components/Text/TitleMain.vue";
 import ImageManager from "@/components/ImageManager/ImageManager.vue";
+import TitleMain from "@/components/Text/TitleMain.vue";
+import { mapGetters } from "vuex";
+
 export default {
   components: {
     TitleMain,

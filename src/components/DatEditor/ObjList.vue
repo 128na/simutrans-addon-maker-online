@@ -52,9 +52,10 @@
   </q-splitter>
 </template>
 <script>
-import { Dat } from "@/services/Simutrans";
 import ObjEditors from "./ObjEditor";
 import camelcase from "camelcase";
+import { Dat } from "@/services/Simutrans";
+
 export default {
   components: { ...ObjEditors },
   props: ["project"],

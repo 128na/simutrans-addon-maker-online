@@ -101,13 +101,13 @@
   </q-dialog>
 </template>
 <script>
-import { download } from "@/services/File";
-import { mapActions, mapGetters } from "vuex";
 import LastModified from "../Text/LastModified.vue";
-import TextDateTime from "../Text/TextDateTime.vue";
 import SvgGrid from "../Svg/SvgGrid.vue";
+import TextDateTime from "../Text/TextDateTime.vue";
+import { download } from "@/services/File";
+import { getFirebaseStorageErrorMessage } from "@/services/ErrorMessages";
+import { mapActions, mapGetters } from "vuex";
 import { themeControl } from "@/mixins";
-import { getFirebaseStorageErrorMessage } from "../../services/ErrorMessages";
 
 export default {
   components: { LastModified, TextDateTime, SvgGrid },

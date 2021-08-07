@@ -1,26 +1,26 @@
+import bridges from './snippets/bridges';
 import buildings from './snippets/buildings';
 import citycars from './snippets/citycars';
+import crossings from './snippets/crossings';
+import cursors from './snippets/cursors';
 import factories from './snippets/factories';
 import fields from './snippets/fields';
 import goods from './snippets/goods';
-import smokes from './snippets/smokes';
-import vehicles from './snippets/vehicles';
-import tunnels from './snippets/tunnels';
-import bridges from './snippets/bridges';
-import ways from './snippets/ways';
-import wayobjects from './snippets/wayobjects';
-import signals from './snippets/signals';
-import trees from './snippets/trees';
 import groundobjs from './snippets/groundobjs';
-import crossings from './snippets/crossings';
-import pedestrians from './snippets/pedestrians';
-import cursors from './snippets/cursors';
 import grounds from './snippets/grounds';
 import menus from './snippets/menus';
 import miscs from './snippets/miscs';
+import pedestrians from './snippets/pedestrians';
+import signals from './snippets/signals';
+import smokes from './snippets/smokes';
 import symbols from './snippets/symbols';
+import trees from './snippets/trees';
+import tunnels from './snippets/tunnels';
+import vehicles from './snippets/vehicles';
+import wayobjects from './snippets/wayobjects';
+import ways from './snippets/ways';
 import windowskins from './snippets/windowskins';
-import { SnippetDefinitionList } from '../plugins/interface';
+import { SnippetDefinitionList } from '@/plugins/interface';
 
 export const SNIPPETS: SnippetDefinitionList[] = [
   {

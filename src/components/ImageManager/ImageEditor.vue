@@ -73,8 +73,9 @@
   </q-card>
 </template>
 <script>
-import SvgGrid from "../Svg/SvgGrid.vue";
 import ImageManager from "./ImageManager.vue";
+import SvgGrid from "../Svg/SvgGrid.vue";
+
 export default {
   props: ["value", "project"],
   components: { SvgGrid, ImageManager },

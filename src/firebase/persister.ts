@@ -1,7 +1,7 @@
-import { db } from ".";
 import firebase from "firebase";
-import { DateTime } from 'luxon';
 import { Data, Model } from "@/plugins/interface";
+import { DateTime } from 'luxon';
+import { db } from ".";
 
 class Persister {
   userCollection: firebase.firestore.CollectionReference;

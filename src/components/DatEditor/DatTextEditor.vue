@@ -28,9 +28,9 @@
   </droppable-box>
 </template>
 <script>
-import DroppableBox from "../../components/DroppableBox.vue";
-import { asyncTextReader } from "../../services/File";
+import DroppableBox from "../DroppableBox.vue";
 import SnippetSelector from "./SnippetSelector/SnippetSelector.vue";
+import { asyncTextReader } from "@/services/File";
 
 export default {
   components: {

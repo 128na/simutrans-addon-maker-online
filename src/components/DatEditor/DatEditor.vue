@@ -26,6 +26,7 @@
 <script>
 import DatTextEditor from "./DatTextEditor.vue";
 import ObjList from "./ObjList.vue";
+
 export default {
   components: {
     DatTextEditor,
