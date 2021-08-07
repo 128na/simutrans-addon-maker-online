@@ -42,6 +42,7 @@
       :project="project"
       :imageNames="['emptyimage']"
       :directions="directions"
+      icon="svguse:/img/vehicle.svg"
     />
     <param-images
       v-if="freightimagetypes"
@@ -50,6 +51,7 @@
       :imageNames="['freightimage']"
       :directions="directions"
       :x="freightimagetypes - 1"
+      icon="svguse:/img/vehicle.svg"
     />
   </div>
 </template>

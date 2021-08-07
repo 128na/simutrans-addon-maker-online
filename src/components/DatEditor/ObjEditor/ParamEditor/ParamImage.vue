@@ -10,6 +10,9 @@
       :label="label"
       @update:model-value="$emit('update', $event)"
     >
+      <template v-slot:prepend v-if="icon">
+        <q-icon :name="icon" />
+      </template>
       <template v-slot:after>
         <q-btn flat color="secondary" icon="edit" @click="handleDialog" />
       </template>
@@ -18,6 +21,9 @@
   <q-dialog v-model="dialog">
     <q-card bordered>
       <q-card-section class="row items-center q-pb-none">
+        <q-avatar>
+          <q-icon :name="icon" />
+        </q-avatar>
         <div class="text-h6">{{ label }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
@@ -93,7 +99,7 @@
 import ImagePreview from "./ImagePreview.vue";
 export default {
   components: { ImagePreview },
-  props: ["param", "label", "value", "isStatic", "project"],
+  props: ["param", "label", "value", "isStatic", "project", "icon"],
   emits: ["update"],
   data() {
     return {

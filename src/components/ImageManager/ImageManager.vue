@@ -137,11 +137,11 @@ export default {
     },
     colOptions() {
       return [
-        { value: 12, icon: "svguse:img/rect.svg#1x1" },
-        { value: 6, icon: "svguse:img/rect.svg#2x2" },
-        { value: 4, icon: "svguse:img/rect.svg#3x3" },
-        { value: 3, icon: "svguse:img/rect.svg#4x4" },
-        { value: 2, icon: "svguse:img/rect.svg#6x6" },
+        { value: 12, icon: "svguse:/img/rect.svg#1x1" },
+        { value: 6, icon: "svguse:/img/rect.svg#2x2" },
+        { value: 4, icon: "svguse:/img/rect.svg#3x3" },
+        { value: 3, icon: "svguse:/img/rect.svg#4x4" },
+        { value: 2, icon: "svguse:/img/rect.svg#6x6" },
       ];
     },
     filteredFiles() {

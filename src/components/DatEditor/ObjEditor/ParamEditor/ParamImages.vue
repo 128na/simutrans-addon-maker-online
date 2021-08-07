@@ -4,6 +4,7 @@
       :param="imageParam.param"
       :label="imageParam.label"
       :value="imageParam.value"
+      :icon="imageParam.icon"
       :isStatic="isStatic"
       :project="project"
       @update="handleUpdate(imageParam.label, $event)"
@@ -28,6 +29,10 @@ export default {
     directions: {
       type: Array,
       default: () => [],
+    },
+    icon: {
+      type: String,
+      default: "",
     },
     x: {
       // 画像座標: 左->右
@@ -78,10 +83,12 @@ export default {
           const param = this.modelValue.findParamByKeyParams(keyVal, keyParams);
           const label = this.key(keyVal, keyParams);
           const value = param?.value;
+          const icon = this.icon ? `${this.icon}#${keyParams[0] || 0}` : null;
           return {
             label,
             value,
             param,
+            icon,
           };
         });
     },
