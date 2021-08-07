@@ -228,9 +228,29 @@ class Value {
   }
 }
 
-export function calculateMaxSpeed(power: number, gear = 100, weight: number): number {
+/**
+ * 重量比実効出力を返す
+ */
+export function calcPgw(power: number, gear = 100, weight: number): number {
   const pg = (power * gear) / 100;
   const w = Math.max(1, weight);
+  return pg / w;
+}
 
-  return Math.max(0, Math.ceil(51.44 * Math.sqrt(pg / w) - 15.637));
+/**
+ * 最高速度を返す
+ */
+export function calculateMaxSpeed(power: number, gear = 100, weight: number): number {
+  return Math.max(1, Math.ceil(51.44 * Math.sqrt(calcPgw(power, gear, weight)) - 15.637));
+}
+
+/**
+ * 運転曲線計算関数を返す
+ */
+export function calculateSpeedFn(power: number, gear = 100, weight: number, limit: number): (t: number) => number {
+  const vmax = calculateMaxSpeed(power, gear, weight);
+  const c = 50;
+  const pgw = calcPgw(power, gear, weight);
+
+  return (t: number) => Math.min(limit, vmax * Math.tanh(c * pgw / vmax * t * Math.PI / 180));
 }

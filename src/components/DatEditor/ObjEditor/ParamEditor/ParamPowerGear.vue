@@ -45,7 +45,7 @@
       <q-card-section>
         <small>なんとなく運転曲線</small>
         <speed-graph
-          :maxSpeed="speed"
+          :limitSpeed="speed"
           :power="power"
           :gear="gear"
           :weight="weight"

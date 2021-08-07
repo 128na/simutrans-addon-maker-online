@@ -4,7 +4,8 @@
       <image-preview v-if="param" :param="param" :project="project" />
     </div>
     <q-input
-      class="col"
+      dense
+      :class="inputClass"
       :model-value="value"
       :label="label"
       @update:model-value="$emit('update', $event)"
@@ -119,6 +120,12 @@ export default {
     },
   },
   computed: {
+    vertical() {
+      return ["xs"].includes(this.$q.screen.name);
+    },
+    inputClass() {
+      return this.vertical ? "col-12" : "col";
+    },
     paramString() {
       const str = `.${this.y}.${this.x}`;
 
