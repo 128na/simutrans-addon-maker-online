@@ -102,6 +102,7 @@ export default {
           filename: "example",
           dat: "",
           size: 64,
+          pak: null,
           imageUrls: [],
         });
       } catch (e) {

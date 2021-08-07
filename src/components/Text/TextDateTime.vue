@@ -4,10 +4,10 @@
 <script>
 import { DateTime } from "luxon";
 export default {
-  props: ["value"],
+  props: ["modelValue"],
   computed: {
     text() {
-      return DateTime.fromHTTP(this.value)
+      return DateTime.fromHTTP(this.modelValue)
         .setLocale("ja")
         .toLocaleString(DateTime.DATETIME_SHORT);
     },

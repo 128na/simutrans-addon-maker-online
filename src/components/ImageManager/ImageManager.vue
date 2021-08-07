@@ -56,7 +56,7 @@
     </div>
   </q-card-section>
   <q-dialog v-model="dialog">
-    <q-card bordered v-if="selected" style="max-width: 90vw; max-height: 85vh">
+    <q-card bordered v-if="selected" style="max-width: 90vw; max-height: 90vh">
       <q-toolbar>
         <q-toolbar-title>{{ selected.filename }}</q-toolbar-title>
         <q-btn flat round dense icon="close" v-close-popup />
@@ -64,7 +64,7 @@
       <q-separator />
       <q-card-section
         class="scroll q-pa-none"
-        style="line-height: 0; max-height: 75vh"
+        style="line-height: 0; max-height: 70vh"
       >
         <img loading="lazy" :src="selected.url" :alt="selected.filename" />
       </q-card-section>
@@ -80,7 +80,7 @@
         </template>
       </q-card-section>
       <q-card-section class="q-py-xs">
-        <small>最終更新: <text-date-time :value="selected.updatedAt" /></small>
+        <small>最終更新: <text-date-time v-model="selected.updatedAt" /></small>
       </q-card-section>
       <q-btn
         flat
@@ -107,7 +107,6 @@ import LastModified from "../Text/LastModified.vue";
 import TextDateTime from "../Text/TextDateTime.vue";
 import SvgGrid from "../Svg/SvgGrid.vue";
 import { themeControl } from "@/mixins";
-import { rect } from "../../services/Svg";
 import { getFirebaseStorageErrorMessage } from "../../services/ErrorMessages";
 
 export default {
@@ -138,11 +137,11 @@ export default {
     },
     colOptions() {
       return [
-        { value: 12, icon: rect(1, 1, 0, this.isDarkTheme) },
-        { value: 6, icon: rect(2, 58, 12, this.isDarkTheme) },
-        { value: 4, icon: rect(3, 36, 12, this.isDarkTheme) },
-        { value: 3, icon: rect(4, 24, 12, this.isDarkTheme) },
-        { value: 2, icon: rect(6, 16, 8, this.isDarkTheme) },
+        { value: 12, icon: "svguse:img/rect.svg#1x1" },
+        { value: 6, icon: "svguse:img/rect.svg#2x2" },
+        { value: 4, icon: "svguse:img/rect.svg#3x3" },
+        { value: 3, icon: "svguse:img/rect.svg#4x4" },
+        { value: 2, icon: "svguse:img/rect.svg#6x6" },
       ];
     },
     filteredFiles() {

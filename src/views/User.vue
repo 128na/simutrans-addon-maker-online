@@ -13,7 +13,7 @@
           <q-item-section>
             <q-item-label overline>登録日時</q-item-label>
             <q-item-label>
-              <text-date-time :value="user.metadata.creationTime" />
+              <text-date-time v-model="user.metadata.creationTime" />
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -21,7 +21,7 @@
           <q-item-section>
             <q-item-label overline>最終サインイン</q-item-label>
             <q-item-label>
-              <text-date-time :value="user.metadata.lastSignInTime" />
+              <text-date-time v-model="user.metadata.lastSignInTime" />
             </q-item-label>
           </q-item-section>
         </q-item>

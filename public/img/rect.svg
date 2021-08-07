@@ -1,0 +1,78 @@
+<svg xmlns='http://www.w3.org/2000/svg' >
+  <symbol id="1x1" viewBox="0 0 1 1">
+    <rect width='1' height='1' x='0' y='0'/>
+  </symbol>
+  <symbol id="2x2" viewBox='0 0 128 128'>
+    <rect width='58' height='58' x='0' y='0'/>
+    <rect width='58' height='58' x='0' y='70'/>
+    <rect width='58' height='58' x='70' y='0'/>
+    <rect width='58' height='58' x='70' y='70'/>
+  </symbol>
+  <symbol id="3x3" viewBox='0 0 132 132'>
+    <rect width='36' height='36' x='0' y='0'/>
+    <rect width='36' height='36' x='0' y='48'/>
+    <rect width='36' height='36' x='0' y='96'/>
+    <rect width='36' height='36' x='48' y='0'/>
+    <rect width='36' height='36' x='48' y='48'/>
+    <rect width='36' height='36' x='48' y='96'/>
+    <rect width='36' height='36' x='96' y='0'/>
+    <rect width='36' height='36' x='96' y='48'/>
+    <rect width='36' height='36' x='96' y='96'/>
+  </symbol>
+  <symbol id="4x4" viewBox='0 0 132 132'>
+    <rect width='24' height='24' x='0' y='0'/>
+    <rect width='24' height='24' x='0' y='36'/>
+    <rect width='24' height='24' x='0' y='72'/>
+    <rect width='24' height='24' x='0' y='108'/>
+    <rect width='24' height='24' x='36' y='0'/>
+    <rect width='24' height='24' x='36' y='36'/>
+    <rect width='24' height='24' x='36' y='72'/>
+    <rect width='24' height='24' x='36' y='108'/>
+    <rect width='24' height='24' x='72' y='0'/>
+    <rect width='24' height='24' x='72' y='36'/>
+    <rect width='24' height='24' x='72' y='72'/>
+    <rect width='24' height='24' x='72' y='108'/>
+    <rect width='24' height='24' x='108' y='0'/>
+    <rect width='24' height='24' x='108' y='36'/>
+    <rect width='24' height='24' x='108' y='72'/>
+    <rect width='24' height='24' x='108' y='108'/>
+  </symbol>
+  <symbol id="6x6" viewBox='0 0 136 136'>
+    <rect width='16' height='16' x='0' y='0'/>
+    <rect width='16' height='16' x='0' y='24'/>
+    <rect width='16' height='16' x='0' y='48'/>
+    <rect width='16' height='16' x='0' y='72'/>
+    <rect width='16' height='16' x='0' y='96'/>
+    <rect width='16' height='16' x='0' y='120'/>
+    <rect width='16' height='16' x='24' y='0'/>
+    <rect width='16' height='16' x='24' y='24'/>
+    <rect width='16' height='16' x='24' y='48'/>
+    <rect width='16' height='16' x='24' y='72'/>
+    <rect width='16' height='16' x='24' y='96'/>
+    <rect width='16' height='16' x='24' y='120'/>
+    <rect width='16' height='16' x='48' y='0'/>
+    <rect width='16' height='16' x='48' y='24'/>
+    <rect width='16' height='16' x='48' y='48'/>
+    <rect width='16' height='16' x='48' y='72'/>
+    <rect width='16' height='16' x='48' y='96'/>
+    <rect width='16' height='16' x='48' y='120'/>
+    <rect width='16' height='16' x='72' y='0'/>
+    <rect width='16' height='16' x='72' y='24'/>
+    <rect width='16' height='16' x='72' y='48'/>
+    <rect width='16' height='16' x='72' y='72'/>
+    <rect width='16' height='16' x='72' y='96'/>
+    <rect width='16' height='16' x='72' y='120'/>
+    <rect width='16' height='16' x='96' y='0'/>
+    <rect width='16' height='16' x='96' y='24'/>
+    <rect width='16' height='16' x='96' y='48'/>
+    <rect width='16' height='16' x='96' y='72'/>
+    <rect width='16' height='16' x='96' y='96'/>
+    <rect width='16' height='16' x='96' y='120'/>
+    <rect width='16' height='16' x='120' y='0'/>
+    <rect width='16' height='16' x='120' y='24'/>
+    <rect width='16' height='16' x='120' y='48'/>
+    <rect width='16' height='16' x='120' y='72'/>
+    <rect width='16' height='16' x='120' y='96'/>
+    <rect width='16' height='16' x='120' y='120'/>
+  </symbol>
+</svg>

@@ -17,6 +17,14 @@
         v-model="project.data.size"
         label="Pakサイズ"
       />
+      <q-select
+        outlined
+        emit-value
+        :options="paksets"
+        v-model="project.data.pak"
+        label="Pakセット"
+        hint="産業や貨車の貨物種類指定といった特定のpakセットのみで使用可能なアドオンの場合のみ選択してください"
+      />
 
       <dat-editor :project="project" />
 
@@ -46,7 +54,7 @@
       <q-space />
 
       <last-modified>
-        <text-date-time :value="project.data.updatedAt" />
+        <text-date-time v-model="project.data.updatedAt" />
       </last-modified>
     </global-footer>
   </div>
@@ -69,6 +77,7 @@ import ImageEditor from "@/components/ImageManager/ImageEditor.vue";
 import { confirmBeforeLeave } from "@/mixins";
 import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
 import { getPakErrorMessage } from "../services/ErrorMessages";
+import { PAKSETS } from "@/constants";
 export default {
   components: {
     TitleMain,
@@ -121,6 +130,12 @@ export default {
     ...mapGetters(["projectLoaded", "getProject"]),
     hasChanged() {
       return JSON.stringify(this.project) !== JSON.stringify(this.original);
+    },
+    paksets() {
+      return [
+        { value: null, label: "指定なし" },
+        ...PAKSETS.filter((p) => p.size == this.project.data.size),
+      ];
     },
   },
   methods: {

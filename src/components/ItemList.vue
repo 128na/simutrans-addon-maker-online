@@ -29,7 +29,7 @@
               <q-item-section top>
                 <q-item-label lines="1">{{ item.data.title }}</q-item-label>
                 <q-item-label caption lines="1">
-                  最終更新: <text-date-time :value="item.data.updatedAt" />
+                  最終更新: <text-date-time v-model="item.data.updatedAt" />
                 </q-item-label>
               </q-item-section>
 
@@ -52,7 +52,7 @@
               <q-item-section top>
                 <q-item-label lines="1">{{ item.data.title }}</q-item-label>
                 <q-item-label caption lines="1">
-                  削除日<text-date-time :value="item.data.deletedAt" />
+                  削除日<text-date-time v-model="item.data.deletedAt" />
                 </q-item-label>
               </q-item-section>
 
