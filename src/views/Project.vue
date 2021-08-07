@@ -1,34 +1,42 @@
 <template>
-  <div v-if="project">
-    <title-main>{{ project.data.title }}</title-main>
+  <div v-if="editing">
+    <h3 class="q-mb-lg">{{ editing.data.title }}</h3>
     <q-form class="q-gutter-md">
-      <q-input outlined v-model="project.data.title" label="プロジェクト名" />
+      <q-input
+        dense
+        outlined
+        v-model="editing.data.title"
+        label="プロジェクト名"
+      />
       <q-input
         outlined
-        v-model="project.data.filename"
+        dense
+        v-model="editing.data.filename"
         label="アドオン名"
         hint="出力されるpakファイル名"
       />
       <q-input
         outlined
+        dense
         type="number"
         min="16"
         max="65535"
-        v-model="project.data.size"
+        v-model="editing.data.size"
         label="Pakサイズ"
       />
       <q-select
         outlined
+        dense
         emit-value
         :options="paksets"
-        v-model="project.data.pak"
+        v-model="editing.data.pak"
         label="Pakセット"
         hint="産業や貨車の貨物種類指定といった特定のpakセットのみで使用可能なアドオンの場合のみ選択してください"
       />
 
-      <dat-editor :project="project" />
+      <dat-editor :project="editing" />
 
-      <image-editor :project="project" />
+      <image-editor :project="editing" />
     </q-form>
 
     <global-footer>
@@ -54,7 +62,7 @@
       <q-space />
 
       <last-modified>
-        <text-date-time v-model="project.data.updatedAt" />
+        <text-date-time v-model="editing.data.updatedAt" />
       </last-modified>
     </global-footer>
   </div>
@@ -63,39 +71,35 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { dataURL2File, download } from "@/services/File";
+import { download } from "@/services/File";
 import { postPak } from "@/services/ApiMakeobj";
-import TitleMain from "@/components/Text/TitleMain.vue";
-import LayoutBox from "@/components/LayoutBox.vue";
 import LayoutLoading from "@/components/LayoutLoading.vue";
 import DatEditor from "@/components/DatEditor/DatEditor.vue";
 import LastModified from "@/components/Text/LastModified.vue";
 import GlobalFooter from "@/components/GlobalFooter.vue";
-import ButtonLoading from "@/components/Buttons/ButtonLoading.vue";
 import TextDateTime from "@/components/Text/TextDateTime.vue";
 import ImageEditor from "@/components/ImageManager/ImageEditor.vue";
 import { confirmBeforeLeave } from "@/mixins";
-import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
-import { getPakErrorMessage } from "../services/ErrorMessages";
+import {
+  getFirestoreErrorMessage,
+  getPakErrorMessage,
+} from "@/services/ErrorMessages";
 import { PAKSETS } from "@/constants";
+import { clone, equals } from "@/services/Object";
 export default {
   components: {
-    TitleMain,
-    LayoutBox,
     LayoutLoading,
     DatEditor,
     LastModified,
     GlobalFooter,
-    ButtonLoading,
     TextDateTime,
-    ImageEditor,
     ImageEditor,
   },
   mixins: [confirmBeforeLeave],
   name: "Project",
   data() {
     return {
-      project: null,
+      editing: null,
       original: null,
       fetching: false,
     };
@@ -129,12 +133,12 @@ export default {
   computed: {
     ...mapGetters(["projectLoaded", "getProject"]),
     hasChanged() {
-      return JSON.stringify(this.project) !== JSON.stringify(this.original);
+      return !equals(this.editing, this.original);
     },
     paksets() {
       return [
         { value: null, label: "指定なし" },
-        ...PAKSETS.filter((p) => p.size == this.project.data.size),
+        ...PAKSETS.filter((p) => p.size == this.editing.data.size),
       ];
     },
   },
@@ -148,16 +152,16 @@ export default {
       if (!prj) {
         return;
       }
-      this.project = JSON.parse(JSON.stringify(prj));
-      this.original = JSON.parse(JSON.stringify(prj));
+      this.editing = clone(prj);
+      this.original = clone(prj);
     },
     handleReset() {
-      this.project = JSON.parse(JSON.stringify(this.original));
+      this.editing = clone(this.original);
     },
     async handleUpdate() {
       try {
-        this.updateProject(this.project);
-        this.original = JSON.parse(JSON.stringify(this.project));
+        this.updateProject(this.editing);
+        this.original = clone(this.editing);
         this.notifyPositive("更新しました。");
       } catch (e) {
         this.notifyNegative(getFirestoreErrorMessage(e));
@@ -167,12 +171,12 @@ export default {
       this.fetching = true;
       try {
         const url = await postPak({
-          filename: this.project.data.filename,
-          size: this.project.data.size,
-          dat: this.project.data.dat,
-          imageUrls: this.project.data.imageUrls,
+          filename: this.editing.data.filename,
+          size: this.editing.data.size,
+          dat: this.editing.data.dat,
+          imageUrls: this.editing.data.imageUrls,
         });
-        download(url, `${this.project.data.filename}.pak`);
+        download(url, `${this.editing.data.filename}.pak`);
         this.notifyPositive("Pak化しました。");
       } catch (e) {
         this.notifyNegative(getPakErrorMessage(e));

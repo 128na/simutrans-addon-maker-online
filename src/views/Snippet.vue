@@ -1,9 +1,15 @@
 <template>
   <div v-if="editing">
-    <title-main>{{ editing.data.title }}</title-main>
+    <h3 class="q-mb-lg">{{ editing.data.title }}</h3>
     <q-form class="q-gutter-md">
-      <q-input outlined v-model="editing.data.title" label="テンプレート名" />
       <q-input
+        dense
+        outlined
+        v-model="editing.data.title"
+        label="テンプレート名"
+      />
+      <q-input
+        dense
         outlined
         type="textarea"
         v-model="editing.data.dat"
@@ -37,18 +43,15 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import TitleMain from "../components/Text/TitleMain.vue";
-import LayoutBox from "../components/LayoutBox.vue";
-import LayoutLoading from "../components/LayoutLoading.vue";
-import LastModified from "../components/Text/LastModified.vue";
-import GlobalFooter from "../components/GlobalFooter.vue";
-import TextDateTime from "../components/Text/TextDateTime.vue";
+import LayoutLoading from "@/components/LayoutLoading.vue";
+import LastModified from "@/components/Text/LastModified.vue";
+import GlobalFooter from "@/components/GlobalFooter.vue";
+import TextDateTime from "@/components/Text/TextDateTime.vue";
 import { confirmBeforeLeave } from "@/mixins";
 import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
+import { clone, equals } from "@/services/Object";
 export default {
   components: {
-    TitleMain,
-    LayoutBox,
     LayoutLoading,
     LastModified,
     GlobalFooter,
@@ -91,7 +94,7 @@ export default {
   computed: {
     ...mapGetters(["snippetLoaded", "getSnippet"]),
     hasChanged() {
-      return JSON.stringify(this.editing) !== JSON.stringify(this.original);
+      return !equals(this.editing, this.original);
     },
   },
   methods: {
@@ -104,16 +107,16 @@ export default {
       if (!sni) {
         return;
       }
-      this.editing = JSON.parse(JSON.stringify(sni));
-      this.original = JSON.parse(JSON.stringify(sni));
+      this.editing = clone(sni);
+      this.original = clone(sni);
     },
     handleReset() {
-      this.editing = JSON.parse(JSON.stringify(this.original));
+      this.editing = clone(this.original);
     },
     async handleUpdate() {
       try {
         this.updateSnippet(this.editing);
-        this.original = JSON.parse(JSON.stringify(this.editing));
+        this.original = clone(this.editing);
         this.notifyPositive("更新しました。");
       } catch (e) {
         this.notifyNegative(getFirestoreErrorMessage(e));
