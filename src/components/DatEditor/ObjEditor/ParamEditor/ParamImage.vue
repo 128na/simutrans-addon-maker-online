@@ -1,10 +1,11 @@
 <template>
-  <div class="q-gutter-md row items-end q-mb-sm">
+  <div class="q-gutter-md row items-end q-mb-md">
     <div class="col-auto cursor-pointer" @click="handleDialog">
       <image-preview v-if="param" :param="param" :project="project" />
     </div>
     <q-input
       dense
+      class="q-mt-none"
       :class="inputClass"
       :model-value="value"
       :label="label"

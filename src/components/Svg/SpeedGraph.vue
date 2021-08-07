@@ -1,19 +1,27 @@
 <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    :viewBox="viewBox"
-    height="100px"
-    width="100%"
-    preserveAspectRatio="none"
-  >
-    <path :d="d" stroke="blue" fill="none" stroke-width="0.5" />
-    <path
-      :d="`M0,0 l0,${height} l${tick},0 l0,${-height} l${-tick},0 `"
-      stroke="gray"
-      stroke-width="0.5"
-      fill="none"
-    />
-  </svg>
+  <div class="relative-position border q-mb-md q-ml-md">
+    <template v-for="label in xLabels">
+      <small class="absolute" :style="label.style">{{ label.text }}</small>
+    </template>
+    <template v-for="label in yLabels">
+      <small class="absolute" :style="label.style">{{ label.text }}</small>
+    </template>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      :viewBox="viewBox"
+      height="100px"
+      width="100%"
+      preserveAspectRatio="none"
+    >
+      <path
+        :d="d"
+        fill="none"
+        stroke="#027be3"
+        stroke-width="2"
+        vector-effect="non-scaling-stroke"
+      />
+    </svg>
+  </div>
 </template>
 <script>
 import { calculateSpeedFn } from "@/services/Simutrans";
@@ -60,6 +68,37 @@ export default {
         Number(this.limitSpeed)
       );
     },
+    xLabels() {
+      const interval = 20;
+      const count = Math.ceil(this.tick / interval);
+      return createArray(count).map((i) =>
+        Object.create({
+          text: i * interval,
+          style: {
+            left: `${(i / count) * 100}%`,
+            top: "100%",
+            "word-break": "keep-all",
+          },
+        })
+      );
+    },
+    yLabels() {
+      return createArray(2).map((i) =>
+        Object.create({
+          text: i * this.limitSpeed,
+          style: {
+            bottom: `${i * 100 - 10}%`,
+            left: "-15%",
+            "word-break": "keep-all",
+          },
+        })
+      );
+    },
   },
 };
 </script>
+<style scoped>
+.border {
+  border: solid 1px #ccc;
+}
+</style>

@@ -43,7 +43,6 @@
       </q-card-section>
       <q-separator />
       <q-card-section>
-        <small>なんとなく運転曲線</small>
         <speed-graph
           :limitSpeed="speed"
           :power="power"
