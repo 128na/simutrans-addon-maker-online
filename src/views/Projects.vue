@@ -1,6 +1,6 @@
 <template>
   <div v-if="projectLoaded">
-    <title-main class="mb-3">プロジェクト管理</title-main>
+    <title-main class="q-mb-md">プロジェクト管理</title-main>
     <layout-box>
       <q-btn
         color="primary"

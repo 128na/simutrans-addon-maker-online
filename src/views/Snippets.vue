@@ -1,6 +1,6 @@
 <template>
   <div v-if="snippetLoaded">
-    <title-main class="mb-3">テンプレート管理</title-main>
+    <title-main class="q-mb-md">テンプレート管理</title-main>
     <layout-box>
       <q-btn
         color="primary"

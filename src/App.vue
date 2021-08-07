@@ -4,7 +4,7 @@
     <q-page-container v-if="isInitialized">
       <router-view />
     </q-page-container>
-    <layout-loading v-else class="mt-5" />
+    <layout-loading v-else />
   </q-layout>
 </template>
 

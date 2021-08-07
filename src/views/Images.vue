@@ -1,6 +1,6 @@
 <template>
   <div v-if="fileLoaded">
-    <title-main class="mb-3">画像管理</title-main>
+    <title-main class="q-mb-md">画像管理</title-main>
     <q-card flat bordered>
       <image-manager />
     </q-card>
