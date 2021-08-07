@@ -23,6 +23,15 @@
             flat
             size="sm"
             color="secondary"
+            icon="mdi-content-copy"
+            @click.stop="handleCopy(props.item)"
+          >
+            複製
+          </q-btn>
+          <q-btn
+            flat
+            size="sm"
+            color="secondary"
             icon="delete"
             @click.stop="deleteSnippet(props.item)"
           >
@@ -61,6 +70,7 @@ import TitleSub from "@/components/Text/TitleSub.vue";
 import TitleMain from "@/components/Text/TitleMain.vue";
 import ItemList from "@/components/ItemList.vue";
 import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
+import { randomCopyTitle, randomNewTitle } from "../services/Text";
 export default {
   components: {
     TitleMain,
@@ -85,22 +95,24 @@ export default {
       "restoreSnippet",
       "forceDeleteSnippet",
     ]),
-    randomTitle() {
-      const arr = [
-        "新しいテンプレート",
-        "どちらかというと新しいテンプレート",
-        "やや新しいテンプレート",
-        "それなりに新しいテンプレート",
-        "新しいテンプレート。古事記にもそう書かれている",
-      ];
-      return arr[Math.floor(Math.random() * arr.length)];
-    },
     async handleCreate() {
       try {
         await this.createSnippet({
-          title: this.randomTitle(),
+          title: randomNewTitle("テンプレート"),
           dat: "",
         });
+      } catch (e) {
+        this.notifyNegative(getFirestoreErrorMessage(e));
+      }
+    },
+    async handleCopy(item) {
+      try {
+        await this.createSnippet(
+          Object.assign({}, item.data, {
+            title: randomCopyTitle(item.data.title),
+          })
+        );
+        this.notifyPositive("コピーしました。");
       } catch (e) {
         this.notifyNegative(getFirestoreErrorMessage(e));
       }

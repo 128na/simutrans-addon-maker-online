@@ -23,6 +23,15 @@
             flat
             size="sm"
             color="secondary"
+            icon="mdi-content-copy"
+            @click.stop="handleCopy(props.item)"
+          >
+            複製
+          </q-btn>
+          <q-btn
+            flat
+            size="sm"
+            color="secondary"
             icon="delete"
             @click.stop="deleteProject(props.item)"
           >
@@ -61,6 +70,8 @@ import TitleSub from "@/components/Text/TitleSub.vue";
 import TitleMain from "@/components/Text/TitleMain.vue";
 import ItemList from "@/components/ItemList.vue";
 import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
+import { randomCopyTitle, randomNewTitle } from "../services/Text";
+
 export default {
   components: {
     TitleMain,
@@ -85,26 +96,28 @@ export default {
       "restoreProject",
       "forceDeleteProject",
     ]),
-    randomTitle() {
-      const arr = [
-        "新しいプロジェクト",
-        "どちらかというと新しいプロジェクト",
-        "やや新しいプロジェクト",
-        "それなりに新しいプロジェクト",
-        "新しいプロジェクト。古事記にもそう書かれている",
-      ];
-      return arr[Math.floor(Math.random() * arr.length)];
-    },
     async handleCreate() {
       try {
         await this.createProject({
-          title: this.randomTitle(),
+          title: randomNewTitle("プロジェクト"),
           filename: "example",
           dat: "",
           size: 64,
           pak: null,
           imageUrls: [],
         });
+      } catch (e) {
+        this.notifyNegative(getFirestoreErrorMessage(e));
+      }
+    },
+    async handleCopy(item) {
+      try {
+        await this.createProject(
+          Object.assign({}, item.data, {
+            title: randomCopyTitle(item.data.title),
+          })
+        );
+        this.notifyPositive("コピーしました。");
       } catch (e) {
         this.notifyNegative(getFirestoreErrorMessage(e));
       }
