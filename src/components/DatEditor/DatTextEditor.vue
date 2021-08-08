@@ -31,6 +31,7 @@
 import DroppableBox from "../DroppableBox.vue";
 import SnippetSelector from "./SnippetSelector/SnippetSelector.vue";
 import { asyncTextReader } from "@/services/File";
+import { OBJ_SEPARATOR } from "@/services/Simutrans";
 
 export default {
   components: {
@@ -44,7 +45,10 @@ export default {
         files.filter((f) => f.name.endsWith(".dat"))
       );
       this.project.data.dat = result.reduce(
-        (current, f) => `${current}\n# import from ${f.file.name}\n${f.result}`,
+        (current, f) =>
+          current
+            ? `${current}\n${OBJ_SEPARATOR}\n# import from ${f.file.name}\n${f.result}`
+            : `# import from ${f.file.name}\n${f.result}`,
         ctrl ? "" : this.project.data.dat
       );
     },

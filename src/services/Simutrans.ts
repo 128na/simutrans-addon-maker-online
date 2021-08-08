@@ -40,7 +40,7 @@ const IMAGEABLE_KEYS: string[] = [
   "front_closedimage",
 ];
 
-const OBJ_SEPARATOR = '---';
+export const OBJ_SEPARATOR = '---';
 /**
  * datファイル全体
  */
