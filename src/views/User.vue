@@ -50,12 +50,14 @@
               <q-item-label>{{ service.title }}</q-item-label>
               <q-item-label class="q-gutter-x-sm">
                 <q-btn
+                  dense
                   color="primary"
                   label="連携"
                   icon="link"
                   @click="handleLink(service.name)"
                 />
                 <q-btn
+                  dense
                   color="secondary"
                   label="解除"
                   icon="link_off"
@@ -63,6 +65,7 @@
                 />
                 <q-btn
                   v-if="!hasCredential"
+                  dense
                   color="secondary"
                   label="再認証"
                   icon="login"
