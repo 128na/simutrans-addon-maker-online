@@ -7,7 +7,7 @@
       dense
       label="アップロード画像を選択"
       accept=".png"
-      @change="handleUpload"
+      @update:model-value="handleUpload"
     />
   </q-card-section>
   <q-separator />
@@ -154,6 +154,7 @@ export default {
   methods: {
     ...mapActions(["uploadFiles", "deleteFile"]),
     async handleUpload() {
+      console.log("handleUpload");
       try {
         await this.uploadFiles(this.selectedFiles);
 
