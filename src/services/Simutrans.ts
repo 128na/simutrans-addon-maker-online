@@ -211,8 +211,8 @@ class Key {
 
   constructor(original: string) {
     this._original = original
-    this._val = (original.split("[")[0] || "");
-    this._params = [...original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1] || "");
+    this._val = original.split("[")[0]?.trim() || "";
+    this._params = [...original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1]?.trim() || "");
   }
 }
 
@@ -223,8 +223,8 @@ class Value {
 
   constructor(original: string) {
     this._original = original
-    this._val = original.split(".")[0] || "";
-    this._params = [...original.matchAll(/[\.,]([-\d]*)/ig)].map(p => parseInt(p[1], 10) || 0);
+    this._val = original.split(".")[0]?.trim() || "";
+    this._params = [...original.matchAll(/[\.,]([-\d]*)/ig)].map(p => parseInt(p[1]?.trim(), 10) || 0);
   }
 }
 
