@@ -11,6 +11,7 @@
       <q-input
         dense
         outlined
+        autogrow
         type="textarea"
         v-model="editing.data.dat"
         rows="12"

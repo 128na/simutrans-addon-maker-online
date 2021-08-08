@@ -24,11 +24,22 @@
             size="sm"
             color="secondary"
             icon="mdi-content-copy"
+            @click.stop="handleToConvert(props.item)"
+          >
+            プロジェクト作成
+          </q-btn>
+          <q-btn
+            dense
+            flat
+            size="sm"
+            color="secondary"
+            icon="mdi-content-copy"
             @click.stop="handleCopy(props.item)"
           >
             複製
           </q-btn>
           <q-btn
+            dense
             flat
             size="sm"
             color="secondary"
@@ -40,6 +51,7 @@
         </template>
         <template v-slot:trashedItemAction="props">
           <q-btn
+            dense
             flat
             size="sm"
             color="secondary"
@@ -49,6 +61,7 @@
             復元
           </q-btn>
           <q-btn
+            dense
             flat
             size="sm"
             color="negative"
@@ -70,7 +83,11 @@ import TitleMain from "@/components/Text/TitleMain.vue";
 import TitleSub from "@/components/Text/TitleSub.vue";
 import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
 import { mapActions, mapGetters } from "vuex";
-import { randomCopyTitle, randomNewTitle } from "@/services/Text";
+import {
+  randomConvertTitle,
+  randomCopyTitle,
+  randomNewTitle,
+} from "@/services/Text";
 
 export default {
   components: {
@@ -95,6 +112,7 @@ export default {
       "deleteSnippet",
       "restoreSnippet",
       "forceDeleteSnippet",
+      "createProject",
     ]),
     async handleCreate() {
       try {
@@ -102,6 +120,24 @@ export default {
           title: randomNewTitle("テンプレート"),
           dat: "",
         });
+      } catch (e) {
+        this.notifyNegative(getFirestoreErrorMessage(e));
+      }
+    },
+    async handleToConvert(item) {
+      try {
+        await this.createProject(
+          Object.assign({}, item.data, {
+            title: randomConvertTitle(item.data.title, "プロジェクト"),
+            filename: "example",
+            dat: item.data.dat,
+            size: 64,
+            pak: null,
+            imageUrls: [],
+          })
+        );
+        this.notifyPositive("プロジェクトを作成しました。");
+        this.routeTo("Projects");
       } catch (e) {
         this.notifyNegative(getFirestoreErrorMessage(e));
       }

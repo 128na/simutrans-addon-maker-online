@@ -24,6 +24,15 @@
             size="sm"
             color="secondary"
             icon="mdi-content-copy"
+            @click.stop="handleToConvert(props.item)"
+          >
+            テンプレ作成
+          </q-btn>
+          <q-btn
+            flat
+            size="sm"
+            color="secondary"
+            icon="mdi-content-copy"
             @click.stop="handleCopy(props.item)"
           >
             複製
@@ -70,7 +79,11 @@ import TitleMain from "@/components/Text/TitleMain.vue";
 import TitleSub from "@/components/Text/TitleSub.vue";
 import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
 import { mapActions, mapGetters } from "vuex";
-import { randomCopyTitle, randomNewTitle } from "@/services/Text";
+import {
+  randomConvertTitle,
+  randomCopyTitle,
+  randomNewTitle,
+} from "@/services/Text";
 
 export default {
   components: {
@@ -95,6 +108,7 @@ export default {
       "deleteProject",
       "restoreProject",
       "forceDeleteProject",
+      "createSnippet",
     ]),
     async handleCreate() {
       try {
@@ -106,6 +120,20 @@ export default {
           pak: null,
           imageUrls: [],
         });
+      } catch (e) {
+        this.notifyNegative(getFirestoreErrorMessage(e));
+      }
+    },
+    async handleToConvert(item) {
+      try {
+        await this.createSnippet(
+          Object.assign({}, item.data, {
+            title: randomConvertTitle(item.data.title, "テンプレート"),
+            dat: item.data.dat,
+          })
+        );
+        this.notifyPositive("テンプレートを作成しました。");
+        this.routeTo("Snippets");
       } catch (e) {
         this.notifyNegative(getFirestoreErrorMessage(e));
       }

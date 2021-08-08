@@ -15,14 +15,26 @@ const copyTitle = [
   "copy of :item",
 ];
 
+const convertTitle = [
+  ":fromの:to",
+];
+
 /**
  * ランダムタイトル生成
  */
-const randomText = (arr: string[], item: string): string =>
-  arr[Math.floor(Math.random() * arr.length)].replace(':item', item);
+interface replaceableText {
+  [index: string]: string
+}
+const randomText = (arr: string[], items: replaceableText): string =>
+  Object.entries(items)
+    .reduce(
+      (text, [k, v]) => text.replace(`:${k}`, v),
+      arr[Math.floor(Math.random() * arr.length)]
+    );
 
-export const randomNewTitle = (item: string): string => randomText(newTitle, item);
-export const randomCopyTitle = (item: string): string => randomText(copyTitle, item);
+export const randomNewTitle = (item: string): string => randomText(newTitle, { item });
+export const randomCopyTitle = (item: string): string => randomText(copyTitle, { item });
+export const randomConvertTitle = (from: string, to: string): string => randomText(convertTitle, { from, to });
 
 /**
  * ランダムなIDを返す
