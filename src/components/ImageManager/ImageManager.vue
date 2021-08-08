@@ -120,6 +120,14 @@ export default {
       selected: null,
     };
   },
+  watch: {
+    col(v) {
+      localStorage.setItem("ImageManager.col", v);
+    },
+  },
+  created() {
+    this.col = Number(localStorage.getItem("ImageManager.col")) || 4;
+  },
   computed: {
     ...mapGetters(["files", "existsProjectByFile", "getProjectsByFile"]),
     dialog: {

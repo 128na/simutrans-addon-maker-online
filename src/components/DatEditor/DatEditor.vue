@@ -40,11 +40,11 @@ export default {
   },
   watch: {
     tab(v) {
-      localStorage.setItem("propatyEditor", v);
+      localStorage.setItem("DatEditor.tab", v);
     },
   },
   created() {
-    this.tab = localStorage.getItem("propatyEditor") || "text";
+    this.tab = localStorage.getItem("DatEditor.tab") || "text";
   },
   computed: {},
 };
