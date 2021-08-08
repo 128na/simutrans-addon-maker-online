@@ -96,7 +96,7 @@
         label="ダウンロード"
         @click="handleDownloadImage(selected)"
       />
-      <slot :selected="selected" />
+      <slot :selected="selected" :handleClose="handleSelect" />
     </q-card>
   </q-dialog>
 </template>
@@ -154,7 +154,6 @@ export default {
   methods: {
     ...mapActions(["uploadFiles", "deleteFile"]),
     async handleUpload() {
-      console.log("handleUpload");
       try {
         await this.uploadFiles(this.selectedFiles);
 
@@ -164,7 +163,7 @@ export default {
         this.notifyNegative(getFirebaseStorageErrorMessage(e));
       }
     },
-    handleSelect(image) {
+    handleSelect(image = null) {
       this.selected = image;
     },
     async handleDelete(image) {

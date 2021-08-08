@@ -36,7 +36,7 @@
             flat
             icon="remove"
             label="プロジェクトから外す"
-            @click.prevent="handleRemoveImage(index)"
+            @click="handleRemoveImage(index)"
           />
         </q-tab-panel>
       </template>
@@ -48,7 +48,7 @@
       flat
       icon="add"
       label="画像を追加"
-      @click.prevent="dialog = true"
+      @click="dialog = true"
     />
     <q-dialog v-model="dialog" full-height full-width>
       <q-card bordered>
@@ -64,8 +64,7 @@
             no-caps
             icon="add"
             label="プロジェクトへ追加"
-            :disable="!slotProps.selected"
-            @click="handleAddImage(slotProps.selected)"
+            @click="handleAddImage(slotProps)"
           />
         </image-manager>
       </q-card>
@@ -86,17 +85,18 @@ export default {
     };
   },
   methods: {
-    handleAddImage(image) {
+    handleAddImage({ selected, handleClose }) {
       const index = this.project.data.imageUrls.findIndex(
-        (i) => i.filename === image.filename
+        (i) => i.filename === selected.filename
       );
 
       if (index === -1) {
-        this.project.data.imageUrls.push(image);
+        this.project.data.imageUrls.push(selected);
       } else {
-        this.project.data.imageUrls.splice(index, 1, image);
+        this.project.data.imageUrls.splice(index, 1, selected);
       }
-      this.dialog = false;
+      handleClose();
+      this.notifyPositive("画像を追加しました。");
     },
     handleRemoveImage(index) {
       this.project.data.imageUrls.splice(index, 1);
