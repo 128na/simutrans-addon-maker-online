@@ -43,12 +43,7 @@
       </q-card-section>
       <q-separator />
       <q-card-section>
-        <speed-graph
-          :limitSpeed="speed"
-          :power="power"
-          :gear="gear"
-          :weight="weight"
-        />
+        <speed-graph :vehicleSpeed="vehicleSpeed" />
         <q-input
           dense
           hide-hint
@@ -124,7 +119,7 @@
           type="number"
           min="0"
           max="65535"
-          v-model="calculatedSpeed"
+          v-model="vehicleSpeed.maxSpeed"
           :rules="speedRules"
         />
       </q-card-section>
@@ -133,7 +128,7 @@
 </template>
 <script>
 import { minEq, maxSpeed } from "@/services/Validator";
-import { calculateMaxSpeed } from "@/services/Simutrans";
+import { VehicleSpeed } from "@/services/Simutrans";
 import SpeedGraph from "@/components/Svg/SpeedGraph.vue";
 export default {
   components: { SpeedGraph },
@@ -185,11 +180,15 @@ export default {
         this.$emit("update:modelValue");
       },
     },
-    calculatedSpeed() {
-      return calculateMaxSpeed(
+    totalWeight() {
+      return Number(this.weight) + Number(this.additionalWeight);
+    },
+    vehicleSpeed() {
+      return new VehicleSpeed(
         this.power,
         this.gear,
-        Number(this.weight) + Number(this.additionalWeight)
+        this.totalWeight,
+        this.speed
       );
     },
   },

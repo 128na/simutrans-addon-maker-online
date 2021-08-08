@@ -24,50 +24,33 @@
   </div>
 </template>
 <script>
-import { calculateSpeedFn } from "@/services/Simutrans";
+import { Vehicle } from "@/services/Simutrans";
 import { createArray } from "@/services/Array";
 
 export default {
   props: {
-    limitSpeed: {
-      type: [Number, String],
-      default: 100,
-    },
-    power: {
-      type: [Number, String],
-    },
-    gear: {
-      type: [Number, String],
-    },
-    weight: {
-      type: [Number, String],
-    },
+    vehicleSpeed: {},
     tick: {
       type: [Number, String],
-      default: 120,
+      default: 60,
     },
   },
   computed: {
     viewBox() {
-      return `-2 -2 ${this.tick * 1 + 2} ${this.limitSpeed * 1 + 2}`;
+      return `-2 -2 ${this.tick * 1 + 2} ${this.vehicleSpeed.speed + 2}`;
     },
     height() {
-      return Math.max(this.limitSpeed, 100);
+      return Math.max(this.vehicleSpeed.speed, 100);
     },
     d() {
-      const commands = [`M0,${this.limitSpeed}`];
+      const curve = this.vehicleSpeed.velocityCurve;
+      const commands = [];
       createArray(this.tick).map((t) => {
-        commands.push([`L${t},${this.limitSpeed - this.speedFn(t)}`]);
+        const mode = commands.length ? "L" : "M";
+        const speed = this.vehicleSpeed.speed - curve(t);
+        commands.push(`${mode}${t},${speed}`);
       });
       return commands.join(" ");
-    },
-    speedFn() {
-      return calculateSpeedFn(
-        Number(this.power),
-        Number(this.gear),
-        Number(this.weight),
-        Number(this.limitSpeed)
-      );
     },
     xLabels() {
       const interval = 20;
@@ -86,7 +69,7 @@ export default {
     yLabels() {
       return createArray(2).map((i) =>
         Object.create({
-          text: i * this.limitSpeed,
+          text: i * this.vehicleSpeed.speed,
           style: {
             bottom: `${i * 100 - 10}%`,
             left: "-15%",

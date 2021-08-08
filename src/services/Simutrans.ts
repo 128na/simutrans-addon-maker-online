@@ -228,29 +228,46 @@ class Value {
   }
 }
 
-/**
- * 重量比実効出力を返す
- */
-export function calcPgw(power: number, gear = 100, weight: number): number {
-  const pg = (power * gear) / 100;
-  const w = Math.max(1, weight);
-  return pg / w;
-}
+export class VehicleSpeed {
+  power: number;
+  gear: number;
+  weight: number;
+  speed: number;
 
-/**
- * 最高速度を返す
- */
-export function calculateMaxSpeed(power: number, gear = 100, weight: number): number {
-  return Math.max(1, Math.ceil(51.44 * Math.sqrt(calcPgw(power, gear, weight)) - 15.637));
-}
+  constructor(power: number, gear = 100, weight: number, speed: number) {
+    this.power = Number(power);
+    this.gear = Number(gear);
+    this.weight = Number(weight);
+    this.speed = Number(speed);
+  }
 
-/**
- * 運転曲線計算関数を返す
- */
-export function calculateSpeedFn(power: number, gear = 100, weight: number, limit: number): (t: number) => number {
-  const vmax = calculateMaxSpeed(power, gear, weight);
-  const c = 50;
-  const pgw = calcPgw(power, gear, weight);
+  /**
+   * 重量比実効出力
+   */
+  get powerRatio(): number {
+    const pg = (this.power * this.gear) / 100;
+    const w = Math.max(1, this.weight);
+    return pg / w;
+  }
 
-  return (t: number) => Math.min(limit, vmax * Math.tanh(c * pgw / vmax * t * Math.PI / 180));
+  /**
+   * 最高速度
+   */
+  get maxSpeed(): number {
+    const calcSpeed = Math.ceil(51.44 * Math.sqrt(this.powerRatio) - 15.637);
+    return Math.max(1, calcSpeed);
+  }
+
+  /**
+   * 速度曲線関数
+   */
+  get velocityCurve(): (t: number) => number {
+    const v0 = 8;
+    const v = this.maxSpeed - v0;
+    const c = 45;
+    const rad = Math.PI / 180;
+    const fn = (t: number) => v0 + v * Math.tanh(c * this.powerRatio * t * rad / v);
+
+    return (t: number) => Math.min(this.speed, fn(t));
+  }
 }
