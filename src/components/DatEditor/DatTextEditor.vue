@@ -2,6 +2,20 @@
   <droppable-box @fileDropped="handleFileDropped">
     <template v-slot:default="props">
       <q-card-section class="q-px-md q-py-xs">
+        <small class="text-grey">
+          <span v-show="props.dropping && !props.ctrl">
+            ファイル内容を追加
+          </span>
+          <span v-show="props.dropping && props.ctrl">
+            ファイル内容で上書き
+          </span>
+          <span v-show="!props.dropping">
+            .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き
+          </span>
+        </small>
+      </q-card-section>
+      <q-separator />
+      <q-card-section class="q-px-md q-py-xs">
         <q-input
           borderless
           autogrow
@@ -12,17 +26,6 @@
         />
       </q-card-section>
       <q-separator />
-      <q-card-section class="q-px-md q-py-xs">
-        <small v-show="props.dropping && !props.ctrl">
-          ファイル内容を追加。
-        </small>
-        <small v-show="props.dropping && props.ctrl">
-          ファイル内容で上書き。
-        </small>
-        <small v-show="!props.dropping">
-          .datファイルをドロップで内容を追加、Ctrl+ドロップで上書き。
-        </small>
-      </q-card-section>
       <snippet-selector @snippetSelected="handleSnippetSelected" />
     </template>
   </droppable-box>
