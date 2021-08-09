@@ -14,4 +14,4 @@ const mapAllFiles = (fn, nextQuery = { maxResults: 1 }) => {
     });
 };
 
-module.exports = mapAllFiles;
+module.exports = { mapAllFiles };
