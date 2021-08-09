@@ -51,7 +51,7 @@ export class Dat {
     this._objs = original
       .replaceAll("\r\n", "\n") // win CRLF -> LF
       .replaceAll("\r", "\n") // mac CR -> LF
-      .replace(/---+/gi, OBJ_SEPARATOR).split(`${OBJ_SEPARATOR}\n`)
+      .replace(/---+/gi, OBJ_SEPARATOR).split(`${OBJ_SEPARATOR}\n`) // 区切り文字の統一
       .map(o => new Obj(o));
   }
 
@@ -60,11 +60,15 @@ export class Dat {
   }
 
   findObjs(key: string, value: string): Obj[] {
-    return this._objs.filter(o => o.findParamByKey(key)?.value === value);
+    return this._objs
+      .filter(o => o.findParamByKey(key)?.value === value);
   }
 
   toString(): string {
-    return this._objs.map(o => o.toString()).join(`\n${OBJ_SEPARATOR}\n`).replace(/\n+/mgi, '\n');
+    return this._objs
+      .map(o => o.toString())
+      .join(`\n${OBJ_SEPARATOR}\n`)
+      .replace(/\n+/mgi, '\n');
   }
 }
 
@@ -72,12 +76,14 @@ export class Obj {
   _params: Param[];
 
   constructor(original: string) {
-    this._params = original.split("\n")
+    this._params = original
+      .split("\n")
       .map(l => new Param(l));
   }
 
   updateFromString(original: string) {
-    this._params = original.split("\n")
+    this._params = original
+      .split("\n")
       .map(l => new Param(l));
   }
   updateOrCreate(key: string, value: string, operator = '=') {
@@ -107,7 +113,8 @@ export class Obj {
     return this._params.find(p => p.key === key);
   }
   findParamByKeyParams(keyVal: string, keyParams: string[]): Param | undefined {
-    return this._params.find(p => p.keyVal === keyVal && keyParams.every((kp, i) => (kp == p.keyParams[i])));
+    return this._params
+      .find(p => p.keyVal === keyVal && keyParams.every((kp, i) => (kp == p.keyParams[i])));
   }
 
   toString(): string {
@@ -137,8 +144,12 @@ class Param {
   _value: Value;
 
   constructor(original: string) {
-    const tmp = original.match(/^([^=]*)(=> |=)?(\S*)?$/i) || [];
-    if (!tmp[2]) {
+    const tmp = original
+      .split('#')[0]    // 末尾コメントを削除
+      .match(/^([^=]*)(=> |=)?(.*)?$/i) || [];
+
+    // フォーマット不一致なら値として処理する（コメント行）
+    if (tmp[2] === undefined) {
       this._key = new Key("");
       this._operator = "";
       this._value = new Value(tmp[1] || "");
@@ -210,9 +221,9 @@ class Key {
   _params: string[];
 
   constructor(original: string) {
-    this._original = original
-    this._val = original.split("[")[0]?.trim() || "";
-    this._params = [...original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1]?.trim() || "");
+    this._original = original.replace(/\s+/gi, '')
+    this._val = this._original.split("[")[0] || "";
+    this._params = [...this._original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1] || "");
   }
 }
 
@@ -222,9 +233,9 @@ class Value {
   _params: number[];
 
   constructor(original: string) {
-    this._original = original
-    this._val = original.split(".")[0]?.trim() || "";
-    this._params = [...original.matchAll(/[\.,]([-\d]*)/ig)].map(p => parseInt(p[1]?.trim(), 10) || 0);
+    this._original = original.replace(/\s+/gi, '')
+    this._val = this._original.split(".")[0] || "";
+    this._params = [...this._original.matchAll(/[\.,]([-\d]*)/ig)].map(p => parseInt(p[1], 10) || 0);
   }
 }
 
