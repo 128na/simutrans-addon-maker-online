@@ -10,13 +10,13 @@ export const asyncFileReader = function (files: Blob[]) {
   }));
 };
 // ファイルオブジェクトからバイナリデータを読み取る
-export const asyncTextReader = function (files: Blob[]) {
+export const asyncTextReader = function (files: Blob[], encoding = 'utf8') {
   return Promise.all(files.map((file) => {
     return new Promise((res, rej) => {
       const r = new FileReader();
       r.onload = () => res({ file, result: r.result });
       r.onerror = () => rej({ file, error: r.error });
-      r.readAsText(file);
+      r.readAsText(file, encoding);
     });
   }));
 };

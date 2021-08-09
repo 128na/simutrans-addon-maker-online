@@ -43,8 +43,10 @@ export default {
   props: ["project"],
   methods: {
     async handleFileDropped({ files, ctrl }) {
+      const charset = this.$q.platform.is.win ? "sjis" : "utf8";
       const result = await asyncTextReader(
-        files.filter((f) => f.name.endsWith(".dat"))
+        files.filter((f) => f.name.endsWith(".dat")),
+        charset
       );
       this.project.data.dat = result.reduce(
         (current, f) =>
