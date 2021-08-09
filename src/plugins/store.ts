@@ -48,6 +48,7 @@ export default createStore<State>({
 
     files: state => state.files,
     fileLoaded: state => state.files !== undefined,
+    existsFile: state => (filename: string) => !!state.files?.find(f => f.filename === filename),
   },
   mutations: {
     [SET_USER](state, user) {

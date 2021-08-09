@@ -129,7 +129,12 @@ export default {
     this.col = Number(localStorage.getItem("ImageManager.col")) || 4;
   },
   computed: {
-    ...mapGetters(["files", "existsProjectByFile", "getProjectsByFile"]),
+    ...mapGetters([
+      "files",
+      "existsProjectByFile",
+      "getProjectsByFile",
+      "existsFile",
+    ]),
     dialog: {
       get() {
         return !!this.selected;
@@ -158,11 +163,23 @@ export default {
         ? this.files.filter((f) => f.filename.toLowerCase().includes(key))
         : this.files;
     },
+    existsFiles() {
+      return this.selectedFiles.some((f) => this.existsFile(f.name));
+    },
   },
   methods: {
     ...mapActions(["uploadFiles", "deleteFile"]),
     async handleUpload() {
       try {
+        if (
+          this.existsFiles &&
+          !confirm(
+            "既にアップロード済みのファイルが含まれています。上書きしますか？"
+          )
+        ) {
+          this.selectedFiles = [];
+          return;
+        }
         await this.uploadFiles(this.selectedFiles);
 
         this.selectedFiles = [];
