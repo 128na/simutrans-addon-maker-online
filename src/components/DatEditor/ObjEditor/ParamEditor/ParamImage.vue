@@ -50,7 +50,7 @@
             @click="handleMove(0, -1)"
           />
         </div>
-        <div class="row">
+        <div class="row justify-center">
           <q-btn
             flat
             color="primary"
