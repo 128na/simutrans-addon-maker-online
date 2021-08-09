@@ -19,6 +19,7 @@
   <q-tabs
     v-model="col"
     dense
+    class="text-grey"
     align="left"
     active-color="primary"
     indicator-color="primary"
