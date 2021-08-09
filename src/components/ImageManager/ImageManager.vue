@@ -64,7 +64,7 @@
       </q-toolbar>
     </template>
     <template v-slot:default>
-      <q-card-section class="text-center">
+      <q-card-section class="row justify-center">
         <img loading="lazy" :src="selected.url" :alt="selected.filename" />
       </q-card-section>
     </template>
@@ -99,6 +99,42 @@
         />
         <slot :selected="selected" :handleClose="handleSelect" />
       </q-toolbar>
+    </template>
+    <template v-slot:extra>
+      <q-drawer
+        side="left"
+        width="1rem"
+        class="row"
+        :breakpoint="0"
+        :model-value="true"
+      >
+        <q-btn
+          flat
+          dense
+          color="primary"
+          icon="mdi-chevron-left"
+          class="col"
+          :disable="!prevItem"
+          @click="selected = prevItem"
+        />
+      </q-drawer>
+      <q-drawer
+        side="right"
+        width="1rem"
+        class="row"
+        :breakpoint="0"
+        :model-value="true"
+      >
+        <q-btn
+          flat
+          dense
+          color="primary"
+          icon="mdi-chevron-right"
+          class="col"
+          :disable="!nextItem"
+          @click="selected = nextItem"
+        />
+      </q-drawer>
     </template>
   </full-dialog>
 </template>
@@ -165,6 +201,17 @@ export default {
       return this.search
         ? this.files.filter((f) => f.filename.toLowerCase().includes(key))
         : this.files;
+    },
+    selectedIndex() {
+      return this.filteredFiles.findIndex(
+        (f) => f.filename === this.selected.filename
+      );
+    },
+    nextItem() {
+      return this.filteredFiles[this.selectedIndex + 1] || null;
+    },
+    prevItem() {
+      return this.filteredFiles[this.selectedIndex - 1] || null;
     },
     existsFiles() {
       return this.selectedFiles.some((f) => this.existsFile(f.name));
