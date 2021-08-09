@@ -149,7 +149,7 @@ class Param {
       .match(/^([^=]*)(=> |=)?(.*)?$/i) || [];
 
     // フォーマット不一致なら値として処理する（コメント行）
-    if (tmp[2] === undefined) {
+    if (!tmp[2]) {
       this._key = new Key("");
       this._operator = "";
       this._value = new Value(tmp[1] || "");

@@ -33,7 +33,7 @@
     </template>
   </q-tabs>
   <q-separator />
-  <q-card-section class="q-px-none">
+  <q-card-section>
     <div class="scroll q-col-gutter-sm row items-start">
       <template v-for="(image, index) in filteredFiles">
         <div :class="colClass">
@@ -51,7 +51,7 @@
         </div>
       </template>
       <template v-if="!filteredFiles.length">
-        <q-item>該当なし</q-item>
+        <q-item>該当なし </q-item>
       </template>
     </div>
   </q-card-section>
