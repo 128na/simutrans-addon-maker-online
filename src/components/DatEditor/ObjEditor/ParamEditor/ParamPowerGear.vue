@@ -34,14 +34,9 @@
       @click="dialog = !dialog"
     />
   </div>
-  <q-dialog v-model="dialog">
-    <q-card bordered>
-      <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">到達最高速度計算ツール</div>
-        <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
-      </q-card-section>
-      <q-separator />
+  <dialog-normal v-model="dialog">
+    <template v-slot:header>到達最高速度計算ツール</template>
+    <template v-slot:default>
       <q-card-section>
         <speed-graph :vehicleSpeed="vehicleSpeed" />
         <q-input
@@ -123,15 +118,16 @@
           :rules="speedRules"
         />
       </q-card-section>
-    </q-card>
-  </q-dialog>
+    </template>
+  </dialog-normal>
 </template>
 <script>
 import { minEq, maxSpeed } from "@/services/Validator";
 import { VehicleSpeed } from "@/services/Simutrans";
 import SpeedGraph from "@/components/Svg/SpeedGraph.vue";
+import DialogNormal from "@/components/DialogNormal.vue";
 export default {
-  components: { SpeedGraph },
+  components: { SpeedGraph, DialogNormal },
   props: ["modelValue"],
   data() {
     return {

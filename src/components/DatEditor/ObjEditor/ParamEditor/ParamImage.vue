@@ -19,17 +19,11 @@
       </template>
     </q-input>
   </div>
-  <q-dialog v-model="dialog">
-    <q-card bordered>
-      <q-card-section class="row items-center q-pb-none">
-        <q-avatar>
-          <q-icon :name="icon" />
-        </q-avatar>
-        <div class="text-h6">{{ label }}</div>
-        <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
-      </q-card-section>
-      <q-separator />
+  <dialog-normal v-model="dialog">
+    <template v-slot:header>
+      {{ label }}
+    </template>
+    <template v-slot:default>
       <q-card-section>
         <q-select
           dense
@@ -92,14 +86,15 @@
           :max="project.data.size"
         />
       </q-card-section>
-    </q-card>
-  </q-dialog>
+    </template>
+  </dialog-normal>
 </template>
 
 <script>
 import ImagePreview from "./ImagePreview.vue";
+import DialogNormal from "@/components/DialogNormal.vue";
 export default {
-  components: { ImagePreview },
+  components: { ImagePreview, DialogNormal },
   props: ["param", "label", "value", "isStatic", "project", "icon"],
   emits: ["update"],
   data() {

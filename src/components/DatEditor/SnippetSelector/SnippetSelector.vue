@@ -6,13 +6,8 @@
     label="テンプレートを挿入"
     @click.prevent="dialog = true"
   />
-  <full-dialog v-model="dialog">
-    <template v-slot:header>
-      <q-toolbar>
-        <q-toolbar-title>テンプレート一覧</q-toolbar-title>
-        <q-btn flat round dense icon="close" v-close-popup />
-      </q-toolbar>
-    </template>
+  <dialog-full v-model="dialog">
+    <template v-slot:header>テンプレート一覧</template>
     <template v-slot:default>
       <snippet-list v-model="selected" />
     </template>
@@ -27,14 +22,14 @@
         />
       </q-toolbar>
     </template>
-  </full-dialog>
+  </dialog-full>
 </template>
 <script>
-import FullDialog from "@/components/FullDialog.vue";
+import DialogFull from "@/components/DialogFull.vue";
 import SnippetList from "./SnippetList.vue";
 
 export default {
-  components: { SnippetList, FullDialog },
+  components: { SnippetList, DialogFull },
   emits: ["snippetSelected"],
   data() {
     return {

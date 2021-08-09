@@ -50,13 +50,8 @@
       label="画像を追加"
       @click="dialog = true"
     />
-    <full-dialog v-model="dialog">
-      <template v-slot:header>
-        <q-toolbar>
-          <q-toolbar-title>画像管理</q-toolbar-title>
-          <q-btn flat round dense icon="close" v-close-popup />
-        </q-toolbar>
-      </template>
+    <dialog-full v-model="dialog">
+      <template v-slot:header>画像管理</template>
       <template v-slot:default>
         <image-manager v-slot="slotProps">
           <q-btn
@@ -69,17 +64,17 @@
           />
         </image-manager>
       </template>
-    </full-dialog>
+    </dialog-full>
   </q-card>
 </template>
 <script>
 import ImageManager from "./ImageManager.vue";
 import SvgGrid from "../Svg/SvgGrid.vue";
-import FullDialog from "../FullDialog.vue";
+import DialogFull from "../DialogFull.vue";
 
 export default {
   props: ["value", "project"],
-  components: { SvgGrid, ImageManager, FullDialog },
+  components: { SvgGrid, ImageManager, DialogFull },
   data() {
     return {
       tab: 0,

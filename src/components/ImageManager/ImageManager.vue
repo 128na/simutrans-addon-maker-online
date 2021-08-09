@@ -56,13 +56,8 @@
       </template>
     </div>
   </q-card-section>
-  <full-dialog v-model="dialog">
-    <template v-slot:header>
-      <q-toolbar>
-        <q-toolbar-title>{{ selected.filename }}</q-toolbar-title>
-        <q-btn flat round dense icon="close" v-close-popup />
-      </q-toolbar>
-    </template>
+  <dialog-full v-model="dialog">
+    <template v-slot:header>{{ selected.filename }}</template>
     <template v-slot:default>
       <q-card-section class="row justify-center">
         <img loading="lazy" :src="selected.url" :alt="selected.filename" />
@@ -136,7 +131,7 @@
         />
       </q-drawer>
     </template>
-  </full-dialog>
+  </dialog-full>
 </template>
 <script>
 import LastModified from "../Text/LastModified.vue";
@@ -146,10 +141,10 @@ import { download } from "@/services/File";
 import { getFirebaseStorageErrorMessage } from "@/services/ErrorMessages";
 import { mapActions, mapGetters } from "vuex";
 import { themeControl } from "@/mixins";
-import FullDialog from "../FullDialog.vue";
+import DialogFull from "../DialogFull.vue";
 
 export default {
-  components: { LastModified, TextDateTime, SvgGrid, FullDialog },
+  components: { LastModified, TextDateTime, SvgGrid, DialogFull },
   mixins: [themeControl],
   data() {
     return {
