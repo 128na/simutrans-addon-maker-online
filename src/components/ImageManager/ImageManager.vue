@@ -56,21 +56,20 @@
       </template>
     </div>
   </q-card-section>
-  <q-dialog v-model="dialog">
-    <q-card bordered v-if="selected" style="max-width: 90vw; max-height: 90vh">
+  <full-dialog v-model="dialog">
+    <template v-slot:header>
       <q-toolbar>
         <q-toolbar-title>{{ selected.filename }}</q-toolbar-title>
         <q-btn flat round dense icon="close" v-close-popup />
       </q-toolbar>
-      <q-separator />
-      <q-card-section
-        class="scroll q-pa-none"
-        style="line-height: 0; max-height: 70vh"
-      >
+    </template>
+    <template v-slot:default>
+      <q-card-section class="text-center">
         <img loading="lazy" :src="selected.url" :alt="selected.filename" />
       </q-card-section>
-      <q-separator />
-      <q-card-section class="q-py-xs row q-col-gutter-sm">
+    </template>
+    <template v-slot:footer>
+      <q-card-section class="q-py-none">
         <template v-for="p in getProjectsByFile(selected)">
           <router-link
             :to="{ name: 'Project', params: { id: p.id } }"
@@ -80,26 +79,28 @@
           </router-link>
         </template>
       </q-card-section>
-      <q-card-section class="q-py-xs">
+      <q-card-section class="q-py-none">
         <small>最終更新: <text-date-time v-model="selected.updatedAt" /></small>
       </q-card-section>
-      <q-btn
-        flat
-        color="negative"
-        icon="delete"
-        label="削除"
-        @click="handleDelete(selected)"
-      />
-      <q-btn
-        flat
-        color="secondary"
-        icon="cloud_download"
-        label="ダウンロード"
-        @click="handleDownloadImage(selected)"
-      />
-      <slot :selected="selected" :handleClose="handleSelect" />
-    </q-card>
-  </q-dialog>
+      <q-toolbar class="q-gutter-x-sm">
+        <q-btn
+          dense
+          color="negative"
+          icon="delete"
+          label="削除"
+          @click="handleDelete(selected)"
+        />
+        <q-btn
+          dense
+          color="secondary"
+          icon="cloud_download"
+          label="DL"
+          @click="handleDownloadImage(selected)"
+        />
+        <slot :selected="selected" :handleClose="handleSelect" />
+      </q-toolbar>
+    </template>
+  </full-dialog>
 </template>
 <script>
 import LastModified from "../Text/LastModified.vue";
@@ -109,9 +110,10 @@ import { download } from "@/services/File";
 import { getFirebaseStorageErrorMessage } from "@/services/ErrorMessages";
 import { mapActions, mapGetters } from "vuex";
 import { themeControl } from "@/mixins";
+import FullDialog from "../FullDialog.vue";
 
 export default {
-  components: { LastModified, TextDateTime, SvgGrid },
+  components: { LastModified, TextDateTime, SvgGrid, FullDialog },
   mixins: [themeControl],
   data() {
     return {

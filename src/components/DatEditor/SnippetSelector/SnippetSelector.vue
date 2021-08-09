@@ -6,40 +6,46 @@
     label="テンプレートを挿入"
     @click.prevent="dialog = true"
   />
-  <q-dialog v-model="dialog" full-width full-height>
-    <q-card bordered>
+  <full-dialog v-model="dialog">
+    <template v-slot:header>
       <q-toolbar>
         <q-toolbar-title>テンプレート一覧</q-toolbar-title>
         <q-btn flat round dense icon="close" v-close-popup />
       </q-toolbar>
-      <q-separator />
-      <snippet-list v-slot="slotProps">
+    </template>
+    <template v-slot:default>
+      <snippet-list v-model="selected" />
+    </template>
+    <template v-slot:footer>
+      <q-toolbar>
         <q-btn
-          flat
           color="primary"
           icon="add"
           label="このテンプレートを挿入"
-          @click="handleInsert(slotProps.selected)"
+          :disable="!selected"
+          @click="handleInsert"
         />
-        <q-separator />
-      </snippet-list>
-    </q-card>
-  </q-dialog>
+      </q-toolbar>
+    </template>
+  </full-dialog>
 </template>
 <script>
+import FullDialog from "@/components/FullDialog.vue";
 import SnippetList from "./SnippetList.vue";
 
 export default {
-  components: { SnippetList },
+  components: { SnippetList, FullDialog },
   emits: ["snippetSelected"],
   data() {
     return {
       dialog: false,
+      selected: null,
     };
   },
   methods: {
-    handleInsert(snippet) {
-      this.$emit("snippetSelected", snippet.dat);
+    handleInsert() {
+      this.$emit("snippetSelected", this.selected.dat);
+      this.selected = null;
       this.dialog = false;
     },
     buttonMessage(snippet) {

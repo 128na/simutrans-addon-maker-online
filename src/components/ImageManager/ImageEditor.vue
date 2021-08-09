@@ -18,7 +18,7 @@
       <template v-for="(image, index) in project.data.imageUrls">
         <q-tab-panel :name="index" class="q-pa-none">
           <!-- line-height >= 1remだと画像下に空白ができるぞい -->
-          <div style="line-height: 0">
+          <q-card-section>
             <div
               class="relative-position"
               style="display: inline-block; line-height: 0"
@@ -29,7 +29,7 @@
                 :size.number="this.project.data.size"
               />
             </div>
-          </div>
+          </q-card-section>
           <q-separator />
           <q-btn
             color="secondary"
@@ -50,34 +50,36 @@
       label="画像を追加"
       @click="dialog = true"
     />
-    <q-dialog v-model="dialog" full-height full-width>
-      <q-card bordered>
+    <full-dialog v-model="dialog">
+      <template v-slot:header>
         <q-toolbar>
           <q-toolbar-title>画像管理</q-toolbar-title>
           <q-btn flat round dense icon="close" v-close-popup />
         </q-toolbar>
-        <q-separator />
+      </template>
+      <template v-slot:default>
         <image-manager v-slot="slotProps">
           <q-btn
-            color="primary"
-            flat
+            dense
             no-caps
+            color="primary"
             icon="add"
             label="プロジェクトへ追加"
             @click="handleAddImage(slotProps)"
           />
         </image-manager>
-      </q-card>
-    </q-dialog>
+      </template>
+    </full-dialog>
   </q-card>
 </template>
 <script>
 import ImageManager from "./ImageManager.vue";
 import SvgGrid from "../Svg/SvgGrid.vue";
+import FullDialog from "../FullDialog.vue";
 
 export default {
   props: ["value", "project"],
-  components: { SvgGrid, ImageManager },
+  components: { SvgGrid, ImageManager, FullDialog },
   data() {
     return {
       tab: 0,

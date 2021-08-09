@@ -41,18 +41,21 @@
 
     <global-footer>
       <q-btn
+        dense
         label="取消"
         color="secondary"
         :disabled="!hasChanged"
         @click="handleReset"
       />
       <q-btn
+        dense
         label="保存"
         color="primary"
         :disabled="!hasChanged"
         @click="handleUpdate"
       />
       <q-btn
+        dense
         label="Pak化"
         color="primary"
         no-caps

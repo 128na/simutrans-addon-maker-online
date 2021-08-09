@@ -21,12 +21,14 @@
 
     <global-footer>
       <q-btn
+        dense
         color="secondary"
         label="取消"
         :disabled="!hasChanged"
         @click="handleReset()"
       />
       <q-btn
+        dense
         color="primary"
         label="保存"
         :disabled="!hasChanged"

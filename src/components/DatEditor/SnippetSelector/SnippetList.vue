@@ -14,9 +14,10 @@
         group="snippets"
         :caption="snippet.caption"
         :label="snippet.title"
+        @after-show="handleShow(snippet)"
+        @hide="handleShow()"
       >
         <q-card>
-          <slot :selected="snippet" />
           <q-card-section class="bg-accent">
             <pre class="scroll q-ma-none"><code>{{ snippet.dat }}</code></pre>
           </q-card-section>
@@ -35,6 +36,8 @@
         group="snippets"
         expand-separator
         :label="snippet.title || '(名称無し)'"
+        @after-show="handleShow(snippet)"
+        @hide="handleShow()"
       >
         <q-card>
           <slot :selected="snippet" />
@@ -52,6 +55,12 @@ import { SNIPPETS } from "@/constants";
 import { mapGetters } from "vuex";
 
 export default {
+  props: ["modelValue"],
+  methods: {
+    handleShow(snippet = null) {
+      this.$emit("update:modelValue", snippet);
+    },
+  },
   computed: {
     ...mapGetters(["snippetLoaded", "snippets"]),
     snippetLists() {

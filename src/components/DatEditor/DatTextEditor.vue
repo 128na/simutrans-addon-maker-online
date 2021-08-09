@@ -22,7 +22,6 @@
           type="textarea"
           v-model="project.data.dat"
           label="Dat"
-          style="min-height: 30vh"
         />
       </q-card-section>
       <q-separator />
