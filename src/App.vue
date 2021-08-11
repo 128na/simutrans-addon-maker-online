@@ -4,14 +4,14 @@
     <q-page-container v-if="isInitialized">
       <router-view />
     </q-page-container>
-    <layout-loading v-else class="mt-5" />
+    <layout-loading v-else />
   </q-layout>
 </template>
 
 <script>
+import GlobalHeader from "@/components/GlobalHeader.vue";
+import LayoutLoading from "@/components/LayoutLoading.vue";
 import { mapGetters, mapActions } from "vuex";
-import GlobalHeader from "./components/GlobalHeader.vue";
-import LayoutLoading from "./components/LayoutLoading.vue";
 
 export default {
   components: { GlobalHeader, LayoutLoading },

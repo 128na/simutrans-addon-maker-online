@@ -1,28 +1,29 @@
 <template>
-  <div class="q-gutter-md row items-end q-mb-sm">
+  <div class="q-gutter-md row items-end q-mb-md">
     <div class="col-auto cursor-pointer" @click="handleDialog">
       <image-preview v-if="param" :param="param" :project="project" />
     </div>
     <q-input
       dense
+      class="q-mt-none"
       :class="inputClass"
       :model-value="value"
       :label="label"
       @update:model-value="$emit('update', $event)"
     >
+      <template v-slot:prepend v-if="icon">
+        <q-icon :name="icon" />
+      </template>
       <template v-slot:after>
         <q-btn flat color="secondary" icon="edit" @click="handleDialog" />
       </template>
     </q-input>
   </div>
-  <q-dialog v-model="dialog">
-    <q-card bordered>
-      <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">{{ label }}</div>
-        <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
-      </q-card-section>
-      <q-separator />
+  <dialog-normal v-model="dialog">
+    <template v-slot:header>
+      {{ label }}
+    </template>
+    <template v-slot:default>
       <q-card-section>
         <q-select
           dense
@@ -43,7 +44,7 @@
             @click="handleMove(0, -1)"
           />
         </div>
-        <div class="row">
+        <div class="row justify-center">
           <q-btn
             flat
             color="primary"
@@ -85,15 +86,16 @@
           :max="project.data.size"
         />
       </q-card-section>
-    </q-card>
-  </q-dialog>
+    </template>
+  </dialog-normal>
 </template>
 
 <script>
 import ImagePreview from "./ImagePreview.vue";
+import DialogNormal from "@/components/DialogNormal.vue";
 export default {
-  components: { ImagePreview },
-  props: ["param", "label", "value", "isStatic", "project"],
+  components: { ImagePreview, DialogNormal },
+  props: ["param", "label", "value", "isStatic", "project", "icon"],
   emits: ["update"],
   data() {
     return {

@@ -19,4 +19,13 @@ const existsUid = async uid => {
   }
 };
 
-module.exports = existsUid;
+const mapAllUsers = async (fn, nextPageToken) => {
+  const result = await admin.auth().listUsers(1000, nextPageToken);
+  result.users.map(fn)
+  if (result.pageToken) {
+    mapAllUsers(fn, result.pageToken);
+  }
+};
+
+
+module.exports = { existsUid, mapAllUsers };

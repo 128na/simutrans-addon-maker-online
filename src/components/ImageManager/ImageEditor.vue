@@ -18,7 +18,7 @@
       <template v-for="(image, index) in project.data.imageUrls">
         <q-tab-panel :name="index" class="q-pa-none">
           <!-- line-height >= 1remだと画像下に空白ができるぞい -->
-          <div style="line-height: 0">
+          <q-card-section>
             <div
               class="relative-position"
               style="display: inline-block; line-height: 0"
@@ -29,14 +29,14 @@
                 :size.number="this.project.data.size"
               />
             </div>
-          </div>
+          </q-card-section>
           <q-separator />
           <q-btn
             color="secondary"
             flat
             icon="remove"
             label="プロジェクトから外す"
-            @click.prevent="handleRemoveImage(index)"
+            @click="handleRemoveImage(index)"
           />
         </q-tab-panel>
       </template>
@@ -48,36 +48,33 @@
       flat
       icon="add"
       label="画像を追加"
-      @click.prevent="dialog = true"
+      @click="dialog = true"
     />
-    <q-dialog v-model="dialog" full-height full-width>
-      <q-card bordered>
-        <q-toolbar>
-          <q-toolbar-title>画像管理</q-toolbar-title>
-          <q-btn flat round dense icon="close" v-close-popup />
-        </q-toolbar>
-        <q-separator />
+    <dialog-full v-model="dialog">
+      <template v-slot:header>画像管理</template>
+      <template v-slot:default>
         <image-manager v-slot="slotProps">
           <q-btn
-            color="primary"
-            flat
+            dense
             no-caps
+            color="primary"
             icon="add"
             label="プロジェクトへ追加"
-            :disable="!slotProps.selected"
-            @click="handleAddImage(slotProps.selected)"
+            @click="handleAddImage(slotProps)"
           />
         </image-manager>
-      </q-card>
-    </q-dialog>
+      </template>
+    </dialog-full>
   </q-card>
 </template>
 <script>
-import SvgGrid from "../Svg/SvgGrid.vue";
 import ImageManager from "./ImageManager.vue";
+import SvgGrid from "../Svg/SvgGrid.vue";
+import DialogFull from "../DialogFull.vue";
+
 export default {
   props: ["value", "project"],
-  components: { SvgGrid, ImageManager },
+  components: { SvgGrid, ImageManager, DialogFull },
   data() {
     return {
       tab: 0,
@@ -85,17 +82,18 @@ export default {
     };
   },
   methods: {
-    handleAddImage(image) {
+    handleAddImage({ selected, handleClose }) {
       const index = this.project.data.imageUrls.findIndex(
-        (i) => i.filename === image.filename
+        (i) => i.filename === selected.filename
       );
 
       if (index === -1) {
-        this.project.data.imageUrls.push(image);
+        this.project.data.imageUrls.push(selected);
       } else {
-        this.project.data.imageUrls.splice(index, 1, image);
+        this.project.data.imageUrls.splice(index, 1, selected);
       }
-      this.dialog = false;
+      handleClose();
+      this.notifyPositive("画像を追加しました。");
     },
     handleRemoveImage(index) {
       this.project.data.imageUrls.splice(index, 1);

@@ -12,7 +12,7 @@
       min="0"
       max="65535"
       v-model="power"
-      :rules="rules"
+      :rules="speedGearRules"
     />
     <q-input
       dense
@@ -25,7 +25,7 @@
       min="0"
       max="65535"
       v-model="gear"
-      :rules="rules"
+      :rules="speedGearRules"
     />
     <q-btn
       flat
@@ -34,22 +34,11 @@
       @click="dialog = !dialog"
     />
   </div>
-  <q-dialog v-model="dialog">
-    <q-card bordered>
-      <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6">到達最高速度計算ツール</div>
-        <q-space />
-        <q-btn icon="close" flat round dense v-close-popup />
-      </q-card-section>
-      <q-separator />
+  <dialog-normal v-model="dialog">
+    <template v-slot:header>到達最高速度計算ツール</template>
+    <template v-slot:default>
       <q-card-section>
-        <small>なんとなく運転曲線</small>
-        <speed-graph
-          :limitSpeed="speed"
-          :power="power"
-          :gear="gear"
-          :weight="weight"
-        />
+        <speed-graph :vehicleSpeed="vehicleSpeed" />
         <q-input
           dense
           hide-hint
@@ -61,7 +50,7 @@
           min="0"
           max="65535"
           v-model="speed"
-          :rules="rules"
+          :rules="speedRules"
         />
         <q-input
           dense
@@ -74,7 +63,7 @@
           min="0"
           max="65535"
           v-model="power"
-          :rules="rules"
+          :rules="speedGearRules"
         />
         <q-input
           dense
@@ -87,7 +76,7 @@
           min="0"
           max="65535"
           v-model="gear"
-          :rules="rules"
+          :rules="speedGearRules"
         />
         <q-input
           dense
@@ -99,7 +88,6 @@
           type="number"
           min="0"
           max="65535"
-          :rules="rules"
           v-model="additionalWeight"
         />
         <q-input
@@ -112,7 +100,7 @@
           type="number"
           min="0"
           max="65535"
-          :rules="rules"
+          :rules="weightRules"
           v-model="weight"
         />
         <q-input
@@ -125,19 +113,20 @@
           type="number"
           min="0"
           max="65535"
-          v-model="calculatedSpeed"
-          :rules="speedRules"
+          v-model="vehicleSpeed.maxSpeed"
+          :rules="maxSpeedRules"
         />
       </q-card-section>
-    </q-card>
-  </q-dialog>
+    </template>
+  </dialog-normal>
 </template>
 <script>
-import { minEq, maxSpeed } from "@/services/Validator";
-import { calculateMaxSpeed } from "@/services/Simutrans";
+import { maxEq, minEq, maxSpeed, required } from "@/services/Validator";
+import { VehicleSpeed } from "@/services/Simutrans";
 import SpeedGraph from "@/components/Svg/SpeedGraph.vue";
+import DialogNormal from "@/components/DialogNormal.vue";
 export default {
-  components: { SpeedGraph },
+  components: { SpeedGraph, DialogNormal },
   props: ["modelValue"],
   data() {
     return {
@@ -146,8 +135,10 @@ export default {
     };
   },
   computed: {
-    rules: () => [minEq(0)],
-    speedRules() {
+    speedGearRules: () => [minEq(1), maxEq(65535)],
+    speedRules: () => [required, minEq(1), maxEq(65535)],
+    weightRules: () => [required, minEq(1), maxEq(65535)],
+    maxSpeedRules() {
       return [maxSpeed(this.speed)];
     },
     speed: {
@@ -186,11 +177,15 @@ export default {
         this.$emit("update:modelValue");
       },
     },
-    calculatedSpeed() {
-      return calculateMaxSpeed(
+    totalWeight() {
+      return Number(this.weight) + Number(this.additionalWeight);
+    },
+    vehicleSpeed() {
+      return new VehicleSpeed(
         this.power,
         this.gear,
-        Number(this.weight) + Number(this.additionalWeight)
+        this.totalWeight,
+        this.speed
       );
     },
   },

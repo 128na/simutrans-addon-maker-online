@@ -1,5 +1,5 @@
-import { getLCP, getFID, getCLS, getFCP, getTTFB, Metric } from 'web-vitals';
 import { analytics } from '../firebase/index';
+import { getLCP, getFID, getCLS, getFCP, getTTFB, Metric } from 'web-vitals';
 
 // https://github.com/GoogleChrome/web-vitals#using-gtagjs-universal-analytics
 const sendToGoogleAnalytics = ({ name, delta, id, value }: Metric) => {

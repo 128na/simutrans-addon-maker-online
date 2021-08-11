@@ -40,7 +40,7 @@ const IMAGEABLE_KEYS: string[] = [
   "front_closedimage",
 ];
 
-const OBJ_SEPARATOR = '---';
+export const OBJ_SEPARATOR = '---';
 /**
  * datファイル全体
  */
@@ -51,7 +51,7 @@ export class Dat {
     this._objs = original
       .replaceAll("\r\n", "\n") // win CRLF -> LF
       .replaceAll("\r", "\n") // mac CR -> LF
-      .replace(/---+/gi, OBJ_SEPARATOR).split(`${OBJ_SEPARATOR}\n`)
+      .replace(/---+/gi, OBJ_SEPARATOR).split(`${OBJ_SEPARATOR}\n`) // 区切り文字の統一
       .map(o => new Obj(o));
   }
 
@@ -60,11 +60,15 @@ export class Dat {
   }
 
   findObjs(key: string, value: string): Obj[] {
-    return this._objs.filter(o => o.findParamByKey(key)?.value === value);
+    return this._objs
+      .filter(o => o.findParamByKey(key)?.value === value);
   }
 
   toString(): string {
-    return this._objs.map(o => o.toString()).join(`\n${OBJ_SEPARATOR}\n`).replace(/\n+/mgi, '\n');
+    return this._objs
+      .map(o => o.toString())
+      .join(`\n${OBJ_SEPARATOR}\n`)
+      .replace(/\n+/mgi, '\n');
   }
 }
 
@@ -72,12 +76,14 @@ export class Obj {
   _params: Param[];
 
   constructor(original: string) {
-    this._params = original.split("\n")
+    this._params = original
+      .split("\n")
       .map(l => new Param(l));
   }
 
   updateFromString(original: string) {
-    this._params = original.split("\n")
+    this._params = original
+      .split("\n")
       .map(l => new Param(l));
   }
   updateOrCreate(key: string, value: string, operator = '=') {
@@ -107,7 +113,8 @@ export class Obj {
     return this._params.find(p => p.key === key);
   }
   findParamByKeyParams(keyVal: string, keyParams: string[]): Param | undefined {
-    return this._params.find(p => p.keyVal === keyVal && keyParams.every((kp, i) => (kp == p.keyParams[i])));
+    return this._params
+      .find(p => p.keyVal === keyVal && keyParams.every((kp, i) => (kp == p.keyParams[i])));
   }
 
   toString(): string {
@@ -137,7 +144,11 @@ class Param {
   _value: Value;
 
   constructor(original: string) {
-    const tmp = original.match(/^([^=]*)(=> |=)?(\S*)?$/i) || [];
+    const tmp = original
+      .split('#')[0]    // 末尾コメントを削除
+      .match(/^([^=]*)(=> |=)?(.*)?$/i) || [];
+
+    // フォーマット不一致なら値として処理する（コメント行）
     if (!tmp[2]) {
       this._key = new Key("");
       this._operator = "";
@@ -210,9 +221,9 @@ class Key {
   _params: string[];
 
   constructor(original: string) {
-    this._original = original
-    this._val = (original.split("[")[0] || "");
-    this._params = [...original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1] || "");
+    this._original = original.replace(/\s+/gi, '')
+    this._val = this._original.split("[")[0] || "";
+    this._params = [...this._original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1] || "");
   }
 }
 
@@ -222,35 +233,52 @@ class Value {
   _params: number[];
 
   constructor(original: string) {
-    this._original = original
-    this._val = original.split(".")[0] || "";
-    this._params = [...original.matchAll(/[\.,]([-\d]*)/ig)].map(p => parseInt(p[1], 10) || 0);
+    this._original = original.replace(/\s+/gi, '')
+    this._val = this._original.split(".")[0] || "";
+    this._params = [...this._original.matchAll(/[\.,]([-\d]*)/ig)].map(p => parseInt(p[1], 10) || 0);
   }
 }
 
-/**
- * 重量比実効出力を返す
- */
-export function calcPgw(power: number, gear = 100, weight: number): number {
-  const pg = (power * gear) / 100;
-  const w = Math.max(1, weight);
-  return pg / w;
-}
+export class VehicleSpeed {
+  power: number;
+  gear: number;
+  weight: number;
+  speed: number;
 
-/**
- * 最高速度を返す
- */
-export function calculateMaxSpeed(power: number, gear = 100, weight: number): number {
-  return Math.max(1, Math.ceil(51.44 * Math.sqrt(calcPgw(power, gear, weight)) - 15.637));
-}
+  constructor(power: number, gear = 100, weight: number, speed: number) {
+    this.power = Number(power);
+    this.gear = Number(gear);
+    this.weight = Number(weight);
+    this.speed = Number(speed);
+  }
 
-/**
- * 運転曲線計算関数を返す
- */
-export function calculateSpeedFn(power: number, gear = 100, weight: number, limit: number): (t: number) => number {
-  const vmax = calculateMaxSpeed(power, gear, weight);
-  const c = 50;
-  const pgw = calcPgw(power, gear, weight);
+  /**
+   * 重量比実効出力
+   */
+  get powerRatio(): number {
+    const pg = (this.power * this.gear) / 100;
+    const w = Math.max(1, this.weight);
+    return pg / w;
+  }
 
-  return (t: number) => Math.min(limit, vmax * Math.tanh(c * pgw / vmax * t * Math.PI / 180));
+  /**
+   * 最高速度
+   */
+  get maxSpeed(): number {
+    const calcSpeed = Math.ceil(51.44 * Math.sqrt(this.powerRatio) - 15.637);
+    return Math.max(1, calcSpeed);
+  }
+
+  /**
+   * 速度曲線関数
+   */
+  get velocityCurve(): (t: number) => number {
+    const v0 = 8;
+    const v = this.maxSpeed - v0;
+    const c = 45;
+    const rad = Math.PI / 180;
+    const fn = (t: number) => v0 + v * Math.tanh(c * this.powerRatio * t * rad / v);
+
+    return (t: number) => Math.min(this.speed, fn(t));
+  }
 }

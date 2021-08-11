@@ -42,6 +42,7 @@
       :project="project"
       :imageNames="['emptyimage']"
       :directions="directions"
+      icon="svguse:/img/vehicle.svg"
     />
     <param-images
       v-if="freightimagetypes"
@@ -50,11 +51,13 @@
       :imageNames="['freightimage']"
       :directions="directions"
       :x="freightimagetypes - 1"
+      icon="svguse:/img/vehicle.svg"
     />
   </div>
 </template>
 <script>
 import Params from "./ParamEditor";
+
 export default {
   icon: "local_shipping",
   components: { ...Params },
@@ -77,4 +80,4 @@ export default {
     },
   },
 };
-</script>, ParamIntroRetire
+</script>

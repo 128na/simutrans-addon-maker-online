@@ -1,6 +1,6 @@
 <template>
   <div v-if="snippetLoaded">
-    <title-main class="mb-3">テンプレート管理</title-main>
+    <title-main class="q-mb-md">テンプレート管理</title-main>
     <layout-box>
       <q-btn
         color="primary"
@@ -23,6 +23,26 @@
             flat
             size="sm"
             color="secondary"
+            icon="mdi-content-copy"
+            @click.stop="handleToConvert(props.item)"
+          >
+            プロジェクト作成
+          </q-btn>
+          <q-btn
+            dense
+            flat
+            size="sm"
+            color="secondary"
+            icon="mdi-content-copy"
+            @click.stop="handleCopy(props.item)"
+          >
+            複製
+          </q-btn>
+          <q-btn
+            dense
+            flat
+            size="sm"
+            color="secondary"
             icon="delete"
             @click.stop="deleteSnippet(props.item)"
           >
@@ -31,6 +51,7 @@
         </template>
         <template v-slot:trashedItemAction="props">
           <q-btn
+            dense
             flat
             size="sm"
             color="secondary"
@@ -40,6 +61,7 @@
             復元
           </q-btn>
           <q-btn
+            dense
             flat
             size="sm"
             color="negative"
@@ -55,12 +77,18 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import LayoutBox from "@/components/LayoutBox.vue";
-import TitleSub from "@/components/Text/TitleSub.vue";
-import TitleMain from "@/components/Text/TitleMain.vue";
 import ItemList from "@/components/ItemList.vue";
+import LayoutBox from "@/components/LayoutBox.vue";
+import TitleMain from "@/components/Text/TitleMain.vue";
+import TitleSub from "@/components/Text/TitleSub.vue";
 import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
+import { mapActions, mapGetters } from "vuex";
+import {
+  randomConvertTitle,
+  randomCopyTitle,
+  randomNewTitle,
+} from "@/services/Text";
+
 export default {
   components: {
     TitleMain,
@@ -84,23 +112,44 @@ export default {
       "deleteSnippet",
       "restoreSnippet",
       "forceDeleteSnippet",
+      "createProject",
     ]),
-    randomTitle() {
-      const arr = [
-        "新しいテンプレート",
-        "どちらかというと新しいテンプレート",
-        "やや新しいテンプレート",
-        "それなりに新しいテンプレート",
-        "新しいテンプレート。古事記にもそう書かれている",
-      ];
-      return arr[Math.floor(Math.random() * arr.length)];
-    },
     async handleCreate() {
       try {
         await this.createSnippet({
-          title: this.randomTitle(),
+          title: randomNewTitle("テンプレート"),
           dat: "",
         });
+      } catch (e) {
+        this.notifyNegative(getFirestoreErrorMessage(e));
+      }
+    },
+    async handleToConvert(item) {
+      try {
+        await this.createProject(
+          Object.assign({}, item.data, {
+            title: randomConvertTitle(item.data.title, "プロジェクト"),
+            filename: "example",
+            dat: item.data.dat,
+            size: 64,
+            pak: null,
+            imageUrls: [],
+          })
+        );
+        this.notifyPositive("プロジェクトを作成しました。");
+        this.routeTo("Projects");
+      } catch (e) {
+        this.notifyNegative(getFirestoreErrorMessage(e));
+      }
+    },
+    async handleCopy(item) {
+      try {
+        await this.createSnippet(
+          Object.assign({}, item.data, {
+            title: randomCopyTitle(item.data.title),
+          })
+        );
+        this.notifyPositive("コピーしました。");
       } catch (e) {
         this.notifyNegative(getFirestoreErrorMessage(e));
       }

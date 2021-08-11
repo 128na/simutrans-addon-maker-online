@@ -23,8 +23,9 @@
   </q-form>
 </template>
 <script>
-import { asyncTextReader } from "../../services/File";
 import LayoutBox from "../LayoutBox.vue";
+import { asyncTextReader } from "@/services/File";
+
 export default {
   components: { LayoutBox },
   emits: ["import"],

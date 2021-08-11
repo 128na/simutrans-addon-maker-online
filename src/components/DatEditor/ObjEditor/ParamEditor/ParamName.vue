@@ -12,11 +12,11 @@
   />
 </template>
 <script>
-import { required } from "@/services/Validator";
+import { filename, required } from "@/services/Validator";
 export default {
   props: ["modelValue"],
   computed: {
-    rules: () => [required],
+    rules: () => [required, filename],
     value: {
       get() {
         return this.modelValue.findParamByKey("name")?.value;

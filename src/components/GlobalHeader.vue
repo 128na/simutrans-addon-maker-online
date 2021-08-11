@@ -10,7 +10,6 @@
       >
         {{ title }}
       </q-toolbar-title>
-      <q-space />
       <theme-toggler />
     </q-toolbar>
   </q-header>
@@ -18,7 +17,9 @@
     <q-scroll-area class="fit">
       <q-list>
         <q-item>
-          {{ title }}
+          <q-item-section>
+            {{ title }}
+          </q-item-section>
         </q-item>
         <q-separator />
         <template v-for="(item, index) in menus">
@@ -69,9 +70,10 @@
   </q-drawer>
 </template>
 <script>
-import { themeControl } from "@/mixins";
-import { mapGetters } from "vuex";
 import ThemeToggler from "./ThemeToggler.vue";
+import { mapGetters } from "vuex";
+import { themeControl } from "@/mixins";
+
 export default {
   name: "GlobalHeader",
   components: { ThemeToggler },

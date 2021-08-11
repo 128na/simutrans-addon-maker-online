@@ -1,14 +1,10 @@
-// setup admin sdk
-const admin = require('firebase-admin');
-const serviceAccount = require("./addon-builder-firebase-adminsdk.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  storageBucket: 'addon-builder.appspot.com'
-});
+#!/usr/bin/env node
 
-const existsUid = require('./authentication');
-const mapAllFiles = require('./storage');
-const mapAllDocuments = require('./firestore');
+require('./src/setup');
+
+const { existsUid } = require('./src/authentication');
+const { mapAllFiles } = require('./src/storage');
+const { mapAllDocuments } = require('./src/firestore');
 
 // uidにマッチするユーザーが無いファイルを削除する
 const deleteMissingUserFile = async file => {

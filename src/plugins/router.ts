@@ -1,6 +1,6 @@
-import { createRouter, createWebHistory } from 'vue-router';
 import Signin from '@/views/Signin.vue';
 import store from './store';
+import { createRouter, createWebHistory } from 'vue-router';
 import { pageView } from './analytics';
 
 const routes = [

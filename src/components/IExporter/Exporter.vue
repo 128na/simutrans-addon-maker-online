@@ -3,6 +3,7 @@
 </template>
 <script>
 import { saveAs } from "file-saver";
+
 export default {
   props: ["data", "exportName"],
   methods: {

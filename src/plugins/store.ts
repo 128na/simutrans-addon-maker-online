@@ -1,13 +1,12 @@
 // https://next.vuex.vuejs.org/ja/guide/typescript-support.html
 
-import { createStore } from 'vuex'
-
-import firebase from "firebase";
-import { authProviders } from "@/firebase";
-import persister from "@/firebase/persister";
-import { signInWithPopup, linkWithPopup, unlinkWithPopup } from "@/services/ApiPortal";
-import { State, Project, Snippet, FBFile } from './interface';
 import filePersister from '@/firebase/filePersister';
+import firebase from "firebase";
+import persister from "@/firebase/persister";
+import { State, Project, Snippet, FBFile } from './interface';
+import { authProviders } from "@/firebase";
+import { createStore } from 'vuex'
+import { signInWithPopup, linkWithPopup, unlinkWithPopup } from "@/services/ApiPortal";
 
 const SET_USER = 'SET_USER';
 const SET_CREDENTIAL = 'SET_CREDENTIAL';
@@ -49,6 +48,7 @@ export default createStore<State>({
 
     files: state => state.files,
     fileLoaded: state => state.files !== undefined,
+    existsFile: state => (filename: string) => !!state.files?.find(f => f.filename === filename),
   },
   mutations: {
     [SET_USER](state, user) {

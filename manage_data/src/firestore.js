@@ -9,4 +9,4 @@ const mapAllDocuments = async (name, fn) => {
   }
 };
 
-module.exports = mapAllDocuments;
+module.exports = { mapAllDocuments };

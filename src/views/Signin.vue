@@ -16,14 +16,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import ButtonGoogle from "@/components/Buttons/ButtonGoogle.vue";
-import ButtonTwitter from "@/components/Buttons/ButtonTwitter.vue";
 import ButtonAnonymous from "@/components/Buttons/ButtonAnonymous.vue";
+import ButtonGoogle from "@/components/Buttons/ButtonGoogle.vue";
+import ButtonPortal from "@/components/Buttons/ButtonPortal.vue";
+import ButtonTwitter from "@/components/Buttons/ButtonTwitter.vue";
 import LayoutBox from "@/components/LayoutBox.vue";
 import TitleMain from "@/components/Text/TitleMain.vue";
-import ButtonPortal from "@/components/Buttons/ButtonPortal.vue";
-import { getFirebaseAuthErrorMessage } from "../services/ErrorMessages";
+import { getFirebaseAuthErrorMessage } from "@/services/ErrorMessages";
+import { mapActions } from "vuex";
+
 export default {
   name: "Signin",
   components: {

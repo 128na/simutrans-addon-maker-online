@@ -1,7 +1,7 @@
-import { storage } from ".";
 import firebase from "firebase";
 import { DateTime } from 'luxon';
 import { FBFile } from "@/plugins/interface";
+import { storage } from ".";
 
 class FilePersister {
   ref: firebase.storage.Reference;

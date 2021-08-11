@@ -1,41 +1,34 @@
 <template>
-  <div class="q-gutter-md row items-start">
-    <q-select
-      dense
-      use-input
-      use-chips
-      multiple
-      hide-hint
-      hide-bottom-space
-      input-debounce="0"
-      new-value-mode="add-unique"
-      class="col"
-      label="連結可能車両(前)"
-      v-model="constraintPrevs"
-      :options="options"
-      :rules="rules"
-      @filter="filter"
-    />
-    <q-select
-      dense
-      use-input
-      use-chips
-      multiple
-      hide-hint
-      hide-bottom-space
-      input-debounce="0"
-      new-value-mode="add-unique"
-      class="col"
-      label="連結可能車両(後)"
-      v-model="constraintNexts"
-      :options="options"
-      :rules="rules"
-      @filter="filter"
-    />
-  </div>
+  <q-select
+    dense
+    use-input
+    use-chips
+    multiple
+    hide-hint
+    hide-bottom-space
+    input-debounce="0"
+    new-value-mode="add-unique"
+    label="連結可能車両(前)"
+    v-model="constraintPrevs"
+    :options="options"
+    @filter="filter"
+  />
+  <q-select
+    dense
+    use-input
+    use-chips
+    multiple
+    hide-hint
+    hide-bottom-space
+    input-debounce="0"
+    new-value-mode="add-unique"
+    label="連結可能車両(後)"
+    v-model="constraintNexts"
+    :options="options"
+    @filter="filter"
+  />
 </template>
 <script>
-import {} from "@/services/Validator";
 const options = ["none"];
 
 export default {
@@ -46,7 +39,6 @@ export default {
     };
   },
   computed: {
-    rules: () => [],
     constraints() {
       return this.modelValue.findParamsByKeyVal("constraint");
     },
