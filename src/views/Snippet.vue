@@ -7,6 +7,7 @@
         outlined
         v-model="editing.data.title"
         label="テンプレート名"
+        :rules="titleRule"
       />
       <q-input
         dense
@@ -53,6 +54,7 @@ import { clone, equals } from "@/services/Object";
 import { confirmBeforeLeave } from "@/mixins";
 import { getFirestoreErrorMessage } from "@/services/ErrorMessages";
 import { mapActions, mapGetters } from "vuex";
+import { required } from "@/services/Validator";
 
 export default {
   components: {
@@ -99,6 +101,9 @@ export default {
     ...mapGetters(["snippetLoaded", "getSnippet"]),
     hasChanged() {
       return !equals(this.editing, this.original);
+    },
+    titleRule() {
+      return [required];
     },
   },
   methods: {

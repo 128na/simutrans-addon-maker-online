@@ -7,6 +7,7 @@
         outlined
         v-model="editing.data.title"
         label="プロジェクト名"
+        :rules="titleRule"
       />
       <q-input
         outlined
@@ -14,6 +15,7 @@
         v-model="editing.data.filename"
         label="アドオン名"
         hint="出力されるpakファイル名"
+        :rules="filenameRule"
       />
       <q-input
         outlined
@@ -89,6 +91,7 @@ import {
   getFirestoreErrorMessage,
   getPakErrorMessage,
 } from "@/services/ErrorMessages";
+import { filename, required } from "@/services/Validator";
 
 export default {
   components: {
@@ -144,6 +147,12 @@ export default {
         { value: null, label: "指定なし" },
         ...PAKSETS.filter((p) => p.size == this.editing.data.size),
       ];
+    },
+    titleRule() {
+      return [required];
+    },
+    filenameRule() {
+      return [required, filename];
     },
   },
   methods: {
