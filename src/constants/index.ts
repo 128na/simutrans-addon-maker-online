@@ -241,6 +241,33 @@ export const FREIGHTS = [
   { size: 128, pak: PAK_128JP, catg: 13, cat_name: '鮮魚', label: '魚（需要先へ、鮮魚）', name: 'fishB13', value: '0.42', speed_bonus: '8', weight_per_unit: '1000', metric: 'tonnen' },
 ];
 
+
+// 建物タイプ一覧
+export const TYPES = [
+  { value: 'res', label: '住宅用建築物' },
+  { value: 'com', label: '商業用建築物' },
+  { value: 'ind', label: '工業用建築物' },
+  { value: 'cur', label: '市内特殊建築物、観光名所' },
+  { value: 'mon', label: '記念碑' },
+  { value: 'tow', label: '役所' },
+  { value: 'hq', label: '本社' },
+  { value: 'stop', label: '駅・停留所' },
+  { value: 'extension', label: '駅舎' },
+  { value: 'depot', label: '車庫' },
+  { value: 'harbour', label: '港' },
+];
+// 建物タイプ一覧
+export const CLIMATES = [
+  { value: 'water', label: '沿岸' },
+  { value: 'desert', label: '砂漠気候' },
+  { value: 'tropic', label: '熱帯気候' },
+  { value: 'mediterran', label: '地中海気候' },
+  { value: 'temperate', label: '温帯気候' },
+  { value: 'tundra', label: 'ツンドラ気候' },
+  { value: 'rocky', label: '高地気候' },
+  { value: 'arctic', label: '極地気候' },
+];
+
 // dat書き出し時の項目ソート順定義
 export const SORT_KEYS: { [index: string]: number } = {
   // コメント

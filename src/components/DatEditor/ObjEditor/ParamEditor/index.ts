@@ -18,6 +18,12 @@ import ParamSound from "./ParamSound.vue";
 import ParamSpeed from "./ParamSpeed.vue";
 import ParamWayType from "./ParamWayType.vue";
 import ParamWeight from "./ParamWeight.vue";
+import ParamType from "./ParamType.vue";
+import ParamNoinfo from "./ParamNoinfo.vue";
+import ParamNoconstruction from "./ParamNoconstruction.vue";
+import ParamNeedsGround from "./ParamNeedsGround.vue";
+import ParamAnimationTime from "./ParamAnimationTime.vue";
+import ParamClimates from "./ParamClimates.vue";
 
 export default {
   ParamConstraint,
@@ -40,4 +46,10 @@ export default {
   ParamSpeed,
   ParamWayType,
   ParamWeight,
+  ParamType,
+  ParamNoinfo,
+  ParamNoconstruction,
+  ParamNeedsGround,
+  ParamAnimationTime,
+  ParamClimates,
 };

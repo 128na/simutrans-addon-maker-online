@@ -1,30 +1,30 @@
-No.	params	ObjVehicle	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding
-0	conditions	default	"type=res,com,ind"	"type=cur,mon"	type=tow	type=hq	type=stop	type=extension	type=deport	type=harbour
-1	name	o	o	o	o	o	o	o	o	o
-2	copyright	o	o	o	o	o	o	o	o	o
-3	way-type	o					o	o	o	
-4	intro-year	o	o	o	o	o	o	o	o	o
-5	intro-month	o	o	o	o	o	o	o	o	o
-6	retire-year	o	o	o	o	o	o	o	o	o
-7	retire-month	o	o	o	o	o	o	o	o	o
-8	noinfo		o	o	o	o	o	o	o	o
-9	noconstruction		o	o	o	o	o	o	o	o
-01	type		o	o	o	o	o	o	o	o
-11	needs_ground		o	o	o	o	o	o	o	o
-12	animation_time		o	o	o	o	o	o	o	o
-13	climates		o	o	o	o	o	o	o	o
-14	clusters		o							
-15	chance		o	o			o	o	o	
-16	level		o	o	o	o	o	o		o
-17	dims		o	o	o	o		o		
-18	build_time			o	o	o				
-19	passengers			o						
-20	hq_level					o				
-21	enables_pax						o	o		o
-22	enables_post						o	o		o
-23	enables_ware						o	o		o
-24	allow_underground						o			
-25	icon						o	o	o	o
-26	cursor						o	o	o	o
-27	backimage		o	o	o	o	o	o	o	o
-28	frontimage		o	o	o	o	o	o	o	o
+No.	params	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding
+0	conditions	"type=res,com,ind"	"type=cur,mon"	type=tow	type=hq	type=stop	type=extension	type=deport	type=harbour
+1	name	o	o	o	o	o	o	o	o
+2	copyright	o	o	o	o	o	o	o	o
+3	way-type					o	o	o	
+4	intro-year	o	o	o	o	o	o	o	o
+5	intro-month	o	o	o	o	o	o	o	o
+6	retire-year	o	o	o	o	o	o	o	o
+7	retire-month	o	o	o	o	o	o	o	o
+8	noinfo	o	o	o	o	o	o	o	o
+9	noconstruction	o	o	o	o	o	o	o	o
+1	type	o	o	o	o	o	o	o	o
+11	needs_ground	o	o	o	o	o	o	o	o
+12	animation_time	o	o	o	o	o	o	o	o
+13	climates	o	o	o	o	o	o	o	o
+14	clusters	o							
+15	chance	o	o			o	o	o	
+16	level	o	o	o	o	o	o		o
+17	dims	o	o	o	o		o		
+18	build_time		o	o	o				
+19	passengers		o						
+20	hq_level				o				
+21	enables_pax					o	o		o
+22	enables_post					o	o		o
+23	enables_ware					o	o		o
+24	allow_underground					o			
+25	icon					o	o	o	o
+26	cursor					o	o	o	o
+27	backimage	o	o	o	o	o	o	o	o
+28	frontimage	o	o	o	o	o	o	o	o
