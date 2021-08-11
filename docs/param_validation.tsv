@@ -1,8 +1,8 @@
-params	validation
+params	validation	memo
 name	required, filename
 copyright	required
-way-type	required, includes(WAYTYPES)
-engine-type	required, includes(ENGINE_TYPES)
+way-type	required, includes(WAYTYPES)	WAYTYPES=[road,track,air,water,monorail_track,maglev_track,tram_track,narrowgauge_track]
+engine-type	required, includes(ENGINE_TYPES)	ENGINE_TYPES=[steam,diesel,electric,bio,sail,fuel_cell,hydrogene,battery]
 speed	required, minEq(1), maxEq(65535)
 payload	minEq(1), maxEq(65535)
 weight	required, minEq(1), maxEq(65535)
@@ -21,23 +21,25 @@ retire-month	betweenEq(1, 12)
 constraint	-
 freight	required
 freightimagetype	-
-image	-
 noinfo	includes(0,1)
 noconstruction	includes(0,1)
 type	includes(BUILDING_TYPES)
+needs_ground	includes(0,1)
+animation_time	minEq(1)
+climates	every(includes(CLIMINATES), ',')	CLIMINATES=[water,desert,tropic,mediterran,temperate,tundra,rocky,arctic]
+clusters	every(betweenEq(0, 32), ',')
 chance	betweenEq(0, 100)
 level	minEq(0)
-needs_ground	includes(0,1)
-climates	includes(CLIMINATES)
 build_time	minEq(0), maxEq(65535)
-extension_building	includes(1)
+level	minEq(0)
+passengers	minEq(0)
+hq_level	minEq(0)
 enables_pax	includes(1)
 enables_post	includes(1)
 enables_ware	includes(1)
+allow_underground	includes(0,1,2)
 icon	-
 cursor	-
-animation_time	minEq(1)
-clusters	minEq(0), maxEq(32)
-BackImage	-
-FrontImage	-
-allow_underground	includes(0,1,2)
+image	-
+backimage	-
+frontimage	-

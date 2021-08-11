@@ -30,11 +30,10 @@ needs_ground		o	o	o	o	o	o	o	o
 animation_time		o	o	o	o	o	o	o	o
 climates		o	o	o	o	o	o	o	o
 clusters		o							
-
 chance		o	o			o	o	o	
 level		o	o	o	o	o	o		o
 build_time			o	o	o				
-Passengers			o						
+passengers			o						
 hq_level					o				
 enables_pax						o	o		o
 enables_post						o	o		o
@@ -42,5 +41,5 @@ enables_ware						o	o		o
 allow_underground						o			
 icon						o	o	o	o
 cursor						o	o	o	o
-BackImage		o	o	o	o	o	o	o	o
-FrontImage		o	o	o	o	o	o	o	o
+backimage		o	o	o	o	o	o	o	o
+frontimage		o	o	o	o	o	o	o	o

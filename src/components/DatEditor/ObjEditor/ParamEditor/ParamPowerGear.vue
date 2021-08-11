@@ -121,7 +121,7 @@
   </dialog-normal>
 </template>
 <script>
-import { minEq, maxSpeed, required } from "@/services/Validator";
+import { maxEq, minEq, maxSpeed, required } from "@/services/Validator";
 import { VehicleSpeed } from "@/services/Simutrans";
 import SpeedGraph from "@/components/Svg/SpeedGraph.vue";
 import DialogNormal from "@/components/DialogNormal.vue";
