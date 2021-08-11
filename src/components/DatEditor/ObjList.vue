@@ -1,13 +1,9 @@
 <template>
-  <q-splitter
-    v-model="splitter"
-    :horizontal="!vertical"
-    style="min-height: 30vh"
-  >
-    <template v-slot:before>
+  <vertical-splitter style="min-height: 30vh">
+    <template v-slot:before="slotProps">
       <q-tabs
         v-model="tab"
-        :vertical="vertical"
+        :vertical="slotProps.vertical"
         inline-label
         dense
         align="left"
@@ -27,12 +23,12 @@
       </q-tabs>
     </template>
 
-    <template v-slot:after>
+    <template v-slot:after="slotProps">
       <q-tab-panels
         v-model="tab"
         animated
         swipeable
-        :vertical="vertical"
+        :vertical="slotProps.vertical"
         transition-prev="jump-up"
         transition-next="jump-up"
       >
@@ -49,20 +45,20 @@
         </template>
       </q-tab-panels>
     </template>
-  </q-splitter>
+  </vertical-splitter>
 </template>
 <script>
 import ObjEditors from "./ObjEditor";
 import camelcase from "camelcase";
 import { Dat } from "@/services/Simutrans";
+import VerticalSplitter from "../VerticalSplitter.vue";
 
 export default {
-  components: { ...ObjEditors },
+  components: { VerticalSplitter, ...ObjEditors },
   props: ["project"],
   data() {
     return {
       tab: 0,
-      splitter: 20,
     };
   },
   methods: {
@@ -88,9 +84,6 @@ export default {
     },
     objIcons() {
       return OBJ_ICONS;
-    },
-    vertical() {
-      return ["sm", "md", "lg", "xl"].includes(this.$q.screen.name);
     },
   },
 };
