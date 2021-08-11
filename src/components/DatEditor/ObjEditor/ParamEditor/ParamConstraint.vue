@@ -11,7 +11,6 @@
     label="連結可能車両(前)"
     v-model="constraintPrevs"
     :options="options"
-    :rules="rules"
     @filter="filter"
   />
   <q-select
@@ -26,12 +25,10 @@
     label="連結可能車両(後)"
     v-model="constraintNexts"
     :options="options"
-    :rules="rules"
     @filter="filter"
   />
 </template>
 <script>
-import {} from "@/services/Validator";
 const options = ["none"];
 
 export default {
@@ -42,7 +39,6 @@ export default {
     };
   },
   computed: {
-    rules: () => [],
     constraints() {
       return this.modelValue.findParamsByKeyVal("constraint");
     },

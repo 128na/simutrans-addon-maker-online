@@ -13,12 +13,10 @@
     label="積載画像タイプ"
     v-model="value"
     :options="options"
-    :rules="rules"
     @filter="filter"
   />
 </template>
 <script>
-import { required } from "@/services/Validator";
 import { FREIGHTS } from "@/constants";
 
 const options = FREIGHTS.map((f) =>
@@ -37,7 +35,6 @@ export default {
     };
   },
   computed: {
-    rules: () => [required],
     value: {
       get() {
         return this.modelValue

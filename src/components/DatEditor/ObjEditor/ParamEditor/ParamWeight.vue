@@ -17,7 +17,7 @@ import { required, minEq, maxEq } from "@/services/Validator";
 export default {
   props: ["modelValue"],
   computed: {
-    rules: () => [required, maxEq(65535), minEq(0)],
+    rules: () => [required, maxEq(65535), minEq(1)],
     value: {
       get() {
         return this.modelValue.findParamByKey("weight")?.value;

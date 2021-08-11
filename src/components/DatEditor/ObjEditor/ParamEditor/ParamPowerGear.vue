@@ -12,7 +12,7 @@
       min="0"
       max="65535"
       v-model="power"
-      :rules="rules"
+      :rules="speedGearRules"
     />
     <q-input
       dense
@@ -25,7 +25,7 @@
       min="0"
       max="65535"
       v-model="gear"
-      :rules="rules"
+      :rules="speedGearRules"
     />
     <q-btn
       flat
@@ -50,7 +50,7 @@
           min="0"
           max="65535"
           v-model="speed"
-          :rules="rules"
+          :rules="speedRules"
         />
         <q-input
           dense
@@ -63,7 +63,7 @@
           min="0"
           max="65535"
           v-model="power"
-          :rules="rules"
+          :rules="speedGearRules"
         />
         <q-input
           dense
@@ -76,7 +76,7 @@
           min="0"
           max="65535"
           v-model="gear"
-          :rules="rules"
+          :rules="speedGearRules"
         />
         <q-input
           dense
@@ -88,7 +88,6 @@
           type="number"
           min="0"
           max="65535"
-          :rules="rules"
           v-model="additionalWeight"
         />
         <q-input
@@ -101,7 +100,7 @@
           type="number"
           min="0"
           max="65535"
-          :rules="rules"
+          :rules="weightRules"
           v-model="weight"
         />
         <q-input
@@ -115,14 +114,14 @@
           min="0"
           max="65535"
           v-model="vehicleSpeed.maxSpeed"
-          :rules="speedRules"
+          :rules="maxSpeedRules"
         />
       </q-card-section>
     </template>
   </dialog-normal>
 </template>
 <script>
-import { minEq, maxSpeed } from "@/services/Validator";
+import { minEq, maxSpeed, required } from "@/services/Validator";
 import { VehicleSpeed } from "@/services/Simutrans";
 import SpeedGraph from "@/components/Svg/SpeedGraph.vue";
 import DialogNormal from "@/components/DialogNormal.vue";
@@ -136,8 +135,10 @@ export default {
     };
   },
   computed: {
-    rules: () => [minEq(0)],
-    speedRules() {
+    speedGearRules: () => [minEq(1), maxEq(65535)],
+    speedRules: () => [required, minEq(1), maxEq(65535)],
+    weightRules: () => [required, minEq(1), maxEq(65535)],
+    maxSpeedRules() {
       return [maxSpeed(this.speed)];
     },
     speed: {

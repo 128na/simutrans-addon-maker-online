@@ -1,0 +1,24 @@
+params	ObjVehicle
+name	required, filename
+copyright	required
+way-type	required, includes(WAYTYPES)
+engine-type	required, includes(ENGINE_TYPES)
+speed	required, minEq(1), maxEq(65535)
+payload	minEq(1), maxEq(65535)
+weight	required, minEq(1), maxEq(65535)
+power	minEq(1), maxEq(65535)
+gear	minEq(1), maxEq(65535)
+cost	required, minEq(0)
+running-cost	required, minEq(0)
+length	required, betweenEq(1, 16)
+smoke	-
+sound	-
+loading-time	minEq(2000)
+intro-year	betweenEq(0, 2999)
+intro-month	betweenEq(1, 12)
+retire-year	betweenEq(0, 2999)
+retire-month	betweenEq(1, 12)
+constraint	-
+freight	required
+freightimagetype	-
+image	-

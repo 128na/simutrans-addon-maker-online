@@ -12,12 +12,10 @@
     label="煙"
     v-model="value"
     :options="options"
-    :rules="rules"
     @filter="filter"
   />
 </template>
 <script>
-import {} from "@/services/Validator";
 import { SMOKES } from "@/constants";
 const options = SMOKES.map((f) =>
   Object.create({
@@ -34,7 +32,6 @@ export default {
     };
   },
   computed: {
-    rules: () => [],
     value: {
       get() {
         return this.modelValue.findParamByKey("smoke")?.value;
