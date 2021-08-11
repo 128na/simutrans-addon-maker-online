@@ -1,45 +1,46 @@
-params	ObjVehicle	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding
-conditions	default	"type=res,com,ind"	"type=cur,mon"	type=tow	type=hq	type=stop	type=extension	type=deport	type=harbour
-name	o	o	o	o	o	o	o	o	o
-copyright	o	o	o	o	o	o	o	o	o
-way-type	o					o	o	o	
-engine-type	o								
-speed	o								
-payload	o								
-weight	o								
-power	o								
-gear	o								
-cost	o								
-running-cost	o								
-length	o								
-smoke	o								
-sound	o								
-loading-time	o								
-intro-year	o								
-intro-month	o								
-retire-year	o								
-retire-month	o								
-constraint	o								
-freight	o								
-freightimagetype	o								
-image	o								
-noinfo		o	o	o	o	o	o	o	o
-noconstruction		o	o	o	o	o	o	o	o
-type		o	o	o	o	o	o	o	o
-needs_ground		o	o	o	o	o	o	o	o
-animation_time		o	o	o	o	o	o	o	o
-climates		o	o	o	o	o	o	o	o
-clusters		o							
-chance		o	o			o	o	o	
-level		o	o	o	o	o	o		o
-build_time			o	o	o				
-passengers			o						
-hq_level					o				
-enables_pax						o	o		o
-enables_post						o	o		o
-enables_ware						o	o		o
-allow_underground						o			
-icon						o	o	o	o
-cursor						o	o	o	o
-backimage		o	o	o	o	o	o	o	o
-frontimage		o	o	o	o	o	o	o	o
+No.	params	ObjVehicle	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding
+0	conditions	default	"type=res,com,ind"	"type=cur,mon"	type=tow	type=hq	type=stop	type=extension	type=deport	type=harbour
+1	name	o	o	o	o	o	o	o	o	o
+2	copyright	o	o	o	o	o	o	o	o	o
+3	way-type	o					o	o	o	
+4	engine-type	o								
+5	speed	o								
+6	payload	o								
+7	weight	o								
+8	power	o								
+9	gear	o								
+10	cost	o								
+11	running-cost	o								
+12	length	o								
+13	smoke	o								
+14	sound	o								
+15	loading-time	o								
+16	intro-year	o								
+17	intro-month	o								
+18	retire-year	o								
+19	retire-month	o								
+20	constraint	o								
+21	freight	o								
+22	freightimagetype	o								
+23	image	o								
+24	noinfo		o	o	o	o	o	o	o	o
+25	noconstruction		o	o	o	o	o	o	o	o
+26	type		o	o	o	o	o	o	o	o
+27	needs_ground		o	o	o	o	o	o	o	o
+28	animation_time		o	o	o	o	o	o	o	o
+29	climates		o	o	o	o	o	o	o	o
+30	clusters		o							
+31	chance		o	o			o	o	o	
+32	level		o	o	o	o	o	o		o
+33	dims		o	o	o	o		o		
+34	build_time			o	o	o				
+35	passengers			o						
+36	hq_level					o				
+37	enables_pax						o	o		o
+38	enables_post						o	o		o
+39	enables_ware						o	o		o
+40	allow_underground						o			
+41	icon						o	o	o	o
+42	cursor						o	o	o	o
+43	backimage		o	o	o	o	o	o	o	o
+44	frontimage		o	o	o	o	o	o	o	o
