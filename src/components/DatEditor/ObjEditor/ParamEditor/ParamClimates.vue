@@ -13,23 +13,15 @@
 </template>
 <script>
 import { CLIMATES } from "@/constants";
-const options = CLIMATES.map((t) =>
+const options = CLIMATES.map((c) =>
   Object.create({
-    value: t.value,
-    label: `${t.label} (${t.value})`,
+    value: c.value,
+    label: `${c.label} (${c.value})`,
   })
 );
 export default {
   props: ["modelValue", "project"],
-  data() {
-    return {
-      options: options,
-    };
-  },
   computed: {
-    rules() {
-      return [required, includes(this.options.map((o) => o.value))];
-    },
     options: () => options,
     value: {
       get() {

@@ -256,7 +256,8 @@ export const TYPES = [
   { value: 'depot', label: '車庫' },
   { value: 'harbour', label: '港' },
 ];
-// 建物タイプ一覧
+
+// 気候一覧
 export const CLIMATES = [
   { value: 'water', label: '沿岸' },
   { value: 'desert', label: '砂漠気候' },
