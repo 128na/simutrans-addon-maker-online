@@ -1,5 +1,6 @@
 import { SORT_KEYS } from "@/constants";
 import { Param } from "./Simutrans";
+import { DateTime } from 'luxon';
 
 export const sortAsNumber = (a: string, b: string) => Number(a) - Number(b);
 
@@ -11,3 +12,7 @@ export const sortForParam = (a: Param, b: Param) => {
   ];
   return oa - ob;
 }
+
+// sort by updatedAt desc.
+export const sortForFile = (a: { updatedAt: string }, b: { updatedAt: string }) =>
+  DateTime.fromHTTP(b.updatedAt).diff(DateTime.fromHTTP(a.updatedAt), 'seconds').seconds
