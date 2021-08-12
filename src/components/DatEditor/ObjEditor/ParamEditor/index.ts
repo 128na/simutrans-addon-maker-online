@@ -25,6 +25,16 @@ import ParamNeedsGround from "./ParamNeedsGround.vue";
 import ParamAnimationTime from "./ParamAnimationTime.vue";
 import ParamClimates from "./ParamClimates.vue";
 import ParamClusters from "./ParamClusters.vue";
+import ParamChance from "./ParamChance.vue";
+import ParamLevel from "./ParamLevel.vue";
+import ParamBuildTime from "./ParamBuildTime.vue";
+import ParamPassengers from "./ParamPassengers.vue";
+
+import ParamHqLevel from "./ParamHqLevel.vue";
+import ParamEnablesPax from "./ParamEnablesPax.vue";
+import ParamEnablesPost from "./ParamEnablesPost.vue";
+import ParamEnablesWare from "./ParamEnablesWare.vue";
+import ParamAllowUnderground from "./ParamAllowUnderground.vue";
 
 export default {
   ParamConstraint,
@@ -54,4 +64,13 @@ export default {
   ParamAnimationTime,
   ParamClimates,
   ParamClusters,
+  ParamChance,
+  ParamLevel,
+  ParamBuildTime,
+  ParamPassengers,
+  ParamHqLevel,
+  ParamEnablesPax,
+  ParamEnablesPost,
+  ParamEnablesWare,
+  ParamAllowUnderground,
 };

@@ -269,6 +269,12 @@ export const CLIMATES = [
   { value: 'arctic', label: '極地気候' },
 ];
 
+export const ALLOW_UNDERGROUNDS = [
+  { value: '0', label: '地上のみ' },
+  { value: '1', label: '地下のみ' },
+  { value: '2', label: '地上と地下' },
+];
+
 
 interface ParamSortKeys {
   [index: string]: number

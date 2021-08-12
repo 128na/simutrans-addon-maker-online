@@ -5,7 +5,7 @@
     hide-bottom-space
     input-debounce="0"
     emit-value
-    label="軌道タイプ"
+    label="地下での建設"
     v-model="value"
     :options="options"
     :rules="rules"
@@ -13,11 +13,11 @@
 </template>
 <script>
 import { required, includes } from "@/services/Validator";
-import { WAYTYPES } from "@/constants";
-const options = WAYTYPES.map((wt) =>
+import { ALLOW_UNDERGROUNDS } from "@/constants";
+const options = ALLOW_UNDERGROUNDS.map((ug) =>
   Object.create({
-    value: wt.value,
-    label: `${wt.label} (${wt.value})`,
+    value: ug.value,
+    label: `${ug.label} (${ug.value})`,
   })
 );
 export default {
@@ -29,10 +29,10 @@ export default {
     options: () => options,
     value: {
       get() {
-        return this.modelValue.findParamByKey("waytype")?.value;
+        return this.modelValue.findParamByKey("allow_underground")?.value;
       },
       set(v) {
-        this.modelValue.updateOrCreate("waytype", v);
+        this.modelValue.updateOrCreate("allow_underground", v);
         this.$emit("update:modelValue");
       },
     },

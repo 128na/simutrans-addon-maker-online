@@ -13,18 +13,17 @@
 
     <param-way-type v-model="obj" />
     <param-clusters v-model="obj" />
+    <param-chance v-model="obj" />
+    <param-level v-model="obj" />
+    <param-build-time v-model="obj" />
+    <param-passengers v-model="obj" />
+    <param-hq-level v-model="obj" />
+    <param-enables-pax v-model="obj" />
+    <param-enables-post v-model="obj" />
+    <param-enables-ware v-model="obj" />
+    <param-allow-underground v-model="obj" />
 
-    <!-- clusters -->
-    <!-- chance -->
-    <!-- level -->
     <!-- dims -->
-    <!-- build_time -->
-    <!-- passengers -->
-    <!-- hq_level -->
-    <!-- enables_pax -->
-    <!-- enables_post -->
-    <!-- enables_ware -->
-    <!-- allow_underground -->
     <!-- icon -->
     <!-- cursor -->
     <!-- backimage -->

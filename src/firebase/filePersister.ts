@@ -26,7 +26,6 @@ class FilePersister {
       };
     }));
 
-    // sort by updatedAt desc.
     files.sort(sortForFile);
 
     return files;
