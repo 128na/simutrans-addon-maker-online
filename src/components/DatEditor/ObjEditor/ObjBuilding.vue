@@ -22,8 +22,8 @@
     <param-enables-post v-model="obj" />
     <param-enables-ware v-model="obj" />
     <param-allow-underground v-model="obj" />
+    <param-dims v-model="obj" />
 
-    <!-- dims -->
     <!-- icon -->
     <!-- cursor -->
     <!-- backimage -->

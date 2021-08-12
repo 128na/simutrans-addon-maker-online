@@ -35,6 +35,7 @@ import ParamEnablesPax from "./ParamEnablesPax.vue";
 import ParamEnablesPost from "./ParamEnablesPost.vue";
 import ParamEnablesWare from "./ParamEnablesWare.vue";
 import ParamAllowUnderground from "./ParamAllowUnderground.vue";
+import ParamDims from "./ParamDims.vue";
 
 export default {
   ParamConstraint,
@@ -73,4 +74,5 @@ export default {
   ParamEnablesPost,
   ParamEnablesWare,
   ParamAllowUnderground,
+  ParamDims,
 };
