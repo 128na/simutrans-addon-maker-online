@@ -11,8 +11,8 @@
     <param-noconstruction v-model="obj" />
     <param-needs-ground v-model="obj" />
 
-    <!-- stop -->
     <param-way-type v-model="obj" />
+    <param-clusters v-model="obj" />
 
     <!-- clusters -->
     <!-- chance -->

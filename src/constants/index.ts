@@ -269,8 +269,13 @@ export const CLIMATES = [
   { value: 'arctic', label: '極地気候' },
 ];
 
+
+interface ParamSortKeys {
+  [index: string]: number
+}
+
 // dat書き出し時の項目ソート順定義
-export const SORT_KEYS: { [index: string]: number } = {
+export const SORT_KEYS: ParamSortKeys = {
   // コメント
   comment: 0,
   // 不明

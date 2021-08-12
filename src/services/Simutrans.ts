@@ -1,4 +1,4 @@
-import { SORT_KEYS } from "@/constants";
+import { sortForParam } from './Sort';
 
 const IMAGEABLE_KEYS: string[] = [
   "icon",
@@ -118,27 +118,19 @@ export class Obj {
   }
 
   toString(): string {
-    this._params.sort(comp);
+    this._params.sort(sortForParam);
     return this._params
       .filter(p => !p.isEmpty)
       .map(p => p.toString())
       .join("\n");
   }
 }
-// datテキストソート基準
-function comp(a: Param, b: Param): number {
-  const [oa, ob] = [
-    a.isComment ? SORT_KEYS.comment : SORT_KEYS[a.keyVal] || SORT_KEYS.unknown,
-    b.isComment ? SORT_KEYS.comment : SORT_KEYS[b.keyVal] || SORT_KEYS.unknown
-  ];
-  return oa - ob;
-}
 
 /**
  * dat記述の1行
  * foo=bar
  */
-class Param {
+export class Param {
   _key: Key;
   _operator: string;
   _value: Value;

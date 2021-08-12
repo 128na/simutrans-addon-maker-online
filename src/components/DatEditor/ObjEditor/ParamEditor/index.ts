@@ -24,6 +24,7 @@ import ParamNoconstruction from "./ParamNoconstruction.vue";
 import ParamNeedsGround from "./ParamNeedsGround.vue";
 import ParamAnimationTime from "./ParamAnimationTime.vue";
 import ParamClimates from "./ParamClimates.vue";
+import ParamClusters from "./ParamClusters.vue";
 
 export default {
   ParamConstraint,
@@ -52,4 +53,5 @@ export default {
   ParamNeedsGround,
   ParamAnimationTime,
   ParamClimates,
+  ParamClusters,
 };

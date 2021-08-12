@@ -28,6 +28,7 @@ export default {
         return this.modelValue.findParamByKey("climates")?.value.split(",");
       },
       set(v) {
+        v.sort();
         this.modelValue.updateOrCreate("climates", v.join(","));
         this.$emit("update:modelValue");
       },
