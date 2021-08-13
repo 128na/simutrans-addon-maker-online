@@ -27,7 +27,7 @@ export default {
     },
     value: {
       get() {
-        return this.modelValue.findParamByKey("clusters")?.value.split(",");
+        return this.modelValue.findParam("clusters")?.value.split(",");
       },
       set(v) {
         v.sort(sortAsNumber);

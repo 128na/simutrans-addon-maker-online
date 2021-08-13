@@ -18,7 +18,7 @@ export default {
     rules: () => [required],
     value: {
       get() {
-        return this.modelValue.findParamByKey("copyright")?.value;
+        return this.modelValue.findParam("copyright")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("copyright", v);

@@ -18,7 +18,7 @@ export default {
     rules: () => [minEq(0), maxEq(65535)],
     value: {
       get() {
-        return this.modelValue.findParamByKey("passengers")?.value;
+        return this.modelValue.findParam("passengers")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("passengers", v);

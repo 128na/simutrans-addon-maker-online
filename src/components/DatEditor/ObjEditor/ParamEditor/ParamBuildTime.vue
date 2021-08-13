@@ -19,7 +19,7 @@ export default {
     rules: () => [minEq(0), maxEq(65535)],
     value: {
       get() {
-        return this.modelValue.findParamByKey("build_time")?.value;
+        return this.modelValue.findParam("build_time")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("build_time", v);

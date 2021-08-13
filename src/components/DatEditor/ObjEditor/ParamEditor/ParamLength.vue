@@ -19,7 +19,7 @@ export default {
     rules: () => [required, betweenEq(1, 16)],
     value: {
       get() {
-        return this.modelValue.findParamByKey("length")?.value;
+        return this.modelValue.findParam("length")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("length", v);

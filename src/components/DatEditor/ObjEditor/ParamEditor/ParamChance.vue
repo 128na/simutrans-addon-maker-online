@@ -21,7 +21,7 @@ export default {
     rules: () => [required, betweenEq(1, 100)],
     value: {
       get() {
-        return this.modelValue.findParamByKey("chance")?.value;
+        return this.modelValue.findParam("chance")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("chance", v);

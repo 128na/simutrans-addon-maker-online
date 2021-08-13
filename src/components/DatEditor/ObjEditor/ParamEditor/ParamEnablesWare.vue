@@ -17,7 +17,7 @@ export default {
   computed: {
     value: {
       get() {
-        return this.modelValue.findParamByKey("enables_ware")?.value || "";
+        return this.modelValue.findParam("enables_ware")?.value || "";
       },
       set(v) {
         this.modelValue.updateOrCreate("enables_ware", v);

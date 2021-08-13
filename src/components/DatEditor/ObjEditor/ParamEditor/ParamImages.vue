@@ -87,25 +87,25 @@ export default {
       return this.x !== null || this.needY;
     },
     itemX() {
-      return [...Array(1 + this.x)].map((_, i) => i);
+      return [...Array(Math.max(1, this.x))].map((_, i) => i);
     },
     needY() {
       return this.y !== null || this.needH;
     },
     itemY() {
-      return [...Array(1 + this.y)].map((_, i) => i);
+      return [...Array(Math.max(1, this.y))].map((_, i) => i);
     },
     needH() {
       return this.h !== null || this.needA;
     },
     itemH() {
-      return [...Array(1 + this.h)].map((_, i) => i);
+      return [...Array(Math.max(1, this.h))].map((_, i) => i);
     },
     needA() {
       return this.animation !== null || this.needS;
     },
     itemA() {
-      return [...Array(1 + this.animation)].map((_, i) => i);
+      return [...Array(Math.max(1, this.animation))].map((_, i) => i);
     },
     needS() {
       return this.snow;

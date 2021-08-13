@@ -39,6 +39,7 @@ import ParamDims from "./ParamDims.vue";
 import ParamIcon from "./ParamIcon.vue";
 import ParamCursor from "./ParamCursor.vue";
 import ParamVehicleImages from "./ParamVehicleImages.vue";
+import ParamBuildingImages from "./ParamBuildingImages.vue";
 
 export default {
   ParamConstraint,
@@ -81,4 +82,5 @@ export default {
   ParamIcon,
   ParamCursor,
   ParamVehicleImages,
+  ParamBuildingImages,
 };

@@ -28,7 +28,7 @@ export default {
     options: () => options,
     value: {
       get() {
-        return this.modelValue.findParamByKey("type")?.value;
+        return this.modelValue.findParam("type")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("type", v);

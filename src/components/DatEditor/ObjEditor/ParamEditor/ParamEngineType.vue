@@ -29,7 +29,7 @@ export default {
     options: () => options,
     value: {
       get() {
-        return this.modelValue.findParamByKey("engine_type")?.value;
+        return this.modelValue.findParam("engine_type")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("engine_type", v);

@@ -16,7 +16,7 @@
       :label="keyName"
     >
       <template v-slot:prepend v-if="icon">
-        <q-icon :name="icon" />
+        <q-icon :name="icon" @click.prevent="handleDialog" />
       </template>
       <template v-slot:after>
         <q-btn flat color="secondary" icon="edit" @click="handleDialog" />
@@ -25,6 +25,7 @@
   </div>
   <dialog-normal v-model="dialog">
     <template v-slot:header>
+      <q-icon :name="icon" />
       {{ keyName }}
     </template>
     <template v-slot:default>
@@ -152,7 +153,7 @@ export default {
       );
     },
     param() {
-      return this.modelValue.findParamByKey(this.keyName);
+      return this.modelValue.findParamStartsWidth(this.keyName);
     },
     value: {
       get() {

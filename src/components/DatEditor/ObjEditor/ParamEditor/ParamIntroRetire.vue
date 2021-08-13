@@ -69,7 +69,7 @@ export default {
     monthRules: () => [betweenEq(1, 12)],
     introYear: {
       get() {
-        return this.modelValue.findParamByKey("intro_year")?.value;
+        return this.modelValue.findParam("intro_year")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("intro_year", v);
@@ -78,7 +78,7 @@ export default {
     },
     introMonth: {
       get() {
-        return this.modelValue.findParamByKey("intro_month")?.value;
+        return this.modelValue.findParam("intro_month")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("intro_month", v);
@@ -87,7 +87,7 @@ export default {
     },
     retireYear: {
       get() {
-        return this.modelValue.findParamByKey("retire_year")?.value;
+        return this.modelValue.findParam("retire_year")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("retire_year", v);
@@ -96,7 +96,7 @@ export default {
     },
     retireMonth: {
       get() {
-        return this.modelValue.findParamByKey("retire_month")?.value;
+        return this.modelValue.findParam("retire_month")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("retire_month", v);

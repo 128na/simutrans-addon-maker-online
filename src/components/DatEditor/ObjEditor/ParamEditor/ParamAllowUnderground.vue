@@ -29,7 +29,7 @@ export default {
     options: () => options,
     value: {
       get() {
-        return this.modelValue.findParamByKey("allow_underground")?.value;
+        return this.modelValue.findParam("allow_underground")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("allow_underground", v);

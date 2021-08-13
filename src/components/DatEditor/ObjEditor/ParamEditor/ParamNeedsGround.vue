@@ -15,7 +15,7 @@ export default {
   computed: {
     value: {
       get() {
-        return this.modelValue.findParamByKey("needs_ground")?.value || "";
+        return this.modelValue.findParam("needs_ground")?.value || "";
       },
       set(v) {
         this.modelValue.updateOrCreate("needs_ground", v);

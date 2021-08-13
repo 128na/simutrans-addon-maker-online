@@ -16,7 +16,7 @@ export default {
   computed: {
     value: {
       get() {
-        return this.modelValue.findParamByKey("sound")?.value;
+        return this.modelValue.findParam("sound")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("sound", v);

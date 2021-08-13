@@ -20,7 +20,7 @@ export default {
     rules: () => [maxEq(65535), minEq(1)],
     value: {
       get() {
-        return this.modelValue.findParamByKey("payload")?.value;
+        return this.modelValue.findParam("payload")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("payload", v);

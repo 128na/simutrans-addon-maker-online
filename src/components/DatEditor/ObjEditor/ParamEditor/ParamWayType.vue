@@ -29,7 +29,7 @@ export default {
     options: () => options,
     value: {
       get() {
-        return this.modelValue.findParamByKey("waytype")?.value;
+        return this.modelValue.findParam("waytype")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("waytype", v);

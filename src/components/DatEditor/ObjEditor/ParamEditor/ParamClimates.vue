@@ -25,7 +25,7 @@ export default {
     options: () => options,
     value: {
       get() {
-        return this.modelValue.findParamByKey("climates")?.value.split(",");
+        return this.modelValue.findParam("climates")?.value.split(",");
       },
       set(v) {
         v.sort();

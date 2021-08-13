@@ -17,7 +17,7 @@ export default {
   computed: {
     value: {
       get() {
-        return this.modelValue.findParamByKey("noinfo")?.value || "";
+        return this.modelValue.findParam("noinfo")?.value || "";
       },
       set(v) {
         this.modelValue.updateOrCreate("noinfo", v);

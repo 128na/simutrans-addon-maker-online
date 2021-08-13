@@ -23,9 +23,6 @@
     <param-enables-ware v-model="obj" />
     <param-allow-underground v-model="obj" />
     <param-dims v-model="obj" />
-
-    <!-- backimage -->
-    <!-- frontimage -->
   </div>
   <h6>その他</h6>
   <div class="q-ml-md"></div>
@@ -33,6 +30,7 @@
   <div class="q-ml-md">
     <param-icon v-model="obj" :project="project" />
     <param-cursor v-model="obj" :project="project" />
+    <param-building-images v-model="obj" :project="project" />
   </div>
 </template>
 <script>
@@ -55,7 +53,7 @@ export default {
   },
   computed: {
     type() {
-      return this.obj.findParamByKey("type")?.value;
+      return this.obj.findParam("type")?.value;
     },
     imageNames() {
       return ["emptyimage"];

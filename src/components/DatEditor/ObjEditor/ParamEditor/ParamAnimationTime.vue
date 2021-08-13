@@ -20,7 +20,7 @@ export default {
     rules: () => [minEq(1)],
     value: {
       get() {
-        return this.modelValue.findParamByKey("animation_time")?.value;
+        return this.modelValue.findParam("animation_time")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("animation_time", v);

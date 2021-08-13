@@ -73,7 +73,7 @@ export default {
     vehicles() {
       return this.dat
         .findObjs("obj", "vehicle")
-        .map((obj) => obj.findParamByKey("name")?.value)
+        .map((obj) => obj.findParam("name")?.value)
         .filter((v) => v);
     },
   },

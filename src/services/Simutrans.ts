@@ -61,7 +61,7 @@ export class Dat {
 
   findObjs(key: string, value: string): Obj[] {
     return this._objs
-      .filter(o => o.findParamByKey(key)?.value === value);
+      .filter(o => o.findParam(key)?.value === value);
   }
 
   toString(): string {
@@ -87,7 +87,7 @@ export class Obj {
       .map(l => new Param(l));
   }
   updateOrCreate(key: string, value: string, operator = '=') {
-    const param = this.findParamByKey(key);
+    const param = this.findParam(key);
     if (param) {
       param.value = value;
       param._operator = operator;
@@ -101,19 +101,22 @@ export class Obj {
   }
 
   get obj(): string | undefined {
-    return this.findParamByKey('obj')?.valueVal;
+    return this.findParam('obj')?.valueVal;
   }
   get name(): string | undefined {
-    return this.findParamByKey('name')?.valueVal;
+    return this.findParam('name')?.valueVal;
   }
 
   findParamsByKeyVal(keyVal: string): Param[] {
     return this._params.filter(p => p.keyVal === keyVal);
   }
-  findParamByKey(key: string): Param | undefined {
+  findParam(key: string): Param | undefined {
     return this._params.find(p => p.key === key);
   }
-  findParamByKeyParams(keyVal: string, keyParams: string[]): Param | undefined {
+  findParamStartsWidth(key: string): Param | undefined {
+    return this._params.find(p => p.key.startsWith(key));
+  }
+  findParamParams(keyVal: string, keyParams: string[]): Param | undefined {
     return this._params
       .find(p => p.keyVal === keyVal && keyParams.every((kp, i) => (kp == p.keyParams[i])));
   }

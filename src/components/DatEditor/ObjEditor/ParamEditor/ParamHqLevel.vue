@@ -18,7 +18,7 @@ export default {
     rules: () => [required, minEq(0)],
     value: {
       get() {
-        return this.modelValue.findParamByKey("hq_level")?.value;
+        return this.modelValue.findParam("hq_level")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("hq_level", v);

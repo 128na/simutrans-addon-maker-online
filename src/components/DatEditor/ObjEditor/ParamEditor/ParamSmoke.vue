@@ -34,7 +34,7 @@ export default {
   computed: {
     value: {
       get() {
-        return this.modelValue.findParamByKey("smoke")?.value;
+        return this.modelValue.findParam("smoke")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("smoke", v);

@@ -38,7 +38,7 @@ export default {
     rules: () => [required],
     value: {
       get() {
-        return this.modelValue.findParamByKey("freight")?.value;
+        return this.modelValue.findParam("freight")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("freight", v);

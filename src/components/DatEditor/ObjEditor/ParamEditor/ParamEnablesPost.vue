@@ -17,7 +17,7 @@ export default {
   computed: {
     value: {
       get() {
-        return this.modelValue.findParamByKey("enables_post")?.value || "";
+        return this.modelValue.findParam("enables_post")?.value || "";
       },
       set(v) {
         this.modelValue.updateOrCreate("enables_post", v);

@@ -17,7 +17,7 @@ export default {
   computed: {
     value: {
       get() {
-        return this.modelValue.findParamByKey("enables_pax")?.value || "";
+        return this.modelValue.findParam("enables_pax")?.value || "";
       },
       set(v) {
         this.modelValue.updateOrCreate("enables_pax", v);

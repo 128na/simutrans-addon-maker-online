@@ -126,7 +126,7 @@
 </template>
 <script>
 import DialogNormal from "@/components/DialogNormal.vue";
-import { ltEq, minEq, required } from "@/services/Validator";
+import { includes, ltEq, minEq, required } from "@/services/Validator";
 import { createArray } from "@/services/Array";
 
 export default {
@@ -150,11 +150,11 @@ export default {
       return [required, minEq(1), ltEq(this.x)];
     },
     layoutRule() {
-      return [required, minEq(1)];
+      return [required, minEq(1), includes(["1", "2", "4", "8", "16"])];
     },
     value: {
       get() {
-        return this.modelValue.findParamByKey("dims")?.value.split(",") || [];
+        return this.modelValue.findParam("dims")?.value.split(",") || [];
       },
       set(v) {
         this.modelValue.updateOrCreate("dims", v.join(","));
