@@ -3,11 +3,11 @@
     <param-image
       :param="imageParam.param"
       :label="imageParam.label"
-      :value="imageParam.value"
+      :modelValue="imageParam.value"
       :icon="imageParam.icon"
       :isStatic="isStatic"
       :project="project"
-      @update="handleUpdate(imageParam.label, $event)"
+      @update:modelValue="handleUpdate(imageParam.label, $event)"
     />
   </template>
 </template>

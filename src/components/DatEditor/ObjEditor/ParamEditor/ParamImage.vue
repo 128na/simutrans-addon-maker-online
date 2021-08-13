@@ -7,9 +7,9 @@
       dense
       class="q-mt-none"
       :class="inputClass"
-      :model-value="value"
+      :model-value="modelValue"
       :label="label"
-      @update:model-value="$emit('update', $event)"
+      @update:model-value="$emit('update:modelValue', $event)"
     >
       <template v-slot:prepend v-if="icon">
         <q-icon :name="icon" />
@@ -95,8 +95,7 @@ import ImagePreview from "./ImagePreview.vue";
 import DialogNormal from "@/components/DialogNormal.vue";
 export default {
   components: { ImagePreview, DialogNormal },
-  props: ["param", "label", "value", "isStatic", "project", "icon"],
-  emits: ["update"],
+  props: ["param", "label", "modelValue", "isStatic", "project", "icon"],
   data() {
     return {
       dialog: false,
@@ -107,7 +106,7 @@ export default {
       this.dialog = true;
     },
     handleMove(x, y) {
-      this.$emit("update", this.toValue(x, y));
+      this.$emit("update:modelValue", this.toValue(x, y));
     },
     toValue(x, y, ox = null, oy = null) {
       const p = this.param;
@@ -145,7 +144,7 @@ export default {
         return this.param?.valueVal;
       },
       set(v) {
-        this.$emit("update", `${v}.0.0`);
+        this.$emit("update:modelValue", `${v}${this.paramString}`);
       },
     },
     x() {
@@ -159,7 +158,7 @@ export default {
         return this.param?.valueParams[2] || 0;
       },
       set(v) {
-        this.$emit("update", this.toValue(0, 0, Number(v), null));
+        this.$emit("update:modelValue", this.toValue(0, 0, Number(v), null));
       },
     },
     offsetY: {
@@ -167,7 +166,7 @@ export default {
         return this.param?.valueParams[3] || 0;
       },
       set(v) {
-        this.$emit("update", this.toValue(0, 0, null, Number(v)));
+        this.$emit("update:modelValue", this.toValue(0, 0, null, Number(v)));
       },
     },
   },
