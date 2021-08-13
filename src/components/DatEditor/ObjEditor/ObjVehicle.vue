@@ -40,7 +40,7 @@
     <param-images
       v-model="obj"
       :project="project"
-      :imageNames="['emptyimage']"
+      :keyNames="['emptyimage']"
       :directions="directions"
       icon="svguse:/img/vehicle.svg"
     />
@@ -48,7 +48,7 @@
       v-if="freightimagetypes"
       v-model="obj"
       :project="project"
-      :imageNames="['freightimage']"
+      :keyNames="['freightimage']"
       :directions="directions"
       :x="freightimagetypes - 1"
       icon="svguse:/img/vehicle.svg"
@@ -69,7 +69,7 @@ export default {
     },
   },
   computed: {
-    imageNames() {
+    keyNames() {
       return ["emptyimage"];
     },
     directions() {

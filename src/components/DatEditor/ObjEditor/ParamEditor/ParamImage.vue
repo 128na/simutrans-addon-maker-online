@@ -6,10 +6,9 @@
     <q-input
       dense
       class="q-mt-none"
+      v-model="value"
       :class="inputClass"
-      :model-value="modelValue"
-      :label="label"
-      @update:model-value="$emit('update:modelValue', $event)"
+      :label="keyName"
     >
       <template v-slot:prepend v-if="icon">
         <q-icon :name="icon" />
@@ -21,7 +20,7 @@
   </div>
   <dialog-normal v-model="dialog">
     <template v-slot:header>
-      {{ label }}
+      {{ keyName }}
     </template>
     <template v-slot:default>
       <q-card-section>
@@ -95,7 +94,7 @@ import ImagePreview from "./ImagePreview.vue";
 import DialogNormal from "@/components/DialogNormal.vue";
 export default {
   components: { ImagePreview, DialogNormal },
-  props: ["param", "label", "modelValue", "isStatic", "project", "icon"],
+  props: ["modelValue", "keyName", "project", "icon", "isStatic"],
   data() {
     return {
       dialog: false,
@@ -105,8 +104,16 @@ export default {
     handleDialog() {
       this.dialog = true;
     },
+    handleUpdate(value) {
+      this.modelValue.updateOrCreate(
+        this.keyName,
+        value,
+        this.isStatic ? "=> " : "="
+      );
+      this.$emit("update:modelValue");
+    },
     handleMove(x, y) {
-      this.$emit("update:modelValue", this.toValue(x, y));
+      this.handleUpdate(this.toValue(x, y));
     },
     toValue(x, y, ox = null, oy = null) {
       const p = this.param;
@@ -139,12 +146,23 @@ export default {
         i.filename.replace(".png", "")
       );
     },
+    param() {
+      return this.modelValue.findParamByKey(this.keyName);
+    },
+    value: {
+      get() {
+        return this.param?.value;
+      },
+      set(v) {
+        this.handleUpdate(v);
+      },
+    },
     image: {
       get() {
         return this.param?.valueVal;
       },
       set(v) {
-        this.$emit("update:modelValue", `${v}${this.paramString}`);
+        this.handleUpdate(`${v}${this.paramString}`);
       },
     },
     x() {
@@ -158,7 +176,7 @@ export default {
         return this.param?.valueParams[2] || 0;
       },
       set(v) {
-        this.$emit("update:modelValue", this.toValue(0, 0, Number(v), null));
+        this.handleUpdate(this.toValue(0, 0, Number(v), null));
       },
     },
     offsetY: {
@@ -166,7 +184,7 @@ export default {
         return this.param?.valueParams[3] || 0;
       },
       set(v) {
-        this.$emit("update:modelValue", this.toValue(0, 0, null, Number(v)));
+        this.handleUpdate(this.toValue(0, 0, null, Number(v)));
       },
     },
   },

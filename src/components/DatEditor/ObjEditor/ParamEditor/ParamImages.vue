@@ -1,13 +1,12 @@
 <template>
   <template v-for="imageParam in imageParams">
     <param-image
-      :param="imageParam.param"
-      :label="imageParam.label"
-      :modelValue="imageParam.value"
+      v-model="modelValue"
+      :keyName="imageParam.keyName"
+      :project="project"
       :icon="imageParam.icon"
       :isStatic="isStatic"
-      :project="project"
-      @update:modelValue="handleUpdate(imageParam.label, $event)"
+      @update:modelValue="$emit('update:modelValue')"
     />
   </template>
 </template>
@@ -22,7 +21,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    imageNames: {
+    keyNames: {
       type: Array,
       default: () => ["image"],
     },
@@ -62,14 +61,10 @@ export default {
       const p = keyParams.map((p) => `[${p}]`).join("");
       return `${keyVal}${p}`;
     },
-    handleUpdate(key, value) {
-      this.modelValue.updateOrCreate(key, value, this.isStatic ? "=> " : "=");
-      this.$emit("update:modelValue");
-    },
   },
   computed: {
     imageParams() {
-      return this.imageNames
+      return this.keyNames
         .map((n) => [n])
         .flatMap((l) => this.directions.map((d) => [...l, d]))
         .flatMap((l) => (this.needX ? this.itemX.map((i) => [...l, i]) : [l]))
@@ -80,14 +75,10 @@ export default {
         .map((l) => {
           const keyVal = l[0];
           const keyParams = l.filter((_, i) => i);
-          const param = this.modelValue.findParamByKeyParams(keyVal, keyParams);
-          const label = this.key(keyVal, keyParams);
-          const value = param?.value;
+          const keyName = this.key(keyVal, keyParams);
           const icon = this.icon ? `${this.icon}#${keyParams[0] || 0}` : null;
           return {
-            label,
-            value,
-            param,
+            keyName,
             icon,
           };
         });

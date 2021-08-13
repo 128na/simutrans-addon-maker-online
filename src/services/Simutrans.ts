@@ -90,6 +90,7 @@ export class Obj {
     const param = this.findParamByKey(key);
     if (param) {
       param.value = value;
+      param._operator = operator;
     } else {
       this.updateFromString(`${this.toString()}\n${key}${operator}${value}`);
     }
