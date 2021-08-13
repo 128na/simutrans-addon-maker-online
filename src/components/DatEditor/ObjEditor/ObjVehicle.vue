@@ -37,22 +37,7 @@
   </div>
   <h6>画像</h6>
   <div class="q-ml-md">
-    <param-images
-      v-model="obj"
-      :project="project"
-      :keyNames="['emptyimage']"
-      :directions="directions"
-      icon="svguse:/img/vehicle.svg"
-    />
-    <param-images
-      v-if="freightimagetypes"
-      v-model="obj"
-      :project="project"
-      :keyNames="['freightimage']"
-      :directions="directions"
-      :x="freightimagetypes - 1"
-      icon="svguse:/img/vehicle.svg"
-    />
+    <param-vehicle-images v-model="obj" :project="project" />
   </div>
 </template>
 <script>
@@ -66,17 +51,6 @@ export default {
   watch: {
     obj() {
       this.$emit("update");
-    },
-  },
-  computed: {
-    keyNames() {
-      return ["emptyimage"];
-    },
-    directions() {
-      return ["s", "n", "e", "w", "ne", "sw", "se", "nw"];
-    },
-    freightimagetypes() {
-      return this.obj.findParamsByKeyVal("freightimagetype").length;
     },
   },
 };

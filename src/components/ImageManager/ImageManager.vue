@@ -98,8 +98,8 @@
     <template v-slot:extra>
       <q-drawer
         side="left"
-        width="36"
         class="row"
+        :width="36"
         :breakpoint="0"
         :model-value="true"
       >
@@ -115,8 +115,8 @@
       </q-drawer>
       <q-drawer
         side="right"
-        width="36"
         class="row"
+        :width="36"
         :breakpoint="0"
         :model-value="true"
       >

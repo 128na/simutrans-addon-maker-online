@@ -36,6 +36,9 @@ import ParamEnablesPost from "./ParamEnablesPost.vue";
 import ParamEnablesWare from "./ParamEnablesWare.vue";
 import ParamAllowUnderground from "./ParamAllowUnderground.vue";
 import ParamDims from "./ParamDims.vue";
+import ParamIcon from "./ParamIcon.vue";
+import ParamCursor from "./ParamCursor.vue";
+import ParamVehicleImages from "./ParamVehicleImages.vue";
 
 export default {
   ParamConstraint,
@@ -75,4 +78,7 @@ export default {
   ParamEnablesWare,
   ParamAllowUnderground,
   ParamDims,
+  ParamIcon,
+  ParamCursor,
+  ParamVehicleImages,
 };

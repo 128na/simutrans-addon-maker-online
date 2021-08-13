@@ -24,15 +24,16 @@
     <param-allow-underground v-model="obj" />
     <param-dims v-model="obj" />
 
-    <!-- icon -->
-    <!-- cursor -->
     <!-- backimage -->
     <!-- frontimage -->
   </div>
   <h6>その他</h6>
   <div class="q-ml-md"></div>
   <h6>画像</h6>
-  <div class="q-ml-md"></div>
+  <div class="q-ml-md">
+    <param-icon v-model="obj" :project="project" />
+    <param-cursor v-model="obj" :project="project" />
+  </div>
 </template>
 <script>
 import Params from "./ParamEditor";

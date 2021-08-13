@@ -1,7 +1,12 @@
 <template>
   <div class="q-gutter-md row items-end q-mb-md">
     <div class="col-auto cursor-pointer" @click="handleDialog">
-      <image-preview v-if="param" :param="param" :project="project" />
+      <image-preview
+        v-if="param"
+        :param="param"
+        :project="project"
+        :staticSize="staticSize"
+      />
     </div>
     <q-input
       dense
@@ -94,7 +99,7 @@ import ImagePreview from "./ImagePreview.vue";
 import DialogNormal from "@/components/DialogNormal.vue";
 export default {
   components: { ImagePreview, DialogNormal },
-  props: ["modelValue", "keyName", "project", "icon", "isStatic"],
+  props: ["modelValue", "keyName", "project", "icon", "staticSize"],
   data() {
     return {
       dialog: false,
@@ -108,7 +113,7 @@ export default {
       this.modelValue.updateOrCreate(
         this.keyName,
         value,
-        this.isStatic ? "=> " : "="
+        this.staticSize ? "=> " : "="
       );
       this.$emit("update:modelValue");
     },

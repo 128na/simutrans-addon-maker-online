@@ -5,7 +5,7 @@
       :keyName="imageParam.keyName"
       :project="project"
       :icon="imageParam.icon"
-      :isStatic="isStatic"
+      :staticSize="staticSize"
       @update:modelValue="$emit('update:modelValue')"
     />
   </template>
@@ -17,9 +17,9 @@ export default {
   props: {
     modelValue: {},
     project: {},
-    isStatic: {
-      type: Boolean,
-      default: false,
+    staticSize: {
+      type: Number,
+      default: null,
     },
     keyNames: {
       type: Array,

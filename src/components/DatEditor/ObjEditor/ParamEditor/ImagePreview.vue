@@ -9,10 +9,10 @@ import SvgGrid from "@/components/Svg/SvgGrid.vue";
 
 export default {
   components: { SvgGrid },
-  props: ["param", "project"],
+  props: ["param", "project", "staticSize"],
   computed: {
     boxStyle() {
-      const width = this.param.isStaticImage ? 32 : this.size;
+      const width = this.staticSize || this.size;
       const height = width;
       return {
         width: `${width}px`,
