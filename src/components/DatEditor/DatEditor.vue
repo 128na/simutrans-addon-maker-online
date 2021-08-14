@@ -9,7 +9,9 @@
         <q-separator />
         <q-tab-panels v-model="editorTab" v-bind="tabPanelProps">
           <q-tab-panel name="text" class="q-pa-none">
-            <dat-text-editor :project="project" />
+            <q-scroll-area style="height: 75vh">
+              <dat-text-editor :project="project" />
+            </q-scroll-area>
           </q-tab-panel>
           <q-tab-panel name="property" class="q-pa-none">
             <q-tabs v-model="objTab" v-bind="tabProps">
@@ -24,19 +26,21 @@
               </template>
             </q-tabs>
             <q-separator />
-            <q-tab-panels v-model="objTab" v-bind="tabPanelProps">
-              <template v-for="(obj, index) in dat.objs">
-                <q-tab-panel :name="index" style="min-height: 30vh">
-                  <component
-                    :is="objComponent(obj)"
-                    :obj="obj"
-                    :dat="dat"
-                    :project="project"
-                    @update="handleUpdate"
-                  />
-                </q-tab-panel>
-              </template>
-            </q-tab-panels>
+            <q-scroll-area style="height: 75vh">
+              <q-tab-panels v-model="objTab" v-bind="tabPanelProps">
+                <template v-for="(obj, index) in dat.objs">
+                  <q-tab-panel :name="index" style="min-height: 30vh">
+                    <component
+                      :is="objComponent(obj)"
+                      :obj="obj"
+                      :dat="dat"
+                      :project="project"
+                      @update="handleUpdate"
+                    />
+                  </q-tab-panel>
+                </template>
+              </q-tab-panels>
+            </q-scroll-area>
           </q-tab-panel>
         </q-tab-panels>
       </template>
@@ -116,9 +120,13 @@ export default {
       localStorage.setItem("DatEditor.tab", v);
     },
     objTab(v) {
-      const line = this.dat.objs[v].firstLine;
-      const position = 48 + 18 * line;
-      this.$refs.textRef.setScrollPosition("vertical", position, 300);
+      const ref = this.$refs.textRef;
+      // spのときは非表示なのでundefinedになるぞい
+      if (ref) {
+        const line = this.dat.objs[v].firstLine;
+        const position = 48 + 18 * line;
+        ref.setScrollPosition("vertical", position, 300);
+      }
     },
   },
   created() {
