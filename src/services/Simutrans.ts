@@ -123,7 +123,7 @@ export class Obj {
   }
   /**
    * 指定キーっぽいやつを探す
-   * hoge[0][1][2] -> hoge[2], hoge[1][2], hoge[0][1][2], hoge[0][1][2][0], hoge[0][1][2][0][0], hoge[0][1][2][0][0][0],
+   * hoge[0][1][2] -> hoge[0][1][2][0][0][0], hoge[0][1][2][0][0], hoge[0][1][2][0], hoge[0][1][2], hoge[1][2], hoge[2]
    */
   findParamLike(key: string): Param | undefined {
     const keyVal = key.split('[')[0];

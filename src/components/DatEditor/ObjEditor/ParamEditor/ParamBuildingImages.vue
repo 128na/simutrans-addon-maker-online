@@ -63,21 +63,10 @@ export default {
     };
   },
   created() {
-    const h = this.modelValue.findMaxParamKeyVal(
-      ["frontimage", "backimage"],
-      3
-    );
-    this.height = h;
-    const a = this.modelValue.findMaxParamKeyVal(
-      ["frontimage", "backimage"],
-      4
-    );
-    this.animations = a;
-    const s = this.modelValue.findMaxParamKeyVal(
-      ["frontimage", "backimage"],
-      5
-    );
-    this.snow = !!s;
+    const keys = ["frontimage", "backimage"];
+    this.height = this.modelValue.findMaxParamKeyVal(keys, 3);
+    this.animations = this.modelValue.findMaxParamKeyVal(keys, 4);
+    this.snow = this.modelValue.findMaxParamKeyVal(keys, 5, 0) > 0;
   },
   computed: {
     dims() {

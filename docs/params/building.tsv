@@ -14,9 +14,9 @@ No.	params	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuilding	ObjBuildi
 12	animation_time	o	o	o	o	o	o	o	o
 13	climates	o	o	o	o	o	o	o	o
 14	clusters	o							
-15	chance	o	o			o	o	o	
+15	chance	o	o						
 16	level	o	o	o	o	o	o		o
-17	dims	o	o	o	o		o		
+17	dims	o	o	o	o		o		o
 18	build_time		o	o	o				
 19	passengers		o						
 20	hq_level				o				
