@@ -50,11 +50,16 @@ export class Dat {
   _objs: Obj[];
 
   constructor(original: string) {
+    let line = 1;
     this._objs = original
       .replaceAll("\r\n", "\n") // win CRLF -> LF
       .replaceAll("\r", "\n") // mac CR -> LF
       .replace(regObjSplitter, OBJ_SEPARATOR).split(`${OBJ_SEPARATOR}\n`) // 区切り文字の統一
-      .map(o => new Obj(o));
+      .map(o => {
+        const obj = new Obj(o, line);
+        line = obj.lastLine;
+        return obj;
+      });
   }
 
   get objs(): Obj[] {
@@ -75,14 +80,22 @@ export class Dat {
 }
 
 export class Obj {
+  _line: number;
   _params: Param[];
 
-  constructor(original: string) {
+  constructor(original: string, line: number) {
+    this._line = line;
     this._params = original
       .split("\n")
       .map(l => new Param(l));
   }
 
+  get firstLine(): number {
+    return this._line;
+  }
+  get lastLine(): number {
+    return this._line + this._params.length;
+  }
   get obj(): string | undefined {
     return this.findParam('obj')?.valueVal;
   }

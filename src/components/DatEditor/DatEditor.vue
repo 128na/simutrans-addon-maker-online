@@ -66,7 +66,7 @@
                     v-bind="tabPanelProps"
                   >
                     <template v-for="(obj, index) in dat.objs">
-                      <q-tab-panel :name="index" style="min-height: 30vh">
+                      <q-tab-panel style="min-height: 30vh" :name="index">
                         <component
                           :is="objComponent(obj)"
                           :obj="obj"
@@ -82,7 +82,7 @@
             </q-splitter>
           </template>
           <template v-slot:after>
-            <q-scroll-area style="height: 75vh">
+            <q-scroll-area style="height: 75vh" ref="textRef">
               <dat-text-editor :project="project" />
             </q-scroll-area>
           </template>
@@ -114,6 +114,11 @@ export default {
   watch: {
     editorTab(v) {
       localStorage.setItem("DatEditor.tab", v);
+    },
+    objTab(v) {
+      const line = this.dat.objs[v].firstLine;
+      const position = 48 + 18 * line;
+      this.$refs.textRef.setScrollPosition("vertical", position, 300);
     },
   },
   created() {
