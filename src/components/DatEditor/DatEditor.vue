@@ -63,7 +63,7 @@
                 </q-scroll-area>
               </template>
               <template v-slot:after>
-                <q-scroll-area style="height: 75vh">
+                <q-scroll-area style="height: 75vh" ref="paramRef">
                   <q-tab-panels
                     v-model="objTab"
                     vertical
@@ -120,12 +120,17 @@ export default {
       localStorage.setItem("DatEditor.tab", v);
     },
     objTab(v) {
-      const ref = this.$refs.textRef;
+      const textRef = this.$refs.textRef;
       // spのときは非表示なのでundefinedになるぞい
-      if (ref) {
+      if (textRef) {
         const line = this.dat.objs[v].firstLine;
         const position = 48 + 18 * line;
-        ref.setScrollPosition("vertical", position, 300);
+        textRef.setScrollPosition("vertical", position, 300);
+      }
+      const paramRef = this.$refs.paramRef;
+      // spのときは非表示なのでundefinedになるぞい
+      if (paramRef) {
+        paramRef.setScrollPosition("vertical", 0, 300);
       }
     },
   },
