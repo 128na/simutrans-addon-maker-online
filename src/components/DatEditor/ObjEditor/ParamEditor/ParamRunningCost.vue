@@ -21,7 +21,7 @@ export default {
     rules: () => [required, minEq(0)],
     value: {
       get() {
-        return this.modelValue.findParamByKey("runningcost")?.value;
+        return this.modelValue.findParam("runningcost")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("runningcost", v);

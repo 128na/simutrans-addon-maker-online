@@ -57,7 +57,9 @@ function randomString(length: number = 128) {
  */
 function createCodeChallenge(codeVerifier: string) {
   return Base64.stringify(sha256(codeVerifier))
-    .replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
+    .replace(/=/g, '')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
 }
 
 

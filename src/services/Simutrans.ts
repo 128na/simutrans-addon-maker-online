@@ -1,4 +1,6 @@
-import { SORT_KEYS } from "@/constants";
+import { regObjSplitter, regNewLine, regParam, regKeyParam, regSpecial, regValueParam } from './RegExp';
+import { sortForParam } from './Sort';
+import { createArray } from './Array';
 
 const IMAGEABLE_KEYS: string[] = [
   "icon",
@@ -48,11 +50,16 @@ export class Dat {
   _objs: Obj[];
 
   constructor(original: string) {
+    let line = 1;
     this._objs = original
       .replaceAll("\r\n", "\n") // win CRLF -> LF
       .replaceAll("\r", "\n") // mac CR -> LF
-      .replace(/---+/gi, OBJ_SEPARATOR).split(`${OBJ_SEPARATOR}\n`) // 区切り文字の統一
-      .map(o => new Obj(o));
+      .replace(regObjSplitter, OBJ_SEPARATOR).split(`${OBJ_SEPARATOR}\n`) // 区切り文字の統一
+      .map(o => {
+        const obj = new Obj(o, line);
+        line = obj.lastLine;
+        return obj;
+      });
   }
 
   get objs(): Obj[] {
@@ -61,24 +68,39 @@ export class Dat {
 
   findObjs(key: string, value: string): Obj[] {
     return this._objs
-      .filter(o => o.findParamByKey(key)?.value === value);
+      .filter(o => o.findParam(key)?.value === value);
   }
 
   toString(): string {
     return this._objs
       .map(o => o.toString())
       .join(`\n${OBJ_SEPARATOR}\n`)
-      .replace(/\n+/mgi, '\n');
+      .replace(regNewLine, '\n');
   }
 }
 
 export class Obj {
+  _line: number;
   _params: Param[];
 
-  constructor(original: string) {
+  constructor(original: string, line: number) {
+    this._line = line;
     this._params = original
       .split("\n")
       .map(l => new Param(l));
+  }
+
+  get firstLine(): number {
+    return this._line;
+  }
+  get lastLine(): number {
+    return this._line + this._params.length;
+  }
+  get obj(): string | undefined {
+    return this.findParam('obj')?.valueVal;
+  }
+  get name(): string | undefined {
+    return this.findParam('name')?.valueVal;
   }
 
   updateFromString(original: string) {
@@ -87,9 +109,10 @@ export class Obj {
       .map(l => new Param(l));
   }
   updateOrCreate(key: string, value: string, operator = '=') {
-    const param = this.findParamByKey(key);
+    const param = this.findParam(key);
     if (param) {
       param.value = value;
+      param._operator = operator;
     } else {
       this.updateFromString(`${this.toString()}\n${key}${operator}${value}`);
     }
@@ -99,46 +122,58 @@ export class Obj {
       .filter(p => p.keyVal !== keyVal || !keyParams.every((kp, i) => (kp.includes(p.keyParams[i]))));
   }
 
-  get obj(): string | undefined {
-    return this.findParamByKey('obj')?.valueVal;
-  }
-  get name(): string | undefined {
-    return this.findParamByKey('name')?.valueVal;
-  }
-
+  /**
+   * 指定キー値を含むParamを探す
+   */
   findParamsByKeyVal(keyVal: string): Param[] {
     return this._params.filter(p => p.keyVal === keyVal);
   }
-  findParamByKey(key: string): Param | undefined {
+  /**
+   * 指定キーに一致するParamを探す
+   */
+  findParam(key: string): Param | undefined {
     return this._params.find(p => p.key === key);
   }
-  findParamByKeyParams(keyVal: string, keyParams: string[]): Param | undefined {
-    return this._params
-      .find(p => p.keyVal === keyVal && keyParams.every((kp, i) => (kp == p.keyParams[i])));
+  /**
+   * 指定キーっぽいやつを探す
+   * hoge[0][1][2] -> hoge[0][1][2][0][0][0], hoge[0][1][2][0][0], hoge[0][1][2][0], hoge[0][1][2], hoge[1][2], hoge[2]
+   */
+  findParamLike(key: string): Param | undefined {
+    const keyVal = key.split('[')[0];
+    const params = [...key.matchAll(regKeyParam)].map(p => p[1] || "");
+    const keyPatterns = createArray(6)
+      .reduce((keys: string[][], i: number): string[][] => {
+        const p = params[i] || "0";
+        return [...keys.map(k => [...k, p]), [p]]
+      }, [])
+      .map(kp => `${keyVal}[${kp.join('][')}]`);
+
+    for (const keyPattern of keyPatterns) {
+      const param = this.findParam(keyPattern);
+      if (param) {
+        return param;
+      }
+    }
+  }
+  findMaxParamKeyVal(keyVals: string[], index: number, defaultValue = 1): number {
+    const params = keyVals.flatMap(keyVal => this.findParamsByKeyVal(keyVal));
+    return params.reduce((curr, param) => Math.max(curr, Number(param.keyParams[index])), defaultValue);
   }
 
   toString(): string {
-    this._params.sort(comp);
+    this._params.sort(sortForParam);
     return this._params
       .filter(p => !p.isEmpty)
       .map(p => p.toString())
       .join("\n");
   }
 }
-// datテキストソート基準
-function comp(a: Param, b: Param): number {
-  const [oa, ob] = [
-    a.isComment ? SORT_KEYS.comment : SORT_KEYS[a.keyVal] || SORT_KEYS.unknown,
-    b.isComment ? SORT_KEYS.comment : SORT_KEYS[b.keyVal] || SORT_KEYS.unknown
-  ];
-  return oa - ob;
-}
 
 /**
  * dat記述の1行
  * foo=bar
  */
-class Param {
+export class Param {
   _key: Key;
   _operator: string;
   _value: Value;
@@ -146,7 +181,7 @@ class Param {
   constructor(original: string) {
     const tmp = original
       .split('#')[0]    // 末尾コメントを削除
-      .match(/^([^=]*)(=> |=)?(.*)?$/i) || [];
+      .match(regParam) || [];
 
     // フォーマット不一致なら値として処理する（コメント行）
     if (!tmp[2]) {
@@ -221,9 +256,9 @@ class Key {
   _params: string[];
 
   constructor(original: string) {
-    this._original = original.replace(/\s+/gi, '')
+    this._original = original.replace(regSpecial, '')
     this._val = this._original.split("[")[0] || "";
-    this._params = [...this._original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1] || "");
+    this._params = [...this._original.matchAll(regKeyParam)].map(p => p[1] || "");
   }
 }
 
@@ -233,9 +268,9 @@ class Value {
   _params: number[];
 
   constructor(original: string) {
-    this._original = original.replace(/\s+/gi, '')
+    this._original = original.replace(regSpecial, '')
     this._val = this._original.split(".")[0] || "";
-    this._params = [...this._original.matchAll(/[\.,]([-\d]*)/ig)].map(p => parseInt(p[1], 10) || 0);
+    this._params = [...this._original.matchAll(regValueParam)].map(p => parseInt(p[1], 10) || 0);
   }
 }
 

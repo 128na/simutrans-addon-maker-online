@@ -19,7 +19,7 @@ export default {
     rules: () => [required, filename],
     value: {
       get() {
-        return this.modelValue.findParamByKey("name")?.value;
+        return this.modelValue.findParam("name")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("name", v);

@@ -22,7 +22,7 @@ export default {
     rules: () => [required, maxEq(65535), minEq(1)],
     value: {
       get() {
-        return this.modelValue.findParamByKey("speed")?.value;
+        return this.modelValue.findParam("speed")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("speed", v);

@@ -1,18 +1,22 @@
 <template>
-  <div class="q-gutter-md row items-end q-mb-md">
+  <div class="q-gutter-md row items-end q-my-sm">
     <div class="col-auto cursor-pointer" @click="handleDialog">
-      <image-preview v-if="param" :param="param" :project="project" />
+      <image-preview
+        v-if="param"
+        :param="param"
+        :project="project"
+        :staticSize="staticSize"
+      />
     </div>
     <q-input
       dense
       class="q-mt-none"
+      v-model="value"
       :class="inputClass"
-      :model-value="value"
-      :label="label"
-      @update:model-value="$emit('update', $event)"
+      :label="keyName"
     >
       <template v-slot:prepend v-if="icon">
-        <q-icon :name="icon" />
+        <q-icon :name="icon" @click.prevent="handleDialog" />
       </template>
       <template v-slot:after>
         <q-btn flat color="secondary" icon="edit" @click="handleDialog" />
@@ -21,7 +25,8 @@
   </div>
   <dialog-normal v-model="dialog">
     <template v-slot:header>
-      {{ label }}
+      <q-icon :name="icon" />
+      {{ keyName }}
     </template>
     <template v-slot:default>
       <q-card-section>
@@ -95,8 +100,14 @@ import ImagePreview from "./ImagePreview.vue";
 import DialogNormal from "@/components/DialogNormal.vue";
 export default {
   components: { ImagePreview, DialogNormal },
-  props: ["param", "label", "value", "isStatic", "project", "icon"],
-  emits: ["update"],
+  props: [
+    "modelValue",
+    "keyName",
+    "project",
+    "icon",
+    "staticSize",
+    "ambiguousKeyName",
+  ],
   data() {
     return {
       dialog: false,
@@ -106,8 +117,16 @@ export default {
     handleDialog() {
       this.dialog = true;
     },
+    handleUpdate(value) {
+      this.modelValue.updateOrCreate(
+        this.keyName,
+        value,
+        this.staticSize ? "=> " : "="
+      );
+      this.$emit("update:modelValue");
+    },
     handleMove(x, y) {
-      this.$emit("update", this.toValue(x, y));
+      this.handleUpdate(this.toValue(x, y));
     },
     toValue(x, y, ox = null, oy = null) {
       const p = this.param;
@@ -140,12 +159,25 @@ export default {
         i.filename.replace(".png", "")
       );
     },
+    param() {
+      return this.ambiguousKeyName
+        ? this.modelValue.findParamLike(this.keyName)
+        : this.modelValue.findParam(this.keyName);
+    },
+    value: {
+      get() {
+        return this.param?.value;
+      },
+      set(v) {
+        this.handleUpdate(v);
+      },
+    },
     image: {
       get() {
         return this.param?.valueVal;
       },
       set(v) {
-        this.$emit("update", `${v}.0.0`);
+        this.handleUpdate(`${v}${this.paramString}`);
       },
     },
     x() {
@@ -159,7 +191,7 @@ export default {
         return this.param?.valueParams[2] || 0;
       },
       set(v) {
-        this.$emit("update", this.toValue(0, 0, Number(v), null));
+        this.handleUpdate(this.toValue(0, 0, Number(v), null));
       },
     },
     offsetY: {
@@ -167,7 +199,7 @@ export default {
         return this.param?.valueParams[3] || 0;
       },
       set(v) {
-        this.$emit("update", this.toValue(0, 0, null, Number(v)));
+        this.handleUpdate(this.toValue(0, 0, null, Number(v)));
       },
     },
   },

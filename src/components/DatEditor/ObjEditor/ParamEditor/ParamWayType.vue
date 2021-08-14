@@ -12,7 +12,7 @@
   />
 </template>
 <script>
-import { required, minEq, maxEq, includes } from "@/services/Validator";
+import { required, includes } from "@/services/Validator";
 import { WAYTYPES } from "@/constants";
 const options = WAYTYPES.map((wt) =>
   Object.create({
@@ -29,7 +29,7 @@ export default {
     options: () => options,
     value: {
       get() {
-        return this.modelValue.findParamByKey("waytype")?.value;
+        return this.modelValue.findParam("waytype")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("waytype", v);

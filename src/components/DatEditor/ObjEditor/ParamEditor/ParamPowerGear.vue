@@ -143,7 +143,7 @@ export default {
     },
     speed: {
       get() {
-        return this.modelValue.findParamByKey("speed")?.value;
+        return this.modelValue.findParam("speed")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("speed", v);
@@ -152,7 +152,7 @@ export default {
     },
     power: {
       get() {
-        return this.modelValue.findParamByKey("power")?.value;
+        return this.modelValue.findParam("power")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("power", v);
@@ -161,7 +161,7 @@ export default {
     },
     gear: {
       get() {
-        return this.modelValue.findParamByKey("gear")?.value;
+        return this.modelValue.findParam("gear")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("gear", v);
@@ -170,7 +170,7 @@ export default {
     },
     weight: {
       get() {
-        return this.modelValue.findParamByKey("weight")?.value;
+        return this.modelValue.findParam("weight")?.value;
       },
       set(v) {
         this.modelValue.updateOrCreate("weight", v);

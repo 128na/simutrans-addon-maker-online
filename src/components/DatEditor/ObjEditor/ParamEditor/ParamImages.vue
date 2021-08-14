@@ -1,13 +1,12 @@
 <template>
   <template v-for="imageParam in imageParams">
     <param-image
-      :param="imageParam.param"
-      :label="imageParam.label"
-      :value="imageParam.value"
-      :icon="imageParam.icon"
-      :isStatic="isStatic"
+      v-model="modelValue"
+      :keyName="imageParam.keyName"
       :project="project"
-      @update="handleUpdate(imageParam.label, $event)"
+      :icon="imageParam.icon"
+      :staticSize="staticSize"
+      @update:modelValue="$emit('update:modelValue')"
     />
   </template>
 </template>
@@ -18,11 +17,11 @@ export default {
   props: {
     modelValue: {},
     project: {},
-    isStatic: {
-      type: Boolean,
-      default: false,
+    staticSize: {
+      type: Number,
+      default: null,
     },
-    imageNames: {
+    keyNames: {
       type: Array,
       default: () => ["image"],
     },
@@ -62,14 +61,10 @@ export default {
       const p = keyParams.map((p) => `[${p}]`).join("");
       return `${keyVal}${p}`;
     },
-    handleUpdate(key, value) {
-      this.modelValue.updateOrCreate(key, value, this.isStatic ? "=> " : "=");
-      this.$emit("update:modelValue");
-    },
   },
   computed: {
     imageParams() {
-      return this.imageNames
+      return this.keyNames
         .map((n) => [n])
         .flatMap((l) => this.directions.map((d) => [...l, d]))
         .flatMap((l) => (this.needX ? this.itemX.map((i) => [...l, i]) : [l]))
@@ -80,14 +75,10 @@ export default {
         .map((l) => {
           const keyVal = l[0];
           const keyParams = l.filter((_, i) => i);
-          const param = this.modelValue.findParamByKeyParams(keyVal, keyParams);
-          const label = this.key(keyVal, keyParams);
-          const value = param?.value;
+          const keyName = this.key(keyVal, keyParams);
           const icon = this.icon ? `${this.icon}#${keyParams[0] || 0}` : null;
           return {
-            label,
-            value,
-            param,
+            keyName,
             icon,
           };
         });
@@ -96,25 +87,25 @@ export default {
       return this.x !== null || this.needY;
     },
     itemX() {
-      return [...Array(1 + this.x)].map((_, i) => i);
+      return [...Array(Math.max(1, this.x))].map((_, i) => i);
     },
     needY() {
       return this.y !== null || this.needH;
     },
     itemY() {
-      return [...Array(1 + this.y)].map((_, i) => i);
+      return [...Array(Math.max(1, this.y))].map((_, i) => i);
     },
     needH() {
       return this.h !== null || this.needA;
     },
     itemH() {
-      return [...Array(1 + this.h)].map((_, i) => i);
+      return [...Array(Math.max(1, this.h))].map((_, i) => i);
     },
     needA() {
       return this.animation !== null || this.needS;
     },
     itemA() {
-      return [...Array(1 + this.animation)].map((_, i) => i);
+      return [...Array(Math.max(1, this.animation))].map((_, i) => i);
     },
     needS() {
       return this.snow;

@@ -50,7 +50,7 @@ export default {
       },
     },
     freight() {
-      return this.modelValue.findParamByKey("freight")?.value;
+      return this.modelValue.findParam("freight")?.value;
     },
     catg() {
       if (this.freight) {

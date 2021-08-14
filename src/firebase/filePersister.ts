@@ -2,6 +2,7 @@ import firebase from "firebase";
 import { DateTime } from 'luxon';
 import { FBFile } from "@/plugins/interface";
 import { storage } from ".";
+import { sortForFile } from '../services/Sort';
 
 class FilePersister {
   ref: firebase.storage.Reference;
@@ -25,8 +26,7 @@ class FilePersister {
       };
     }));
 
-    // sort by updatedAt desc.
-    files.sort((a, b) => DateTime.fromHTTP(b.updatedAt).diff(DateTime.fromHTTP(a.updatedAt), 'seconds').seconds);
+    files.sort(sortForFile);
 
     return files;
   }
