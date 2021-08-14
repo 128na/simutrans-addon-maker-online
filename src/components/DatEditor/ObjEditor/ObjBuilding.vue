@@ -1,81 +1,77 @@
 <template>
   <h6>基本情報</h6>
-  <div class="q-ml-md">
-    <param-name v-model="obj" />
-    <param-copyright v-model="obj" />
-    <param-type v-model="obj" />
-    <param-animation-time v-model="obj" />
-    <param-climates v-model="obj" />
-    <param-intro-retire v-model="obj" />
-    <param-noinfo v-model="obj" />
-    <param-noconstruction v-model="obj" />
-    <param-needs-ground v-model="obj" />
-  </div>
+  <param-name v-model="obj" />
+  <param-copyright v-model="obj" />
+  <param-type v-model="obj" />
+  <param-animation-time v-model="obj" />
+  <param-climates v-model="obj" />
+  <param-intro-retire v-model="obj" />
+  <param-noinfo v-model="obj" />
+  <param-noconstruction v-model="obj" />
+  <param-needs-ground v-model="obj" />
+
   <h6>タイプ別設定</h6>
-  <div class="q-ml-md">
-    <template v-if="isType(['res', 'com', 'ind'])">
-      <param-clusters v-model="obj" />
-      <param-chance v-model="obj" />
-      <param-level v-model="obj" />
-      <param-dims v-model="obj" />
-    </template>
-    <template v-if="isType(['cur', 'mon'])">
-      <param-chance v-model="obj" />
-      <param-level v-model="obj" />
-      <param-dims v-model="obj" />
-      <param-build-time v-model="obj" />
-      <param-passengers v-model="obj" />
-    </template>
-    <template v-if="isType(['tow'])">
-      <param-level v-model="obj" />
-      <param-dims v-model="obj" />
-      <param-build-time v-model="obj" />
-    </template>
-    <template v-if="isType(['hq'])">
-      <param-level v-model="obj" />
-      <param-dims v-model="obj" />
-      <param-build-time v-model="obj" />
-      <param-hq-level v-model="obj" />
-    </template>
-    <template v-if="isType(['stop'])">
-      <param-way-type v-model="obj" />
-      <param-level v-model="obj" />
-      <param-enables-pax v-model="obj" />
-      <param-enables-post v-model="obj" />
-      <param-enables-ware v-model="obj" />
-      <param-allow-underground v-model="obj" />
-      <param-icon v-model="obj" :project="project" />
-      <param-cursor v-model="obj" :project="project" />
-    </template>
-    <template v-if="isType(['extension'])">
-      <param-way-type v-model="obj" />
-      <param-level v-model="obj" />
-      <param-dims v-model="obj" />
-      <param-enables-pax v-model="obj" />
-      <param-enables-post v-model="obj" />
-      <param-enables-ware v-model="obj" />
-      <param-icon v-model="obj" :project="project" />
-      <param-cursor v-model="obj" :project="project" />
-    </template>
-    <template v-if="isType(['depot'])">
-      <param-way-type v-model="obj" />
-      <param-icon v-model="obj" :project="project" />
-      <param-cursor v-model="obj" :project="project" />
-    </template>
-    <template v-if="isType(['harbour'])">
-      <param-level v-model="obj" />
-      <param-dims v-model="obj" />
-      <param-enables-pax v-model="obj" />
-      <param-enables-post v-model="obj" />
-      <param-enables-ware v-model="obj" />
-      <param-icon v-model="obj" :project="project" />
-      <param-cursor v-model="obj" :project="project" />
-    </template>
-  </div>
+  <template v-if="isType(['res', 'com', 'ind'])">
+    <param-clusters v-model="obj" />
+    <param-chance v-model="obj" />
+    <param-level v-model="obj" />
+    <param-dims v-model="obj" />
+  </template>
+  <template v-if="isType(['cur', 'mon'])">
+    <param-chance v-model="obj" />
+    <param-level v-model="obj" />
+    <param-dims v-model="obj" />
+    <param-build-time v-model="obj" />
+    <param-passengers v-model="obj" />
+  </template>
+  <template v-if="isType(['tow'])">
+    <param-level v-model="obj" />
+    <param-dims v-model="obj" />
+    <param-build-time v-model="obj" />
+  </template>
+  <template v-if="isType(['hq'])">
+    <param-level v-model="obj" />
+    <param-dims v-model="obj" />
+    <param-build-time v-model="obj" />
+    <param-hq-level v-model="obj" />
+  </template>
+  <template v-if="isType(['stop'])">
+    <param-way-type v-model="obj" />
+    <param-level v-model="obj" />
+    <param-enables-pax v-model="obj" />
+    <param-enables-post v-model="obj" />
+    <param-enables-ware v-model="obj" />
+    <param-allow-underground v-model="obj" />
+    <param-icon v-model="obj" :project="project" />
+    <param-cursor v-model="obj" :project="project" />
+  </template>
+  <template v-if="isType(['extension'])">
+    <param-way-type v-model="obj" />
+    <param-level v-model="obj" />
+    <param-dims v-model="obj" />
+    <param-enables-pax v-model="obj" />
+    <param-enables-post v-model="obj" />
+    <param-enables-ware v-model="obj" />
+    <param-icon v-model="obj" :project="project" />
+    <param-cursor v-model="obj" :project="project" />
+  </template>
+  <template v-if="isType(['depot'])">
+    <param-way-type v-model="obj" />
+    <param-icon v-model="obj" :project="project" />
+    <param-cursor v-model="obj" :project="project" />
+  </template>
+  <template v-if="isType(['harbour'])">
+    <param-level v-model="obj" />
+    <param-dims v-model="obj" />
+    <param-enables-pax v-model="obj" />
+    <param-enables-post v-model="obj" />
+    <param-enables-ware v-model="obj" />
+    <param-icon v-model="obj" :project="project" />
+    <param-cursor v-model="obj" :project="project" />
+  </template>
+
   <h6>画像</h6>
-  <div class="q-ml-md">
-    <param-building-images v-model="obj" :project="project" />
-  </div>
+  <param-building-images v-model="obj" :project="project" />
 </template>
 <script>
 import Params from "./ParamEditor";
