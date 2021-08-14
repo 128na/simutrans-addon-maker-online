@@ -1,3 +1,4 @@
+import { regFilename } from './RegExp';
 export const required = (val: any) => !!val || "必ず指定してください";
 
 export const max = (max: number) => (val: number) => isNaN(val) || val < max || `${max}より小さい値にして下さい`;
@@ -20,7 +21,7 @@ export const regExp = (reg: RegExp, message = 'フォーマットが一致しま
 /**
  * ファイル名用
  */
-export const filename = (val: string) => regExp(/^[\d\w-_]*$/i, '英数ハイフン、ダッシュのみ推奨です')(val);
+export const filename = (val: string) => regExp(regFilename, '英数ハイフン、ダッシュのみ推奨です')(val);
 
 export const maxSpeed = (maxSpeed: number) => (val: number) => val > maxSpeed || '最高速度に到達できない可能性があります';
 

@@ -26,10 +26,13 @@
   </div>
   <h6>その他</h6>
   <div class="q-ml-md"></div>
-  <h6>画像</h6>
+  <h6>アイコン・カーソル</h6>
   <div class="q-ml-md">
     <param-icon v-model="obj" :project="project" />
     <param-cursor v-model="obj" :project="project" />
+  </div>
+  <h6>画像</h6>
+  <div class="q-ml-md">
     <param-building-images v-model="obj" :project="project" />
   </div>
 </template>

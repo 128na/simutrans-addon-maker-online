@@ -21,6 +21,7 @@
 <script>
 import ParamImage from "./ParamImage.vue";
 import { createArray, createKeyPattern } from "@/services/Array";
+import { regKeyParam } from "@/services/RegExp";
 const directions = ["s", "n", "e", "w", "ne", "sw", "se", "nw"];
 
 export default {
@@ -28,7 +29,7 @@ export default {
   props: ["modelValue", "project"],
   methods: {
     icon(keyName) {
-      const matches = keyName.match(/\[([\w\d]+)\]/i);
+      const matches = keyName.match(regKeyParam);
 
       return matches.length ? `svguse:/img/vehicle.svg#${matches[1]}` : null;
     },

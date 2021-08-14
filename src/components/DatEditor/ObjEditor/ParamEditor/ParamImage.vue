@@ -1,5 +1,5 @@
 <template>
-  <div class="q-gutter-md row items-end q-mb-md">
+  <div class="q-gutter-md row items-end q-my-sm">
     <div class="col-auto cursor-pointer" @click="handleDialog">
       <image-preview
         v-if="param"
@@ -100,7 +100,14 @@ import ImagePreview from "./ImagePreview.vue";
 import DialogNormal from "@/components/DialogNormal.vue";
 export default {
   components: { ImagePreview, DialogNormal },
-  props: ["modelValue", "keyName", "project", "icon", "staticSize"],
+  props: [
+    "modelValue",
+    "keyName",
+    "project",
+    "icon",
+    "staticSize",
+    "ambiguousKeyName",
+  ],
   data() {
     return {
       dialog: false,
@@ -153,7 +160,9 @@ export default {
       );
     },
     param() {
-      return this.modelValue.findParamStartsWidth(this.keyName);
+      return this.ambiguousKeyName
+        ? this.modelValue.findParamLike(this.keyName)
+        : this.modelValue.findParam(this.keyName);
     },
     value: {
       get() {

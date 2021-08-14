@@ -1,4 +1,6 @@
+import { regObjSplitter, regNewLine, regParam, regKeyParam, regSpecial, regValueParam } from './RegExp';
 import { sortForParam } from './Sort';
+import { createArray } from './Array';
 
 const IMAGEABLE_KEYS: string[] = [
   "icon",
@@ -51,7 +53,7 @@ export class Dat {
     this._objs = original
       .replaceAll("\r\n", "\n") // win CRLF -> LF
       .replaceAll("\r", "\n") // mac CR -> LF
-      .replace(/---+/gi, OBJ_SEPARATOR).split(`${OBJ_SEPARATOR}\n`) // 区切り文字の統一
+      .replace(regObjSplitter, OBJ_SEPARATOR).split(`${OBJ_SEPARATOR}\n`) // 区切り文字の統一
       .map(o => new Obj(o));
   }
 
@@ -68,7 +70,7 @@ export class Dat {
     return this._objs
       .map(o => o.toString())
       .join(`\n${OBJ_SEPARATOR}\n`)
-      .replace(/\n+/mgi, '\n');
+      .replace(regNewLine, '\n');
   }
 }
 
@@ -79,6 +81,13 @@ export class Obj {
     this._params = original
       .split("\n")
       .map(l => new Param(l));
+  }
+
+  get obj(): string | undefined {
+    return this.findParam('obj')?.valueVal;
+  }
+  get name(): string | undefined {
+    return this.findParam('name')?.valueVal;
   }
 
   updateFromString(original: string) {
@@ -100,25 +109,42 @@ export class Obj {
       .filter(p => p.keyVal !== keyVal || !keyParams.every((kp, i) => (kp.includes(p.keyParams[i]))));
   }
 
-  get obj(): string | undefined {
-    return this.findParam('obj')?.valueVal;
-  }
-  get name(): string | undefined {
-    return this.findParam('name')?.valueVal;
-  }
-
+  /**
+   * 指定キー値を含むParamを探す
+   */
   findParamsByKeyVal(keyVal: string): Param[] {
     return this._params.filter(p => p.keyVal === keyVal);
   }
+  /**
+   * 指定キーに一致するParamを探す
+   */
   findParam(key: string): Param | undefined {
     return this._params.find(p => p.key === key);
   }
-  findParamStartsWidth(key: string): Param | undefined {
-    return this._params.find(p => p.key.startsWith(key));
+  /**
+   * 指定キーっぽいやつを探す
+   * hoge[0][1][2] -> hoge[2], hoge[1][2], hoge[0][1][2], hoge[0][1][2][0], hoge[0][1][2][0][0], hoge[0][1][2][0][0][0],
+   */
+  findParamLike(key: string): Param | undefined {
+    const keyVal = key.split('[')[0];
+    const params = [...key.matchAll(regKeyParam)].map(p => p[1] || "");
+    const keyPatterns = createArray(6)
+      .reduce((keys: string[][], i: number): string[][] => {
+        const p = params[i] || "0";
+        return [...keys.map(k => [...k, p]), [p]]
+      }, [])
+      .map(kp => `${keyVal}[${kp.join('][')}]`);
+
+    for (const keyPattern of keyPatterns) {
+      const param = this.findParam(keyPattern);
+      if (param) {
+        return param;
+      }
+    }
   }
-  findParamParams(keyVal: string, keyParams: string[]): Param | undefined {
-    return this._params
-      .find(p => p.keyVal === keyVal && keyParams.every((kp, i) => (kp == p.keyParams[i])));
+  findMaxParamKeyVal(keyVals: string[], index: number, defaultValue = 1): number {
+    const params = keyVals.flatMap(keyVal => this.findParamsByKeyVal(keyVal));
+    return params.reduce((curr, param) => Math.max(curr, Number(param.keyParams[index])), defaultValue);
   }
 
   toString(): string {
@@ -142,7 +168,7 @@ export class Param {
   constructor(original: string) {
     const tmp = original
       .split('#')[0]    // 末尾コメントを削除
-      .match(/^([^=]*)(=> |=)?(.*)?$/i) || [];
+      .match(regParam) || [];
 
     // フォーマット不一致なら値として処理する（コメント行）
     if (!tmp[2]) {
@@ -217,9 +243,9 @@ class Key {
   _params: string[];
 
   constructor(original: string) {
-    this._original = original.replace(/\s+/gi, '')
+    this._original = original.replace(regSpecial, '')
     this._val = this._original.split("[")[0] || "";
-    this._params = [...this._original.matchAll(/\[([\w\d]*)\]/ig)].map(p => p[1] || "");
+    this._params = [...this._original.matchAll(regKeyParam)].map(p => p[1] || "");
   }
 }
 
@@ -229,9 +255,9 @@ class Value {
   _params: number[];
 
   constructor(original: string) {
-    this._original = original.replace(/\s+/gi, '')
+    this._original = original.replace(regSpecial, '')
     this._val = this._original.split(".")[0] || "";
-    this._params = [...this._original.matchAll(/[\.,]([-\d]*)/ig)].map(p => parseInt(p[1], 10) || 0);
+    this._params = [...this._original.matchAll(regValueParam)].map(p => parseInt(p[1], 10) || 0);
   }
 }
 
