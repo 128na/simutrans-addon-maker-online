@@ -288,6 +288,9 @@ export const SYSTEM_TYPES = [
   { value: '255', label: '特殊' },
 ];
 
+export const DIRECTIONS_STRAIGHT = [
+  "ns", "ew",
+];
 export const DIRECTIONS_VEHICLE = [
   "s", "n", "e", "w", "ne", "sw", "se", "nw",
 ];

@@ -21,18 +21,21 @@ const options = WAYTYPES.map((wt) =>
   })
 );
 export default {
-  props: ["modelValue"],
+  props: ["modelValue", "param"],
   computed: {
     rules() {
       return [required, includes(this.options.map((o) => o.value))];
     },
     options: () => options,
+    key() {
+      return this.param ? `waytype[${this.param}]` : "waytype";
+    },
     value: {
       get() {
-        return this.modelValue.findParam("waytype")?.value;
+        return this.modelValue.findParam(this.key)?.value;
       },
       set(v) {
-        this.modelValue.updateOrCreate("waytype", v);
+        this.modelValue.updateOrCreate(this.key, v);
         this.$emit("update:modelValue");
       },
     },

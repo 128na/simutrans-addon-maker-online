@@ -48,6 +48,7 @@ import ParamType from "./ParamType.vue";
 import ParamWaytype from "./ParamWaytype.vue";
 import ParamWeight from "./ParamWeight.vue";
 import ParamDistributionWeight from "./ParamDistributionWeight.vue";
+import ParamImagesCrossing from "./ParamImagesCrossing.vue";
 
 export default {
   ParamAllowUnderground,
@@ -100,4 +101,5 @@ export default {
   ParamWeight,
   ParamDistributionWeight,
   ParamImagesCitycar,
+  ParamImagesCrossing,
 };
