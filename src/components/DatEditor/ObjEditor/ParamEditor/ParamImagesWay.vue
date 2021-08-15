@@ -8,19 +8,10 @@
       @update:modelValue="$emit('update:modelValue')"
     />
   </template>
-  <template v-for="keyName in frontImages">
-    <param-image
-      v-model="modelValue"
-      :keyName="keyName"
-      :project="project"
-      :icon="icon(keyName)"
-      @update:modelValue="$emit('update:modelValue')"
-    />
-  </template>
 </template>
 <script>
 import ParamImage from "./ParamImage.vue";
-import { createArray, createKeyPattern } from "@/services/Array";
+import { createKeyPattern } from "@/services/Array";
 import { regKeyParam } from "@/services/RegExp";
 import {
   DIRECTIONS_DIAGONAL,
@@ -55,9 +46,6 @@ export default {
         ...createKeyPattern("diagonal", [DIRECTIONS_DIAGONAL]),
         ...createKeyPattern("imageup2", [DIRECTIONS_UP_DOWN]),
       ];
-    },
-    frontImages() {
-      return [];
     },
   },
 };
