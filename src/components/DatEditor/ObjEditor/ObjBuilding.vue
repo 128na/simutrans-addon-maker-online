@@ -71,7 +71,7 @@
   </template>
 
   <h6>画像</h6>
-  <param-building-images v-model="obj" :project="project" />
+  <param-images-building v-model="obj" :project="project" />
 </template>
 <script>
 import Params from "./ParamEditor";
@@ -94,12 +94,6 @@ export default {
   computed: {
     type() {
       return this.obj.findParam("type")?.value;
-    },
-    imageNames() {
-      return ["emptyimage"];
-    },
-    directions() {
-      return ["s", "n", "e", "w", "ne", "sw", "se", "nw"];
     },
   },
 };

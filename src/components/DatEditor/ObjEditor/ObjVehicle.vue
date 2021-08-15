@@ -30,7 +30,7 @@
   <param-freightimagetype v-model="obj" :project="project" />
 
   <h6>画像</h6>
-  <param-vehicle-images v-model="obj" :project="project" />
+  <param-images-vehicle v-model="obj" :project="project" />
 </template>
 <script>
 import Params from "./ParamEditor";

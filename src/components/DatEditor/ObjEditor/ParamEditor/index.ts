@@ -38,8 +38,14 @@ import ParamAllowUnderground from "./ParamAllowUnderground.vue";
 import ParamDims from "./ParamDims.vue";
 import ParamIcon from "./ParamIcon.vue";
 import ParamCursor from "./ParamCursor.vue";
-import ParamVehicleImages from "./ParamVehicleImages.vue";
-import ParamBuildingImages from "./ParamBuildingImages.vue";
+import ParamImagesVehicle from "./ParamImagesVehicle.vue";
+import ParamImagesBuilding from "./ParamImagesBuilding.vue";
+
+import ParamSystemType from './ParamSystemType.vue';
+import ParamMaintenance from './ParamMaintenance.vue';
+import ParamTopspeed from './ParamTopspeed.vue';
+import ParamDrawAsDing from './ParamDrawAsDing.vue';
+import ParamImagesWay from "./ParamImagesWay.vue";
 
 export default {
   ParamConstraint,
@@ -81,6 +87,11 @@ export default {
   ParamDims,
   ParamIcon,
   ParamCursor,
-  ParamVehicleImages,
-  ParamBuildingImages,
+  ParamImagesVehicle,
+  ParamImagesBuilding,
+  ParamSystemType,
+  ParamMaintenance,
+  ParamTopspeed,
+  ParamDrawAsDing,
+  ParamImagesWay,
 };

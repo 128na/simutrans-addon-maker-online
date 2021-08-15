@@ -1,4 +1,4 @@
-import { regObjSplitter, regNewLine, regParam, regKeyParam, regSpecial, regValueParam } from './RegExp';
+import { regObjSplitter, regNewLine, regParam, regKeyParamAll, regSpecial, regValueParam } from './RegExp';
 import { sortForParam } from './Sort';
 import { createArray } from './Array';
 
@@ -140,7 +140,7 @@ export class Obj {
    */
   findParamLike(key: string): Param | undefined {
     const keyVal = key.split('[')[0];
-    const params = [...key.matchAll(regKeyParam)].map(p => p[1] || "");
+    const params = [...key.matchAll(regKeyParamAll)].map(p => p[1] || "");
     const keyPatterns = createArray(6)
       .reduce((keys: string[][], i: number): string[][] => {
         const p = params[i] || "0";
@@ -258,7 +258,7 @@ class Key {
   constructor(original: string) {
     this._original = original.replace(regSpecial, '')
     this._val = this._original.split("[")[0] || "";
-    this._params = [...this._original.matchAll(regKeyParam)].map(p => p[1] || "");
+    this._params = [...this._original.matchAll(regKeyParamAll)].map(p => p[1] || "");
   }
 }
 

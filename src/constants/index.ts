@@ -275,6 +275,30 @@ export const ALLOW_UNDERGROUNDS = [
   { value: '2', label: '地上と地下' },
 ];
 
+export const SYSTEM_TYPES = [
+  { value: '0', label: '地上（誘導路）' },
+  { value: '1', label: '高架（滑走路）' },
+  { value: '64', label: '地下' },
+  { value: '255', label: '特殊' },
+];
+
+export const DIRECTIONS_VEHICLE = [
+  "s", "n", "e", "w", "ne", "sw", "se", "nw",
+];
+export const DIRECTIONS_WAY = [
+  ...DIRECTIONS_VEHICLE,
+  "sw", "nw", "ne", "se", "ns", "ew", "nsew", "-", "new", "nse", "sew", "nsw",
+];
+export const DIRECTIONS_WAY_TOGGLE = [
+  "new1", "nse1", "sew1", "nsw1", "nsew1",
+  "new2", "nse2", "sew2", "nsw2", "nsew2",
+];
+export const DIRECTIONS_UP_DOWN = [
+  "3", "6", "9", "12",
+];
+export const DIRECTIONS_DIAGONAL = [
+  "sw", "nw", "ne", "se",
+];
 
 interface ParamSortKeys {
   [index: string]: number
