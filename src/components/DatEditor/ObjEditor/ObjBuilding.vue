@@ -36,7 +36,7 @@
     <param-hq-level v-model="obj" />
   </template>
   <template v-if="isType(['stop'])">
-    <param-way-type v-model="obj" />
+    <param-waytype v-model="obj" />
     <param-level v-model="obj" />
     <param-enables-pax v-model="obj" />
     <param-enables-post v-model="obj" />
@@ -46,7 +46,7 @@
     <param-cursor v-model="obj" :project="project" />
   </template>
   <template v-if="isType(['extension'])">
-    <param-way-type v-model="obj" />
+    <param-waytype v-model="obj" />
     <param-level v-model="obj" />
     <param-dims v-model="obj" />
     <param-enables-pax v-model="obj" />
@@ -56,7 +56,7 @@
     <param-cursor v-model="obj" :project="project" />
   </template>
   <template v-if="isType(['depot'])">
-    <param-way-type v-model="obj" />
+    <param-waytype v-model="obj" />
     <param-icon v-model="obj" :project="project" />
     <param-cursor v-model="obj" :project="project" />
   </template>

@@ -17,7 +17,6 @@ import {
   DIRECTIONS_DIAGONAL,
   DIRECTIONS_UP_DOWN,
   DIRECTIONS_WAY,
-  DIRECTIONS_WAY_TOGGLE,
 } from "@/constants";
 
 const icon2Keys = ["diagonal", "imageup2"];
@@ -40,11 +39,14 @@ export default {
   computed: {
     images() {
       return [
-        ...createKeyPattern("image", [DIRECTIONS_WAY, snow]),
-        ...createKeyPattern("image", [DIRECTIONS_WAY_TOGGLE, snow]),
-        ...createKeyPattern("imageup", [DIRECTIONS_UP_DOWN, snow]),
-        ...createKeyPattern("diagonal", [DIRECTIONS_DIAGONAL, snow]),
-        ...createKeyPattern("imageup2", [DIRECTIONS_UP_DOWN, snow]),
+        ...createKeyPattern("frontimage", [DIRECTIONS_WAY, snow]),
+        ...createKeyPattern("frontimageup", [DIRECTIONS_UP_DOWN, snow]),
+        ...createKeyPattern("frontdiagonal", [DIRECTIONS_DIAGONAL, snow]),
+        ...createKeyPattern("frontimageup2", [DIRECTIONS_UP_DOWN, snow]),
+        ...createKeyPattern("backimage", [DIRECTIONS_WAY, snow]),
+        ...createKeyPattern("backimageup", [DIRECTIONS_UP_DOWN, snow]),
+        ...createKeyPattern("backdiagonal", [DIRECTIONS_DIAGONAL, snow]),
+        ...createKeyPattern("backimageup2", [DIRECTIONS_UP_DOWN, snow]),
       ];
     },
   },

@@ -2,7 +2,7 @@
   <h6>基本情報</h6>
   <param-name v-model="obj" />
   <param-copyright v-model="obj" />
-  <param-way-type v-model="obj" />
+  <param-waytype v-model="obj" />
   <param-engine-type v-model="obj" />
 
   <h6>スペック</h6>

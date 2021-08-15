@@ -97,6 +97,12 @@ export const WAYTYPES = [
   { value: 'water', label: '海路・運河' },
   { value: 'air', label: '空路' },
 ];
+
+export const OWN_WAYTYPES = [
+  { value: 'electrified_track', label: '電化' },
+  ...WAYTYPES
+];
+
 // 動力タイプ一覧
 export const ENGINE_TYPES = [
   { value: 'steam', label: '蒸気機関' },
