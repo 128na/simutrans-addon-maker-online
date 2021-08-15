@@ -14,7 +14,9 @@
 import ParamImage from "./ParamImage.vue";
 import { createKeyPattern } from "@/services/Array";
 import { regKeyParam } from "@/services/RegExp";
-import { DIRECTIONS_STRAIGHT, IMAGE_TYPE_SNOW } from "@/constants";
+import { DIRECTIONS_TUNNEL, IMAGE_TYPE_SNOW } from "@/constants";
+
+const icon2Keys = ["diagonal", "imageup2"];
 
 export default {
   components: { ParamImage },
@@ -23,28 +25,14 @@ export default {
     icon(keyName) {
       const matches = keyName.match(regKeyParam);
 
-      return matches ? `svguse:/img/crossing.svg#${matches[1]}` : null;
+      return matches ? `svguse:/img/tunnel.svg#${matches[1]}` : null;
     },
   },
   computed: {
     images() {
       return [
-        ...createKeyPattern("openimage", [
-          DIRECTIONS_STRAIGHT,
-          IMAGE_TYPE_SNOW,
-        ]),
-        ...createKeyPattern("front_openimage", [
-          DIRECTIONS_STRAIGHT,
-          IMAGE_TYPE_SNOW,
-        ]),
-        ...createKeyPattern("closedimage", [
-          DIRECTIONS_STRAIGHT,
-          IMAGE_TYPE_SNOW,
-        ]),
-        ...createKeyPattern("front_closedimage", [
-          DIRECTIONS_STRAIGHT,
-          IMAGE_TYPE_SNOW,
-        ]),
+        ...createKeyPattern("backimage", [DIRECTIONS_TUNNEL, IMAGE_TYPE_SNOW]),
+        ...createKeyPattern("frontimage", [DIRECTIONS_TUNNEL, IMAGE_TYPE_SNOW]),
       ];
     },
   },

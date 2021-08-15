@@ -143,10 +143,10 @@ export class Obj {
     const params = [...key.matchAll(regKeyParamAll)].map(p => p[1] || "");
     const keyPatterns = createArray(6)
       .reduce((keys: string[][], i: number): string[][] => {
-        const p = params[i] || "0";
+        const p = params[5 - i] || "0";
         return [...keys.map(k => [...k, p]), [p]]
       }, [])
-      .map(kp => `${keyVal}[${kp.join('][')}]`);
+      .map(kp => `${keyVal}[${kp.reverse().join('][')}]`);
 
     for (const keyPattern of keyPatterns) {
       const param = this.findParam(keyPattern);

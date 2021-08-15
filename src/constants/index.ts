@@ -298,6 +298,12 @@ export const DIRECTIONS_WAY = [
   ...DIRECTIONS_VEHICLE,
   "sw", "nw", "ne", "se", "ns", "ew", "nsew", "-", "new", "nse", "sew", "nsw",
 ];
+export const DIRECTIONS_TUNNEL = [
+  "s", "n", "e", "w",
+  "sl", "nl", "el", "wl",
+  "sm", "nm", "em", "wm",
+  "sr", "nr", "er", "wr",
+];
 export const DIRECTIONS_WAY_TOGGLE = [
   "new1", "nse1", "sew1", "nsw1", "nsew1",
   "new2", "nse2", "sew2", "nsw2", "nsew2",
