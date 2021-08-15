@@ -291,6 +291,12 @@ export const SYSTEM_TYPES = [
 export const DIRECTIONS_STRAIGHT = [
   "ns", "ew",
 ];
+export const DIRECTIONS_NEWS = [
+  "s", "n", "e", "w",
+];
+export const DIRECTIONS_SW = [
+  "s", "w",
+];
 export const DIRECTIONS_VEHICLE = [
   "s", "n", "e", "w", "ne", "sw", "se", "nw",
 ];

@@ -2,6 +2,7 @@
   <template v-for="keyName in images">
     <param-image
       v-model="modelValue"
+      :ambiguousKeyName="true"
       :keyName="keyName"
       :project="project"
       :icon="icon(keyName)"
@@ -11,7 +12,7 @@
 </template>
 <script>
 import ParamImage from "./ParamImage.vue";
-import { createKeyPattern } from "@/services/Array";
+import { createKeyPattern as c } from "@/services/Array";
 import { regKeyParam } from "@/services/RegExp";
 import {
   DIRECTIONS_DIAGONAL,
@@ -40,11 +41,11 @@ export default {
   computed: {
     images() {
       return [
-        ...createKeyPattern("image", [DIRECTIONS_WAY, IMAGE_TYPE_SNOW]),
-        ...createKeyPattern("image", [DIRECTIONS_WAY_TOGGLE, IMAGE_TYPE_SNOW]),
-        ...createKeyPattern("imageup", [DIRECTIONS_UP_DOWN, IMAGE_TYPE_SNOW]),
-        ...createKeyPattern("diagonal", [DIRECTIONS_DIAGONAL, IMAGE_TYPE_SNOW]),
-        ...createKeyPattern("imageup2", [DIRECTIONS_UP_DOWN, IMAGE_TYPE_SNOW]),
+        ...c("image", [DIRECTIONS_WAY, IMAGE_TYPE_SNOW]),
+        ...c("image", [DIRECTIONS_WAY_TOGGLE, IMAGE_TYPE_SNOW]),
+        ...c("imageup", [DIRECTIONS_UP_DOWN, IMAGE_TYPE_SNOW]),
+        ...c("diagonal", [DIRECTIONS_DIAGONAL, IMAGE_TYPE_SNOW]),
+        ...c("imageup2", [DIRECTIONS_UP_DOWN, IMAGE_TYPE_SNOW]),
       ];
     },
   },

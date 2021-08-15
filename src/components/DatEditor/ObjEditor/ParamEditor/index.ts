@@ -51,6 +51,10 @@ import ParamDistributionWeight from "./ParamDistributionWeight.vue";
 import ParamImagesCrossing from "./ParamImagesCrossing.vue";
 import ParamImagesTunnel from "./ParamImagesTunnel.vue";
 import ParamImagesBridge from "./ParamImagesBridge.vue";
+import ParamMaxLength from './ParamMaxLength.vue';
+import ParamMaxHeight from './ParamMaxHeight.vue';
+import ParamPillarDistance from './ParamPillarDistance.vue';
+import ParamPillarAsymmetric from './ParamPillarAsymmetric.vue';
 
 export default {
   ParamAllowUnderground,
@@ -106,4 +110,8 @@ export default {
   ParamImagesCrossing,
   ParamImagesTunnel,
   ParamImagesBridge,
+  ParamMaxLength,
+  ParamMaxHeight,
+  ParamPillarDistance,
+  ParamPillarAsymmetric,
 };

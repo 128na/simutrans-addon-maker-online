@@ -9,15 +9,18 @@
   <h6>コスト</h6>
   <param-cost v-model="obj" />
   <param-maintenance v-model="obj" />
-
   <h6>その他</h6>
-  <param-draw-as-ding v-model="obj" />
+  <param-max-weight v-model="obj" />
+  <param-max-length v-model="obj" />
+  <param-max-height v-model="obj" />
+  <param-pillar-distance v-model="obj" />
+  <param-pillar-asymmetric v-model="obj" />
   <param-intro-retire v-model="obj" />
 
   <h6>画像</h6>
   <param-icon v-model="obj" :project="project" />
   <param-cursor v-model="obj" :project="project" />
-  <param-images-way v-model="obj" :project="project" />
+  <param-images-bridge v-model="obj" :project="project" />
 </template>
 <script>
 import Params from "./ParamEditor";

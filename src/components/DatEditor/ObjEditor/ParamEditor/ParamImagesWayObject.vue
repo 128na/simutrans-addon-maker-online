@@ -2,6 +2,7 @@
   <template v-for="keyName in images">
     <param-image
       v-model="modelValue"
+      :ambiguousKeyName="true"
       :keyName="keyName"
       :project="project"
       :icon="icon(keyName)"
@@ -11,7 +12,7 @@
 </template>
 <script>
 import ParamImage from "./ParamImage.vue";
-import { createKeyPattern } from "@/services/Array";
+import { createKeyPattern as c } from "@/services/Array";
 import { regKeyParam } from "@/services/RegExp";
 import {
   DIRECTIONS_DIAGONAL,
@@ -39,32 +40,14 @@ export default {
   computed: {
     images() {
       return [
-        ...createKeyPattern("frontimage", [DIRECTIONS_WAY, IMAGE_TYPE_SNOW]),
-        ...createKeyPattern("frontimageup", [
-          DIRECTIONS_UP_DOWN,
-          IMAGE_TYPE_SNOW,
-        ]),
-        ...createKeyPattern("frontdiagonal", [
-          DIRECTIONS_DIAGONAL,
-          IMAGE_TYPE_SNOW,
-        ]),
-        ...createKeyPattern("frontimageup2", [
-          DIRECTIONS_UP_DOWN,
-          IMAGE_TYPE_SNOW,
-        ]),
-        ...createKeyPattern("backimage", [DIRECTIONS_WAY, IMAGE_TYPE_SNOW]),
-        ...createKeyPattern("backimageup", [
-          DIRECTIONS_UP_DOWN,
-          IMAGE_TYPE_SNOW,
-        ]),
-        ...createKeyPattern("backdiagonal", [
-          DIRECTIONS_DIAGONAL,
-          IMAGE_TYPE_SNOW,
-        ]),
-        ...createKeyPattern("backimageup2", [
-          DIRECTIONS_UP_DOWN,
-          IMAGE_TYPE_SNOW,
-        ]),
+        ...c("backimage", [DIRECTIONS_WAY, IMAGE_TYPE_SNOW]),
+        ...c("backimageup", [DIRECTIONS_UP_DOWN, IMAGE_TYPE_SNOW]),
+        ...c("backdiagonal", [DIRECTIONS_DIAGONAL, IMAGE_TYPE_SNOW]),
+        ...c("backimageup2", [DIRECTIONS_UP_DOWN, IMAGE_TYPE_SNOW]),
+        ...c("frontimage", [DIRECTIONS_WAY, IMAGE_TYPE_SNOW]),
+        ...c("frontimageup", [DIRECTIONS_UP_DOWN, IMAGE_TYPE_SNOW]),
+        ...c("frontdiagonal", [DIRECTIONS_DIAGONAL, IMAGE_TYPE_SNOW]),
+        ...c("frontimageup2", [DIRECTIONS_UP_DOWN, IMAGE_TYPE_SNOW]),
       ];
     },
   },
