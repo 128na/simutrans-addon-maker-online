@@ -3,6 +3,7 @@ import ObjVehicle from './ObjVehicle.vue';
 import ObjBuilding from './ObjBuilding.vue';
 import ObjWay from './ObjWay.vue';
 import ObjWayObject from './ObjWayObject.vue';
+import ObjCitycar from './ObjCitycar.vue';
 
 export default {
   ObjNone,
@@ -10,4 +11,5 @@ export default {
   ObjBuilding,
   ObjWay,
   ObjWayObject,
+  ObjCitycar,
 };

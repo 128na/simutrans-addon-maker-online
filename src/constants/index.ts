@@ -306,6 +306,8 @@ export const DIRECTIONS_DIAGONAL = [
   "sw", "nw", "ne", "se",
 ];
 
+export const IMAGE_TYPE_SNOW = [0, 1];
+
 interface ParamSortKeys {
   [index: string]: number
 }

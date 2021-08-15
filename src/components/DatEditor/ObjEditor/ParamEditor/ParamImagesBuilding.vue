@@ -21,15 +21,6 @@
     hint="切り替える画像数を指定します。固定画像の場合は１"
     v-model="animations"
   />
-  <q-item tag="label" v-ripple class="q-pa-none">
-    <q-item-section side>
-      <q-checkbox dense v-model="snow" />
-    </q-item-section>
-    <q-item-section>
-      <q-item-label>降雪画像</q-item-label>
-      <q-item-label caption> 降雪時の画像を追加します </q-item-label>
-    </q-item-section>
-  </q-item>
   <template v-for="keyName in backImages">
     <param-image
       ambiguousKeyName="1"
@@ -52,6 +43,8 @@
 <script>
 import ParamImage from "./ParamImage.vue";
 import { createArray, createKeyPattern } from "@/services/Array";
+import { IMAGE_TYPE_SNOW } from "@/constants";
+
 export default {
   components: { ParamImage },
   props: ["modelValue", "project"],
@@ -59,14 +52,12 @@ export default {
     return {
       height: 1,
       animations: 1,
-      snow: false,
     };
   },
   created() {
     const keys = ["frontimage", "backimage"];
     this.height = this.modelValue.findMaxParamKeyVal(keys, 3);
     this.animations = this.modelValue.findMaxParamKeyVal(keys, 4);
-    this.snow = this.modelValue.findMaxParamKeyVal(keys, 5, 0) > 0;
   },
   computed: {
     dims() {
@@ -88,7 +79,7 @@ export default {
         createArray(this.size),
         createArray(this.height),
         createArray(this.animations),
-        createArray(this.snow ? 2 : 1),
+        IMAGE_TYPE_SNOW,
       ];
     },
     backImages() {

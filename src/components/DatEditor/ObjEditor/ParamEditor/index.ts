@@ -22,6 +22,7 @@ import ParamImage from "./ParamImage.vue";
 import ParamImages from "./ParamImages.vue";
 import ParamImagesBuilding from "./ParamImagesBuilding.vue";
 import ParamImagesVehicle from "./ParamImagesVehicle.vue";
+import ParamImagesCitycar from "./ParamImagesCitycar.vue";
 import ParamImagesWay from "./ParamImagesWay.vue";
 import ParamImagesWayObject from "./ParamImagesWayObject.vue";
 import ParamIntroRetire from "./ParamIntroRetire.vue";
@@ -46,6 +47,7 @@ import ParamTopspeed from './ParamTopspeed.vue';
 import ParamType from "./ParamType.vue";
 import ParamWaytype from "./ParamWaytype.vue";
 import ParamWeight from "./ParamWeight.vue";
+import ParamDistributionWeight from "./ParamDistributionWeight.vue";
 
 export default {
   ParamAllowUnderground,
@@ -96,4 +98,6 @@ export default {
   ParamType,
   ParamWaytype,
   ParamWeight,
+  ParamDistributionWeight,
+  ParamImagesCitycar,
 };

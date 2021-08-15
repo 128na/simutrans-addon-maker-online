@@ -17,10 +17,10 @@ import {
   DIRECTIONS_DIAGONAL,
   DIRECTIONS_UP_DOWN,
   DIRECTIONS_WAY,
+  IMAGE_TYPE_SNOW,
 } from "@/constants";
 
 const icon2Keys = ["diagonal", "imageup2"];
-const snow = [0, 1];
 
 export default {
   components: { ParamImage },
@@ -39,14 +39,32 @@ export default {
   computed: {
     images() {
       return [
-        ...createKeyPattern("frontimage", [DIRECTIONS_WAY, snow]),
-        ...createKeyPattern("frontimageup", [DIRECTIONS_UP_DOWN, snow]),
-        ...createKeyPattern("frontdiagonal", [DIRECTIONS_DIAGONAL, snow]),
-        ...createKeyPattern("frontimageup2", [DIRECTIONS_UP_DOWN, snow]),
-        ...createKeyPattern("backimage", [DIRECTIONS_WAY, snow]),
-        ...createKeyPattern("backimageup", [DIRECTIONS_UP_DOWN, snow]),
-        ...createKeyPattern("backdiagonal", [DIRECTIONS_DIAGONAL, snow]),
-        ...createKeyPattern("backimageup2", [DIRECTIONS_UP_DOWN, snow]),
+        ...createKeyPattern("frontimage", [DIRECTIONS_WAY, IMAGE_TYPE_SNOW]),
+        ...createKeyPattern("frontimageup", [
+          DIRECTIONS_UP_DOWN,
+          IMAGE_TYPE_SNOW,
+        ]),
+        ...createKeyPattern("frontdiagonal", [
+          DIRECTIONS_DIAGONAL,
+          IMAGE_TYPE_SNOW,
+        ]),
+        ...createKeyPattern("frontimageup2", [
+          DIRECTIONS_UP_DOWN,
+          IMAGE_TYPE_SNOW,
+        ]),
+        ...createKeyPattern("backimage", [DIRECTIONS_WAY, IMAGE_TYPE_SNOW]),
+        ...createKeyPattern("backimageup", [
+          DIRECTIONS_UP_DOWN,
+          IMAGE_TYPE_SNOW,
+        ]),
+        ...createKeyPattern("backdiagonal", [
+          DIRECTIONS_DIAGONAL,
+          IMAGE_TYPE_SNOW,
+        ]),
+        ...createKeyPattern("backimageup2", [
+          DIRECTIONS_UP_DOWN,
+          IMAGE_TYPE_SNOW,
+        ]),
       ];
     },
   },

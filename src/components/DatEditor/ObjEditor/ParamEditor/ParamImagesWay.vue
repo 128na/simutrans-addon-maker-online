@@ -18,10 +18,10 @@ import {
   DIRECTIONS_UP_DOWN,
   DIRECTIONS_WAY,
   DIRECTIONS_WAY_TOGGLE,
+  IMAGE_TYPE_SNOW,
 } from "@/constants";
 
 const icon2Keys = ["diagonal", "imageup2"];
-const snow = [0, 1];
 
 export default {
   components: { ParamImage },
@@ -40,11 +40,11 @@ export default {
   computed: {
     images() {
       return [
-        ...createKeyPattern("image", [DIRECTIONS_WAY, snow]),
-        ...createKeyPattern("image", [DIRECTIONS_WAY_TOGGLE, snow]),
-        ...createKeyPattern("imageup", [DIRECTIONS_UP_DOWN, snow]),
-        ...createKeyPattern("diagonal", [DIRECTIONS_DIAGONAL, snow]),
-        ...createKeyPattern("imageup2", [DIRECTIONS_UP_DOWN, snow]),
+        ...createKeyPattern("image", [DIRECTIONS_WAY, IMAGE_TYPE_SNOW]),
+        ...createKeyPattern("image", [DIRECTIONS_WAY_TOGGLE, IMAGE_TYPE_SNOW]),
+        ...createKeyPattern("imageup", [DIRECTIONS_UP_DOWN, IMAGE_TYPE_SNOW]),
+        ...createKeyPattern("diagonal", [DIRECTIONS_DIAGONAL, IMAGE_TYPE_SNOW]),
+        ...createKeyPattern("imageup2", [DIRECTIONS_UP_DOWN, IMAGE_TYPE_SNOW]),
       ];
     },
   },
