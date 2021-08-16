@@ -139,20 +139,16 @@ export class Obj {
    * hoge[0][1][2] -> hoge[0][1][2][0][0][0], hoge[0][1][2][0][0], hoge[0][1][2][0], hoge[0][1][2], hoge[1][2], hoge[2]
    */
   findParamLike(key: string): Param | undefined {
-    const keyVal = key.split('[')[0];
-    const params = [...key.matchAll(regKeyParamAll)].map(p => p[1] || "");
-    const keyPatterns = createArray(6)
-      .reduce((keys: string[][], i: number): string[][] => {
-        const p = params[5 - i] || "0";
-        return [...keys.map(k => [...k, p]), [p]]
-      }, [])
-      .map(kp => `${keyVal}[${kp.reverse().join('][')}]`);
+    const keyParams = [...key.matchAll(regKeyParamAll)].map(p => p[1] || "");
+    const last = keyParams.length - keyParams.slice().reverse().findIndex(p => p !== '0');
 
-    for (const keyPattern of keyPatterns) {
+    let keyPattern = key.split('[0]')[0];
+    for (let count = 0; count <= 6 - last; count++) {
       const param = this.findParam(keyPattern);
       if (param) {
         return param;
       }
+      keyPattern += '[0]';
     }
   }
   findMaxParamKeyVal(keyVals: string[], index: number, defaultValue = 1): number {
