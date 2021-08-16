@@ -97,6 +97,12 @@ export const WAYTYPES = [
   { value: 'water', label: '海路・運河' },
   { value: 'air', label: '空路' },
 ];
+
+export const OWN_WAYTYPES = [
+  { value: 'electrified_track', label: '電化' },
+  ...WAYTYPES
+];
+
 // 動力タイプ一覧
 export const ENGINE_TYPES = [
   { value: 'steam', label: '蒸気機関' },
@@ -275,6 +281,47 @@ export const ALLOW_UNDERGROUNDS = [
   { value: '2', label: '地上と地下' },
 ];
 
+export const SYSTEM_TYPES = [
+  { value: '0', label: '地上（誘導路）' },
+  { value: '1', label: '高架（滑走路）' },
+  { value: '64', label: '地下' },
+  { value: '255', label: '特殊' },
+];
+
+export const DIRECTIONS_STRAIGHT = [
+  "ns", "ew",
+];
+export const DIRECTIONS_NEWS = [
+  "s", "n", "e", "w",
+];
+export const DIRECTIONS_SW = [
+  "s", "w",
+];
+export const DIRECTIONS_VEHICLE = [
+  "s", "n", "e", "w", "ne", "sw", "se", "nw",
+];
+export const DIRECTIONS_WAY = [
+  ...DIRECTIONS_VEHICLE,
+  "sw", "nw", "ne", "se", "ns", "ew", "nsew", "-", "new", "nse", "sew", "nsw",
+];
+export const DIRECTIONS_TUNNEL = [
+  "s", "n", "e", "w",
+  "sl", "nl", "el", "wl",
+  "sm", "nm", "em", "wm",
+  "sr", "nr", "er", "wr",
+];
+export const DIRECTIONS_WAY_TOGGLE = [
+  "new1", "nse1", "sew1", "nsw1", "nsew1",
+  "new2", "nse2", "sew2", "nsw2", "nsew2",
+];
+export const DIRECTIONS_UP_DOWN = [
+  "3", "6", "9", "12",
+];
+export const DIRECTIONS_DIAGONAL = [
+  "sw", "nw", "ne", "se",
+];
+
+export const IMAGE_TYPE_SNOW = [0, 1];
 
 interface ParamSortKeys {
   [index: string]: number

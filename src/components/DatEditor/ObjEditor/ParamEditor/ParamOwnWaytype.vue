@@ -5,7 +5,8 @@
     hide-bottom-space
     input-debounce="0"
     emit-value
-    label="軌道タイプ"
+    label="架線属性"
+    hint="電化・非電化を指定します。"
     v-model="value"
     :options="options"
     :rules="rules"
@@ -13,8 +14,8 @@
 </template>
 <script>
 import { required, includes } from "@/services/Validator";
-import { WAYTYPES } from "@/constants";
-const options = WAYTYPES.map((wt) =>
+import { OWN_WAYTYPES } from "@/constants";
+const options = OWN_WAYTYPES.map((wt) =>
   Object.create({
     value: wt.value,
     label: `${wt.label} (${wt.value})`,
@@ -29,10 +30,10 @@ export default {
     options: () => options,
     value: {
       get() {
-        return this.modelValue.findParam("waytype")?.value;
+        return this.modelValue.findParam("own_waytype")?.value;
       },
       set(v) {
-        this.modelValue.updateOrCreate("waytype", v);
+        this.modelValue.updateOrCreate("own_waytype", v);
         this.$emit("update:modelValue");
       },
     },

@@ -1,4 +1,4 @@
-import { regObjSplitter, regNewLine, regParam, regKeyParam, regSpecial, regValueParam } from './RegExp';
+import { regObjSplitter, regNewLine, regParam, regKeyParamAll, regSpecial, regValueParam } from './RegExp';
 import { sortForParam } from './Sort';
 import { createArray } from './Array';
 
@@ -78,12 +78,54 @@ export class Dat {
       .replace(regNewLine, '\n');
   }
 }
+class Cache {
+  _keyMap: { [index: string]: Param | undefined } = {};
+  _keyValueMap: { [index: string]: Param[] } = {};
+
+  constructor() {
+    // console.log('cache::constructor');
+  }
+
+  getKey(key: string): Param | undefined {
+    return this._keyMap[key];
+  }
+  setKey(key: string, value: Param) {
+    this._keyMap[key] = value;
+  }
+  getOrSetKey(key: string, fn: () => Param | undefined): Param | undefined {
+    if (this._keyMap[key]) {
+      // console.log('using cache', key);
+      return this._keyMap[key];
+    }
+    const newValue = fn();
+    this._keyMap[key] = newValue;
+    return newValue;
+  }
+
+  getKeyValue(keyValue: string): Param[] | undefined {
+    return this._keyValueMap[keyValue];
+  }
+  setKeyValue(keyValue: string, value: Param[]) {
+    this._keyValueMap[keyValue] = value;
+  }
+  getOrSetKeyValue(keyValue: string, fn: () => Param[]): Param[] {
+    if (this._keyValueMap[keyValue]) {
+      // console.log('using cache', keyValue);
+      return this._keyValueMap[keyValue];
+    }
+    const newValue = fn();
+    this._keyValueMap[keyValue] = newValue;
+    return newValue;
+  }
+}
 
 export class Obj {
+  _cache: Cache;
   _line: number;
   _params: Param[];
 
   constructor(original: string, line: number) {
+    this._cache = new Cache;
     this._line = line;
     this._params = original
       .split("\n")
@@ -107,6 +149,7 @@ export class Obj {
     this._params = original
       .split("\n")
       .map(l => new Param(l));
+    this._cache = new Cache;
   }
   updateOrCreate(key: string, value: string, operator = '=') {
     const param = this.findParam(key);
@@ -120,39 +163,40 @@ export class Obj {
   deleteByKeyVal(keyVal: string, ...keyParams: [[string]]) {
     this._params = this._params
       .filter(p => p.keyVal !== keyVal || !keyParams.every((kp, i) => (kp.includes(p.keyParams[i]))));
+    this._cache = new Cache;
   }
 
   /**
    * 指定キー値を含むParamを探す
    */
   findParamsByKeyVal(keyVal: string): Param[] {
-    return this._params.filter(p => p.keyVal === keyVal);
+    return this._cache.getOrSetKeyValue(keyVal, () =>
+      this._params.filter(p => p.keyVal === keyVal)
+    );
   }
   /**
    * 指定キーに一致するParamを探す
    */
   findParam(key: string): Param | undefined {
-    return this._params.find(p => p.key === key);
+    return this._cache.getOrSetKey(key, () =>
+      this._params.find(p => p.key === key)
+    );
   }
   /**
    * 指定キーっぽいやつを探す
    * hoge[0][1][2] -> hoge[0][1][2][0][0][0], hoge[0][1][2][0][0], hoge[0][1][2][0], hoge[0][1][2], hoge[1][2], hoge[2]
    */
   findParamLike(key: string): Param | undefined {
-    const keyVal = key.split('[')[0];
-    const params = [...key.matchAll(regKeyParam)].map(p => p[1] || "");
-    const keyPatterns = createArray(6)
-      .reduce((keys: string[][], i: number): string[][] => {
-        const p = params[i] || "0";
-        return [...keys.map(k => [...k, p]), [p]]
-      }, [])
-      .map(kp => `${keyVal}[${kp.join('][')}]`);
+    const keyParams = [...key.matchAll(regKeyParamAll)].map(p => p[1] || "");
+    const last = keyParams.length - keyParams.slice().reverse().findIndex(p => p !== '0');
 
-    for (const keyPattern of keyPatterns) {
+    let keyPattern = key.split('[0]')[0];
+    for (let count = 0; count <= 6 - last; count++) {
       const param = this.findParam(keyPattern);
       if (param) {
         return param;
       }
+      keyPattern += '[0]';
     }
   }
   findMaxParamKeyVal(keyVals: string[], index: number, defaultValue = 1): number {
@@ -258,7 +302,7 @@ class Key {
   constructor(original: string) {
     this._original = original.replace(regSpecial, '')
     this._val = this._original.split("[")[0] || "";
-    this._params = [...this._original.matchAll(regKeyParam)].map(p => p[1] || "");
+    this._params = [...this._original.matchAll(regKeyParamAll)].map(p => p[1] || "");
   }
 }
 

@@ -25,8 +25,10 @@
   </div>
   <dialog-normal v-model="dialog">
     <template v-slot:header>
-      <q-icon :name="icon" />
-      {{ keyName }}
+      <q-icon :name="icon" size="md" />
+      <div>
+        {{ keyName }}
+      </div>
     </template>
     <template v-slot:default>
       <q-card-section>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="n" viewBox="0 0 128 128">
+    <path d="M63.76,49l60,30H64.24l-60-30H63.76M64,48H0L64,80h64L64,48Z"/>
+    <polygon points="16 56 80 24 112 40 48 72 16 56"/>
+  </symbol>
+  <symbol id="s" viewBox="0 0 128 128">
+    <path d="M64.2,17.22l62.11,31.05L63.8,110.78l-62.11-31L64.2,17.22M64,16,0,80l64,32,64-64L64,16Z"/>
+    <polygon points="16 56 80 24 112 40 48 72 16 56"/>
+  </symbol>
+  <symbol id="e" viewBox="0 0 128 128">
+    <path d="M63.8,17.22l62.51,62.51L64.2,110.78,1.69,48.27,63.8,17.22M64,16,0,48l64,64,64-32L64,16Z"/>
+    <polygon points="112 56 48 24 16 40 80 72 112 56"/>
+  </symbol>
+  <symbol id="w" viewBox="0 0 128 128">
+    <path d="M123.76,49l-60,30H4.24l60-30h59.52M128,48H64L0,80H64l64-32Z"/>
+    <polygon points="112 56 48 24 16 40 80 72 112 56"/>
+  </symbol>
+</svg>

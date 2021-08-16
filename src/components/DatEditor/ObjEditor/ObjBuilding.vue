@@ -36,7 +36,7 @@
     <param-hq-level v-model="obj" />
   </template>
   <template v-if="isType(['stop'])">
-    <param-way-type v-model="obj" />
+    <param-waytype v-model="obj" />
     <param-level v-model="obj" />
     <param-enables-pax v-model="obj" />
     <param-enables-post v-model="obj" />
@@ -46,7 +46,7 @@
     <param-cursor v-model="obj" :project="project" />
   </template>
   <template v-if="isType(['extension'])">
-    <param-way-type v-model="obj" />
+    <param-waytype v-model="obj" />
     <param-level v-model="obj" />
     <param-dims v-model="obj" />
     <param-enables-pax v-model="obj" />
@@ -56,7 +56,7 @@
     <param-cursor v-model="obj" :project="project" />
   </template>
   <template v-if="isType(['depot'])">
-    <param-way-type v-model="obj" />
+    <param-waytype v-model="obj" />
     <param-icon v-model="obj" :project="project" />
     <param-cursor v-model="obj" :project="project" />
   </template>
@@ -71,7 +71,7 @@
   </template>
 
   <h6>画像</h6>
-  <param-building-images v-model="obj" :project="project" />
+  <param-images-building v-model="obj" :project="project" />
 </template>
 <script>
 import Params from "./ParamEditor";
@@ -94,12 +94,6 @@ export default {
   computed: {
     type() {
       return this.obj.findParam("type")?.value;
-    },
-    imageNames() {
-      return ["emptyimage"];
-    },
-    directions() {
-      return ["s", "n", "e", "w", "ne", "sw", "se", "nw"];
     },
   },
 };
