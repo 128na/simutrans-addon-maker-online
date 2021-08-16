@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     images() {
-      return [...createKeyPattern("image", [DIRECTIONS_VEHICLE])];
+      return createKeyPattern("image", [DIRECTIONS_VEHICLE]);
     },
   },
 };

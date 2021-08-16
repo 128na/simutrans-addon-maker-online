@@ -56,6 +56,18 @@ import ParamMaxHeight from './ParamMaxHeight.vue';
 import ParamPillarDistance from './ParamPillarDistance.vue';
 import ParamPillarAsymmetric from './ParamPillarAsymmetric.vue';
 
+import ParamMinSpeed from './ParamMinSpeed.vue';
+import ParamSingleWay from './ParamSingleWay.vue';
+import ParamFreeRoute from './ParamFreeRoute.vue';
+import ParamIsPrivate from './ParamIsPrivate.vue';
+import ParamIsSignal from './ParamIsSignal.vue';
+import ParamIsPresignal from './ParamIsPresignal.vue';
+import ParamIsLongblocksignal from './ParamIsLongblocksignal.vue';
+import ParamIsPrioritysignal from './ParamIsPrioritysignal.vue';
+import ParamEndOfChoose from './ParamEndOfChoose.vue';
+import ParamOffsetLeft from './ParamOffsetLeft.vue';
+import ParamImagesRoadsign from './ParamImagesRoadsign.vue';
+
 export default {
   ParamAllowUnderground,
   ParamAnimationTime,
@@ -114,4 +126,15 @@ export default {
   ParamMaxHeight,
   ParamPillarDistance,
   ParamPillarAsymmetric,
+  ParamMinSpeed,
+  ParamSingleWay,
+  ParamFreeRoute,
+  ParamIsPrivate,
+  ParamIsSignal,
+  ParamIsPresignal,
+  ParamIsLongblocksignal,
+  ParamIsPrioritysignal,
+  ParamEndOfChoose,
+  ParamOffsetLeft,
+  ParamImagesRoadsign,
 };

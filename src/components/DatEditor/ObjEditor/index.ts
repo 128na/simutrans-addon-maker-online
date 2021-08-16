@@ -7,7 +7,7 @@ import ObjCitycar from './ObjCitycar.vue';
 import ObjBridge from './ObjBridge.vue';
 import ObjTunnel from './ObjTunnel.vue';
 import ObjCrossing from './ObjCrossing.vue';
-import ObjSign from './ObjSign.vue';
+import ObjRoadsign from './ObjRoadsign.vue';
 
 export default {
   ObjNone,
@@ -19,5 +19,5 @@ export default {
   ObjBridge,
   ObjTunnel,
   ObjCrossing,
-  ObjSign,
+  ObjRoadsign,
 };
