@@ -1,23 +1,23 @@
-import ObjNone from './ObjNone.vue';
-import ObjVehicle from './ObjVehicle.vue';
+import ObjBridge from './ObjBridge.vue';
 import ObjBuilding from './ObjBuilding.vue';
+import ObjCitycar from './ObjCitycar.vue';
+import ObjCrossing from './ObjCrossing.vue';
+import ObjNone from './ObjNone.vue';
+import ObjRoadsign from './ObjRoadsign.vue';
+import ObjTunnel from './ObjTunnel.vue';
+import ObjVehicle from './ObjVehicle.vue';
 import ObjWay from './ObjWay.vue';
 import ObjWayObject from './ObjWayObject.vue';
-import ObjCitycar from './ObjCitycar.vue';
-import ObjBridge from './ObjBridge.vue';
-import ObjTunnel from './ObjTunnel.vue';
-import ObjCrossing from './ObjCrossing.vue';
-import ObjRoadsign from './ObjRoadsign.vue';
 
 export default {
-  ObjNone,
-  ObjVehicle,
+  ObjBridge,
   ObjBuilding,
+  ObjCitycar,
+  ObjCrossing,
+  ObjNone,
+  ObjRoadsign,
+  ObjTunnel,
+  ObjVehicle,
   ObjWay,
   ObjWayObject,
-  ObjCitycar,
-  ObjBridge,
-  ObjTunnel,
-  ObjCrossing,
-  ObjRoadsign,
 };
