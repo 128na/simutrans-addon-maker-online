@@ -16,7 +16,7 @@
       :label="keyName"
     >
       <template v-slot:prepend v-if="icon">
-        <q-icon :name="icon" @click.prevent="handleDialog" />
+        <q-icon :name="icon" @click.prevent="handleDialog" size="sm" />
       </template>
       <template v-slot:after>
         <q-btn flat color="secondary" icon="edit" @click="handleDialog" />
