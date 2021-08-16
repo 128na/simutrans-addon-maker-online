@@ -23,8 +23,6 @@ import {
   DIRECTIONS_SW,
 } from "@/constants";
 
-const icon2Keys = ["diagonal", "imageup2"];
-
 export default {
   components: { ParamImage },
   props: ["modelValue", "project"],
@@ -32,11 +30,24 @@ export default {
     icon(keyName) {
       const keyVal = keyName.split("[")[0];
       const matches = keyName.match(regKeyParam);
-      const icon = icon2Keys.includes(keyVal)
-        ? "/img/way_d.svg"
-        : "/img/way.svg";
+      const icon = this.iconFile(keyVal);
 
       return matches ? `svguse:${icon}#${matches[1]}` : null;
+    },
+    iconFile(keyVal) {
+      if (["backstart", "frontstart"].includes(keyVal)) {
+        return "/img/bridge_s.svg";
+      }
+      if (["backstart2", "frontstart2"].includes(keyVal)) {
+        return "/img/bridge_s2.svg";
+      }
+      if (["backramp", "frontramp"].includes(keyVal)) {
+        return "/img/bridge_r.svg";
+      }
+      if (["backramp2", "frontramp2"].includes(keyVal)) {
+        return "/img/bridge_r2.svg";
+      }
+      return "/img/way.svg";
     },
   },
   computed: {
